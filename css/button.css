@@ -307,3 +307,59 @@ button {
     transform: translate(-50%, -50%);
     animation: ring 1.5s infinite;
 }
+
+.project_intro_button {
+    width: 48.5%;
+    line-height: 50px;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1.5px solid #6aafe6;
+    transition: all 0.3s ease-in-out;
+}
+.project_intro_button:hover {
+    background: #6aafe6;
+    color: #ffffff;
+}
+
+.project_intro_button_box {
+    -js-display: flex;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 7%;
+    width: 100%;
+    height: 50px;
+}
+.project_intro_button2 {
+    width: 48.5%;
+    line-height: 50px;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1.5px solid #fe4a49;
+    transition: all 0.3s ease-in-out;
+}
+
+.project_intro_button2:hover {
+    background: #fe4a49;
+    color: #ffffff;
+}
+
+.project_intro_button3 {
+    width: 48.5%;
+    line-height: 50px;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1.5px solid #8572EE;
+    transition: all 0.3s ease-in-out;
+}
+
+.project_intro_button3:hover {
+    background: #8572EE;
+    color: #ffffff;
+}
+
