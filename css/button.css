@@ -363,6 +363,14 @@ button {
     color: #ffffff;
 }
 
+.afterhoover{
+    color:black;
+}
+
+.afterhoover:hover{
+    color:white;
+}
+
 .modal {
     position: fixed;
     -js-display: flex;
