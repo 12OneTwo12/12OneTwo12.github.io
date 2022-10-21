@@ -64,6 +64,7 @@
 .section [id="slide15"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-400%);}
 .section [id="slide16"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-500%);}
 .section [id="slide17"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-600%);}
+.section [id="slide18"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-700%);}
 
 .section [id="slide21"]:checked ~ .slidewrap .slidelist > li {transform: translateX(0%);}
 .section [id="slide22"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-100%);}
@@ -72,3 +73,4 @@
 .section [id="slide25"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-400%);}
 .section [id="slide26"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-500%);}
 .section [id="slide27"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-600%);}
+.section [id="slide28"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-700%);}
