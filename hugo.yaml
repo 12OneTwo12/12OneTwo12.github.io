@@ -1,6 +1,6 @@
 baseURL: https://12OneTwo12.github.io/
 languageCode: ko
-title: 쥐뿔도 모르는 개발자
+title: "쥐뿔도 모르는 개발자의 테크 블로그"
 
 # Hugo Module 설정 (Hextra 테마)
 module:
@@ -15,14 +15,14 @@ languages:
   ko:
     languageName: 한국어
     weight: 1
-    title: 쥐뿔도 모르는 개발자
+    title: "쥐뿔도 모르는 개발자의<br>테크 블로그"
     params:
       description: 백엔드 개발 및 인프라 기술 블로그
 
   en:
     languageName: English
     weight: 2
-    title: Jeongil's Tech Blog
+    title: Jeongil-Jeong's <br>Tech Blog
     params:
       description: Backend development and infrastructure blog
 
@@ -58,6 +58,11 @@ menu:
 # Hextra 테마 설정
 params:
   description: Modern, fast and batteries-included Hugo theme for technical blog
+
+  # 작성자 정보 (SEO)
+  author:
+    name: "정정일"
+    email: "jji042842@gmail.com"
 
   # 네비게이션
   navbar:
@@ -104,6 +109,13 @@ params:
       theme: "preferred_color_scheme"
       lang: "ko"
 
+  # SEO 및 Open Graph 설정
+  seo:
+    image: "/images/og-default.png"  # 기본 Open Graph 이미지
+    twitter:
+      card: "summary_large_image"
+      site: "@your_twitter_handle"  # Twitter 핸들이 있다면 수정
+
 # 마크다운 설정
 markup:
   goldmark:
@@ -122,3 +134,23 @@ enableGitInfo: true
 sitemap:
   changefreq: weekly
   priority: 0.5
+
+# Taxonomies (SEO를 위한 태그와 카테고리)
+taxonomies:
+  tag: tags
+  category: categories
+
+# Output 형식 (RSS 포함)
+outputs:
+  home:
+    - HTML
+    - RSS
+  section:
+    - HTML
+    - RSS
+
+# Robots.txt 생성 활성화
+enableRobotsTXT: true
+
+# RSS 설정
+rssLimit: 20  # RSS 피드에 포함할 최신 글 수
