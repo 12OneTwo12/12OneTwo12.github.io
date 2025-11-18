@@ -38,7 +38,7 @@ menu:
       pageRef: /docs
       weight: 2
     - identifier: about
-      name: About
+      name: About Me
       pageRef: /about
       weight: 3
     - name: Search
