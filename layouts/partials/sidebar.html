@@ -190,8 +190,12 @@
   {{- $external := strings.HasPrefix .link "http" -}}
   {{- $open := .open | default true -}}
   {{- $truncatedTitle := .title -}}
-  {{- if gt (len .title) 30 -}}
-    {{- $truncatedTitle = printf "%s..." (substr .title 0 27) -}}
+  {{- $maxLen := 30 -}}
+  {{- if eq site.Language.Lang "en" -}}
+    {{- $maxLen = 50 -}}
+  {{- end -}}
+  {{- if gt (len .title) $maxLen -}}
+    {{- $truncatedTitle = printf "%s..." (substr .title 0 (sub $maxLen 3)) -}}
   {{- end -}}
   <a
     class="hx:flex hx:items-start hx:justify-between hx:gap-2 hx:cursor-pointer hx:rounded-sm hx:px-2 hx:py-1.5 hx:text-sm hx:transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
@@ -208,7 +212,16 @@
       <span class="hx:truncate">{{- $truncatedTitle -}}</span>
       {{- with .context }}
         {{- if and .Date (not .IsSection) }}
-          <span class="hx:text-xs hx:opacity-60">{{ .Date.Format "2006.01.02" }}</span>
+          <span class="hx:text-xs hx:opacity-60 hx:whitespace-nowrap">{{ .Date.Format "2006.01.02" }}</span>
+          {{- $tags := .Params.tags }}
+          {{- if $tags }}
+            <div class="hx:flex hx:items-center hx:gap-0.5 hx:flex-wrap">
+              <span class="hx:text-xs hx:opacity-40">tags:</span>
+              {{- range first 2 $tags }}
+                <span class="hx:text-xs hx:opacity-40 hx:bg-gray-400/10 hx:dark:bg-gray-400/10 hx:px-1.5 hx:py-0.5 hx:rounded">{{ . }}</span>
+              {{- end }}
+            </div>
+          {{- end }}
         {{- end }}
       {{- end }}
     </div>
