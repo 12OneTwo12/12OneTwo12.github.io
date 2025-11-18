@@ -1,5 +1,5 @@
 ---
-title: 정정일의 테크 블로그
+title: Tech Blog
 toc: false
 ---
 

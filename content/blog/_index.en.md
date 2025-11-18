@@ -1,5 +1,5 @@
 ---
-title: Jeongil-Jeong's Tech Blog
+title: Tech Blog
 toc: false
 ---
 
