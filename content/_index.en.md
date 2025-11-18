@@ -12,17 +12,57 @@ layout: hextra-home
   {{< icon name="book-open" attributes="height=14" >}}
 {{< /hextra/hero-badge >}}
 
-<div class="hx:mt-8 hx:mb-8">
+<div class="hx:mt-8 hx:mb-2">
 {{< hextra/hero-headline >}}
   Hello!&nbsp;<br class="hx:sm:block hx:hidden" />I'm Jeongil Jeong, Backend Developer
 {{< /hextra/hero-headline >}}
 </div>
 
+<div style="text-align: left; margin-bottom: 1.5em;">
+  <div style="font-size: 0.75em; opacity: 0.7;">
+    <span id="developer-experience-main"></span>
+  </div>
+</div>
+
 <div class="hx:mb-12">
 {{< hextra/hero-subtitle >}}
-  {{< developer-experience lang="en" >}}
+  A space where I document my journey and growth as a developer
 {{< /hextra/hero-subtitle >}}
 </div>
+
+<script>
+(function() {
+  const startDate = new Date('2023-03-06T10:00:00+09:00');
+
+  function updateExperience() {
+    const now = new Date();
+    const diff = now - startDate;
+
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const years = Math.floor(days / 365);
+    const remainingDays = days % 365;
+    const months = Math.floor(remainingDays / 30);
+    const daysLeft = remainingDays % 30;
+
+    const hoursLeft = hours % 24;
+    const minutesLeft = minutes % 60;
+    const secondsLeft = seconds % 60;
+
+    const text = `${years} years, ${months} months, ${daysLeft} days, ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s of experience`;
+
+    const el = document.getElementById('developer-experience-main');
+    if (el) {
+      el.textContent = text;
+    }
+  }
+
+  updateExperience();
+  setInterval(updateExperience, 1000);
+})();
+</script>
 
 <div class="hx:mt-16 hx:mb-6">
 <h2 class="hx:text-2xl hx:font-bold">Main Sections</h2>
