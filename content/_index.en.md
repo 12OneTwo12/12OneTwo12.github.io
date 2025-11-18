@@ -25,12 +25,6 @@ layout: hextra-home
 </div>
 
 <div class="hx:mt-16 hx:mb-6">
-<h2 class="hx:text-2xl hx:font-bold">Recent Posts</h2>
-</div>
-
-{{< recent-posts limit=5 >}}
-
-<div class="hx:mt-16 hx:mb-6">
 <h2 class="hx:text-2xl hx:font-bold">Main Sections</h2>
 </div>
 
@@ -56,46 +50,9 @@ layout: hextra-home
 {{< /hextra/feature-grid >}}
 
 <div class="hx:mt-16 hx:mb-6">
-<h2 class="hx:text-2xl hx:font-bold">Key Topics</h2>
+  <h2 class="hx:text-2xl hx:font-bold">Recent Posts</h2>
 </div>
 
-{{< hextra/feature-grid >}}
-  {{< hextra/feature-card
-    title="Backend Development"
-    subtitle="Backend development with Spring Boot, Kotlin, JPA, QueryDSL"
-    icon="code"
-    link="blog"
-  >}}
-  {{< hextra/feature-card
-    title="Architecture"
-    subtitle="MSA, DDD, Clean Architecture, SOLID principles"
-    icon="cube"
-    link="blog"
-  >}}
-  {{< hextra/feature-card
-    title="Infrastructure"
-    subtitle="Kubernetes, Docker, CI/CD, ArgoCD, GitHub Actions"
-    icon="server"
-    link="docs/infrastructure"
-  >}}
-  {{< hextra/feature-card
-    title="Database"
-    subtitle="PostgreSQL, MySQL, Redis, Soft Delete, Audit Trail"
-    icon="database"
-    link="blog"
-  >}}
-  {{< hextra/feature-card
-    title="Testing"
-    subtitle="TDD, Given-When-Then, Unit/Integration Testing"
-    icon="beaker"
-    link="blog"
-  >}}
-  {{< hextra/feature-card
-    title="API Design"
-    subtitle="RESTful API, HTTP Status Codes, DTO Patterns"
-    icon="globe"
-    link="blog"
-  >}}
-{{< /hextra/feature-grid >}}
+{{< recent-posts limit=5 >}}
 
 </div>
