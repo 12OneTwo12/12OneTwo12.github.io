@@ -1,7 +1,32 @@
 {{ $limit := .Get "limit" | default 5 }}
-{{ $currentSection := .Page.CurrentSection }}
-{{ $pages := $currentSection.RegularPages }}
-{{ $pages = $pages | first $limit }}
+{{ $includeAll := .Get "includeAll" | default false }}
+{{ $pages := slice }}
+
+{{ if $includeAll }}
+  {{ $pages = where site.RegularPages "Section" "in" (slice "blog") }}
+  {{ $pages = where $pages "Type" "!=" "section" }}
+  {{ $pages = $pages.ByDate.Reverse }}
+  {{ $pages = $pages | first $limit }}
+{{ else }}
+  {{ $currentSection := .Page.CurrentSection }}
+  {{ $pages = $currentSection.RegularPages }}
+
+  {{/* 현재 섹션에 글이 없으면 하위 섹션의 글들을 가져옴 */}}
+  {{ if eq (len $pages) 0 }}
+    {{ $allPages := slice }}
+    {{ range $currentSection.Sections }}
+      {{ $allPages = $allPages | append .RegularPages }}
+      {{/* 2단계 하위 섹션도 체크 (backend/troubleshooting 등) */}}
+      {{ range .Sections }}
+        {{ $allPages = $allPages | append .RegularPages }}
+      {{ end }}
+    {{ end }}
+    {{ $pages = $allPages }}
+  {{ end }}
+
+  {{ $pages = $pages.ByDate.Reverse }}
+  {{ $pages = $pages | first $limit }}
+{{ end }}
 
 <div class="recent-posts">
   {{ range $pages }}

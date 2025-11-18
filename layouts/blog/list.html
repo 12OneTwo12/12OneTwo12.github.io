@@ -1,0 +1,15 @@
+{{ define "main" }}
+  {{- $isBlogRoot := or (eq .RelPermalink "/ko/blog/") (eq .RelPermalink "/en/blog/") -}}
+  <div class="hx:mx-auto hx:flex hextra-max-page-width">
+    {{ partial "sidebar.html" (dict "context" . "disableSidebar" false "displayPlaceholder" true) }}
+    <article class="hx:w-full hx:break-words hx:flex hx:min-h-[calc(100vh-var(--navbar-height))] hx:min-w-0 hx:justify-center hx:pb-8 hx:pr-[calc(env(safe-area-inset-right)-1.5rem)]">
+      <main class="hx:w-full hx:min-w-0 hx:max-w-6xl hx:px-6 hx:pt-4 hx:md:px-12">
+        {{ if not $isBlogRoot }}
+          {{ partial "breadcrumb.html" (dict "page" . "enable" true) }}
+        {{ end }}
+        <div class="content">{{ .Content }}</div>
+      </main>
+    </article>
+    <div class="hx:max-xl:hidden hx:h-0 hx:w-64 hx:shrink-0"></div>
+  </div>
+{{- end -}}

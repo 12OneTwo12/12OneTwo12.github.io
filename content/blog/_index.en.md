@@ -18,3 +18,7 @@ toc: false
     {{< card link="/en/blog/reflection" title="Reflection" icon="server" >}}
     {{< card link="/en/blog/trends" title="Trends" icon="server" >}}
 {{< /cards >}}
+
+## Recent Posts
+
+{{< recent-posts limit=10 includeAll=true >}}
