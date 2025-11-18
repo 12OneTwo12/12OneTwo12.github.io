@@ -10,6 +10,11 @@ Sharing backend development troubleshooting and performance optimization experie
   {{< card link="performance" title="Performance Optimization" subtitle="Experiences focused on system performance improvements" >}}
 {{< /cards >}}
 
-## Recent Posts
+<div style="margin-top: 3em;">
+{{< hextra/hero-badge >}}
+  <span>Recent Posts</span>
+  {{< icon name="sparkles" attributes="height=14" >}}
+{{< /hextra/hero-badge >}}
+</div>
 
 {{< recent-posts limit=10 >}}
