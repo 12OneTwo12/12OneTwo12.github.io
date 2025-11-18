@@ -26,7 +26,7 @@ layout: hextra-home
 
 <div class="hx:mb-12">
 {{< hextra/hero-subtitle >}}
-  A space where I document my journey and growth as a developer
+  Sharing my development journey through honest documentation of challenges faced, solutions found, and lessons learned. Thank you for visiting.
 {{< /hextra/hero-subtitle >}}
 </div>
 

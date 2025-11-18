@@ -25,7 +25,7 @@ layout: hextra-home
 
 <div class="hx:mb-12">
 {{< hextra/hero-subtitle >}}
-  개발자로서의 성장과 배움을 기록하는 공간입니다
+  개발하며 겪은 시행착오, 문제 해결 과정, 그리고 배움을 솔직하게 기록하는 기술 블로그입니다. 방문해주셔서 감사합니다.
 {{< /hextra/hero-subtitle >}}
 </div>
 
