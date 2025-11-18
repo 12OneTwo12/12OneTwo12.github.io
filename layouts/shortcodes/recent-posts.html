@@ -1,5 +1,6 @@
 {{ $limit := .Get "limit" | default 5 }}
-{{ $pages := where site.RegularPages "Section" "blog" }}
+{{ $currentSection := .Page.CurrentSection }}
+{{ $pages := $currentSection.RegularPages }}
 {{ $pages = $pages | first $limit }}
 
 <div class="recent-posts">
