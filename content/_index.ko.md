@@ -24,12 +24,6 @@ layout: hextra-home
 </div>
 
 <div class="hx:mt-16 hx:mb-6">
-<h2 class="hx:text-2xl hx:font-bold">최신 글</h2>
-</div>
-
-{{< recent-posts limit=5 >}}
-
-<div class="hx:mt-16 hx:mb-6">
 <h2 class="hx:text-2xl hx:font-bold">주요 섹션</h2>
 </div>
 
@@ -55,46 +49,9 @@ layout: hextra-home
 {{< /hextra/feature-grid >}}
 
 <div class="hx:mt-16 hx:mb-6">
-<h2 class="hx:text-2xl hx:font-bold">주요 토픽</h2>
+  <h2 class="hx:text-2xl hx:font-bold">최신 글</h2>
 </div>
 
-{{< hextra/feature-grid >}}
-  {{< hextra/feature-card
-    title="Backend Development"
-    subtitle="Spring Boot, Kotlin, JPA, QueryDSL을 활용한 백엔드 개발"
-    icon="code"
-    link="blog"
-  >}}
-  {{< hextra/feature-card
-    title="Architecture"
-    subtitle="MSA, DDD, Clean Architecture, SOLID 원칙"
-    icon="cube"
-    link="blog"
-  >}}
-  {{< hextra/feature-card
-    title="Infrastructure"
-    subtitle="Kubernetes, Docker, CI/CD, ArgoCD, GitHub Actions"
-    icon="server"
-    link="docs/infrastructure"
-  >}}
-  {{< hextra/feature-card
-    title="Database"
-    subtitle="PostgreSQL, MySQL, Redis, Soft Delete, Audit Trail"
-    icon="database"
-    link="blog"
-  >}}
-  {{< hextra/feature-card
-    title="Testing"
-    subtitle="TDD, Given-When-Then, 단위/통합 테스트"
-    icon="beaker"
-    link="blog"
-  >}}
-  {{< hextra/feature-card
-    title="API Design"
-    subtitle="RESTful API, HTTP 상태 코드, DTO 패턴"
-    icon="globe"
-    link="blog"
-  >}}
-{{< /hextra/feature-grid >}}
+{{< recent-posts limit=5 >}}
 
 </div>
