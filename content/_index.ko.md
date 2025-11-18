@@ -19,7 +19,7 @@ layout: hextra-home
 
 <div class="hx:mb-12">
 {{< hextra/hero-subtitle >}}
-  개발자로서의 성장과 배움을 기록하는 공간입니다
+  {{< developer-experience lang="ko" >}}
 {{< /hextra/hero-subtitle >}}
 </div>
 
@@ -42,7 +42,7 @@ layout: hextra-home
   >}}
   {{< hextra/feature-card
     title="Documentation"
-    subtitle="개발할 때 지키는 원칙과 컨벤션, 인프라 구성 방법을 정리합니다"
+    subtitle="개발할 때 지키는 규칙들과 레퍼런스를 정리합니다"
     icon="book-open"
     link="docs"
   >}}

@@ -20,7 +20,7 @@ layout: hextra-home
 
 <div class="hx:mb-12">
 {{< hextra/hero-subtitle >}}
-  A space where I document my journey and growth as a developer
+  {{< developer-experience lang="en" >}}
 {{< /hextra/hero-subtitle >}}
 </div>
 
@@ -43,7 +43,7 @@ layout: hextra-home
   >}}
   {{< hextra/feature-card
     title="Documentation"
-    subtitle="Documenting development principles, conventions, and infrastructure setup"
+    subtitle="Documenting development rules and references"
     icon="book-open"
     link="docs"
   >}}

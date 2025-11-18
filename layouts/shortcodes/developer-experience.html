@@ -1,0 +1,15 @@
+{{ $startDate := time "2023-03-06" }}
+{{ $now := now }}
+{{ $totalDays := div (sub $now.Unix $startDate.Unix) 86400 }}
+{{ $years := div $totalDays 365 }}
+{{ $remainingDays := mod $totalDays 365 }}
+{{ $months := div $remainingDays 30 }}
+{{ $lang := .Get "lang" | default "ko" }}
+
+{{ if eq $lang "ko" }}
+개발 경력 {{ $years }}년 {{ $months }}개월차 백엔드 개발자<br>
+개발자로서의 성장과 배움을 기록하는 공간입니다
+{{ else }}
+Backend Developer with {{ $years }}+ years of experience<br>
+A space where I document my journey and growth as a developer
+{{ end }}
