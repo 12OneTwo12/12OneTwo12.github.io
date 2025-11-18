@@ -18,3 +18,7 @@ toc: false
     {{< card link="/ko/blog/reflection" title="Reflection" icon="server" >}}
     {{< card link="/ko/blog/trends" title="Trends" icon="server" >}}
 {{< /cards >}}
+
+## 최신 글
+
+{{< recent-posts limit=10 includeAll=true >}}

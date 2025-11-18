@@ -87,6 +87,23 @@ params:
   social:
     github: "https://github.com/12OneTwo12"
 
+  # 댓글 설정
+  comments:
+    enable: true
+    type: giscus
+    giscus:
+      repo: "12OneTwo12/12OneTwo12.github.io"
+      repoId: "R_kgDONbx_cg"  # https://giscus.app에서 확인 필요
+      category: "General"
+      categoryId: "DIC_kwDONbx_cs4Cl6qm"  # https://giscus.app에서 확인 필요
+      mapping: "pathname"
+      strict: "0"
+      reactionsEnabled: "1"
+      emitMetadata: "0"
+      inputPosition: "bottom"
+      theme: "preferred_color_scheme"
+      lang: "ko"
+
 # 마크다운 설정
 markup:
   goldmark:
