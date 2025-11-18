@@ -11,14 +11,19 @@ toc: false
 </div>
 
 {{< cards >}}
-    {{< card link="/en/blog/architecture" title="Architecture" icon="code" >}}
-    {{< card link="/en/blog/backend" title="Backend" icon="server" >}}
-    {{< card link="/en/blog/culture" title="Culture" icon="light-bulb" >}}
-    {{< card link="/en/blog/infrastructure" title="Infrastructure" icon="server" >}}
-    {{< card link="/en/blog/reflection" title="Reflection" icon="server" >}}
-    {{< card link="/en/blog/trends" title="Trends" icon="server" >}}
+    {{< card link="/en/blog/architecture" title="Architecture" icon="cube" >}}
+    {{< card link="/en/blog/backend" title="Backend" icon="code" >}}
+    {{< card link="/en/blog/culture" title="Culture" icon="users" >}}
+    {{< card link="/en/blog/infrastructure" title="Infrastructure" icon="cloud" >}}
+    {{< card link="/en/blog/reflection" title="Reflection" icon="annotation" >}}
+    {{< card link="/en/blog/trends" title="Trends" icon="trending-up" >}}
 {{< /cards >}}
 
-## Recent Posts
+<div style="margin-top: 3em;">
+{{< hextra/hero-badge >}}
+  <span>Recent Posts</span>
+  {{< icon name="sparkles" attributes="height=14" >}}
+{{< /hextra/hero-badge >}}
+</div>
 
 {{< recent-posts limit=10 includeAll=true >}}
