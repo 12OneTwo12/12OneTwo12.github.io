@@ -11,11 +11,11 @@ toc: false
 </div>
 
 {{< cards >}}
-    {{< card link="/en/blog/architecture" title="Architecture" icon="cube" >}}
+    {{< card link="/en/blog/architecture" title="Architecture & Design" icon="cube" >}}
     {{< card link="/en/blog/backend" title="Backend" icon="code" >}}
-    {{< card link="/en/blog/culture" title="Culture" icon="users" >}}
-    {{< card link="/en/blog/infrastructure" title="Infrastructure" icon="cloud" >}}
-    {{< card link="/en/blog/reflection" title="Reflection" icon="annotation" >}}
+    {{< card link="/en/blog/culture" title="Development Culture" icon="users" >}}
+    {{< card link="/en/blog/infrastructure" title="Infrastructure & DevOps" icon="cloud" >}}
+    {{< card link="/en/blog/reflection" title="Reflection & Thoughts" icon="annotation" >}}
     {{< card link="/en/blog/trends" title="Trends" icon="trending-up" >}}
 {{< /cards >}}
 
