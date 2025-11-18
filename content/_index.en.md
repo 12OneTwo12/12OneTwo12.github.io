@@ -53,6 +53,6 @@ layout: hextra-home
   <h2 class="hx:text-2xl hx:font-bold">Recent Posts</h2>
 </div>
 
-{{< recent-posts limit=5 >}}
+{{< recent-posts limit=5 includeAll=true >}}
 
 </div>
