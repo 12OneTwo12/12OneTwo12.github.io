@@ -1,13 +1,101 @@
 ---
-title: Jeongil-Jeong's Tech Blog
-toc: false
+title:
+layout: hextra-home
 ---
 
-Hello! I'm Jeongil Jeong, a backend developer.
+<div class="home-wrapper" style="padding-left: max(4rem, env(safe-area-inset-left)); padding-right: max(4rem, env(safe-area-inset-right));">
 
-This is a technical blog about Backend, Spring, Java, Kotlin, Kubernetes, microservices, and infrastructure.
 
-{{< cards >}}
-  {{< card link="/en/about" title="About Me" icon="user" >}}
-  {{< card link="/en/blog" title="Blog" icon="book-open" >}}
-{{< /cards >}}
+{{< hextra/hero-badge >}}
+  <div class="hx:w-2 hx:h-2 hx:rounded-full hx:bg-primary-400"></div>
+  <span>Tech Blog</span>
+  {{< icon name="book-open" attributes="height=14" >}}
+{{< /hextra/hero-badge >}}
+
+<div class="hx:mt-8 hx:mb-8">
+{{< hextra/hero-headline >}}
+  Hello!&nbsp;<br class="hx:sm:block hx:hidden" />I'm Jeongil Jeong, Backend Developer
+{{< /hextra/hero-headline >}}
+</div>
+
+<div class="hx:mb-12">
+{{< hextra/hero-subtitle >}}
+  A space where I document my journey and growth as a developer
+{{< /hextra/hero-subtitle >}}
+</div>
+
+<div class="hx:mt-16 hx:mb-6">
+<h2 class="hx:text-2xl hx:font-bold">Recent Posts</h2>
+</div>
+
+{{< recent-posts limit=5 >}}
+
+<div class="hx:mt-16 hx:mb-6">
+<h2 class="hx:text-2xl hx:font-bold">Main Sections</h2>
+</div>
+
+{{< hextra/feature-grid >}}
+  {{< hextra/feature-card
+    title="About Me"
+    subtitle="Introducing my journey as a backend developer and tech stack"
+    icon="user"
+    link="about"
+  >}}
+  {{< hextra/feature-card
+    title="Blog"
+    subtitle="Recording problems I've encountered, solutions, and learning experiences"
+    icon="pencil"
+    link="blog"
+  >}}
+  {{< hextra/feature-card
+    title="Documentation"
+    subtitle="Documenting development principles, conventions, and infrastructure setup"
+    icon="book-open"
+    link="docs"
+  >}}
+{{< /hextra/feature-grid >}}
+
+<div class="hx:mt-16 hx:mb-6">
+<h2 class="hx:text-2xl hx:font-bold">Key Topics</h2>
+</div>
+
+{{< hextra/feature-grid >}}
+  {{< hextra/feature-card
+    title="Backend Development"
+    subtitle="Backend development with Spring Boot, Kotlin, JPA, QueryDSL"
+    icon="code"
+    link="blog"
+  >}}
+  {{< hextra/feature-card
+    title="Architecture"
+    subtitle="MSA, DDD, Clean Architecture, SOLID principles"
+    icon="cube"
+    link="blog"
+  >}}
+  {{< hextra/feature-card
+    title="Infrastructure"
+    subtitle="Kubernetes, Docker, CI/CD, ArgoCD, GitHub Actions"
+    icon="server"
+    link="docs/infrastructure"
+  >}}
+  {{< hextra/feature-card
+    title="Database"
+    subtitle="PostgreSQL, MySQL, Redis, Soft Delete, Audit Trail"
+    icon="database"
+    link="blog"
+  >}}
+  {{< hextra/feature-card
+    title="Testing"
+    subtitle="TDD, Given-When-Then, Unit/Integration Testing"
+    icon="beaker"
+    link="blog"
+  >}}
+  {{< hextra/feature-card
+    title="API Design"
+    subtitle="RESTful API, HTTP Status Codes, DTO Patterns"
+    icon="globe"
+    link="blog"
+  >}}
+{{< /hextra/feature-grid >}}
+
+</div>

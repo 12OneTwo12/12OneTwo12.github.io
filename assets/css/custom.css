@@ -1,0 +1,38 @@
+/* 홈페이지 양옆 여백 - 반응형 조정 */
+/* 모바일 - 아주 살짝만 */
+@media (max-width: 768px) {
+  .home-wrapper {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+
+/* 태블릿 - 여유있게 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .home-wrapper {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+  }
+}
+
+/* 데스크탑 - 더 여유있게 */
+@media (min-width: 1025px) {
+  .home-wrapper {
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+  }
+}
+
+/* Feature Card 제목 크기 조정 */
+.hextra-feature-card h3,
+.hextra-feature-card .hextra-feature-card-title {
+  font-size: 1.125rem !important; /* 18px - 기본 카드 제목 크기와 동일 */
+  line-height: 1.75rem !important;
+}
+
+/* Feature Card 부제목 크기 조정 */
+.hextra-feature-card p,
+.hextra-feature-card .hextra-feature-card-subtitle {
+  font-size: 0.875rem !important; /* 14px */
+  line-height: 1.25rem !important;
+}

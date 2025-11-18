@@ -29,13 +29,13 @@ languages:
 # 상단 네비게이션 메뉴
 menu:
   main:
-    - identifier: docs
-      name: Docs
-      pageRef: /docs
-      weight: 1
     - identifier: blog
       name: Blog
       pageRef: /blog
+      weight: 1
+    - identifier: docs
+      name: Docs
+      pageRef: /docs
       weight: 2
     - identifier: about
       name: About
