@@ -28,29 +28,23 @@
   {{ $pages = $pages | first $limit }}
 {{ end }}
 
+{{- $readMore := (T "readMore") | default "Read more →" -}}
 <div class="recent-posts">
-  {{ range $pages }}
-  <article class="hx-mb-4">
-    <a href="{{ .RelPermalink }}" class="hx-block hx-p-4 hx-rounded-lg hx-border hx-border-gray-200 dark:hx-border-gray-800 hover:hx-border-primary-500 dark:hover:hx-border-primary-500 hx-transition-colors">
-      <div class="hx-flex hx-justify-between hx-items-start hx-gap-4">
-        <div class="hx-flex-1">
-          <h3 class="hx-text-lg hx-font-semibold hx-mb-1">{{ .Title }}</h3>
-          {{ with .Params.summary }}
-          <p class="hx-text-gray-600 dark:hx-text-gray-400 hx-text-sm hx-mb-2">{{ . }}</p>
-          {{ end }}
-          <div class="hx-flex hx-gap-3 hx-text-xs hx-text-gray-500 dark:hx-text-gray-500">
-            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
-            {{ with .Params.tags }}
-            <div class="hx-flex hx-gap-2">
-              {{ range first 3 . }}
-              <span class="hx-px-2 hx-py-0.5 hx-rounded hx-bg-gray-100 dark:hx-bg-gray-800">#{{ . }}</span>
-              {{ end }}
-            </div>
-            {{ end }}
-          </div>
+  {{- range $pages }}
+    <div class="hx:mb-10">
+      <h3><a style="color: inherit; text-decoration: none;" class="hx:block hx:font-semibold hx:mt-8 hx:text-2xl" href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      {{ if site.Params.blog.list.displayTags }}
+        <div class="hx:text-sm hx:leading-7">
+          {{ partial "tags.html" (dict "context" .) }}
         </div>
-      </div>
-    </a>
-  </article>
-  {{ end }}
+      {{ end }}
+      <p class="hx:opacity-80 hx:mt-4 hx:leading-7">{{- partial "utils/page-description" . -}}</p>
+      <p class="hx:opacity-80 hx:mt-1 hx:leading-7">
+        <a class="hx:text-[color:hsl(var(--primary-hue),100%,50%)] hx:underline hx:underline-offset-2 hx:decoration-from-font" href="{{ .RelPermalink }}">
+          {{- $readMore -}}
+        </a>
+      </p>
+      <p class="hx:opacity-50 hx:text-sm hx:mt-4 hx:leading-7">{{ partial "utils/format-date" .Date }}</p>
+    </div>
+  {{ end -}}
 </div>
