@@ -1,15 +1,48 @@
-{{ $startDate := time "2023-03-06" }}
-{{ $now := now }}
-{{ $totalDays := div (sub $now.Unix $startDate.Unix) 86400 }}
-{{ $years := div $totalDays 365 }}
-{{ $remainingDays := mod $totalDays 365 }}
-{{ $months := div $remainingDays 30 }}
 {{ $lang := .Get "lang" | default "ko" }}
 
+<div style="font-size: 0.75em; opacity: 0.8; margin-bottom: 0.5em;">
+  <span id="developer-experience"></span>
+</div>
+
 {{ if eq $lang "ko" }}
-개발 경력 {{ $years }}년 {{ $months }}개월차 백엔드 개발자<br>
 개발자로서의 성장과 배움을 기록하는 공간입니다
 {{ else }}
-Backend Developer with {{ $years }}+ years of experience<br>
 A space where I document my journey and growth as a developer
 {{ end }}
+
+<script>
+(function() {
+  const startDate = new Date('2023-03-06T10:00:00+09:00');
+  const lang = '{{ $lang }}';
+
+  function updateExperience() {
+    const now = new Date();
+    const diff = now - startDate;
+
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const years = Math.floor(days / 365);
+    const remainingDays = days % 365;
+    const months = Math.floor(remainingDays / 30);
+    const daysLeft = remainingDays % 30;
+
+    const hoursLeft = hours % 24;
+    const minutesLeft = minutes % 60;
+    const secondsLeft = seconds % 60;
+
+    let text = '';
+    if (lang === 'ko') {
+      text = `개발 경력 ${years}년 ${months}개월 ${daysLeft}일 ${hoursLeft}시간 ${minutesLeft}분 ${secondsLeft}초`;
+    } else {
+      text = `${years} years, ${months} months, ${daysLeft} days, ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s of experience`;
+    }
+
+    document.getElementById('developer-experience').textContent = text;
+  }
+
+  updateExperience();
+  setInterval(updateExperience, 1000);
+})();
+</script>
