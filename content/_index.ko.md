@@ -13,7 +13,7 @@ layout: hextra-home
 
 <div class="hx:mt-8 hx:mb-2">
 {{< hextra/hero-headline >}}
-  안녕하세요!&nbsp;<br class="hx:sm:block hx:hidden" />백엔드 개발자 정정일입니다
+  안녕하세요!&nbsp;<br class="hx:sm:block hx:hidden" />꿈에서도 개발하는 백엔드 개발자 정정일입니다
 {{< /hextra/hero-headline >}}
 </div>
 
