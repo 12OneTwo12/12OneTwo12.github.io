@@ -1,5 +1,7 @@
 {{ define "main" }}
   {{- $isBlogRoot := or (eq .RelPermalink "/ko/blog/") (eq .RelPermalink "/en/blog/") -}}
+  {{- $readMore := (T "readMore") | default "Read more →" -}}
+
   <div class="hx:mx-auto hx:flex hextra-max-page-width">
     {{ partial "sidebar.html" (dict "context" . "disableSidebar" false "displayPlaceholder" true) }}
     <article class="hx:w-full hx:break-words hx:flex hx:min-h-[calc(100vh-var(--navbar-height))] hx:min-w-0 hx:justify-center hx:pb-8 hx:pr-[calc(env(safe-area-inset-right)-1.5rem)]">
@@ -7,7 +9,88 @@
         {{ if not $isBlogRoot }}
           {{ partial "breadcrumb.html" (dict "page" . "enable" true) }}
         {{ end }}
-        <div class="content">{{ .Content }}</div>
+
+        {{- if $isBlogRoot -}}
+          {{/* 블로그 루트 페이지: 커스텀 콘텐츠 + 모든 글 페이징 */}}
+          <div class="content">{{ .Content }}</div>
+
+          {{/* 모든 블로그 글 가져오기 */}}
+          {{- $allPages := where site.RegularPages "Section" "blog" -}}
+          {{- $allPages = where $allPages "Type" "!=" "section" -}}
+          {{- $allPages = $allPages.ByDate.Reverse -}}
+          {{- $pagerSize := site.Params.blog.list.pagerSize | default 20 -}}
+          {{- $paginator := .Paginate $allPages $pagerSize -}}
+
+          {{- range $paginator.Pages }}
+            <div class="hx:mb-10">
+              <h3><a style="color: inherit; text-decoration: none;" class="hx:block hx:font-semibold hx:mt-8 hx:text-2xl " href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+              {{ if site.Params.blog.list.displayTags }}
+                <div class="hx:text-sm hx:leading-7">
+                  {{ partial "tags.html" (dict "context" .) }}
+                </div>
+              {{ end }}
+              {{- $description := partial "utils/page-description" . -}}
+              {{- $maxLen := 200 -}}
+              {{- if eq site.Language.Lang "en" -}}
+                {{- $maxLen = 300 -}}
+              {{- end -}}
+              {{- if gt (len $description) $maxLen -}}
+                <p class="hx:opacity-80 hx:mt-4 hx:leading-7">{{ substr $description 0 $maxLen }}...</p>
+              {{- else -}}
+                <p class="hx:opacity-80 hx:mt-4 hx:leading-7">{{ $description }}</p>
+              {{- end -}}
+              <p class="hx:opacity-80 hx:mt-1 hx:leading-7">
+                <a class="hx:text-[color:hsl(var(--primary-hue),100%,50%)] hx:underline hx:underline-offset-2 hx:decoration-from-font" href="{{ .RelPermalink }}">
+                  {{- $readMore -}}
+                </a>
+              </p>
+              <p class="hx:opacity-50 hx:text-sm hx:mt-4 hx:leading-7">{{ partial "utils/format-date" .Date }}</p>
+            </div>
+          {{ end -}}
+
+          {{- if gt $paginator.TotalPages 1 -}}
+            {{ partial "components/blog-pager.html" $paginator }}
+          {{- end -}}
+        {{- else -}}
+          {{/* 하위 섹션: 페이징된 글 목록 표시 */}}
+          {{ if .Title }}<h1 class="hx:mt-2 hx:text-4xl hx:font-bold hx:tracking-tight hx:text-slate-900 hx:dark:text-slate-100">{{ .Title }}</h1>{{ end }}
+          <div class="content">{{ .Content }}</div>
+
+          {{- $pages := partial "utils/sort-pages" (dict "page" . "by" site.Params.blog.list.sortBy "order" site.Params.blog.list.sortOrder) -}}
+          {{- $pagerSize := site.Params.blog.list.pagerSize | default 10 -}}
+          {{- $paginator := .Paginate $pages $pagerSize -}}
+
+          {{- range $paginator.Pages }}
+            <div class="hx:mb-10">
+              <h3><a style="color: inherit; text-decoration: none;" class="hx:block hx:font-semibold hx:mt-8 hx:text-2xl " href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+              {{ if site.Params.blog.list.displayTags }}
+                <div class="hx:text-sm hx:leading-7">
+                  {{ partial "tags.html" (dict "context" .) }}
+                </div>
+              {{ end }}
+              {{- $description := partial "utils/page-description" . -}}
+              {{- $maxLen := 200 -}}
+              {{- if eq site.Language.Lang "en" -}}
+                {{- $maxLen = 300 -}}
+              {{- end -}}
+              {{- if gt (len $description) $maxLen -}}
+                <p class="hx:opacity-80 hx:mt-4 hx:leading-7">{{ substr $description 0 $maxLen }}...</p>
+              {{- else -}}
+                <p class="hx:opacity-80 hx:mt-4 hx:leading-7">{{ $description }}</p>
+              {{- end -}}
+              <p class="hx:opacity-80 hx:mt-1 hx:leading-7">
+                <a class="hx:text-[color:hsl(var(--primary-hue),100%,50%)] hx:underline hx:underline-offset-2 hx:decoration-from-font" href="{{ .RelPermalink }}">
+                  {{- $readMore -}}
+                </a>
+              </p>
+              <p class="hx:opacity-50 hx:text-sm hx:mt-4 hx:leading-7">{{ partial "utils/format-date" .Date }}</p>
+            </div>
+          {{ end -}}
+
+          {{- if gt $paginator.TotalPages 1 -}}
+            {{ partial "components/blog-pager.html" $paginator }}
+          {{- end -}}
+        {{- end -}}
       </main>
     </article>
     <div class="hx:max-xl:hidden hx:h-0 hx:w-64 hx:shrink-0"></div>
