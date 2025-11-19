@@ -4,26 +4,24 @@ toc: true
 ---
 
 ## **Profile**
-레거시 시스템을 성공적으로 현대화하고 확장성 있는 클라우드 네이티브 인프라를 구축한 경험을 보유한 백엔드 개발자, 정정일입니다.
+> **"복잡한 레거시 시스템을 MSA로 전환하고, Kubernetes 기반의 클라우드 네이티브 인프라를 구축하며 비즈니스의 성장을 주도하는 백엔드 개발자 정정일입니다."**
 
-현재 부동산 중개 플랫폼에서 Java/Kotlin, Spring 기반 백엔드 시스템을 개발하고 운영하며 다음과 같은 질문을 항상 고민합니다.
-> "우리 서비스에 지금 무엇이 가장 필요할까? 팀에 기여하기 위해 나는 무엇을 할 수 있을까?" <br>
-> "문제를 해결하는 다양한 방법 중 우리 팀에 가장 적합한 선택은 무엇일까?"
+저는 사용자의 CS에만 의존해 장애를 인지하던 시스템을 개선하고자 **모니터링 시스템 구축을 직접 제안하고 설계**하여, **장애 인지 시간을 평균 1시간에서 1분으로 98% 단축**시킨 경험이 있습니다. 또한, 핵심 도메인의 강한 결합 문제를 해결하는 MSA 전환을 주도하여 **신규 기능 추가 속도를 2배 향상**시키며 비즈니스의 빠른 성장에 기여했습니다.
 
-3년간의 영업직 경험을 바탕으로 사람들과 소통하고 협업하는 것을 즐깁니다. 어제보다 오늘, 오늘보다 내일 더 성장하기 위해 노력하며 효율적인 문제 해결을 위해 끊임없이 고민합니다.
+단순히 코드를 작성하는 것을 넘어, 지금 우리 팀에 가장 필요한 것이 무엇인지, 비즈니스 목표 달성을 위해 기술적으로 어떤 선택을 해야 하는지를 항상 먼저 고민합니다. 3년간의 영업직 경험을 통해 얻은 협업과 소통 능력을 바탕으로, 동료들과 함께 배우고 성장하며 더 나은 결과물을 만들어낼 때 가장 큰 보람을 느낍니다.
 
 ## **Skills**
 
-| Skill         | Experience (Years) | Level (out of 5) | Description                                                                       |
-|:--------------| :----------------: | :--------------: |:----------------------------------------------------------------------------------|
-| Java          | `{{< experience-years start="2023-03-06" >}}` |        4         | 객체 지향 프로그래밍 및 디자인 패턴을 활용한 백엔드 서비스 개발                                              |
-| Kotlin        | `{{< experience-years start="2023-08-01" >}}` |        3         | 함수형 프로그래밍과 코루틴을 활용한 비동기 처리 및 코드 간결화                                               |
-| Spring Boot   | `{{< experience-years start="2023-03-06" >}}` |        4         | 예외 처리 및 Spring Security 통합을 포함한 REST API 개발                                       |
-| Spring Batch  | `{{< experience-years start="2023-05-01" >}}` |        3         | 대규모 데이터 처리 배치 시스템 설계 및 성능 최적화                                                     |
-| Spring Cloud  | `{{< experience-years start="2024-03-01" >}}` |        3         | MSA 아키텍쳐 구현을 위한 Gateway, Eureka, Config 활용 및 분산 시스템 환경 구축                         |
-| MySQL         | `{{< experience-years start="2023-03-06" >}}` |        4         | **Certified - SQL Developer** \| 데이터베이스 설계 및 쿼리 최적화                               |
-| Kubernetes    | `{{< experience-years start="2023-12-01" >}}` |        4         | 컨테이너 오케스트레이션 및 CD(지속적 배포) 시스템 구축                                                  |
-| Linux         | `{{< experience-years start="2022-03-06" >}}` |        4         | **Certified - Linux Master Level-II**, **AWS Certified Cloud Practitioner (CCP)** |
+| Skill         | Experience | Description                                                                       |
+|:--------------|:----------:|:----------------------------------------------------------------------------------|
+| Java          | `{{< experience-years start="2023-03-06" >}}` | MSA, Batch 등 다양한 환경에서의 백엔드 시스템 개발 경험                                       |
+| Kotlin        | `{{< experience-years start="2023-08-01" >}}` | Coroutine을 활용한 비동기 처리 및 MSA 환경에서의 메인 언어 활용 경험                          |
+| Spring Boot   | `{{< experience-years start="2023-03-06" >}}` | Spring Security, Actuator 등을 활용한 REST API 개발 및 운영 경험                          |
+| Spring Batch  | `{{< experience-years start="2023-05-01" >}}` | 대규모 데이터 처리 시스템 설계 및 Chunk, Partitioning을 통한 성능 최적화 경험                   |
+| Spring Cloud  | `{{< experience-years start="2024-03-01" >}}` | Gateway, Eureka 등을 활용한 MSA 구축 및 운영 경험                                     |
+| MySQL         | `{{< experience-years start="2023-03-06" >}}` | **Certified - SQL Developer** \| 데이터베이스 설계, 쿼리 튜닝 및 Replication 운영 경험                         |
+| Kubernetes    | `{{< experience-years start="2023-12-01" >}}` | GKE 기반 인프라 설계, 구축 및 ArgoCD를 활용한 배포 자동화 경험                                  |
+| Linux         | `{{< experience-years start="2022-03-06" >}}` | **Certified - Linux Master Level-II**, **AWS Certified Cloud Practitioner (CCP)** \| 서버 설정 및 스크립트 작성 등 운영 경험     |
 
 ## **Work Experience**
 
@@ -35,7 +33,9 @@ toc: true
 **[주요 사용 기술]**: `Kotlin` `Spring Cloud` `Kubernetes` `ArgoCD` `Opentelemetry` `Grafana LGTM Stack` `Redis` `MySQL` `Manticore Search`
 {{< /callout >}}
 
-{{% details title="**모놀리식 아키텍쳐 → MSA 전환 설계 참여 및 구현**" %}}
+- #### **모놀리식 아키텍쳐 → MSA 전환 설계 참여 및 구현**
+  **[핵심 성과]** 강결합 도메인 분리로 **신규 기능 추가 속도 2배 향상** 및 MSA 전환 성공
+{{% details title="**자세히 보기**" %}}
 - **프로젝트 개요**: Java Servlet 레거시 모놀리식 아키텍처 서비스를 [**Kotlin/Spring Cloud 기반 MSA로 무중단 전환**](/ko/blog/architecture/is-gradual-msa-transition-an-illusion)하며 마이그레이션한 프로젝트
 - **기간**: 2025.04 ~ 2025.09 (3명)
 - **[문제]**
@@ -55,7 +55,9 @@ toc: true
 - **[주요 기술]**: `Kotlin`, `Spring Cloud`, `gRPC`, `Feign Client`, `CQRS`, `Hexagonal Architecture`, `AWS SQS`, `AWS SNS`, `Redis`
 {{% /details %}}
 
-{{% details title="**Kubernetes 기반 인프라, 모니터링 시스템 구축 및 운영**" %}}
+- #### **Kubernetes 기반 인프라, 모니터링 시스템 구축 및 운영**
+  **[핵심 성과]** Kubernetes 전환을 주도해 **고가용성, 확장성**을 확보하고, 모니터링 시스템을 구축해 **장애 인지 시간을 98% 단축**
+{{% details title="**자세히 보기**" %}}
 - **프로젝트 개요**: 단일 VM 기반에서 [**Kubernetes 기반으로 전환을 제안·설계·구축**](/ko/blog/infrastructure/docker-compose-to-k8s)하고 [**모니터링 시스템을 제안·설계·구축**](/ko/blog/infrastructure/building-a-monitoring-system)하여 고가용성, 운영 효율성을 확보한 프로젝트
 - **기간**: 2025.04 ~ 2025.09 (1명)
 - **[문제]**
@@ -77,7 +79,9 @@ toc: true
 - **[주요 기술]**: `Kubernetes`, `GCP GKE`, `ArgoCD`, `Github Actions`, `Grafana`, `Loki`, `Tempo`, `Prometheus`, `Opentelemetry`, `Kubernetes Sidecar`
 {{% /details %}}
 
-{{% details title="**온프레미스 → AWS 클라우드 무중단 전환**" %}}
+- #### **온프레미스 → AWS 클라우드 무중단 전환**
+  **[핵심 성과]** 서비스 중단 없이 **온프레미스에서 AWS 클라우드로 무중단 마이그레이션 성공**
+{{% details title="**자세히 보기**" %}}
 - **프로젝트 개요**: [**온프레미스 IDC에서 운영되던 서비스를 AWS 클라우드 환경으로 무중단 전환**](/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story)하며 안정성, 확장성 및 운영 효율성을 개선한 프로젝트
 - **기간**: 2025.07 ~ 2025.08 (2명)
 - **[문제]**
@@ -107,7 +111,9 @@ toc: true
 **[주요 사용 기술]**: `Java` `Spring Boot` `Spring Batch` `JPA` `QueryDSL` `Redis` `MySQL` `Kubernetes` `ELK Stack`
 {{< /callout >}}
 
-{{% details title="**정산 리뉴얼 프로젝트**" %}}
+- #### **정산 리뉴얼 프로젝트**
+  **[핵심 성과]** 3개의 서버, 24개의 DB Procedure, DB Function으로 분산된 정산 로직 통합, **요구사항 반영 속도 46% 향상**
+{{% details title="**자세히 보기**" %}}
 - **프로젝트 개요**: 여러 도메인으로 분리되어 있던 **정산 비즈니스 로직 통합 제안·설계·구축**
 - **기간**: 2024.06 ~ 2025.03 (4명)
 - **[문제]**
@@ -124,7 +130,9 @@ toc: true
 - **[주요 기술]**: `Spring Boot 2.7.3`, `Java 11`, `JPA`, `Redisson`, `Rest API`
 {{% /details %}}
 
-{{% details title="**백오피스 웹서버 개발, 운영 및 개선**" %}}
+- #### **백오피스 웹서버 개발, 운영 및 개선**
+  **[핵심 성과]** SQL 튜닝 및 캐싱 적용으로 **주요 API 성능 87% 개선**
+{{% details title="**자세히 보기**" %}}
 - **프로젝트 개요**: PHP 레거시 백오피스 서버 **Java, Spring으로 리뉴얼**하며 기존 기술 부채 및 추가 개선 진행
 - **기간**: 2024.04 ~ 2025.03 (2~6명)
 - **[문제]**
@@ -151,7 +159,9 @@ toc: true
 - **[주요 기술]**: `Spring Boot 2.6.7`, `Spring Security`, `Java 11`, `JPA`, `Mybatis`, `Thymeleaf`
 {{% /details %}}
 
-{{% details title="**Batch 서버 개발, 운영 및 개선**" %}}
+- #### **Batch 서버 개발, 운영 및 개선**
+  **[핵심 성과]** Chunk/Partitioning 도입으로 **배치 데이터 처리 시간 64% 단축**
+{{% details title="**자세히 보기**" %}}
 - **프로젝트 개요**: PHP, Crontab 레거시 Batch서버를 **Spring Batch로 리뉴얼**하며 추가 기술 개선 및 운영
 - **기간**: 2024.05 ~ 2025.03 (4~6명)
 - **[문제]**
