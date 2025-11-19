@@ -66,7 +66,7 @@ The moment I read the phrase "The future is already here. It's just not evenly d
 
 Many people commonly say developers will be partially replaced by AI. I also think that way. It's a future anyone can easily picture. Come to think of it, it's not even the future. Developers will physically feel that the developer job market has somewhat cooled since AI's appearance.
 
-Also someone said **"Developers won't be replaced by AI but will be replaced by developers who utilize AI well"**.
+Also someone said **"Developers won't be replaced by AI but will be replaced by developers who utilize AI well."**
 
 Of course the future can't be certain, but with very high probability I think the ability to utilize AI well will become one of important developer competencies. An era might come where 1 developer collaborating with AI can do more work than 10 developers.
 
@@ -76,7 +76,7 @@ No, the expression "might come" seems wrong, it's definitely coming.
 
 I felt like I got hit hard in the head with such thoughts.
 
-And I recalled contents from Toby's meetup I attended recently in July 2025 ["31-Year Developer's Message on How to Live as a Developer in the AI Era"](https://velog.io/@12onetwo12/%ED%86%A0%EB%B9%84%EB%8B%98-%EB%B0%8B%EC%97%85-%EC%B0%B8%EA%B4%80%EA%B8%B0-31%EB%85%84%EC%B0%A8-%EA%B0%9C%EB%B0%9C%EC%9E%90%EA%B0%80-%EC%A0%84%ED%95%98%EB%8A%94-AI%EC%8B%9C%EB%8C%80-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%A1%9C-%EC%82%B4%EC%95%84%EA%B0%80%EB%8A%94-%EB%B2%95).
+And I recalled contents from Toby's meetup I attended recently in July 2025 ["31-Year Developer's Message on How to Live as a Developer in the AI Era"](/en/blog/reflection/how-to-live-as-a-developer-in-the-ai-era).
 
 - **Developers are no longer a fixed profession but will become a fluid concept continuously newly defined together with AI**
 - **Ability to collaborate with AI will become core developer competency**
@@ -494,6 +494,6 @@ I think I've barely started now.
 ---
 
 ### References
-- [Toby's Meetup Report - 31-Year Developer's Message on How to Live as a Developer in the AI Era](https://velog.io/@12onetwo12/%ED%86%A0%EB%B9%84%EB%8B%98-%EB%B0%8B%EC%97%85-%EC%B0%B8%EA%B4%80%EA%B8%B0-31%EB%85%84%EC%B0%A8-%EA%B0%9C%EB%B0%9C%EC%9E%90%EA%B0%80-%EC%A0%84%ED%95%98%EB%8A%94-AI%EC%8B%9C%EB%8C%80-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%A1%9C-%EC%82%B4%EC%95%84%EA%B0%80%EB%8A%94-%EB%B2%95)
+- [Toby's Meetup Report - 31-Year Developer's Message on How to Live as a Developer in the AI Era](/en/blog/reflection/how-to-live-as-a-developer-in-the-ai-era)
 - [My Side Project Proceeding with AI Collaboration - GrowSnap](https://github.com/12OneTwo12/grow-snap)
 - [AgentCoder: Multiagent-Code Generation with Iterative Testing and Optimisation (2024)](https://arxiv.org/html/2312.13010v2) - Multi-agent cross-verification effect research
