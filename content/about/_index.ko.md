@@ -34,6 +34,8 @@ toc: true
 ### **부톡㈜**
 *2025.03 ~ Present ({{< work-duration start="2025-03-01" >}})*
 
+>**[주요 사용 기술]**: `Kotlin` `Spring Cloud` `Kubernetes` `ArgoCD` `Opentelemetry` `Grafana LGTM Stack` `Redis` `MySQL` `Manticore Search`
+
 {{% details title="**MSA 전환 설계 및 구현**" %}}
 - **프로젝트 개요**: Java Servlet 기반의 레거시 모놀리식 아키텍처 서비스를 Kotlin/Spring Cloud 기반 MSA로 무중단 전환한 프로젝트입니다.
 - **기간**: 2025.04 ~ 2025.09 (3명)
@@ -93,6 +95,8 @@ toc: true
 
 ### **㈜헬로핀테크**
 *2023.03 ~ 2025.03 (2년)*
+
+>**[주요 사용 기술]**: `Java` `Spring Boot` `Spring Batch` `JPA` `QueryDSL` `Redis` `MySQL` `Kubernetes` `ELK Stack`
 
 {{% details title="**정산 리뉴얼 프로젝트**" %}}
 - **프로젝트 개요**: 여러 도메인으로 분산되어 있던 복잡한 정산 비즈니스 로직을 단일 시스템으로 통합하여 유지보수성과 안정성을 향상시킨 프로젝트입니다.
