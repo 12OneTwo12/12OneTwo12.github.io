@@ -4,11 +4,19 @@ toc: true
 ---
 
 ## **Profile**
-> **"I am Jeong Jeong-il, a backend developer who drives business growth by transitioning complex legacy systems to MSA and building Kubernetes-based cloud-native infrastructure."**
+**"I'm Jeong Jeong-il, a developer who enjoys digging into the root of a problem, starting with the question 'Why?'"**
 
-I have experience **proactively proposing and designing a monitoring system** to improve a system that previously relied solely on user CS for incident detection, thereby **reducing incident detection time by 98% from an average of 1 hour to 1 minute**. Furthermore, I led the transition to MSA, resolving tightly coupled core domain issues, which **doubled the speed of new feature additions**, contributing to rapid business growth.
+Hello! I'm a backend developer who loves uncovering the real story behind the error logs. For me, development is more than just writing code; it's like a detective novel where I hypothesize and persistently dig to solve a single problem.
 
-Beyond simply writing code, I always prioritize what our team needs most and what technical choices are necessary to achieve business goals. Based on the collaboration and communication skills gained from 3 years of sales experience, I find the greatest satisfaction in learning and growing with colleagues to produce better results.
+Instead of getting lost in the technical implementation itself, I enjoy asking myself questions like:
+
+> "What improvement does our service need most right now?" <br>
+> "What's the optimal way to solve this problem, and is it right for our team's situation?" <br>
+> "What do our users really want?".
+
+I believe these considerations act as the most solid compass to guide my technical decisions.
+
+This blog is a record of my struggles and growth. Rather than glamorous success stories, I want to honestly share the deep thought/worry I faced during problem-solving and the 'Aha!' moments of realization. Please feel free to share your experiences and opinions. I want to share the joy of learning and growing together.
 
 ## **Skills**
 
