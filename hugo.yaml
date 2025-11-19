@@ -150,7 +150,15 @@ taxonomies:
   tag: tags
   category: categories
 
-# Output 형식 (RSS 포함)
+# Custom Output Formats
+outputFormats:
+  markdown:
+    mediaType: text/markdown
+    baseName: index
+    isPlainText: true
+    permalinkable: true
+
+# Output 형식 (RSS, llms, markdown 포함)
 outputs:
   home:
     - HTML
@@ -159,6 +167,9 @@ outputs:
   section:
     - HTML
     - RSS
+  page:
+    - HTML
+    - markdown
 
 # Robots.txt 생성 활성화
 enableRobotsTXT: true
