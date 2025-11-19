@@ -63,12 +63,6 @@ layout: hextra-home
 
 {{< hextra/feature-grid >}}
   {{< hextra/feature-card
-    title="About Me"
-    subtitle="Introducing my journey as a backend developer and tech stack"
-    icon="user"
-    link="about"
-  >}}
-  {{< hextra/feature-card
     title="Blog"
     subtitle="Recording problems I've encountered, solutions, and learning experiences"
     icon="pencil"
@@ -79,6 +73,12 @@ layout: hextra-home
     subtitle="Documenting development rules and references"
     icon="book-open"
     link="docs"
+  >}}
+  {{< hextra/feature-card
+  title="About Me"
+  subtitle="Introducing my journey as a backend developer and tech stack"
+  icon="user"
+  link="about"
   >}}
 {{< /hextra/feature-grid >}}
 
