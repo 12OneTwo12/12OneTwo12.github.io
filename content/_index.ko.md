@@ -62,12 +62,6 @@ layout: hextra-home
 
 {{< hextra/feature-grid >}}
   {{< hextra/feature-card
-    title="About Me"
-    subtitle="백엔드 개발자로서의 여정과 기술 스택을 소개합니다"
-    icon="user"
-    link="about"
-  >}}
-  {{< hextra/feature-card
     title="Blog"
     subtitle="개발하면서 겪은 문제들과 해결 과정, 학습한 내용을 기록합니다"
     icon="pencil"
@@ -78,6 +72,12 @@ layout: hextra-home
     subtitle="개발할 때 지키는 규칙들과 레퍼런스를 정리합니다"
     icon="book-open"
     link="docs"
+  >}}
+  {{< hextra/feature-card
+  title="About Me"
+  subtitle="백엔드 개발자로서의 여정과 기술 스택을 소개합니다"
+  icon="user"
+  link="about"
   >}}
 {{< /hextra/feature-grid >}}
 
