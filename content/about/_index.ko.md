@@ -4,7 +4,7 @@ toc: true
 ---
 
 ## **Profile**
-레거시 시스템을 성공적으로 현대화하고 확장성 있는 클라우드 네이티브 인프라를 구축한 경험을 보유한 3년차 백엔드 개발자, 정정일입니다.
+레거시 시스템을 성공적으로 현대화하고 확장성 있는 클라우드 네이티브 인프라를 구축한 경험을 보유한 백엔드 개발자, 정정일입니다.
 
 현재 부동산 중개 플랫폼에서 Java/Kotlin, Spring 기반 백엔드 시스템을 개발하고 운영하며 다음과 같은 질문을 항상 고민합니다.
 > "우리 서비스에 지금 무엇이 가장 필요할까? 팀에 기여하기 위해 나는 무엇을 할 수 있을까?"
@@ -12,22 +12,18 @@ toc: true
 
 3년간의 영업직 경험을 바탕으로 사람들과 소통하고 협업하는 것을 즐깁니다. 어제보다 오늘, 오늘보다 내일 더 성장하기 위해 노력하며 효율적인 문제 해결을 위해 끊임없이 고민합니다.
 
----
-
 ## **Skills**
 
-| Skill         | Experience (Years) | Level (out of 5) | Description                                                  |
-| :------------ | :----------------: | :--------------: | :----------------------------------------------------------- |
-| Java          | `{{< experience-years start="2023-03-06" >}}` |        4         | 객체 지향 프로그래밍 및 디자인 패턴을 활용한 백엔드 서비스 개발 |
-| Kotlin        | `{{< experience-years start="2023-08-01" >}}` |        3         | 함수형 프로그래밍과 코루틴을 활용한 비동기 처리 및 코드 간결화 |
-| Spring Boot   | `{{< experience-years start="2023-03-06" >}}` |        4         | 예외 처리 및 Spring Security 통합을 포함한 REST API 개발       |
-| Spring Batch  | `{{< experience-years start="2023-05-01" >}}` |        3         | 대규모 데이터 처리 배치 시스템 설계 및 성능 최적화           |
-| Spring Cloud  | `{{< experience-years start="2024-03-01" >}}` |        3         | MSA 아키텍쳐 구현을 위한 Gateway, Eureka, Config 활용 및 분산 시스템 환경 구축 |
-| MySQL         | `{{< experience-years start="2023-03-06" >}}` |        4         | Certified - SQL Developer \| 데이터베이스 설계 및 쿼리 최적화     |
-| Kubernetes    | `{{< experience-years start="2023-12-01" >}}` |        4         | 컨테이너 오케스트레이션 및 CD(지속적 배포) 시스템 구축       |
-| Linux         | `{{< experience-years start="2022-03-06" >}}` |        4         | Certified - Linux Master Level-II, AWS Certified Cloud Practitioner (CCP) |
-
----
+| Skill         | Experience (Years) | Level (out of 5) | Description                                                                       |
+|:--------------| :----------------: | :--------------: |:----------------------------------------------------------------------------------|
+| Java          | `{{< experience-years start="2023-03-06" >}}` |        4         | 객체 지향 프로그래밍 및 디자인 패턴을 활용한 백엔드 서비스 개발                                              |
+| Kotlin        | `{{< experience-years start="2023-08-01" >}}` |        3         | 함수형 프로그래밍과 코루틴을 활용한 비동기 처리 및 코드 간결화                                               |
+| Spring Boot   | `{{< experience-years start="2023-03-06" >}}` |        4         | 예외 처리 및 Spring Security 통합을 포함한 REST API 개발                                       |
+| Spring Batch  | `{{< experience-years start="2023-05-01" >}}` |        3         | 대규모 데이터 처리 배치 시스템 설계 및 성능 최적화                                                     |
+| Spring Cloud  | `{{< experience-years start="2024-03-01" >}}` |        3         | MSA 아키텍쳐 구현을 위한 Gateway, Eureka, Config 활용 및 분산 시스템 환경 구축                         |
+| MySQL         | `{{< experience-years start="2023-03-06" >}}` |        4         | **Certified - SQL Developer** \| 데이터베이스 설계 및 쿼리 최적화                               |
+| Kubernetes    | `{{< experience-years start="2023-12-01" >}}` |        4         | 컨테이너 오케스트레이션 및 CD(지속적 배포) 시스템 구축                                                  |
+| Linux         | `{{< experience-years start="2022-03-06" >}}` |        4         | **Certified - Linux Master Level-II**, **AWS Certified Cloud Practitioner (CCP)** |
 
 ## **Work Experience**
 
@@ -149,5 +145,22 @@ toc: true
   - **데이터 정합성 99.9% 확보**: 성능 최적화를 통해 데이터 정합성 문제 발생 확률을 **99.9%** 감소시켰습니다 (최대 트랜잭션 처리 시간 22분 → 0.01초).
   - **처리 시간 64% 단축**: 배치 성능을 최적화하여 데이터 처리 시간을 **64%** 단축했습니다 (13.27분 → 4.77분).
   - **기술 공유 및 문서화**: 문제 해결 과정을 사내에 공유하고, 다른 팀에서도 활용할 수 있도록 관련 내용을 문서화했습니다.
-- **[주요 기술]**: `Spring Boot 2.7.3` `Spring Batch` `Java 11` `JPA` `MyBatis`
-{{% /details %}}
+  - **[주요 기술]**: `Spring Boot 2.7.3` `Spring Batch` `Java 11` `JPA` `MyBatis`
+  {{% /details %}}
+
+## **Activity**
+
+- **Spring 프로젝트 오픈소스 기여**
+  - Spring security / [PR#16216](https://github.com/spring-projects/spring-security/pull/16216)
+
+- **[백엔드 기술 아티클 스터디](https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c)**
+  - 2023.08 ~ 진행중 / 주 1~2회
+
+- **[빅데이터 기반 지능형SW 및 MLOps 개발자 양성 과정](https://inthiswork.com/archives/105995)**
+  - 플레이데이터(encore) / 2022.07~2022.12
+
+## **Certificate**
+
+- **리눅스마스터 2급** \| KAIT / 2024.10
+- **Certified Cloud Practitioner (CCP)** \| AWS / 2024.08
+- **SQLD** \| 한국데이터산업진흥원 / 2022.12
