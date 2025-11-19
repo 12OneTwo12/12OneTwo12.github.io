@@ -108,14 +108,14 @@ params:
     type: giscus
     giscus:
       repo: "12OneTwo12/12OneTwo12.github.io"
-      repoId: "R_kgDONbx_cg"  # https://giscus.app에서 확인 필요
-      category: "General"
-      categoryId: "DIC_kwDONbx_cs4Cl6qm"  # https://giscus.app에서 확인 필요
+      repoId: "R_kgDOQX4X1g"  # https://giscus.app에서 확인 필요
+      category: "Comments"
+      categoryId: "DIC_kwDOQX4X1s4Cx9xk"  # https://giscus.app에서 확인 필요
       mapping: "pathname"
       strict: "0"
       reactionsEnabled: "1"
       emitMetadata: "0"
-      inputPosition: "bottom"
+      inputPosition: "top"
       theme: "preferred_color_scheme"
       lang: "ko"
 
