@@ -9,7 +9,7 @@ tags:
 date: '2024-12-02'
 ---
 
-In early 2024, there was an incident where I faced an unexpected problem. [(That article)](https://velog.io/@12onetwo12/%EC%9E%A5%EC%95%A0%ED%9A%8C%EA%B3%A0-DBCP-Connection-Leak-%ED%95%B4%EA%B2%B0-%EC%97%AC%EC%A0%95-feat.HikariCP-Dead-lock-QueryDSL)
+In early 2024, there was an incident where I faced an unexpected problem. [(That article)](/en/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis)
 I'll write a memoir about the situation at that time.
 
 HikariCP Deadlock problem occurred in code mixing JPA and MyBatis.
