@@ -18,3 +18,5 @@ Thumbs.db
 *.swo
 *~
 _vendor/
+
+hugo.exe
