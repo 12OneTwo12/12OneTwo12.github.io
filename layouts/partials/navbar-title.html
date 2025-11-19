@@ -11,6 +11,7 @@
     <img class="hx:mr-2 hx:hidden hx:dark:block" src="{{ $logoDarkPath | relURL }}" alt="{{ cond $displayTitle `Dark Logo` .Site.Title }}" height="{{ $logoHeight }}" width="{{ $logoWidth }}" />
   {{- end }}
   {{- if $displayTitle }}
-    <span class="hx:mr-2 hx:font-extrabold hx:inline hx:select-none" title="{{ .Site.Title }}">{{- .Site.Title | safeHTML -}}</span>
+    {{- $navbarTitle := .Site.Language.Params.navbarTitle | default .Site.Title }}
+    <span class="hx:mr-2 hx:font-extrabold hx:inline hx:select-none" title="{{ .Site.Title }}">{{- $navbarTitle | safeHTML -}}</span>
   {{- end }}
 </a>

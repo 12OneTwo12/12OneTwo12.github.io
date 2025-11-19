@@ -1,6 +1,6 @@
 ---
 title: Tech Blog
-toc: false
+layout: blog
 ---
 
 <div style="text-align: center; margin-top: 1em;">
