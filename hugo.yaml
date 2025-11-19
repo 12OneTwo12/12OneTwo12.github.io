@@ -85,6 +85,7 @@ params:
       displayTags: true
       sortBy: date
       sortOrder: desc
+      pagerSize: 20  # 페이지당 글 개수
     detail:
       displayUpdatedDate: true
       dateFormat: "2006년 1월 2일"
