@@ -1,0 +1,17 @@
+{{ $start := .Get "start" }}
+{{ $startDate := time.AsTime $start }}
+{{ $now := now }}
+{{ $diff := $now.Sub $startDate }}
+
+{{ $days := div (int $diff.Hours) 24 }}
+{{ $years := div $days 365 }}
+{{ $months := div (mod $days 365) 30 }}
+
+{{ $duration := "" }}
+{{ if gt $years 0 }}
+  {{ $duration = printf "%d년 %d개월" $years $months }}
+{{ else }}
+  {{ $duration = printf "%d개월" $months }}
+{{ end }}
+
+{{ $duration }}
