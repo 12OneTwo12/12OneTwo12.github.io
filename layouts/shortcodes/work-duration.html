@@ -8,10 +8,25 @@
 {{ $months := div (mod $days 365) 30 }}
 
 {{ $duration := "" }}
-{{ if gt $years 0 }}
-  {{ $duration = printf "%d년 %d개월" $years $months }}
+
+{{ if eq .Page.Lang "en" }}
+  {{ if gt $years 0 }}
+    {{ $duration = printf "%d years %d months" $years $months }}
+  {{ else }}
+    {{ $duration = printf "%d months" $months }}
+  {{ end }}
+{{ else if eq .Page.Lang "ko" }}
+  {{ if gt $years 0 }}
+    {{ $duration = printf "%d년 %d개월" $years $months }}
+  {{ else }}
+    {{ $duration = printf "%d개월" $months }}
+  {{ end }}
 {{ else }}
-  {{ $duration = printf "%d개월" $months }}
+  {{ if gt $years 0 }}
+    {{ $duration = printf "%d years %d months" $years $months }} {{/* Default to English if language not explicitly handled */}}
+  {{ else }}
+    {{ $duration = printf "%d months" $months }} {{/* Default to English if language not explicitly handled */}}
+  {{ end }}
 {{ end }}
 
 {{ $duration }}
