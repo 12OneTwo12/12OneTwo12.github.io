@@ -61,6 +61,9 @@ menu:
 params:
   description: Modern, fast and batteries-included Hugo theme for technical blog
 
+  # 외부 링크 화살표 아이콘 표시
+  externalLinkDecoration: true
+
   # 배너 설정 (다국어 메시지는 i18n/ko.yaml, i18n/en.yaml에서 관리)
   banner:
     key: 'welcome-2025-11'
