@@ -3,12 +3,10 @@ title: Tech Blog
 layout: blog
 ---
 
-<div style="text-align: center; margin-top: 1em;">
 {{< hextra/hero-badge link="index.xml" >}}
-  <span>Category</span>
-  {{< icon name="book-open" attributes="height=14" >}}
+<span>Category</span>
+{{< icon name="book-open" attributes="height=14" >}}
 {{< /hextra/hero-badge >}}
-</div>
 
 {{< cards >}}
     {{< card link="/en/blog/architecture" title="Architecture & Design" icon="cube" >}}
