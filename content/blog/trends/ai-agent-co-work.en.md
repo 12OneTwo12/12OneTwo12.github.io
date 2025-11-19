@@ -76,7 +76,7 @@ No, the expression "might come" seems wrong, it's definitely coming.
 
 I felt like I got hit hard in the head with such thoughts.
 
-And I recalled contents from Toby's meetup I attended recently in July 2025 ["31-Year Developer's Message on How to Live as a Developer in the AI Era"](/en/blog/reflection/how-to-live-as-a-developer-in-the-ai-era).
+And I recalled contents from Toby's meetup I attended recently in July 2025 ["31-Year Developer's Message on How to Live as a Developer in the AI Era"]({{< relref "/blog/reflection/how-to-live-as-a-developer-in-the-ai-era" >}}).
 
 - **Developers are no longer a fixed profession but will become a fluid concept continuously newly defined together with AI**
 - **Ability to collaborate with AI will become core developer competency**
@@ -494,6 +494,6 @@ I think I've barely started now.
 ---
 
 ### References
-- [Toby's Meetup Report - 31-Year Developer's Message on How to Live as a Developer in the AI Era](/en/blog/reflection/how-to-live-as-a-developer-in-the-ai-era)
+- [Toby's Meetup Report - 31-Year Developer's Message on How to Live as a Developer in the AI Era]({{< relref "/blog/reflection/how-to-live-as-a-developer-in-the-ai-era" >}})
 - [My Side Project Proceeding with AI Collaboration - GrowSnap](https://github.com/12OneTwo12/grow-snap)
 - [AgentCoder: Multiagent-Code Generation with Iterative Testing and Optimisation (2024)](https://arxiv.org/html/2312.13010v2) - Multi-agent cross-verification effect research

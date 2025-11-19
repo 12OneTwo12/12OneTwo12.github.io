@@ -32,7 +32,7 @@ Problem occurs → User CS report → Problem recognition → Cause identificati
 
 The biggest problem with this process was that **we could only recognize problems when users experienced inconvenience and directly informed us through CS**. However, users who actually inquire through CS are only a tiny fraction of all problem experiencers.
 
-Although I've covered this aspect once in [Absence of Naming Conventions Leads to Failures](/en/blog/culture/naming-convention), I'll mention it again because it's a part I consider extremely important.
+Although I've covered this aspect once in [Absence of Naming Conventions Leads to Failures]({{< relref "/blog/culture/naming-convention" >}}), I'll mention it again because it's a part I consider extremely important.
 
 What do you do when you're using an app and a strange message appears and the feature you want doesn't work? Do you often contact customer service to explain? Or do you more often say **"Damn!!"** and close the app?
 
@@ -339,7 +339,7 @@ Now the development team can recognize and respond to problems before users inqu
 
 After building the monitoring system, we could discover and solve several problems we couldn't find before. Among them, a representative case was an exception that occurred in the 'monthly rent' search function.
 
-This problem was due to naming convention inconsistency, where Service A defined monthly rent as 'monthly', while Service B and its connected database defined it as 'rent'. The problem didn't stop at simple naming inconsistency. Among the database procedure parameters, the 'transaction type' field had limited string length (VARCHAR(5)), and 'monthly' (7 characters) exceeded this limit, causing exceptions. [(Related article about this case - Absence of Naming Conventions Leads to Failures.)](/en/blog/culture/naming-convention)
+This problem was due to naming convention inconsistency, where Service A defined monthly rent as 'monthly', while Service B and its connected database defined it as 'rent'. The problem didn't stop at simple naming inconsistency. Among the database procedure parameters, the 'transaction type' field had limited string length (VARCHAR(5)), and 'monthly' (7 characters) exceeded this limit, causing exceptions. [(Related article about this case - Absence of Naming Conventions Leads to Failures.)]({{< relref "/blog/culture/naming-convention" >}})
 
 ![Exception log](https://velog.velcdn.com/images/12onetwo12/post/05ae0054-9512-41ed-b8e8-a06aca12b733/image.png)
 

@@ -290,7 +290,7 @@ startupProbe:
   failureThreshold: 24  # 최대 2분 대기
 ```
 
-자세한 내용은 [블로그 포스트](/blog/jvm-warmup-startup-probe)를 참고하세요.
+자세한 내용은 [블로그 포스트]({{< relref "/blog/backend/performance/k8s-jvm-warm-up" >}})를 참고하세요.
 
 ## 리소스 최적화
 

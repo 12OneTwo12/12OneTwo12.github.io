@@ -9,7 +9,7 @@ tags:
 date: '2024-12-02'
 ---
 
-In early 2024, there was an incident where I faced an unexpected problem. [(That article)](/en/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis)
+In early 2024, there was an incident where I faced an unexpected problem. [(That article)]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
 I'll write a memoir about the situation at that time.
 
 HikariCP Deadlock problem occurred in code mixing JPA and MyBatis.
