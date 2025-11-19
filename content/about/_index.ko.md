@@ -7,7 +7,7 @@ toc: true
 레거시 시스템을 성공적으로 현대화하고 확장성 있는 클라우드 네이티브 인프라를 구축한 경험을 보유한 백엔드 개발자, 정정일입니다.
 
 현재 부동산 중개 플랫폼에서 Java/Kotlin, Spring 기반 백엔드 시스템을 개발하고 운영하며 다음과 같은 질문을 항상 고민합니다.
-> "우리 서비스에 지금 무엇이 가장 필요할까? 팀에 기여하기 위해 나는 무엇을 할 수 있을까?"
+> "우리 서비스에 지금 무엇이 가장 필요할까? 팀에 기여하기 위해 나는 무엇을 할 수 있을까?" <br>
 > "문제를 해결하는 다양한 방법 중 우리 팀에 가장 적합한 선택은 무엇일까?"
 
 3년간의 영업직 경험을 바탕으로 사람들과 소통하고 협업하는 것을 즐깁니다. 어제보다 오늘, 오늘보다 내일 더 성장하기 위해 노력하며 효율적인 문제 해결을 위해 끊임없이 고민합니다.
@@ -27,8 +27,13 @@ toc: true
 
 ## **Work Experience**
 
-### **부톡㈜** | AI기반과 BigData를 활용한 부동산 중개 플랫폼
+### **부톡㈜**
+> AI기반과 BigData를 활용한 부동산 중개 플랫폼 <br>
 >*2025.03 ~ Present ({{< work-duration start="2025-03-01" >}})* | Dev. Team - Back-end Engineer
+
+{{< callout type="info" icon="code" >}}
+**[주요 사용 기술]**: `Kotlin` `Spring Cloud` `Kubernetes` `ArgoCD` `Opentelemetry` `Grafana LGTM Stack` `Redis` `MySQL` `Manticore Search`
+{{< /callout >}}
 
 {{% details title="**모놀리식 아키텍쳐 → MSA 전환 설계 참여 및 구현**" %}}
 - **프로젝트 개요**: Java Servlet 레거시 모놀리식 아키텍처 서비스를 [**Kotlin/Spring Cloud 기반 MSA로 무중단 전환**](/ko/blog/architecture/is-gradual-msa-transition-an-illusion)하며 마이그레이션한 프로젝트
@@ -94,8 +99,13 @@ toc: true
 
 ---
 
-### **㈜헬로핀테크** | 투자, 대출 연계 P2P 온라인투자연계 금융플랫폼 스타트업으로 누적대출액 2조 5,137억원 달성
+### **㈜헬로핀테크**
+>투자, 대출 연계 P2P 온라인투자연계 금융플랫폼 스타트업으로 누적대출액 2조 5,137억원 달성 <br>
 >*2023.03 ~ 2025.03 (2년)* | 개발팀 - 사원
+
+{{< callout type="info" icon="code" >}}
+**[주요 사용 기술]**: `Java` `Spring Boot` `Spring Batch` `JPA` `QueryDSL` `Redis` `MySQL` `Kubernetes` `ELK Stack`
+{{< /callout >}}
 
 {{% details title="**정산 리뉴얼 프로젝트**" %}}
 - **프로젝트 개요**: 여러 도메인으로 분리되어 있던 **정산 비즈니스 로직 통합 제안·설계·구축**
