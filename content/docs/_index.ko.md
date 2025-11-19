@@ -15,7 +15,6 @@ toc: false
 {{< cards >}}
   {{< card link="/ko/docs/development" title="Development" icon="code" >}}
   {{< card link="/ko/docs/infrastructure" title="Infrastructure" icon="cloud" >}}
-  {{< card link="/ko/docs/troubleshooting" title="Troubleshooting" icon="exclamation-circle" >}}
 {{< /cards >}}
 
 ---
