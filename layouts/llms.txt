@@ -1,0 +1,42 @@
+{{- $site := .Site -}}
+{{- $title := $site.Title -}}
+{{- $description := $site.Params.description -}}
+
+# {{ $title }}
+
+> {{ $description }}
+
+{{- define "llms-section-tree" -}}
+  {{- $section := .section -}}
+  {{- $level := .level | default 2 -}}
+
+  {{- if $section.Title }}
+
+{{ if eq $level 2 }}## {{ else if eq $level 3 }}### {{ else if eq $level 4 }}#### {{ else }}##### {{ end }}{{ $section.Title }}
+  {{- end }}
+
+  {{- range $section.Sections }}
+    {{- template "llms-section-tree" (dict "section" . "level" (add $level 1)) }}
+  {{- end }}
+
+  {{- range $section.RegularPages }}
+    {{- $summary := .Summary | plainify | truncate 100 }}
+- [{{ .Title }}]({{ .RelPermalink }}index.md): {{ $summary }}{{ with .Date }} - Published {{ .Format "2006-01-02" }}{{ end }}
+  {{- end }}
+{{- end -}}
+
+{{- range $site.Sections -}}
+  {{- template "llms-section-tree" (dict "section" .) -}}
+{{- end -}}
+
+{{- with where $site.RegularPages "Section" "" }}
+
+## Root Pages
+  {{- range . -}}
+    {{- $summary := .Summary | plainify | truncate 100 }}
+- [{{ .Title }}]({{ .RelPermalink }}index.md): {{ $summary }}{{ with .Date }} - Published {{ .Format "2006-01-02" }}{{ end }}
+  {{- end -}}
+{{- end }}
+
+---
+*Generated: {{ now.Format "2006-01-02 15:04:05" }} | Source: {{ $site.BaseURL }}*
