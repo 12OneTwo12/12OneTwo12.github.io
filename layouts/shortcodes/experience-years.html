@@ -1,0 +1,18 @@
+{{ $start := .Get "start" }}
+{{ $startDate := time.AsTime $start }}
+{{ $now := now }}
+{{ $diff := $now.Sub $startDate }}
+{{ $days := div (int $diff.Hours) 24.0 }}
+{{ $years := div $days 365.25 }}
+
+{{/* Ceil to the nearest 0.5 using basic arithmetic */}}
+{{ $multiplied := mul $years 2.0 }}
+{{ $truncated := int $multiplied }}
+{{ $ceiled := $truncated }}
+{{ if gt $multiplied (float $truncated) }}
+  {{ $ceiled = add $truncated 1 }}
+{{ end }}
+{{ $finalYears := div (float $ceiled) 2.0 }}
+
+{{ $formattedYears := printf "%.1f" $finalYears }}
+{{ $formattedYears }}
