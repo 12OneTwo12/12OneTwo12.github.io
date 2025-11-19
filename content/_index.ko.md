@@ -7,20 +7,13 @@ layout: hextra-home
 
 {{< hextra/hero-badge >}}
   <div class="hx:w-2 hx:h-2 hx:rounded-full hx:bg-primary-400"></div>
-  <span>Tech Blog</span>
-  {{< icon name="book-open" attributes="height=14" >}}
+  <span id="developer-experience-main"></span>
 {{< /hextra/hero-badge >}}
 
 <div class="hx:mt-8 hx:mb-2">
 {{< hextra/hero-headline >}}
-  안녕하세요!&nbsp;<br class="hx:sm:block hx:hidden" />꿈에서도 개발하는 백엔드 개발자 정정일입니다
+  안녕하세요!&nbsp;<br class="hx:sm:block hx:hidden" /> 백엔드 개발자 정정일입니다
 {{< /hextra/hero-headline >}}
-</div>
-
-<div style="text-align: left; margin-bottom: 1.5em;">
-  <div style="font-size: 0.75em; opacity: 0.7;">
-    <span id="developer-experience-main"></span>
-  </div>
 </div>
 
 <div class="hx:mb-12">

@@ -1,6 +1,6 @@
 ---
 title: Tech Blog
-toc: false
+layout: blog
 ---
 
 {{< hextra/hero-badge link="index.xml" >}}
