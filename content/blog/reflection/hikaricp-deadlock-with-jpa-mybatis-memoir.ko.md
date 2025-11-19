@@ -9,7 +9,7 @@ tags:
 date: '2024-12-02'
 ---
 
-2024년 초, 예상치 못한 문제와 마주한 사건이 있었습니다. [(해당 글)](/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis)
+2024년 초, 예상치 못한 문제와 마주한 사건이 있었습니다. [(해당 글)]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
 당시의 상황에 대한 회고록을 작성하려 합니다.
 
 JPA와 MyBatis를 혼용한 코드에서 HikariCP Deadlock 문제가 발생했는데요.

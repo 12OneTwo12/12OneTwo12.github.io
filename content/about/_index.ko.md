@@ -44,7 +44,7 @@ toc: true
 - #### **모놀리식 아키텍쳐 → MSA 전환 설계 참여 및 구현**
   **[핵심 성과]** 강결합 도메인 분리로 **신규 기능 추가 속도 2배 향상** 및 MSA 전환 성공
 {{% details title="**자세히 보기**" %}}
-- **프로젝트 개요**: Java Servlet 레거시 모놀리식 아키텍처 서비스를 [**Kotlin/Spring Cloud 기반 MSA로 무중단 전환**](/ko/blog/architecture/is-gradual-msa-transition-an-illusion)하며 마이그레이션한 프로젝트
+- **프로젝트 개요**: Java Servlet 레거시 모놀리식 아키텍처 서비스를 [**Kotlin/Spring Cloud 기반 MSA로 무중단 전환**]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})하며 마이그레이션한 프로젝트
 - **기간**: 2025.04 ~ 2025.09 (3명)
 - **[문제]**
   - 입사 당시 알림, 사용자 이벤트 등 느슨한 결합 도메인의 MSA 분리는 완료된 상태
@@ -66,7 +66,7 @@ toc: true
 - #### **Kubernetes 기반 인프라, 모니터링 시스템 구축 및 운영**
   **[핵심 성과]** Kubernetes 전환을 주도해 **고가용성, 확장성**을 확보하고, 모니터링 시스템을 구축해 **장애 인지 시간을 98% 단축**
 {{% details title="**자세히 보기**" %}}
-- **프로젝트 개요**: 단일 VM 기반에서 [**Kubernetes 기반으로 전환을 제안·설계·구축**](/ko/blog/infrastructure/docker-compose-to-k8s)하고 [**모니터링 시스템을 제안·설계·구축**](/ko/blog/infrastructure/building-a-monitoring-system)하여 고가용성, 운영 효율성을 확보한 프로젝트
+- **프로젝트 개요**: 단일 VM 기반에서 [**Kubernetes 기반으로 전환을 제안·설계·구축**]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})하고 [**모니터링 시스템을 제안·설계·구축**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}})하여 고가용성, 운영 효율성을 확보한 프로젝트
 - **기간**: 2025.04 ~ 2025.09 (1명)
 - **[문제]**
   - 단일 인스턴스 + Shell Script/Docker CLI 기반 배포 환경 → **단일 장애 지점(SPOF)**으로 인한 **서비스 신뢰성 저하, 서비스 확장 및 장애 복구 시 개발자 개입 필수**
@@ -90,7 +90,7 @@ toc: true
 - #### **온프레미스 → AWS 클라우드 무중단 전환**
   **[핵심 성과]** 서비스 중단 없이 **온프레미스에서 AWS 클라우드로 무중단 마이그레이션 성공**
 {{% details title="**자세히 보기**" %}}
-- **프로젝트 개요**: [**온프레미스 IDC에서 운영되던 서비스를 AWS 클라우드 환경으로 무중단 전환**](/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story)하며 안정성, 확장성 및 운영 효율성을 개선한 프로젝트
+- **프로젝트 개요**: [**온프레미스 IDC에서 운영되던 서비스를 AWS 클라우드 환경으로 무중단 전환**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})하며 안정성, 확장성 및 운영 효율성을 개선한 프로젝트
 - **기간**: 2025.07 ~ 2025.08 (2명)
 - **[문제]**
   - 온프레미스 환경에서 하드웨어 접촉 불량으로 인한 간헐적 서버 다운 이슈가 발생
@@ -130,7 +130,7 @@ toc: true
 - **[해결 및 역할]**
   - [**기존 아키텍처와 의존성을 분석**](https://www.notion.so/Analyzed-the-existing-As-Is-settlement-architecture-and-dependency-configurations-13fde4324e3d80878b38c17b3370231f?pvs=21)하고 **점진적 전환 전략을 설계**해 서비스 안정성을 확보
   - **Redisson 기반 분산 락**을 통해 Race Condition 문제 해결
-  - Git flow 전략을 제안 및 도입하여 [**형상 관리 체계화**](/ko/blog/culture/git-flow-introduction)
+  - Git flow 전략을 제안 및 도입하여 [**형상 관리 체계화**]({{< relref "/blog/culture/git-flow-introduction" >}})
 - **[성과]**
   - 시스템 복잡도 감소로 [**요구사항 반영 속도 평균 46.31% 향상**](https://www.notion.so/14ade4324e3d809b9af9ea4164ddd8cc?pvs=21) ( 4.06주 → 2.18주 )
   - 동시성 문제 해결로 정산 프로세스의 **신뢰성 및 안정성 향상**
@@ -149,20 +149,20 @@ toc: true
   - 비효율적인 서브쿼리와 인덱스 미활용 및 N+1 문제로 **서버 부하 증가**
   - 한 로직에서 **여러 도메인 로직 혼재**로 성능저하 (ex: 대출 승인 시 심사결과 저장, 문자 발송, 관리자 알림)
 - **[해결 및 역할]**
-  - [**HikariCP Dead Lock 탐방 및 원인 파악**](/ko/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir), [**JPA로의 일원화를 통해 해결**](/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis).
+  - [**HikariCP Dead Lock 탐방 및 원인 파악**]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}}), [**JPA로의 일원화를 통해 해결**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}}).
     - Connection pool 분리, 영속성 컨텍스트 Connection 반환 시점 변경을 고려하였으나 Mybatis 코드를 JPA로 변경하는게 이미 예정된 상태였기에 **JPA로의 일원화를 통해 해결**.
     - 문제가 발생한 로직을 우선적으로 수정, 변경 주에는 Pod 수를 늘려 부하 분산을 통해 DBCP의 Connection 고갈이 모두 점유되지 않도록 조치.
-  - [**DB Replication 복제지연 문제 해결**](/ko/blog/backend/troubleshooting/db-replication-lag)
+  - [**DB Replication 복제지연 문제 해결**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})
     - `**AbstractRoutingDataSource**와 **AOP**를 활용하여 DataSource를 동적으로 분리함으로써, 데이터 조회 시에는 Slave DB를, 변경 시에는 Master DB를 사용하도록 하여 Replication 지연으로 인한 데이터 불일치 문제를 해결
   - **성능 개선**
-    - [**Redis 기반 캐싱**](/ko/blog/backend/performance/look-aside-cache-api-perf)을 설계하고 구현해 API 응답 속도 개선
-    - **불필요한 서브쿼리 제거** 및 Join 사용, 인덱스 활용 및 재설정, 쿼리 튜닝 [**인덱스 최적화, Paging 시 커버링 인덱스 도입**](/ko/blog/architecture/jpa-sql-ideology-and-gap)
+    - [**Redis 기반 캐싱**]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}})을 설계하고 구현해 API 응답 속도 개선
+    - **불필요한 서브쿼리 제거** 및 Join 사용, 인덱스 활용 및 재설정, 쿼리 튜닝 [**인덱스 최적화, Paging 시 커버링 인덱스 도입**]({{< relref "/blog/architecture/jpa-sql-ideology-and-gap" >}})
     - **이벤트 기반 비동기 처리** 제안 및 도입으로 성능 최적화 및 관심사 분리
 - **[성과]**
   - **복제 지연 해결**을 통한 사용자 **신뢰도 향상**
   - **HikariCP Dead Lock 문제 해결**을 통한 **서버 안정성 향상**
   - SQL 튜닝을 통해 주요 [**API 성능 87.66% 개선**](https://www.notion.so/13fde4324e3d80baaa2be6d9dfd173ee?pvs=21) ( 평균 :  10.295초 → 1.27초 )
-  - Redis 기반 캐싱을 통한 API [**응답 속도 74.69% 개선**](/ko/blog/backend/performance/look-aside-cache-api-perf) ( 평균 : 5.132초 → 1.299초 )
+  - Redis 기반 캐싱을 통한 API [**응답 속도 74.69% 개선**]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}) ( 평균 : 5.132초 → 1.299초 )
   - 이벤트 처리를 통한관심사 분리로 시스템의 **유지보수성 및 성능 향상**
 - **[주요 기술]**: `Spring Boot 2.6.7`, `Spring Security`, `Java 11`, `JPA`, `Mybatis`, `Thymeleaf`
 {{% /details %}}
@@ -176,10 +176,10 @@ toc: true
   - PHP와 Crontab 기반으로 구축되어 관리가 어려웠으며, Spring Batch로 이전하는 과정에서 **Job 동시 실행 시 Deadlock 문제**가 발생
   - **Tasklet 방식**으로 대량 데이터 처리 시 성능 저하 및 데이터 정합성 문제 발생
 - **[해결 및 역할]**
-  - Spring Batch Metadata Table [**Deadlock 원인 파악 및 문제 해결**](/ko/blog/backend/troubleshooting/spring-batch-job-deadlock)
+  - Spring Batch Metadata Table [**Deadlock 원인 파악 및 문제 해결**]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
     - 여러 Job 동시 실행 금지, Spring Batch 버전 업 (Java, Spring Boot, Spring Batch 전체 버전업 필요로 반려), **Metadata Table 관련 Isolation Level 변경** 방법등을 고려
     - Job 동시 실행 금지는 비현실적이라 반려, Spring Batch 버전 업의 경우 서버 버전상 Java, Spring Boot, Spring Batch 전체 버전업 필요로 반려하여 **Metadata Table 관련 Isolation Level 변경하여 해결**
-  - 대량 데이터 처리 성능을 개선하기 위해 [**Chunk 기반 처리 및 Partitioning 방식 도입**](/ko/blog/backend/performance/spring-batch-tasklet-to-chunk)
+  - 대량 데이터 처리 성능을 개선하기 위해 [**Chunk 기반 처리 및 Partitioning 방식 도입**]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}})
     - Tasklet 방식의 단점을 보완해 대량 데이터 처리 성능 최적화
     - 배치 성능을 기존 13분에서 5분으로 대폭 개선
 - **[성과]**

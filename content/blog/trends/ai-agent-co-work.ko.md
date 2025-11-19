@@ -76,7 +76,7 @@ GitHub Copilot, ChatGPT, Claude Code... 이미 많은 개발자들이 사용하�
 
 이런 생각에 머리를 한대 크게 맞은 것 같았습니다.
 
-그리고 얼마 전 2025년 7월에 참관했던 토비님 밋업 ["31년차 개발자가 전하는 AI시대, 개발자로 살아가는 법"](/ko/blog/reflection/how-to-live-as-a-developer-in-the-ai-era)의 내용이 다시 떠올랐습니다.
+그리고 얼마 전 2025년 7월에 참관했던 토비님 밋업 ["31년차 개발자가 전하는 AI시대, 개발자로 살아가는 법"]({{< relref "/blog/reflection/how-to-live-as-a-developer-in-the-ai-era" >}})의 내용이 다시 떠올랐습니다.
 
 - **개발자는 더 이상 고정된 직능이 아니라 AI와 함께 계속 새롭게 정의될 유동적인 개념이 될 것**
 - **AI와 협업하는 능력이 개발자의 핵심 역량이 될 것**
@@ -494,6 +494,6 @@ AI를 단순 어시스트가 아닌 **학습 파트너이자 협업 도구**로 
 ---
 
 ### 참고 자료
-- [토비님 밋업 참관기 - 31년차 개발자가 전하는 AI시대 개발자로 살아가는 법](/ko/blog/reflection/how-to-live-as-a-developer-in-the-ai-era)
+- [토비님 밋업 참관기 - 31년차 개발자가 전하는 AI시대 개발자로 살아가는 법]({{< relref "/blog/reflection/how-to-live-as-a-developer-in-the-ai-era" >}})
 - [AI와 협업으로 진행하는 제 사이드 프로젝트 - GrowSnap](https://github.com/12OneTwo12/grow-snap)
 - [AgentCoder: Multiagent-Code Generation with Iterative Testing and Optimisation (2024)](https://arxiv.org/html/2312.13010v2) - Multi-agent 교차검증 효과 연구

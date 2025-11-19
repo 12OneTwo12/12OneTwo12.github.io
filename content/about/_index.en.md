@@ -44,7 +44,7 @@ This blog is a record of my struggles and growth. Rather than glamorous success 
 - #### **Participated in Design and Implementation of Monolithic Architecture → MSA Transition**
   **[Key Achievement]** **Doubled the speed of new feature additions** by decoupling tightly coupled domains and successfully transitioning to MSA
 {{% details title="**See Details**" %}}
-- **Project Overview**: A project that migrated a Java Servlet legacy monolithic architecture service to a [**Kotlin/Spring Cloud-based MSA with zero downtime**](/en/blog/architecture/is-gradual-msa-transition-an-illusion)
+- **Project Overview**: A project that migrated a Java Servlet legacy monolithic architecture service to a [**Kotlin/Spring Cloud-based MSA with zero downtime**]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
 - **Duration**: 2025.04 ~ 2025.09 (3 members)
 - **[Problem]**
   - At the time of joining, MSA separation of loosely coupled domains such as notifications and user events was complete.
@@ -66,7 +66,7 @@ This blog is a record of my struggles and growth. Rather than glamorous success 
 - #### **Built and Operated Kubernetes-based Infrastructure and Monitoring System**
   **[Key Achievement]** Led Kubernetes transition to secure **high availability and scalability**, and built a monitoring system to **reduce incident detection time by 98%**.
 {{% details title="**See Details**" %}}
-- **Project Overview**: A project that [**proposed, designed, and built a Kubernetes-based transition**](/en/blog/infrastructure/docker-compose-to-k8s) from a single VM environment and [**proposed, designed, and built a monitoring system**](/en/blog/infrastructure/building-a-monitoring-system) to secure high availability and operational efficiency.
+- **Project Overview**: A project that [**proposed, designed, and built a Kubernetes-based transition**]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) from a single VM environment and [**proposed, designed, and built a monitoring system**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}) to secure high availability and operational efficiency.
 - **Duration**: 2025.04 ~ 2025.09 (1 member)
 - **[Problem]**
   - Single instance + Shell Script/Docker CLI based deployment environment → **Single Point of Failure (SPOF)** leading to **decreased service reliability, requiring developer intervention for service expansion and disaster recovery**.
@@ -90,7 +90,7 @@ This blog is a record of my struggles and growth. Rather than glamorous success 
 - #### **On-premise → AWS Cloud Zero-Downtime Transition**
   **[Key Achievement]** Successfully migrated from **on-premise to AWS cloud with zero downtime** without service interruption.
 {{% details title="**See Details**" %}}
-- **Project Overview**: A project that [**migrated services operating in an on-premise IDC to an AWS cloud environment with zero downtime**](/en/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story) to improve stability, scalability, and operational efficiency.
+- **Project Overview**: A project that [**migrated services operating in an on-premise IDC to an AWS cloud environment with zero downtime**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}}) to improve stability, scalability, and operational efficiency.
 - **Duration**: 2025.07 ~ 2025.08 (2 members)
 - **[Problem]**
   - Intermittent server downtime issues due to hardware contact failures in the on-premise environment.
@@ -130,7 +130,7 @@ This blog is a record of my struggles and growth. Rather than glamorous success 
 - **[Solution & Role]**
   - [**Analyzed existing architecture and dependencies**](https://www.notion.so/Analyzed-the-existing-As-Is-settlement-architecture-and-dependency-configurations-13fde4324e3d80878b38c17b3370231f?pvs=21) and **designed a gradual transition strategy** to secure service stability.
   - Resolved Race Condition issues through **Redisson-based distributed lock**.
-  - Proposed and introduced Git flow strategy to [**systematize configuration management**](/en/blog/culture/git-flow-introduction)
+  - Proposed and introduced Git flow strategy to [**systematize configuration management**]({{< relref "/blog/culture/git-flow-introduction" >}})
 - **[Achievements]**
   - **Reduced system complexity** leading to an [**average 46.31% improvement in requirement reflection speed**](https://www.notion.so/14ade4324e3d809b9af9ea4164ddd8cc?pvs=21) (4.06 weeks → 2.18 weeks).
   - **Improved reliability and stability** of settlement process by resolving concurrency issues.
@@ -149,14 +149,14 @@ This blog is a record of my struggles and growth. Rather than glamorous success 
   - **Increased server load** due to inefficient subqueries, unutilized indexes, and N+1 problems.
   - **Performance degradation** due to mixed domain logic in a single logic (e.g., saving evaluation results, sending SMS, administrator notifications when approving a loan).
 - **[Solution & Role]**
-  - [**Explored and identified the cause of HikariCP Deadlock**](/en/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir), [**resolved through unification to JPA**](/en/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis).
+  - [**Explored and identified the cause of HikariCP Deadlock**]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}}), [**resolved through unification to JPA**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}}).
     - Considered separating connection pools, changing connection return timing of persistence context, but since Mybatis code was already scheduled to be changed to JPA, **resolved through unification to JPA**.
     - Prioritized fixing the problematic logic, and during the change week, increased the number of Pods to distribute load to prevent DBCP connection exhaustion.
-  - [**Resolved DB Replication lag issue**](/en/blog/backend/troubleshooting/db-replication-lag)
+  - [**Resolved DB Replication lag issue**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})
     - By dynamically separating DataSources using **`AbstractRoutingDataSource` and AOP**, the system was configured to use Slave DB for data retrieval and Master DB for changes, resolving data inconsistency issues caused by Replication lag.
   - **Performance Improvement**
-    - Designed and implemented [**Redis-based caching**](/en/blog/backend/performance/look-aside-cache-api-perf) to improve API response speed.
-    - **Removed unnecessary subqueries** and used Joins, utilized and reconfigured indexes, query tuning ([**index optimization, introduction of covering index for paging**](/en/blog/architecture/jpa-sql-ideology-and-gap))
+    - Designed and implemented [**Redis-based caching**]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}) to improve API response speed.
+    - **Removed unnecessary subqueries** and used Joins, utilized and reconfigured indexes, query tuning ([**index optimization, introduction of covering index for paging**]({{< relref "/blog/architecture/jpa-sql-ideology-and-gap" >}}))
     - Proposed and introduced **event-based asynchronous processing** to optimize performance and separate concerns.
 - **[Achievements]**
   - **Improved user reliability** by resolving replication lag.
@@ -176,10 +176,10 @@ This blog is a record of my struggles and growth. Rather than glamorous success 
   - Built with PHP and Crontab, making management difficult, and **Deadlock issues occurred when Job ran concurrently** during the transition to Spring Batch.
   - **Performance degradation and data consistency issues** when processing large amounts of data with **Tasklet method**.
 - **[Solution & Role]**
-  - [**Identified and resolved Spring Batch Metadata Table Deadlock cause**](/en/blog/backend/troubleshooting/spring-batch-job-deadlock)
+  - [**Identified and resolved Spring Batch Metadata Table Deadlock cause**]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
     - Considered methods such as prohibiting concurrent execution of multiple Jobs, upgrading Spring Batch version (rejected due to requiring full Java, Spring Boot, Spring Batch version upgrade), and **changing Isolation Level related to Metadata Table**.
     - Prohibiting concurrent Job execution was unrealistic and rejected, Spring Batch version upgrade was rejected due to requiring full Java, Spring Boot, Spring Batch version upgrade, so **resolved by changing Isolation Level related to Metadata Table**.
-  - [**Introduced Chunk-based processing and Partitioning method**](/en/blog/backend/performance/spring-batch-tasklet-to-chunk) to improve large data processing performance.
+  - [**Introduced Chunk-based processing and Partitioning method**]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) to improve large data processing performance.
     - Optimized large data processing performance by compensating for the shortcomings of the Tasklet method.
     - Significantly improved batch performance from 13 minutes to 5 minutes.
 - **[Achievements]**

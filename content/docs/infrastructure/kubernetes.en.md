@@ -290,7 +290,7 @@ startupProbe:
   failureThreshold: 24  # Wait up to 2 minutes
 ```
 
-For more details, see the [blog post](/blog/jvm-warmup-startup-probe).
+For more details, see the [blog post]({{< relref "/blog/backend/performance/k8s-jvm-warm-up" >}}).
 
 ## Resource Optimization
 
