@@ -138,20 +138,8 @@
 {{- define "sidebar-footer" -}}
   {{- $page := .page -}}
 
-  {{/* 블로그 섹션 체크 - 더 넓은 조건 */}}
-  {{- $showRecentPosts := false -}}
-  {{- if $page -}}
-    {{- $relPath := $page.RelPermalink -}}
-    {{- $section := $page.Section -}}
-    {{- $firstSection := "" -}}
-    {{- with $page.FirstSection -}}
-      {{- $firstSection = .Section -}}
-    {{- end -}}
-
-    {{- if or (strings.Contains $relPath "/blog") (eq $section "blog") (eq $firstSection "blog") -}}
-      {{- $showRecentPosts = true -}}
-    {{- end -}}
-  {{- end -}}
+  {{/* 모든 페이지에서 최신 글 표시 */}}
+  {{- $showRecentPosts := true -}}
 
   {{- if $showRecentPosts -}}
     {{- $recentPosts := where site.RegularPages "Section" "blog" | first 5 -}}
