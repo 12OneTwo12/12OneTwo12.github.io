@@ -7,9 +7,7 @@ weight: 5
 
 <div style="margin-top: 3em;">
 {{< hextra/hero-badge >}}
-  <span>최신 글</span>
-  {{< icon name="sparkles" attributes="height=14" >}}
+  <span>모든 글</span>
+  {{< icon name="book-open" attributes="height=14" >}}
 {{< /hextra/hero-badge >}}
 </div>
-
-{{< recent-posts limit=10 >}}

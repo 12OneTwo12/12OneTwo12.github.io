@@ -56,7 +56,24 @@
           {{ if .Title }}<h1 class="hx:mt-2 hx:text-4xl hx:font-bold hx:tracking-tight hx:text-slate-900 hx:dark:text-slate-100">{{ .Title }}</h1>{{ end }}
           <div class="content">{{ .Content }}</div>
 
-          {{- $pages := partial "utils/sort-pages" (dict "page" . "by" site.Params.blog.list.sortBy "order" site.Params.blog.list.sortOrder) -}}
+          {{/* 현재 섹션의 모든 글 + 하위 섹션의 글들 가져오기 */}}
+          {{- $pages := .RegularPages -}}
+
+          {{/* 현재 섹션에 글이 없으면 하위 섹션의 글들을 가져옴 */}}
+          {{- if eq (len $pages) 0 -}}
+            {{- $allPages := slice -}}
+            {{- range .Sections -}}
+              {{- $allPages = $allPages | append .RegularPages -}}
+              {{/* 2단계 하위 섹션도 체크 (backend/troubleshooting 등) */}}
+              {{- range .Sections -}}
+                {{- $allPages = $allPages | append .RegularPages -}}
+              {{- end -}}
+            {{- end -}}
+            {{- $pages = $allPages -}}
+          {{- end -}}
+
+          {{/* 날짜 역순 정렬 */}}
+          {{- $pages = $pages.ByDate.Reverse -}}
           {{- $pagerSize := site.Params.blog.list.pagerSize | default 10 -}}
           {{- $paginator := .Paginate $pages $pagerSize -}}
 
