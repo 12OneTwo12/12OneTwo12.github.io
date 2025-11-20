@@ -1,6 +1,6 @@
 ---
 title: Infrastructure & DevOps
-weight: 2
+weight: 3
 ---
 
 Sharing experiences in infrastructure setup, migration, and monitoring.

@@ -1,6 +1,6 @@
 ---
 title: Architecture & Design
-weight: 3
+weight: 4
 ---
 
 시스템 아키텍처와 설계에 관한 의사결정과 경험을 공유합니다.
