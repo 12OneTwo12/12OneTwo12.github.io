@@ -1,6 +1,6 @@
 ---
 title: Architecture & Design
-weight: 3
+weight: 4
 ---
 
 Sharing system architecture and design decisions and experiences.

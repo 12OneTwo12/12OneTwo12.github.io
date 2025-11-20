@@ -63,17 +63,23 @@
           {{- if eq (len $pages) 0 -}}
             {{- $allPages := slice -}}
             {{- range .Sections -}}
-              {{- $allPages = $allPages | append .RegularPages -}}
+              {{- range .RegularPages -}}
+                {{- $allPages = $allPages | append . -}}
+              {{- end -}}
               {{/* 2단계 하위 섹션도 체크 (backend/troubleshooting 등) */}}
               {{- range .Sections -}}
-                {{- $allPages = $allPages | append .RegularPages -}}
+                {{- range .RegularPages -}}
+                  {{- $allPages = $allPages | append . -}}
+                {{- end -}}
               {{- end -}}
             {{- end -}}
             {{- $pages = $allPages -}}
           {{- end -}}
 
           {{/* 날짜 역순 정렬 */}}
-          {{- $pages = $pages.ByDate.Reverse -}}
+          {{- if $pages -}}
+            {{- $pages = sort $pages "Date" "desc" -}}
+          {{- end -}}
           {{- $pagerSize := site.Params.blog.list.pagerSize | default 10 -}}
           {{- $paginator := .Paginate $pages $pagerSize -}}
 

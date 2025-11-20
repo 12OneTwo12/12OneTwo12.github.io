@@ -1,6 +1,6 @@
 ---
 title: Development Culture
-weight: 4
+weight: 5
 ---
 
 Sharing experiences in team collaboration, process improvement, and onboarding.
