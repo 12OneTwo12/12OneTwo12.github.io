@@ -317,6 +317,269 @@ git rebase --continue
 git push origin feature/ISSUE-123 --force
 ```
 
+## Security
+
+### 1. .gitignore Configuration
+
+**Essential .gitignore settings to prevent committing sensitive information:**
+
+```bash
+# .gitignore
+
+# Environment variables and config files
+.env
+.env.local
+.env.*.local
+application-local.yml
+application-secret.yml
+
+# IDE settings (excluding team shared settings)
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build artifacts
+build/
+target/
+dist/
+*.jar
+*.war
+
+# Log files
+*.log
+logs/
+
+# Database files
+*.db
+*.sqlite
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Sensitive config files
+*-secret.yml
+*-credentials.json
+*.pem
+*.key
+```
+
+### 2. Credential Management
+
+```bash
+# ❌ BAD: Committing sensitive information
+git add .env
+git commit -m "feat: add environment variables"
+
+# ✅ GOOD: Add to .gitignore
+echo ".env" >> .gitignore
+git add .gitignore
+git commit -m "chore: add .env to gitignore"
+
+# Provide template file for sensitive information
+cp .env .env.example
+# Remove actual values from .env.example
+git add .env.example
+git commit -m "docs: add env example file"
+```
+
+### 3. Removing Already Committed Sensitive Information
+
+```bash
+# ❌ If already committed: Use git-filter-repo
+pip install git-filter-repo
+
+# Completely remove from history
+git filter-repo --path .env --invert-paths
+
+# Or use BFG Repo-Cleaner
+java -jar bfg.jar --delete-files .env
+
+# Force push (Caution: Must coordinate with team first)
+git push origin --force --all
+```
+
+### 4. Validate Sensitive Information with Pre-commit Hook
+
+```bash
+#!/bin/bash
+# .git/hooks/pre-commit
+
+# Check for sensitive patterns
+PATTERNS=(
+    "password\s*=\s*['\"][^'\"]+['\"]"
+    "api_key\s*=\s*['\"][^'\"]+['\"]"
+    "secret\s*=\s*['\"][^'\"]+['\"]"
+    "AWS_SECRET_ACCESS_KEY"
+    "PRIVATE_KEY"
+)
+
+for pattern in "${PATTERNS[@]}"; do
+    if git diff --cached | grep -qE "$pattern"; then
+        echo "Error: Potential sensitive information detected!"
+        echo "Pattern: $pattern"
+        exit 1
+    fi
+done
+
+echo "Pre-commit checks passed"
+```
+
+### 5. Enable GitHub Secret Scanning
+
+**GitHub automatically detects sensitive information:**
+- Settings → Security → Code security and analysis
+- Enable Secret scanning
+- Enable Push protection (recommended)
+
+## Collaboration
+
+### 1. Code Review Guide
+
+**Reviewer role:**
+
+```markdown
+## Code Review Checklist
+
+### Functionality
+- [ ] Does it accurately implement requirements?
+- [ ] Are edge cases considered?
+- [ ] Is error handling appropriate?
+
+### Code Quality
+- [ ] Does it follow coding conventions?
+- [ ] Is there no unnecessary code?
+- [ ] Are complex logic commented?
+
+### Security
+- [ ] Is input validation present?
+- [ ] Are there no SQL Injection vulnerabilities?
+- [ ] Is sensitive information not exposed?
+
+### Testing
+- [ ] Are unit tests written?
+- [ ] Is test coverage sufficient?
+- [ ] Do all existing tests pass?
+
+### Performance
+- [ ] Is there no performance degradation?
+- [ ] Are there no N+1 query problems?
+- [ ] Are there no unnecessary API calls?
+```
+
+**Reviewee role:**
+
+```bash
+# Self-Review before creating PR
+git diff origin/main...HEAD
+
+# Run all tests
+./gradlew test
+
+# Code formatting
+./gradlew ktlintFormat
+
+# Write clear description when creating PR
+# - What was changed
+# - Why it was changed
+# - How it was tested
+```
+
+### 2. Automatic Validation of Conventional Commits
+
+**commitlint configuration:**
+
+```bash
+# package.json
+{
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
+    "husky": "^8.0.0"
+  }
+}
+
+# commitlint.config.js
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'type-enum': [
+      2,
+      'always',
+      ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore', 'perf']
+    ],
+    'subject-max-length': [2, 'always', 50]
+  }
+}
+
+# Husky setup
+npx husky add .husky/commit-msg 'npx --no -- commitlint --edit "$1"'
+```
+
+### 3. Enhanced PR Template
+
+**.github/pull_request_template.md:**
+
+```markdown
+## Changes
+<!-- Briefly describe what was changed -->
+
+## Why
+<!-- Explain why this change is needed -->
+
+## Related Issues
+Closes #
+
+## Type of Change
+- [ ] New feature (feat)
+- [ ] Bug fix (fix)
+- [ ] Refactoring (refactor)
+- [ ] Documentation (docs)
+- [ ] Performance improvement (perf)
+- [ ] Breaking Change
+
+## Testing
+- [ ] Unit tests written
+- [ ] Integration tests written
+- [ ] Manual testing completed
+- [ ] Test scenarios:
+
+## Screenshots
+<!-- Attach screenshots if there are UI changes -->
+
+## Checklist
+- [ ] Follow coding conventions
+- [ ] Self-review completed
+- [ ] Documentation updated (if needed)
+- [ ] Breaking Change documented (if needed)
+
+## Additional Notes
+<!-- Additional information reviewers should know -->
+```
+
+### 4. Protected Branch Settings
+
+**Protect main/develop branches on GitHub:**
+
+```yaml
+# Settings → Branches → Branch protection rules
+
+main:
+  - Require pull request reviews before merging: ✅
+  - Require status checks to pass before merging: ✅
+    - CI/CD tests
+    - Code coverage
+    - Security scan
+  - Require conversation resolution before merging: ✅
+  - Require linear history: ✅
+  - Do not allow bypassing the above settings: ✅
+
+develop:
+  - Require pull request reviews before merging: ✅
+  - Require status checks to pass before merging: ✅
+```
+
 ## Forbidden Practices
 
 ### Strictly Forbidden
@@ -325,11 +588,14 @@ git push origin feature/ISSUE-123 --force
 - ❌ **Meaningless commit messages**: "update", "test", "asdf"
 - ❌ **Large binary file commits**: Use Git LFS
 - ❌ **Committing sensitive information**: passwords, API keys, tokens
+- ❌ **Merge without review**: Minimum 1 approval required
+- ❌ **Merge with failing tests**: Only merge after CI/CD passes
 
 ### Cautions
 - ⚠️ **WIP commits**: Must squash before PR
 - ⚠️ **Merge commits**: Use Squash and Merge or Rebase and Merge
 - ⚠️ **Modifying commit messages**: Don't modify already pushed commits
+- ⚠️ **Large PRs**: Consider splitting if over 500 lines (difficult to review)
 
 ## Checklist
 
@@ -340,9 +606,20 @@ git push origin feature/ISSUE-123 --force
 - [ ] Using imperative present tense?
 - [ ] Do tests pass?
 - [ ] No sensitive information included?
+- [ ] Is .gitignore properly configured?
 
 **Before PR:**
 - [ ] Are all commits in Conventional Commits format?
 - [ ] Have WIP commits been squashed?
 - [ ] Do all tests pass?
 - [ ] Is code review ready?
+- [ ] Is PR description clear? (what, why, how)
+- [ ] Have you completed self-review?
+- [ ] Have you updated related documentation?
+
+**During Code Review:**
+- [ ] Does functionality meet requirements?
+- [ ] Does it follow coding conventions?
+- [ ] Are there no security vulnerabilities?
+- [ ] Is test coverage sufficient?
+- [ ] Is there no performance degradation?

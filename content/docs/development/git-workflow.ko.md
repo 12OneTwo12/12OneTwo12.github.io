@@ -317,6 +317,269 @@ git rebase --continue
 git push origin feature/ISSUE-123 --force
 ```
 
+## 보안 (Security)
+
+### 1. .gitignore 설정
+
+**민감정보 커밋 방지를 위한 필수 .gitignore 설정:**
+
+```bash
+# .gitignore
+
+# 환경 변수 및 설정 파일
+.env
+.env.local
+.env.*.local
+application-local.yml
+application-secret.yml
+
+# IDE 설정 (팀 공유 설정 제외)
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 빌드 결과물
+build/
+target/
+dist/
+*.jar
+*.war
+
+# 로그 파일
+*.log
+logs/
+
+# 데이터베이스
+*.db
+*.sqlite
+
+# OS 파일
+.DS_Store
+Thumbs.db
+
+# 민감한 설정 파일
+*-secret.yml
+*-credentials.json
+*.pem
+*.key
+```
+
+### 2. Credential 관리
+
+```bash
+# ❌ BAD: 민감정보를 커밋
+git add .env
+git commit -m "feat: add environment variables"
+
+# ✅ GOOD: .gitignore에 추가
+echo ".env" >> .gitignore
+git add .gitignore
+git commit -m "chore: add .env to gitignore"
+
+# 민감정보 템플릿 파일 제공
+cp .env .env.example
+# .env.example에서 실제 값 제거
+git add .env.example
+git commit -m "docs: add env example file"
+```
+
+### 3. 이미 커밋된 민감정보 제거
+
+```bash
+# ❌ 이미 커밋된 경우: git-filter-repo 사용
+pip install git-filter-repo
+
+# 특정 파일 히스토리에서 완전 제거
+git filter-repo --path .env --invert-paths
+
+# 또는 BFG Repo-Cleaner 사용
+java -jar bfg.jar --delete-files .env
+
+# 강제 푸시 (주의: 팀원과 사전 협의 필수)
+git push origin --force --all
+```
+
+### 4. Pre-commit Hook으로 민감정보 검증
+
+```bash
+#!/bin/bash
+# .git/hooks/pre-commit
+
+# 민감한 패턴 검사
+PATTERNS=(
+    "password\s*=\s*['\"][^'\"]+['\"]"
+    "api_key\s*=\s*['\"][^'\"]+['\"]"
+    "secret\s*=\s*['\"][^'\"]+['\"]"
+    "AWS_SECRET_ACCESS_KEY"
+    "PRIVATE_KEY"
+)
+
+for pattern in "${PATTERNS[@]}"; do
+    if git diff --cached | grep -qE "$pattern"; then
+        echo "Error: Potential sensitive information detected!"
+        echo "Pattern: $pattern"
+        exit 1
+    fi
+done
+
+echo "Pre-commit checks passed"
+```
+
+### 5. GitHub Secret Scanning 활성화
+
+**GitHub에서 자동으로 민감정보를 탐지합니다:**
+- Settings → Security → Code security and analysis
+- Secret scanning 활성화
+- Push protection 활성화 (권장)
+
+## 협업 (Collaboration)
+
+### 1. Code Review 가이드
+
+**리뷰어 역할:**
+
+```markdown
+## 코드 리뷰 체크리스트
+
+### 기능 (Functionality)
+- [ ] 요구사항을 정확히 구현했는가?
+- [ ] Edge case를 고려했는가?
+- [ ] 에러 처리가 적절한가?
+
+### 코드 품질 (Code Quality)
+- [ ] 코딩 컨벤션을 준수했는가?
+- [ ] 불필요한 코드가 없는가?
+- [ ] 복잡한 로직에 주석이 있는가?
+
+### 보안 (Security)
+- [ ] 입력 검증이 있는가?
+- [ ] SQL Injection 취약점이 없는가?
+- [ ] 민감정보가 노출되지 않는가?
+
+### 테스트 (Testing)
+- [ ] 단위 테스트가 작성되었는가?
+- [ ] 테스트 커버리지가 충분한가?
+- [ ] 기존 테스트가 모두 통과하는가?
+
+### 성능 (Performance)
+- [ ] 성능 저하가 없는가?
+- [ ] N+1 쿼리 문제가 없는가?
+- [ ] 불필요한 API 호출이 없는가?
+```
+
+**리뷰 받는 사람:**
+
+```bash
+# PR 생성 전 Self-Review
+git diff origin/main...HEAD
+
+# 모든 테스트 실행
+./gradlew test
+
+# 코드 포맷팅
+./gradlew ktlintFormat
+
+# PR 생성 시 명확한 설명 작성
+# - 무엇을 변경했는지
+# - 왜 변경했는지
+# - 어떻게 테스트했는지
+```
+
+### 2. Conventional Commits 자동 검증
+
+**commitlint 설정:**
+
+```bash
+# package.json
+{
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
+    "husky": "^8.0.0"
+  }
+}
+
+# commitlint.config.js
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'type-enum': [
+      2,
+      'always',
+      ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore', 'perf']
+    ],
+    'subject-max-length': [2, 'always', 50]
+  }
+}
+
+# Husky 설정
+npx husky add .husky/commit-msg 'npx --no -- commitlint --edit "$1"'
+```
+
+### 3. PR 템플릿 개선
+
+**.github/pull_request_template.md:**
+
+```markdown
+## 변경 사항 (Changes)
+<!-- 무엇을 변경했는지 간단히 설명 -->
+
+## 변경 이유 (Why)
+<!-- 왜 이 변경이 필요한지 설명 -->
+
+## 관련 이슈 (Related Issues)
+Closes #
+
+## 변경 타입 (Type of Change)
+- [ ] 새로운 기능 (feat)
+- [ ] 버그 수정 (fix)
+- [ ] 리팩토링 (refactor)
+- [ ] 문서 수정 (docs)
+- [ ] 성능 개선 (perf)
+- [ ] Breaking Change
+
+## 테스트 (Testing)
+- [ ] 단위 테스트 작성
+- [ ] 통합 테스트 작성
+- [ ] 수동 테스트 완료
+- [ ] 테스트 시나리오:
+
+## 스크린샷 (Screenshots)
+<!-- UI 변경이 있는 경우 스크린샷 첨부 -->
+
+## 체크리스트 (Checklist)
+- [ ] 코딩 컨벤션 준수
+- [ ] 자체 리뷰 완료
+- [ ] 문서 업데이트 (필요시)
+- [ ] Breaking Change 문서화 (필요시)
+
+## 추가 정보 (Additional Notes)
+<!-- 리뷰어가 알아야 할 추가 정보 -->
+```
+
+### 4. Protected Branch 설정
+
+**GitHub에서 main/develop 브랜치 보호:**
+
+```yaml
+# Settings → Branches → Branch protection rules
+
+main:
+  - Require pull request reviews before merging: ✅
+  - Require status checks to pass before merging: ✅
+    - CI/CD tests
+    - Code coverage
+    - Security scan
+  - Require conversation resolution before merging: ✅
+  - Require linear history: ✅
+  - Do not allow bypassing the above settings: ✅
+
+develop:
+  - Require pull request reviews before merging: ✅
+  - Require status checks to pass before merging: ✅
+```
+
 ## 금지 사항
 
 ### 절대 금지
@@ -325,11 +588,14 @@ git push origin feature/ISSUE-123 --force
 - ❌ **의미 없는 커밋 메시지**: "수정", "테스트", "ㅁㄴㅇㄹ"
 - ❌ **대용량 바이너리 파일 커밋**: Git LFS 사용
 - ❌ **민감한 정보 커밋**: 비밀번호, API 키, 토큰
+- ❌ **리뷰 없이 병합**: 최소 1명 이상의 승인 필수
+- ❌ **테스트 실패 시 병합**: CI/CD 통과 후에만 병합
 
 ### 주의 사항
 - ⚠️ **WIP 커밋**: PR 전에 반드시 Squash
 - ⚠️ **Merge 커밋**: Squash and Merge 또는 Rebase and Merge 사용
 - ⚠️ **커밋 메시지 수정**: 이미 푸시한 커밋은 수정하지 않기
+- ⚠️ **대용량 PR**: 500줄 이상은 리뷰가 어려우므로 분할 고려
 
 ## 체크리스트
 
@@ -340,9 +606,20 @@ git push origin feature/ISSUE-123 --force
 - [ ] 명령형 현재 시제를 사용했는가?
 - [ ] 테스트가 통과하는가?
 - [ ] 민감한 정보가 포함되지 않았는가?
+- [ ] .gitignore가 적절히 설정되어 있는가?
 
 **PR 전 확인:**
 - [ ] 모든 커밋이 Conventional Commits 형식인가?
 - [ ] WIP 커밋을 Squash 했는가?
 - [ ] 테스트가 모두 통과하는가?
 - [ ] 코드 리뷰 준비가 완료되었는가?
+- [ ] PR 설명이 명확한가? (무엇을, 왜, 어떻게)
+- [ ] Self-review를 완료했는가?
+- [ ] 관련 문서를 업데이트했는가?
+
+**Code Review 시 확인:**
+- [ ] 기능이 요구사항을 충족하는가?
+- [ ] 코딩 컨벤션을 준수하는가?
+- [ ] 보안 취약점이 없는가?
+- [ ] 테스트 커버리지가 충분한가?
+- [ ] 성능 저하가 없는가?
