@@ -75,6 +75,7 @@
     {{- $items = where $items "Params.sidebar.exclude" "!=" true -}}
     {{- if eq $level 0 -}}
       {{- range $items.ByWeight }}
+        {{- if ne .Kind "page" }}
         {{- if .Params.sidebar.separator -}}
           <li class="[word-break:break-word] hx:mt-5 hx:mb-2 hx:px-2 hx:py-1.5 hx:text-sm hx:font-semibold hx:text-gray-900 hx:first:mt-0 hx:dark:text-gray-100">
             <span class="hx:cursor-default">{{ partial "utils/title" . }}</span>
@@ -91,11 +92,13 @@
             {{- template "sidebar-tree" dict "context" . "page" $page "pageURL" $pageURL "level" (add $level 1) "toc" $toc -}}
           </li>
         {{- end -}}
+        {{- end }}
       {{- end -}}
     {{- else -}}
       <div class="hx:ltr:pr-0 hx:overflow-hidden">
         <ul class='hx:relative hx:flex hx:flex-col hx:gap-1 hx:before:absolute hx:before:inset-y-1 hx:before:w-px hx:before:bg-gray-200 hx:before:content-[""] hx:ltr:ml-3 hx:ltr:pl-3 hx:ltr:before:left-0 hx:rtl:mr-3 hx:rtl:pr-3 hx:rtl:before:right-0 hx:dark:before:bg-neutral-800'>
           {{- range $items.ByWeight }}
+            {{- if ne .Kind "page" }}
             {{- $active := eq $pageURL .RelPermalink -}}
             {{- $shouldOpen := or (.Params.sidebar.open) (.IsAncestor $page) $active | default true }}
             {{- $linkTitle := partial "utils/title" . -}}
@@ -106,6 +109,7 @@
               {{- end }}
               {{ template "sidebar-tree" dict "context" . "page" $page "pageURL" $pageURL "level" (add $level 1) "toc" $toc }}
             </li>
+            {{- end }}
           {{- end -}}
         </ul>
       </div>

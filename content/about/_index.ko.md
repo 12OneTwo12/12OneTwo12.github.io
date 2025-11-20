@@ -18,6 +18,8 @@ toc: true
 
 이 블로그는 저의 삽질과 성장의 기록입니다. 화려한 성공담보다는, 문제 해결 과정에서 마주했던 고민과 '아하!'하는 깨달음의 순간들을 솔직하게 나누고 싶습니다. 여러분의 경험과 의견을 자유롭게 나눠주세요. 함께 배우고 성장하는 즐거움을 나누고 싶습니다.
 
+![GitHub 잔디](https://ghchart.rshah.org/12OneTwo12)
+
 ## **Skills**
 
 | Skill         | Experience | Description                                                                       |

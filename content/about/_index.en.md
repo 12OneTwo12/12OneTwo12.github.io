@@ -18,6 +18,8 @@ I believe these considerations act as the most solid compass to guide my technic
 
 This blog is a record of my struggles and growth. Rather than glamorous success stories, I want to honestly share the deep thought/worry I faced during problem-solving and the 'Aha!' moments of realization. Please feel free to share your experiences and opinions. I want to share the joy of learning and growing together.
 
+![GitHub 잔디](https://ghchart.rshah.org/12OneTwo12)
+
 ## **Skills**
 
 | Skill         | Experience | Description                                                                       |
