@@ -9,7 +9,7 @@ module:
 
 # 다국어 설정
 defaultContentLanguage: ko
-defaultContentLanguageInSubdir: true
+defaultContentLanguageInSubdir: false
 
 languages:
   ko:
