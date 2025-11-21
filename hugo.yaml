@@ -10,7 +10,6 @@ module:
 # 다국어 설정
 defaultContentLanguage: ko
 defaultContentLanguageInSubdir: true
-disableLanguages: []
 
 languages:
   ko:
