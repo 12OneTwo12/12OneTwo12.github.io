@@ -3,7 +3,7 @@ title: Tech Blog
 layout: blog
 ---
 
-{{< hextra/hero-badge link="index.xml" >}}
+{{< hextra/hero-badge link="feed.xml" >}}
   <span>주제</span>
   {{< icon name="book-open" attributes="height=14" >}}
 {{< /hextra/hero-badge >}}

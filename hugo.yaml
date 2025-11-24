@@ -157,6 +157,9 @@ outputFormats:
     baseName: index
     isPlainText: true
     permalinkable: true
+  RSS:
+    baseName: feed
+    mediaType: application/rss+xml
 
 # Output 형식 (RSS, llms, markdown 포함)
 outputs:
