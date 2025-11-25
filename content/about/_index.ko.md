@@ -22,8 +22,8 @@ toc: true
 
 ## **Skills**
 
-| Skill         | Experience | Description                                                                       |
-|:--------------|:----------:|:----------------------------------------------------------------------------------|
+| Skill         |                  Experience (Years)                  | Description                                                                       |
+|:--------------|:---------------------------------------------:|:----------------------------------------------------------------------------------|
 | Java          | `{{< experience-years start="2023-03-06" >}}` | MSA, Batch 등 다양한 환경에서의 백엔드 시스템 개발 경험                                       |
 | Kotlin        | `{{< experience-years start="2023-08-01" >}}` | Coroutine을 활용한 비동기 처리 및 MSA 환경에서의 메인 언어 활용 경험                          |
 | Spring Boot   | `{{< experience-years start="2023-03-06" >}}` | Spring Security, Actuator 등을 활용한 REST API 개발 및 운영 경험                          |
