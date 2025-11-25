@@ -22,8 +22,8 @@ This blog is a record of my struggles and growth. Rather than glamorous success 
 
 ## **Skills**
 
-| Skill         | Experience | Description                                                                       |
-|:--------------|:----------:|:----------------------------------------------------------------------------------|
+| Skill         |              Experience (Years)               | Description                                                                       |
+|:--------------|:---------------------------------------------:|:----------------------------------------------------------------------------------|
 | Java          | `{{< experience-years start="2023-03-06" >}}` | Experience developing backend systems in various environments such as MSA and Batch |
 | Kotlin        | `{{< experience-years start="2023-08-01" >}}` | Experience with asynchronous processing using Coroutines and as a primary language in MSA environments |
 | Spring Boot   | `{{< experience-years start="2023-03-06" >}}` | Experience developing and operating REST APIs using Spring Security, Actuator, etc. |
