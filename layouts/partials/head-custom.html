@@ -1,3 +1,12 @@
 {{ if .Permalink }}
 <link rel="canonical" href="{{ .Permalink }}" />
 {{ end }}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.querySelector('.hextra-banner-close-button');
+    if (btn) {
+      btn.setAttribute('aria-label', 'Close banner');
+    }
+  });
+</script>

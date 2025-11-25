@@ -3,7 +3,7 @@ title: Jeongil-Jeong's Tech Blog
 layout: hextra-home
 ---
 
-<div class="home-wrapper" style="padding-left: max(4rem, env(safe-area-inset-left)); padding-right: max(4rem, env(safe-area-inset-right));">
+<main class="home-wrapper" style="padding-left: max(4rem, env(safe-area-inset-left)); padding-right: max(4rem, env(safe-area-inset-right));">
 
 {{< hextra/hero-badge >}}
   <div class="hx:w-2 hx:h-2 hx:rounded-full hx:bg-primary-400"></div>
@@ -87,4 +87,4 @@ layout: hextra-home
 
 {{< recent-posts limit=5 includeAll=true >}}
 
-</div>
+</main>
