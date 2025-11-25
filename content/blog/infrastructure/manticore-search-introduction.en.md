@@ -1,5 +1,5 @@
 ---
-title: "Practical Experience Applying Manticore Search Engine"
+title: "What is Manticore Search? Configuration, Setup, and Practical Application"
 tags:
   - "manticore-search"
   - "search-engine"
@@ -9,47 +9,49 @@ tags:
 date: '2025-11-25'
 ---
 
-Hello, I am Jeongil, a backend developer working on a PropTech platform.
+Hello. I'm Jeongil Jeong, working as a backend developer at a PropTech platform.
 
-"We need a search function."
+"We need a search feature." When you hear this, one name probably pops into most developers' heads. That is **Elasticsearch**. Thanks to its powerful features and rich ecosystem, it seems to be considered the industry standard.
 
-When developers hear this, one name likely pops into their heads: **Elasticsearch**. Thanks to its powerful features and rich ecosystem, it's considered the industry standard.
+However, I don't think Elasticsearch is always the answer. Of course, it might sound obvious, but every technology must be chosen appropriately according to the situation and environment. In that sense, our concern was "Do we really need to set up Kibana and fight with Java heap memory just to add a single search feature?" Especially in a resource-constrained environment, we thought Elasticsearch's high resource requirements and complexity could be a significant burden.
 
-But is Elasticsearch always the right answer? "Do we really need to set up Kibana and battle with Java heap memory just to add a single search feature?" Our team had to ponder this question deeply.
-
-Especially in resource-constrained environments, the high resource requirements and complexity of Elasticsearch can be a significant burden.
-
-At the end of this deliberation, we discovered an open-source search engine called **Manticore Search**. This post records our realistic concerns, experiences, and the technical decision-making process of choosing Manticore Search as an alternative to Elasticsearch and applying it to a production environment.
+At the end of this deliberation, we discovered an open-source search engine called **Manticore Search**. This post is a record of the process of choosing Manticore Search as our search engine, the realistic concerns and experiences we faced while applying it to a production environment, and our technical choices.
 
 ## Manticore Search?
 
-Manticore Search is a high-performance open-source full-text search engine written in C++. However, it wasn't a completely new project, which was interesting.
+Manticore Search is a high-performance open-source full-text search engine written in C++. However, it was interesting that it wasn't a completely new project.
 
-Its roots lie in **Sphinx Search**, which gained popularity in the early 2000s alongside MySQL for its lightweight and fast performance. In 2016, when Sphinx development virtually ceased, most of the core development team left to fork the project in 2017, creating Manticore Search.
+Its roots lie in **Sphinx Search**, which gained popularity in the early 2000s alongside MySQL for its lightweight and fast performance. In 2016, when development of Sphinx effectively ceased, most of the core team left and forked the project in 2017 to create Manticore Search.
 
-What's intriguing is that while Sphinx later turned closed-source, Manticore Search has maintained its 100% open-source status and is developing much more actively. ([*Manticore Search: 3 years after forking from Sphinx*](https://manticoresearch.com/blog/manticore-search-3-years-after-forking-from-sphinx/))
+What's interesting is that while Sphinx later turned into closed source, Manticore Search has remained 100% open source and is developing much more actively. ([*Manticore Search: 3 years after forking from Sphinx*](https://manticoresearch.com/blog/manticore-search-3-years-after-forking-from-sphinx/))
 
 ## Realistic Reasons Why We Chose Manticore Search
 
-I believe technology selection is always a series of trade-offs. Here is the process our team went through to choose Manticore Search.
+I personally believe that technology selection is always a series of trade-offs. The process by which our team chose Manticore Search was as follows.
 
-### 1. Realistic Constraint: Server Costs and Resources
+### 1. Realistic Constraint: Server Cost Resources
 
-The biggest reason was **cost**. Elasticsearch is Java-based, and for a production environment, at least 8GB RAM and 2 vCPUs are recommended. This was excessive for our service scale and directly translated to infrastructure cost burdens.
+The biggest reason was the **cost** issue. It's one of the most representative reasons that cannot be left out when talking about realistic reasons.
 
-On the other hand, Manticore Search, written in C++, showed amazing efficiency, using only **about 40MB of RSS** for an empty instance. We are operating the feature stably in a Kubernetes environment with specs around `requests: cpu: 200m, memory: 512Mi`. This difference is negligible for large enterprises but significant for small teams like startups or SMEs.
+Elasticsearch is Java-based, and for a production environment, at least 8GB RAM and 2vCPU or more are recommended. It was excessive resources for our service scale, and we expected this to lead directly to infrastructure cost burdens.
 
-### 2. Performance: Does Light Mean Fast?
+On the other hand, I read documentation stating that Manticore Search, written in C++, shows amazing efficiency, using only **about 40MB of RSS on an empty instance**. Of course, the recommended specifications would require higher specs than that, but it seemed certain that it consumes fewer resources.
 
-Just as important as cost was **performance**. According to the latest benchmarks released by Manticore Search, they claim to be **several to tens of times** faster than Elasticsearch, especially in scenarios like log analysis. ([*Manticore Search vs Elasticsearch*](https://manticoresearch.com/comparison/vs-elasticsearch/))
+Currently, we are stably operating Manticore Search in a Kubernetes environment with specs around `requests: cpu: 200m, memory: 512Mi`.
 
-Of course, benchmarks are results from ideal environments. However, we expected that Manticore's architecture—written in C++ and using system resources directly without overheads like JVM Garbage Collection (GC)—would provide 'predictable and consistent performance'.
+The difference between `Cpu: 2vCPU, Memory: 8GB RAM` and `Cpu: 200m, Memory: 512Mi` is a level that cannot be ignored for small teams like startups or small to medium-sized projects.
 
-In fact, in our POI search environment, the **stability of showing consistently low latency under any circumstance** was more attractive than the 'how many times faster' metric. The absence of the 'stuttering' caused by Full GC, which can occasionally be experienced in Elasticsearch, gave us great psychological peace of mind.
+### 2. Performance: Does Lightness Lead to Speed?
+
+As important as cost was **performance**. According to the latest benchmarks released by Manticore Search, they claim to be **several times to tens of times** faster than Elasticsearch, especially in scenarios like log analysis. ([*Manticore Search vs Elasticsearch*](https://manticoresearch.com/comparison/vs-elasticsearch/))
+
+Of course, I think benchmarks are just results in an ideal environment. And since it was released by Manticore Search, we also have to take into account that the results are bound to be more positive.
+
+However, we expected that Manticore's architecture, written in C++ and using system resources directly without overhead like JVM garbage collection (GC), would provide 'predictable and consistent performance'.
 
 ### 3. Developer Productivity: SQL and HTTP
 
-One of Manticore Search's biggest attractions was its **native SQL support**. It is compatible with the MySQL protocol, allowing us to connect directly with existing MySQL clients and write search queries in familiar SQL.
+One of the great attractions of Manticore Search was its **native support for SQL**. Being compatible with the MySQL protocol, we could connect directly with existing MySQL clients and write search queries in familiar SQL.
 
 ```sql
 -- You can use SQL like this instead of Elasticsearch's JSON DSL.
@@ -58,16 +60,16 @@ SELECT * FROM poi WHERE MATCH('Gangnam Station');
 
 ![manticore-sql](https://previews.dropbox.com/p/thumb/AC0kqDEVDa7csrXvSzUz2xHBR9uymklifI1x9l8Tgfk6UocD5P_JW9MT2IEbGRZfXbK_g9WWqui_Rhe6QuNRP2AH3HvV9n7OA7Ayv8nZm7Gbr2dIBIqd7UIcJIa5LiznytDeRLZ2F6pMojG7b5LjlIgtsP1VBZ8Io6ZuZQI_aYjZYJjdqvlunbCM7dNhYzfrhtE3thmMzEePvH_dxRXCfWRsSHnmtBSH6eyaA0YjWIAWnkTDvQx65iegTLDOEoA38Z2th7jIZm-Hf7HHzl8EixjMzBcU9q2Ndy0H6wEQrQiUVzf7cIC37ZC11iu3v3aOLnxQl2juWKmYAs4iC63roZFd/p.png?is_prewarmed=true)
 
-Furthermore, it natively supports **HTTP JSON API**, which is essential for modern web service architectures.
+In addition, it basically supports the **HTTP JSON API**, which is essential for modern web service architectures.
 
 ```bash
 # Example of HTTP API search request using curl
-curl -X POST 'http://127.0.0.1:9308/search' -H 'Content-Type: application/json' -d "{
+curl -X POST 'http://127.0.0.1:9308/search' -H 'Content-Type: application/json' -d '{
     "index": "poi",
     "query": {
         "match": { "name": "Gangnam Station" }
     }
-}"
+}'
 ```
 
 ![manticore-http](https://previews.dropbox.com/p/thumb/AC2xnivdJx2UdgNROejy01d1_6ZgHt4pPKDHOnT-Umd6NI5sA-H2bWgVifYUfg6Mi5Lwjm5qL3QUPIbXJZcWjZk4dfd9IA0qB8akuLjq61nqC4_QtQt6GuvPsHlFhcz4UYhd6WeFVzhLLwckEzZqkAT4fxaOTJhhnFigyQRzIJotZN1mRCHIbaLQLFMPPI1ByjfCfLUeikNQ9PkP1nI_os3e1FI-FxbfHi_SNI7Y7_1he4_bOZqPB4DEWXKonrlH1rkbuhbBmZytz38xphqZ59Kc4n0kmY9nddcHPUXbGvdvKTOkUeF6yuYX4MVIOrnQSJmjckYyJ9BxX8XX_8uMLfbj/p.png?is_prewarmed=true)
@@ -76,48 +78,50 @@ curl -X POST 'http://127.0.0.1:9308/search' -H 'Content-Type: application/json' 
 
 Besides Elasticsearch, we also reviewed other lightweight search engines like **Meilisearch** and **Typesense**.
 
-| Feature | Manticore Search | Meilisearch | Typesense | Elasticsearch |
+| Item | Manticore Search | Meilisearch | Typesense | Elasticsearch |
 | :--- | :--- | :--- | :--- | :--- |
 | **Language** | C++ | Rust | C++ | Java |
-| **Data Sync** | **Pull** (DB → Engine) | **Push** (App → Engine) | **Push** (App → Engine) | **Push** (App/Logstash → Engine) |
-| **Pros** | Native SQL, Low Resources | Easy to use, Fast dev | Fast (In-Memory) | Rich Ecosystem, Analytics |
-| **Cons** | Small ecosystem | Scale limits | RAM limits | High Resources, Complex |
+| **Data Sync** | **Pull** (DB → Search Engine) | **Push** (App → Search Engine) | **Push** (App → Search Engine) | **Push** (App/Logstash → Search Engine) |
+| **Pros** | Native SQL, Low Resources | Easy usability, Fast development | Fast search speed (In-Memory) | Rich ecosystem, Analytics features |
+| **Cons** | Small ecosystem, Domestic awareness | Limitations in large-scale data processing | Data size limited by RAM | High resources, Complexity |
 
-Elasticsearch, Meilisearch, and Typesense are all optimized for the **Push** method, where the application calls APIs to send data. In contrast, Manticore's `Plain` index was more specialized for the **Pull** method, where an `indexer` periodically fetches data from the DB to recreate the index.
+I understand that Elasticsearch, Meilisearch, and Typesense are all optimized for the **Push** method where the application calls the API to push data.
 
-Our requirement was that **"when specific tables in the operational DB change, they should be periodically reflected in the search engine."** To use the Push model in this case, we would need to implement separate synchronization logic in the application to detect DB changes and call the API. However, Manticore's Pull model delegates this process to the search engine, allowing us to keep the application logic simple, which we judged to be more suitable for us.
+On the other hand, Manticore's `Plain` index, which we used, was more specialized for the **Pull** method where the `indexer` periodically fetches data from the DB and regenerates the index.
 
-Below are diagrams showing the difference between the two data synchronization methods.
+Our requirement was **'when specific tables in the operational DB change, it should be periodically reflected in the search engine'**. In this case, to use the Push model, separate synchronization logic that detects DB changes and calls the API must be implemented in the application. (As covered in the epilogue, we implemented this logic with Spring Batch while migrating to Elasticsearch.)
+
+On the other hand, we judged that Manticore's Pull model was more suitable for us because it delegates this process to the search engine, keeping the application logic simple.
+
+Below is a diagram showing the difference between the two data synchronization methods.
 
 #### Push Model
-> In the `Push` model, the responsibility for data synchronization lies with the **Application**. The application must detect DB changes and call the search engine's API to push the data.
-> For example, this could be implemented with a service like Spring Batch.
+> In the `Push` model, the responsibility for data synchronization lies with the **application**. The application must detect DB changes and call the search engine's API to push data.
+> For example, it can be implemented with a service like Spring Batch.
 
 ```mermaid
 graph LR;
-  style App fill:#f9f,stroke:#333,stroke-width:2px
-  DB[(Database)] -- "1. Data Changed" --> App{Application<br/>w/ Sync Logic};
-  App -- "2. Push Data" --> SE[Search Engine<br/>(ES, Meili, ..)];
+  DB[(Database)] -- "1. Data Changed" --> App{"Application<br/>with Sync Logic"};
+  App -- "2. Push Data" --> SE["Search Engine<br/>(ex. ElasticSearch)"];
 ```
 
 #### Pull Model
-> In the `Pull` model, the responsibility for data synchronization lies with the **Search Engine**. The application only handles search requests, and Manticore Search's `Indexer` periodically fetches (Pulls) data from the DB to keep the index up to date.
+> In the `Pull` model, the responsibility for data synchronization lies with the **search engine**. The application only handles search requests, and Manticore Search's `Indexer` periodically fetches (Pulls) data from the DB to keep the index up to date.
 
 ```mermaid
 graph LR;
-  style MS fill:#ccf,stroke:#333,stroke-width:2px
   DB[(Database)];
-  App{Application<br/>(Search Only)} -- "Search Query" --> MS[Manticore Search];
+  App{"Application<br/>(Search Only)"} -- "Search Query" --> MS["Manticore Search"];
   MS -- "Pulls Data Periodically" --> DB;
 ```
 
-## Production Deployment and Indexing Automation
+## Practical Deployment and Indexing Automation
 
-Now I will share how we deployed Manticore Search in a real production environment and automated indexing using two methods: **Docker Compose** and **Kubernetes**.
+Now I would like to share two methods of deploying Manticore Search in a real production environment and automating indexing: using **Docker Compose** and **Kubernetes**.
 
 ### Method 1: Configuring Development Environment with Docker Compose
 
-For local development environments or single-server deployments, using Docker Compose is very convenient. Here is a simplified example of the configuration we actually used.
+When deploying a local development environment or a single server, using Docker Compose is very convenient. This is a simplified example of the configuration we actually used.
 
 #### 1. `docker-compose.yml`
 
@@ -135,11 +139,11 @@ services:
       - "9306:9306" # MySQL protocol
       - "9308:9308" # HTTP API
     volumes:
-      # Share data, config, logs with host for persistence
+      # Ensure persistence by sharing data, config, and logs with host
       - ./manticore-data:/var/lib/manticore
       - ./manticore.conf:/etc/manticoresearch/manticore.conf
       - ./manticore-logs:/var/log/manticore
-    # Increase file descriptor limits for large-scale search to prevent performance issues
+    # Increase file descriptor limit to prevent performance issues in large-scale search environments
     ulimits:
       nofile:
         soft: 65536
@@ -185,7 +189,7 @@ index poi {
 
 #### 2. `Dockerfile.manticore` & `start.sh`
 
-Set up `cron` inside the Manticore container to automate indexing.
+Automate indexing by setting up `cron` within the Manticore container.
 
 ```dockerfile {filename="Dockerfile"}
 # Dockerfile.manticore
@@ -195,7 +199,7 @@ FROM manticoresearch/manticore:latest
 RUN apt-get update && apt-get install -y cron && \
     touch /var/log/manticore/cron.log
 
-# Configure cron job (Refresh index every hour)
+# Set up cron job (renew index every hour)
 RUN echo "0 * * * * indexer poi --config /etc/manticoresearch/manticore.conf --rotate >> /var/log/manticore/cron.log 2>&1 && mysql -h 127.0.0.1 -P9306 -e \"RELOAD INDEXES;\" >> /var/log/manticore/cron.log 2>&1" > /etc/cron.d/manticore-indexer
 RUN chmod 0644 /etc/cron.d/manticore-indexer
 RUN crontab /etc/cron.d/manticore-indexer
@@ -219,17 +223,17 @@ service cron start
 exec searchd --nodetach
 ```
 
-This method has the advantage of managing all infrastructure settings as code (IaC) and easily building an identical development environment with a single `docker-compose up` command.
+I thought this method had the advantage of managing all infrastructure settings as code (IaC) and easily building the same development environment with a single `docker-compose up` command.
 
 ---
 
-### Method 2: Deploying to Production with Kubernetes
+### Method 2: Deploying to Production Environment with Kubernetes
 
-This is how we configured our actual production environment. We assigned the responsibility of indexing automation to the **Manticore container itself**, rather than using a Kubernetes `CronJob`. This was to unify all deployment-related responsibilities into a single `Deployment` for easier management.
+This is our actual production environment configuration method. We assigned the responsibility of indexing automation to the **Manticore container itself**, not the Kubernetes `CronJob` resource. This was to make management easier by unifying all responsibilities related to deployment into a single `Deployment`.
 
 #### 1. `manticore.conf` (ConfigMap Example)
 
-Configured concisely with **one source and one index** to match the blog example.
+Configured simply with **one source and one index** to fit the blog example.
 
 ```yaml {filename="configmap.yaml"}
 apiVersion: v1
@@ -276,16 +280,16 @@ data:
 
 #### 2. `Dockerfile` and `start.sh`
 
-Even in the Kubernetes environment, we use a `Dockerfile` and `start.sh` similar to the Docker Compose method to build an image where the container handles indexing scheduling itself. The key is adding **initial indexing logic** to `start.sh`.
+Even in the Kubernetes environment, use `Dockerfile` and `start.sh` similar to the Docker Compose method to build an image so that the container handles indexing scheduling itself. Added **initial indexing logic** to `start.sh`.
 
 ```dockerfile {filename="Dockerfile"}
 # Dockerfile
 FROM manticoresearch/manticore:latest
 
-# Install cron, flock(util-linux)
+# Install cron, flock (util-linux)
 RUN apt-get update && apt-get install -y cron util-linux
 
-# Configure cron job (Includes logging and prevents duplicate execution)
+# Set up cron job (include logs and prevent duplicate execution)
 RUN echo "0 * * * * /usr/bin/flock -n /var/run/manticore-indexer.lock /bin/bash -c '...' " > /etc/cron.d/manticore-indexer
 
 COPY start.sh /start.sh
@@ -301,7 +305,7 @@ set -e
 
 service cron start
 
-# If index file doesn't exist when Pod starts (solving Cold Start problem), run initial indexing
+# Run initial indexing if index file does not exist when Pod is first created (Solve Cold Start problem)
 if [ ! -f /var/lib/manticore/poi.sph ]; then
     echo "No existing index found. Running initial indexing..."
     indexer poi --config /etc/manticoresearch/manticore.conf
@@ -321,7 +325,7 @@ spec:
   replicas: 2
   template:
     spec:
-      # Grant ownership of volume to Manticore process (uid 999) before container starts
+      # Grant volume ownership to Manticore process (uid 999) before container starts
       initContainers:
         - name: init-permissions
           image: busybox:1.36
@@ -348,52 +352,67 @@ spec:
             limits:
               cpu: 500m
               memory: 1Gi
-          # Liveness: Restart if container doesn't respond
+          # Liveness: Restart if container does not respond
           livenessProbe:
             tcpSocket: { port: 9306 }
             initialDelaySeconds: 30
-          # Readiness: Do not accept service traffic until probe succeeds
+          # Readiness: Do not receive service traffic until probe succeeds
           readinessProbe:
             tcpSocket: { port: 9306 }
             initialDelaySeconds: 10
 ```
 
-## Korean Search, The Journey of Trials and Errors
+## Korean Search, Record of Trials
 
-During the Korean tokenization process, we pondered over the `ngram_len` value. While official documentation often recommends `ngram_len=1`, analyzing our dataset characteristics and main search terms revealed that two-character searches like 'Gangnam' or 'Seocho' were more natural and accurate. Thus, we finally decided on **`ngram_len=2`** (cutting by 2 characters).
+In the process of Korean tokenization, we agonized over the `ngram_len` value. Although `ngram_len=1` was often recommended in the official documentation, when analyzing the characteristics of our dataset and major search terms, we judged that two-character searches like 'Gangnam' and 'Seocho' were more natural and accurate. So we finally decided on **`ngram_len=2`** (cutting by 2 characters).
 
-I believe it's important to find settings that fit your service by analyzing actual data and user search patterns rather than following a set answer.
+I think it is important to analyze actual data and user search patterns to find settings that fit our service, rather than following a set answer.
 
-## Issues We Encountered
+## Problems We Faced
 
-1.  **Initial Indexing Slowness**: The cause was **Source DB's `sql_query` performance**. We solved it by tuning the query and adding indexes.
-2.  **Absence of Kibana**: We are considering integration with Grafana, etc., but haven't found a satisfactory visualization/monitoring solution yet.
+1.  **Slow Initial Indexing Speed**: The cause was the **performance issue of the Source DB `sql_query`**. We solved it by tuning the query and adding indexes.
+2.  **Absence of Kibana**: We are considering linking Grafana, etc., but haven't found a satisfactory visualization/monitoring solution yet.
 3.  **Mixed Korean+English/Number Search**: Solved by including English and numbers in `charset_table`.
 
-## Conclusion: The Journey of Choosing the Right Tool for the Problem
+## Pros and Cons of Manticore Search That I Felt
 
-Our team started with the realistic problems of cost and complexity and found an excellent alternative in Manticore Search.
+### Pros
 
-If you don't need all the features provided by Elasticsearch, I believe Manticore Search can be a powerful alternative that allows you to implement excellent search functions with much less cost and effort.
+-   **Lightweight Resource Usage**: It was possible to operate sufficiently with little memory and CPU.
+-   **Pull Indexing Model**: It was very convenient to configure in that indexing automation is possible without building a separate system.
+-   **Fast Search Performance**: We experienced satisfactory search speed not only in benchmark results but also in actual operating environments.
+-   **Korean Search Support**: With the help of the official documentation, we were able to apply Korean tokenization settings relatively easily.
 
-Since there aren't many references for Manticore Search in Korea, I hope this post helps those considering its adoption. If you have any questions or find any incorrect information, please feel free to leave a comment!
+### Cons
 
-## Epilogue: Back to the Embrace of Elasticsearch
+-   **Small Ecosystem**: Compared to Elasticsearch, there are fewer communities and resources, so I felt that problem solving took longer.
+-   **Limited Advanced Features**: I felt that support for complex analysis functions or embedding search was lacking. Of course, there are existing functions, but references are few, so we had to take risks. (As I will cover in the epilogue, we eventually moved to Elasticsearch to build a RAG system.)
+-   **Lack of Monitoring Tools**: There was no visualization tool like Kibana, so there was difficulty in log analysis and monitoring.
 
-Since the time of writing this post, there has been another change in our team's tech stack. We eventually decided to choose Elasticsearch. Although we were satisfied with Manticore Search, the technical requirements changed during the process of **building a new RAG (Retrieval-Augmented Generation) system**.
+## Conclusion: Journey to Choose the Right Tool for the Problem
 
-In terms of embedding vector search, which is the core of the RAG system, and future scalability, we judged that the rich features and ecosystem provided by Elasticsearch were more advantageous.
+I think our team found a relatively excellent alternative called Manticore Search, starting from the realistic problems of cost and complexity.
 
-However, if your goal is still strictly **'light and fast search'** and you are looking for a tool that supports `Pull` based indexing, I still believe Manticore Search is a great option.
+If you don't need all the features Elasticsearch provides, I think Manticore Search can be a way to implement excellent search features with much less cost and effort.
 
-I think Elasticsearch is a better tool for our new requirement of 'complex and diverse search support (ex. embedding-based similarity search and multi-parameter search)'. (In this process, indexing was implemented via Spring Batch as mentioned above.)
+Since there are not many references related to Manticore Search in Korea, I hope this article will be of some help to those considering its introduction. If you have any questions or incorrect information, please feel free to leave a comment!
 
-I will cover the experience of migrating from Manticore Search to Elasticsearch and the story of building the RAG system in detail in another post next time.
+## Epilogue: Into the Arms of Elasticsearch
+
+Since writing this article, there has been another change in our team's technology stack. We eventually chose Elasticsearch. Although we were satisfied using Manticore Search, technical requirements changed in the process of **building a new RAG (Retrieval-Augmented Generation) system**.
+
+In terms of embedding vector search, the core of the RAG system, and future scalability, we judged that the rich features and ecosystem provided by Elasticsearch were more advantageous.
+
+However, if your goal is still only **'light and fast search'** and you are looking for a tool that supports `Pull` based indexing, I think Manticore Search can be an excellent choice.
+
+Elasticsearch seems to be a better tool for our new requirement, 'complex and diverse search support (ex. embedding-based similarity search and multiple parameter search)'. (In this process, indexing was implemented through Spring Batch as mentioned above.)
+
+I will cover the experience of moving from Manticore Search to Elasticsearch and the story of building the RAG system in detail in another article next time.
 
 ## Reference
 
-- [Manticore Search Official Site](https://manticoresearch.com/)
-- [Manticore Search GitHub](https://github.com/manticoresoftware/manticoresearch)
-- [Manticore Search vs Elasticsearch Comparison](https://manticoresearch.com/comparison/vs-elasticsearch/)(https://manticoresearch.com/comparison/vs-elasticsearch/)
-- [Manticore Search Manual - NLP and tokenization](https://manual.manticoresearch.com/Creating_a_table/NLP_and_tokenization)
-- [db-benchmarks.com - Independent Database Benchmarks](https://db-benchmarks.com)
+-   [Manticore Search Official Site](https://manticoresearch.com/)
+-   [Manticore Search GitHub](https://github.com/manticoresoftware/manticoresearch)
+-   [Manticore Search vs Elasticsearch Comparison](https://manticoresearch.com/comparison/vs-elasticsearch/)
+-   [Manticore Search Manual - NLP and tokenization](https://manual.manticoresearch.com/Creating_a_table/NLP_and_tokenization)
+-   [db-benchmarks.com - Independent Database Benchmarks](https://db-benchmarks.com)

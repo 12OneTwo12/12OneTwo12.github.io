@@ -11,11 +11,9 @@ date: '2025-11-25'
 
 안녕하세요. 프롭테크 플랫폼에서 백엔드 개발자로 일하고 있는 정정일입니다.
 
-"검색 기능이 필요해요." 이 말을 들었을 때, 많은 개발자 분들의 머릿속에는 아마 하나의 이름이 떠오르셨을 것 같습니다. 바로 **Elasticsearch**입니다. 막강한 기능과 풍부한 생태계 덕분에 업계 표준처럼 여겨지니까요.
+"검색 기능이 필요해요." 이 말을 들었을 때, 많은 개발자 분들의 머릿속에는 아마 하나의 이름이 떠오르셨을 것 같습니다. 바로 **Elasticsearch**입니다. 막강한 기능과 풍부한 생태계 덕분에 업계 표준처럼 여겨지기도 하는 것 같습니다.
 
-하지만 Elasticsearch가 항상 정답일까요? "검색 기능 하나 추가하자고 Kibana까지 설정하고, Java 힙 메모리와 사투를 벌여야 할까?" 저희 팀은 이 질문에 대해 고민해야 했습니다. 
-
-특히 리소스가 제한적인 환경이라면 Elasticsearch의 높은 리소스 요구량과 복잡성은 상당한 부담이 될 수 있다고 생각했습니다.
+하지만 Elasticsearch가 항상 정답은 아니라고 생각합니다. 물론 너무 당연한 말이라 느끼실 수 있지만 모든 기술은 상황과 환경에 따라 적절히 선택해야하죠. 그런점에서 저희의 고민은 "검색 기능 하나 추가하자고 Kibana까지 설정하고, Java 힙 메모리와 사투를 벌여야 할까?" 였습니다. 특히 리소스가 제한적인 환경이라면 Elasticsearch의 높은 리소스 요구량과 복잡성은 상당한 부담이 될 수 있다고 생각했습니다.
 
 저희는 이 고민의 끝에서 **Manticore Search**라는 검색엔진 오픈소스를 발견했습니다. 이 글은 검색엔진으로 Manticore Search를 선택하고, 실제 프로덕션 환경에 적용하며 겪었던 현실적인 고민과 경험, 그리고 기술적인 선택의 과정을 담은 기록입니다.
 
@@ -25,17 +23,17 @@ Manticore Search는 C++로 작성된 고성능 오픈소스 전문 검색(Full-t
 
 그 뿌리는 2000년대 초반, MySQL과 함께 가볍고 빠른 성능으로 인기를 끌었던 **Sphinx Search**에 있었습니다. 2016년, Sphinx의 개발이 사실상 중단되자 핵심 개발팀 대부분이 나와 2017년에 프로젝트를 Fork 하여 Manticore Search를 탄생시켰습니다.
 
-흥미로운 점은 그 후 Sphinx가 클로즈드 소스로 전환된 반면, Manticore Search는 100% 오픈소스스를 유지하며 훨씬 더 활발하게 발전하고 있다는 점이었습니다. ([*Manticore Search: 3 years after forking from Sphinx*](https://manticoresearch.com/blog/manticore-search-3-years-after-forking-from-sphinx/))
+흥미로운 점은 그 후 Sphinx가 클로즈드 소스로 전환된 반면, Manticore Search는 100% 오픈소스를 유지하며 훨씬 더 활발하게 발전하고 있다는 점이었습니다. ([*Manticore Search: 3 years after forking from Sphinx*](https://manticoresearch.com/blog/manticore-search-3-years-after-forking-from-sphinx/))
 
 ## 저희가 Manticore Search를 선택한 현실적인 이유
 
-저는 개인적으로 기술 선택은 언제나 트레이드오프의 연속이라고 생각합니다. 저희 팀이 Manticore Search를 선택하기까지의 과정은 이러했습니다.
+저는 개인적으로 기술 선택은 언제나 트레이드오프의 연속이라고 생각합니다. 저희 팀이 Manticore Search를 선택하기까지의 과정은 다음과 같았습니다.
 
 ### 1. 현실적인 제약: 서버 비용 리소스
 
 가장 큰 이유는 **비용** 문제였습니다. 현실적인 이유 하면 빠질 수 없는 가장 대표적인 이유중 하나죠.
 
-Elasticsearch는 Java 기반으로, 운영 환경에서는 최소 8GB RAM, 2vCPU 이상이 권장됩니다. 저희 서비스 규모에 비해 과한 리소스였고, 이는 곧바로 인프라 비용 부담으로 이어졌습니다.
+Elasticsearch는 Java 기반으로, 운영 환경에서는 최소 8GB RAM, 2vCPU 이상이 권장됩니다. 저희 서비스 규모에 비해 과한 리소스였고, 이는 곧바로 인프라 비용 부담으로 이어질거라 예상되었습니다.
 
 반면 C++로 작성된 Manticore Search는 **빈 인스턴스 기준 약 40MB의 RSS**만 사용하는 놀라운 효율성을 보여준다는 문서를 읽었습니다. 물론 권장사양은 그보다 더 높은 사양을 요구하겠지만 리소스를 덜 잡아먹는 다는 점은 확실해 보였습니다.
 
@@ -103,9 +101,8 @@ Elasticsearch, Meilisearch, Typesense는 모두 어플리케이션에서 API를 
 
 ```mermaid
 graph LR;
-  style App fill:#f9f,stroke:#333,stroke-width:2px
-  DB[(Database)] -- "1. Data Changed" --> App{Application<br/>w/ Sync Logic};
-  App -- "2. Push Data" --> SE[Search Engine<br/>(ES, Meili, ..)];
+  DB[(Database)] -- "1. Data Changed" --> App{"Application<br/>with Sync Logic"};
+  App -- "2. Push Data" --> SE["Search Engine<br/>(ex. ElasticSearch)"];
 ```
 
 #### Pull Model
@@ -113,9 +110,8 @@ graph LR;
 
 ```mermaid
 graph LR;
-  style MS fill:#ccf,stroke:#333,stroke-width:2px
   DB[(Database)];
-  App{Application<br/>(Search Only)} -- "Search Query" --> MS[Manticore Search];
+  App{"Application<br/>(Search Only)"} -- "Search Query" --> MS["Manticore Search"];
   MS -- "Pulls Data Periodically" --> DB;
 ```
 
