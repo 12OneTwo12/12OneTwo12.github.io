@@ -3,7 +3,7 @@ title:
 layout: hextra-home
 ---
 
-<div class="home-wrapper" style="padding-left: max(4rem, env(safe-area-inset-left)); padding-right: max(4rem, env(safe-area-inset-right));">
+<main class="home-wrapper" style="padding-left: max(4rem, env(safe-area-inset-left)); padding-right: max(4rem, env(safe-area-inset-right));">
 
 
 {{< hextra/hero-badge >}}
@@ -88,4 +88,4 @@ layout: hextra-home
 
 {{< recent-posts limit=5 includeAll=true >}}
 
-</div>
+</main>

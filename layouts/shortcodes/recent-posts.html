@@ -45,11 +45,11 @@
         <p class="hx:opacity-80 hx:mt-4 hx:leading-7">{{ $description }}</p>
       {{- end -}}
       <p class="hx:opacity-80 hx:mt-1 hx:leading-7">
-        <a class="hx:text-[color:hsl(var(--primary-hue),100%,50%)] hx:underline hx:underline-offset-2 hx:decoration-from-font" href="{{ .RelPermalink }}">
+        <a class="hx:text-[color:hsl(var(--primary-hue),100%,40%)] hx:underline hx:underline-offset-2 hx:decoration-from-font" href="{{ .RelPermalink }}">
           {{- $readMore -}}
         </a>
       </p>
-      <p class="hx:opacity-50 hx:text-sm hx:mt-4 hx:leading-7">{{ partial "utils/format-date" .Date }}</p>
+      <p class="hx:opacity-75 hx:text-sm hx:mt-4 hx:leading-7">{{ partial "utils/format-date" .Date }}</p>
     </div>
   {{ end -}}
 </div>
