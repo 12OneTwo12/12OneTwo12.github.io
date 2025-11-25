@@ -414,5 +414,5 @@ Manticore Search에서 Elasticsearch로 이전하며 겪었던 경험과 RAG 시
 - [Manticore Search 공식 사이트](https://manticoresearch.com/)
 - [Manticore Search GitHub](https://github.com/manticoresoftware/manticoresearch)
 - [Manticore Search vs Elasticsearch 비교](https://manticoresearch.com/comparison/vs-elasticsearch/)
-- [Manticore Search Manual - NLP and tokenization](https://manual.manticoresearch.com/Creating_a_table/NLP_and_tokenization)
+- [Manticore Search Manual - NLP and tokenization](https://manual.manticoresearch.com/Creating_a_table/NLP_and_tokenization/Data_tokenization)
 - [db-benchmarks.com - Independent Database Benchmarks](https://db-benchmarks.com)
