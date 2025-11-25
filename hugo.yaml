@@ -1,6 +1,6 @@
 baseURL: https://jeongil.dev/
 languageCode: ko
-title: "쥐뿔도 모르는 개발자의 테크 블로그"
+title: "쥐뿔도 모르는 개발자의 개발 블로그"
 
 # Hugo Module 설정 (Hextra 테마)
 module:
@@ -15,10 +15,10 @@ languages:
   ko:
     languageName: 한국어
     weight: 1
-    title: "쥐뿔도 모르는 개발자의 테크 블로그"
+    title: "쥐뿔도 모르는 개발자의 개발 블로그"
     params:
       description: 백엔드 개발 및 인프라 기술 블로그
-      navbarTitle: "쥐뿔도 모르는 개발자의<br>테크 블로그"
+      navbarTitle: "쥐뿔도 모르는 개발자의<br>개발 블로그"
 
   en:
     languageName: English
