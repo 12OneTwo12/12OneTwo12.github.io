@@ -414,5 +414,5 @@ I will cover the experience of moving from Manticore Search to Elasticsearch and
 -   [Manticore Search Official Site](https://manticoresearch.com/)
 -   [Manticore Search GitHub](https://github.com/manticoresoftware/manticoresearch)
 -   [Manticore Search vs Elasticsearch Comparison](https://manticoresearch.com/comparison/vs-elasticsearch/)
--   [Manticore Search Manual - NLP and tokenization](https://manual.manticoresearch.com/Creating_a_table/NLP_and_tokenization)
+-   [Manticore Search Manual - NLP and tokenization](https://manual.manticoresearch.com/Creating_a_table/NLP_and_tokenization/Data_tokenization)
 -   [db-benchmarks.com - Independent Database Benchmarks](https://db-benchmarks.com)
