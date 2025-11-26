@@ -1,5 +1,5 @@
 ---
-title: "Docker-compose를 떠나 쿠버네티스로, 사내 MSA의 성장기"
+title: "개발 서버도 없던 팀이 GitOps를 갖추기까지: 맨땅에서 시작한 쿠버네티스 도입기"
 tags:
   - "kubernetes"
   - "docker-compose"
@@ -14,11 +14,11 @@ date: '2025-07-24'
 
 저는 프롭테크 플랫폼에서 백엔드 개발자로 근무 중인 3년차 백엔드 개발자 정정일입니다.
 
-오늘은 저희 팀이 기존에 Docker 컨테이너 위에서 운영하던 Spring Cloud 기반 마이크로서비스(MSA)를 **쿠버네티스(Kubernetes) 환경으로 '이사'한 경험**을 공유해볼까 합니다.
+오늘은 저희 팀이 기존에 Docker 컨테이너 위에서 운영하던 Spring Cloud 기반 마이크로서비스(MSA)를 **쿠버네티스(Kubernetes) 기반으로 전환하기 위해, 제가 제안하고 구축했던 과정**을 공유해볼까 합니다.
 
 이 과정에서 저희는 오랫동안 익숙하게 사용했던 Spring Cloud의 **Eureka와 API Gateway를 덜어내고, GKE(Google Kubernetes Engine)와 ArgoCD를 도입**했습니다.
 
-왜 이런 결정을 내렸고, 그 과정에서 어떤 현실적인 고민들이 있었는지, 그리고 무엇을 얻었는지 담아보려 합니다.
+제가 왜 이런 제안을 했고, 어떤 결정들을 내렸는지, 그 과정에서 어떤 현실적인 고민들이 있었는지, 그리고 무엇을 얻었는지 담아보려 합니다.
 
 ---
 
@@ -63,7 +63,25 @@ CPU도 마찬가지였습니다. 특정 서비스가 CPU를 독점하면 다른 
 
 이런 대화가 일상이었습니다.
 
-이런 문제들을 겪으며 저희는 "더 이상 이렇게는 안 되겠다"는 결론에 이르렀고, 비즈니스의 연속성과 직결되는 **확장성과 고가용성, 그리고 제대로 된 개발 환경을 확실히 잡기 위해** 컨테이너 오케스트레이션의 표준인 쿠버네티스 도입을 제안하게 되었고 팀원 분들과 협의를 거쳐 도입을 결정하게 되었습니다.
+이런 문제들을 겪으며 저희는 "더 이상 이렇게는 안 되겠다"는 결론에 이르렀고, 비즈니스의 연속성과 직결되는 **확장성과 고가용성, 그리고 제대로 된 개발 환경을 확실히 잡기 위해** 컨테이너 오케스트레이션의 표준인 쿠버네티스 도입을 제가 제안하게 되었고 팀원 분들과 협의를 거쳐 도입을 결정하게 되었습니다.
+
+### 3. 어쩌다 보니 제가 하게 되었습니다
+
+사실 저는 전문 DevOps 엔지니어가 아닙니다. 다만 전 직장에서 운 좋게(?) 인프라를 깊게 파보고 쿠버네티스를 운영해 볼 기회가 있었습니다.
+
+전 직장에서 유일한 DevOps 담당자분이 퇴사하시게 되었는데, 후임자가 구해지지 않아 공백이 생길 뻔한 적이 있습니다. 그때 제가 담당자분을 찾아가 부탁드렸습니다.
+
+> "담당자님이 안 계시는 동안 혹시라도 서버에 문제가 생기면 누군가는 해결해야 할 텐데... 실례가 안 된다면 조금만이라도 알려주실 수 있을까요? 부족한 지식으로라도 어떻게든 버텨보겠습니다."
+
+당시 그런 저를 좋게 봐주셨는지 담당자분께서 1개월간 집중 멘토링 및 인수인계를 제게 해주셨고, 덕분에 **쿠버네티스, AWS EKS, Jenkins, ArgoCD, ELK** 등의 DevOps 및 인프라 관련 지식을 쌓을 수 있었습니다. 이후 7개월 정도 혼자 인프라를 운영을 했었거든요.
+
+> 사실 1개월 멘토링으로 다 습득할 수 있는 양은 아니었기 때문에 던져주시는 인프라 관련 키워드를 노트에 다 받아적어 하나하나 찾아보며 공부했던 기억이 있네요... ㅎ..
+
+지금 돌이켜보면 정말 무모한 도전이었지만... 덕분에 정말 많이 배울 수 있어 제 인생에 있어 하나의 큰 행운이였던 것 같습니다. 그 전까진 많은 회사에서 그렇겠지만 인프라 접근 권한 자체가 없었거든요.
+
+새로 합류한 이번 팀도 상황은 비슷했습니다. 전문 DevOps 엔지니어가 따로 계시지 않았고, 백엔드 개발자들이 인프라 운영까지 겸하고 있었습니다.
+
+마침 팀 내에서 쿠버네티스 실무 경험이 있는 사람이 저밖에 없다 보니, 자연스럽게(?) 제가 이번 마이그레이션 작업을 주도하게 되었습니다.
 
 ---
 
@@ -129,7 +147,7 @@ CPU도 마찬가지였습니다. 특정 서비스가 CPU를 독점하면 다른 
 Feign Client URL 하나 바꾸려면 16개 레포를 일일이 수정하고, Commit하고, PR 올리고... 더 큰 문제는 **공통 코드가 각 프로젝트마다 복사되어** 있었다는 점입니다.
 또 공통적인 설정인 모니터링 관련해서도 프로젝트별로 설정이 제각각이라 관리 부담이 컸습니다.
 
-```java
+```java {filename="feign-client.java"}
 // match-service 레포의 UserServiceClient
 @FeignClient(name = "USER-SERVICE")
 public interface UserServiceClient { ... }
@@ -168,9 +186,9 @@ COMMON 모듈을 도입해서 Feign Client들을 한 곳으로 모으니, **수�
 
 #### 1. Eureka → K8s Service/DNS
 
-기존에 Eureka Server가 하던 서비스 디스커버리 역할을 이제 쿠버네티스의 **Service와 DNS**가 대신합니다.
+기존에 Eureka Server가 하던 서비스 디스커버리 역할을 이제 쿠버네티스의 **Service와 DNS**가 대신하게 했습니다.
 
-```yaml
+```yaml {filename="service.yml"}
 # K8s Service 정의
 apiVersion: v1
 kind: Service
@@ -190,7 +208,7 @@ spec:
 
 기존 Spring Cloud Gateway 대신 쿠버네티스 **Ingress**를 사용합니다.
 
-```yaml
+```yaml {filename="ingress.yml"}
 # Ingress 설정 예시
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -252,7 +270,7 @@ Spring Cloud 환경에서는 Prometheus가 Eureka를 통해 서비스를 발견�
 
 기존에는 Prometheus가 Eureka를 통해 서비스를 발견하고 메트릭을 긁어가도록 설정해뒀었습니다.
 
-```yaml
+```yaml {filename="prometheus.yml"}
 # 기존: prometheus.yml
 scrape_configs:
   - job_name: 'eureka'
@@ -285,67 +303,66 @@ Collector 사이드카로 메트릭을 보내고,
 Collector가 다시 Prometheus로 전달하는
 구조입니다.
 
-  ```yaml
-  # OpenTelemetry Collector 설정
-  (otel-collector-config)
-  apiVersion: v1
-  kind: ConfigMap
-  metadata:
-    name: otel-collector-config
-  data:
-    config.yaml: |
-      receivers:
-        otlp:
-          protocols:
-            grpc:
-              endpoint: 0.0.0.0:4317
-            http:
-              endpoint: 0.0.0.0:4318
+```yaml {filename="otel-collector-config.yaml"}
+# OpenTelemetry Collector 설정
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: otel-collector-config
+data:
+ config.yaml: |
+   receivers:
+     otlp:
+       protocols:
+         grpc:
+           endpoint: 0.0.0.0:4317
+         http:
+           endpoint: 0.0.0.0:4318
 
-      processors:
-        batch:
-          timeout: 10s
+   processors:
+     batch:
+       timeout: 10s
 
-        # 서비스별 리소스 속성 추가
-        resource:
-          attributes:
-            - key: service.namespace
-              value: bootalk
-              action: upsert
+     # 서비스별 리소스 속성 추가
+     resource:
+       attributes:
+         - key: service.namespace
+           value: bootalk
+           action: upsert
 
-      exporters:
-        # Prometheus Remote Write
-        prometheusremotewrite:
-          endpoint: http://prometheus-svc.monitoring.svc.cluster.local:9090/prometheus/api/v1/write
-          resource_to_telemetry_conversion:
-            enabled: true
+   exporters:
+     # Prometheus Remote Write
+     prometheusremotewrite:
+       endpoint: http://prometheus-svc.monitoring.svc.cluster.local:9090/prometheus/api/v1/write
+       resource_to_telemetry_conversion:
+         enabled: true
 
-        # Loki로 로그 전송
-        loki:
-          endpoint: http://loki-svc.monitoring.svc.cluster.local:3100/otlp
-          
-        # Tempo로 트레이스 전송
-        otlp/tempo:
-          endpoint: http://tempo-svc.monitoring.svc.cluster.local:4317
-          tls:
-            insecure: true
+     # Loki로 로그 전송
+     loki:
+       endpoint: http://loki-svc.monitoring.svc.cluster.local:3100/otlp
+       
+     # Tempo로 트레이스 전송
+     otlp/tempo:
+       endpoint: http://tempo-svc.monitoring.svc.cluster.local:4317
+       tls:
+         insecure: true
 
-      service:
-        pipelines:
-          metrics:
-            receivers: [otlp]
-            processors: [batch, resource]
-            exporters: [prometheusremotewrite]
+   service:
+     pipelines:
+       metrics:
+         receivers: [otlp]
+         processors: [batch, resource]
+         exporters: [prometheusremotewrite]
 
-          logs:
-            receivers: [otlp]
-            processors: [batch, resource]
-            exporters: [loki]
+       logs:
+         receivers: [otlp]
+         processors: [batch, resource]
+         exporters: [loki]
 
-          traces:
-            receivers: [otlp]
-            processors: [batch, resource]
-            exporters: [otlp/tempo]
+       traces:
+         receivers: [otlp]
+         processors: [batch, resource]
+         exporters: [otlp/tempo]
 ```
 
 이제 각 서비스는 자신의 메트릭을 능동적으로 OpenTelemetry Collector(localhost:4317)로 보내고, Collector가 Prometheus Remote Write API를 통해 중앙 Prometheus 서버로 전달합니다.
@@ -364,7 +381,7 @@ Collector가 다시 Prometheus로 전달하는
 
 앞서 저희의 문제점 중 하나로 **"서비스마다 모니터링 설정이 제각각이라 관리 부담이 크다"** 는 점을 언급했습니다. 이 문제를 해결하기 위해, 저는 각 애플리케이션 Pod에 **OpenTelemetry Collector를 '사이드카' 컨테이너로 함께 배포**하는 방식을 택했습니다. 말로만 하면 감이 잘 안 오니, 저희 설정 예시를 보여드리겠습니다.
 
-```yaml
+```yaml {filename="otel-sidecar-example-deployment.yml"}
 spec:
   template:
     spec:
@@ -466,7 +483,7 @@ spec:
 
 기존에는 개발 서버가 아예 없어서 모든 서비스가 운영 환경 하나만 바라보고 있었습니다. 그런데 코드를 살펴보니...
 
-```java
+```java {filename="SQSConfig.java"}
 // 레거시 코드에 박혀있던 하드코딩
 public class SQSConfig {
     private static final String QUEUE_URL =
@@ -486,7 +503,7 @@ public class SQSConfig {
 긴급하게 개발 환경을 내리고, 코드를 수정했습니다.
 또 개발서버가 컨슘해버린 이벤트들을 개별적으로 발행해줘야 했죠 🥲
 
-```java
+```java {filename="SQSConfig.java"}
 // 긴급 패치: 환경변수로 분리
 public class SQSConfig {
     private static final String QUEUE_URL =
