@@ -1,5 +1,5 @@
 ---
-title: "Leaving Docker-compose for Kubernetes: The Growth Story of Our MSA"
+title: "From No Dev Server to GitOps: My Journey of Introducing Kubernetes from Scratch"
 tags:
   - "kubernetes"
   - "docker-compose"
@@ -14,11 +14,11 @@ Hello.
 
 I'm Jeong Jeong-il, a 3rd-year backend developer working at a PropTech platform.
 
-Today, I'd like to share **our team's experience of migrating a Spring Cloud-based microservice (MSA) that was running on Docker containers to a Kubernetes environment**.
+Today, I'd like to share **the process of migrating our MSA services, which were running on a legacy Docker environment, to a Kubernetes-based infrastructure, a journey I proposed and built from scratch.**
 
-In this process, we **removed Spring Cloud's Eureka and API Gateway, and introduced GKE (Google Kubernetes Engine) and ArgoCD**.
+The biggest change was **removing Spring Cloud's Eureka and API Gateway, which we were long accustomed to, and introducing GKE (Google Kubernetes Engine) and ArgoCD.**
 
-I'll share why we made this decision, what practical concerns we had during the process, and what we gained.
+I've organized why I chose this new path over familiar technologies, and how I solved the practical challenges of starting from scratch.
 
 ---
 
@@ -66,6 +66,24 @@ Another point I really wanted to improve after joining the team was the **absenc
 These conversations were daily.
 
 Experiencing these problems, we came to the conclusion that "we can't continue like this anymore," and to firmly establish **scalability, high availability, and a proper development environment**, which are directly connected to business continuity, I proposed introducing Kubernetes, the standard for container orchestration, and decided to introduce it after discussions with team members.
+
+### 3. How I Ended Up Leading This
+
+Actually, I'm not a professional DevOps engineer. However, I was lucky (?) enough to have the opportunity to dig deep into infrastructure in my previous job.
+
+At my previous company, the only infrastructure manager was leaving, and a replacement hadn't been found, risking a gap in operations. I went to the manager and asked him:
+
+> "If something happens to the server while you're gone, someone has to fix it... If you don't mind, could you teach me just a little? I'll try to hold the fort somehow with my limited knowledge."
+
+Perhaps he appreciated my sincerity, as he gave me intensive mentoring for a month. Thanks to him, I was able to quickly learn **AWS EKS, Jenkins, ArgoCD, ELK**, and more. After that, I managed the infrastructure alone for about 7 months.
+
+> Actually, since it wasn't an amount I could master in just one month of mentoring, I remember writing down every infrastructure keyword he threw at me in a notebook and looking them up one by one to study... haha..
+
+Looking back now, it was a really reckless challenge... but thanks to that, I learned so much, and I think it was a huge stroke of luck in my life. Before that, like in many companies, I didn't even have access permissions to the infrastructure.
+
+The situation in my new team was similar. There was no dedicated DevOps engineer, and backend developers were handling infrastructure operations on the side.
+
+Since I was the only one in the team with practical Kubernetes experience, naturally (?), I, a 3rd-year developer, ended up leading this migration project.
 
 ---
 
@@ -131,7 +149,7 @@ Previously, each MSA service was managed in separate repositories.
 To change a single Feign Client URL, you had to visit all 16 repositories one by one, modify, commit, and open PRs... The bigger problem was that **common code was copied to each project**.
 Also, common monitoring-related configurations had different settings for each project, resulting in heavy management burden.
 
-```java
+```java {filename="feign-client.java"}
 // UserServiceClient in match-service repository
 @FeignClient(name = "USER-SERVICE")
 public interface UserServiceClient { ... }
@@ -172,7 +190,7 @@ By introducing the COMMON module and gathering Feign Clients in one place, we co
 
 The service discovery role that Eureka Server used to do is now replaced by Kubernetes's **Service and DNS**.
 
-```yaml
+```yaml {filename="service.yml"}
 # K8s Service definition
 apiVersion: v1
 kind: Service
@@ -192,7 +210,7 @@ Now accessible from anywhere in the cluster with the name `user-service-svc`. Th
 
 Instead of the existing Spring Cloud Gateway, we use Kubernetes **Ingress**.
 
-```yaml
+```yaml {filename="ingress.yml"}
 # Ingress configuration example
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -254,7 +272,7 @@ In the Spring Cloud environment, we configured Prometheus to discover services t
 
 Previously, Prometheus was configured to discover services through Eureka and scrape metrics.
 
-```yaml
+```yaml {filename="prometheus.yml"}
 # Existing: prometheus.yml
 scrape_configs:
   - job_name: 'eureka'
@@ -284,9 +302,8 @@ With the transition to Kubernetes, we completely flipped this structure. **Push 
 
 In the new approach, each service sends metrics to the OpenTelemetry Collector sidecar, and the Collector forwards them to Prometheus.
 
-```yaml
+```yaml {filename="otel-collector-config.yaml"}
 # OpenTelemetry Collector configuration
-(otel-collector-config)
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -363,7 +380,7 @@ This transition wasn't easy... We had to recreate all existing Grafana dashboard
 
 As mentioned earlier, one of our problems was **"monitoring configurations differ for each service, resulting in heavy management burden."** To solve this problem, I chose to deploy the **OpenTelemetry Collector as a 'sidecar' container along with each application Pod**. Just hearing about it may not give you a clear picture, so let me show you our configuration example:
 
-```yaml
+```yaml {filename="otel-sidecar-example-deployment.yml"}
 spec:
   template:
     spec:
@@ -465,7 +482,7 @@ The **most nerve-wracking accident** that occurred when first building the devel
 
 Previously, since there was no development server at all, all services were looking at only one production environment. But when I looked at the code...
 
-```java
+```java {filename="SQSConfig.java"}
 // Hardcoded in legacy code
 public class SQSConfig {
     private static final String QUEUE_URL =
@@ -485,7 +502,7 @@ What happened after starting the development cluster was exactly as you expected
 We urgently brought down the development environment and modified the code.
 We also had to individually publish the events that the development server had consumed 🥲
 
-```java
+```java {filename="SQSConfig.java"}
 // Emergency patch: Separate by environment variables
 public class SQSConfig {
     private static final String QUEUE_URL =
