@@ -15,7 +15,7 @@ date: '2025-11-18'
 최근 저희 팀은 Docker Compose 기반의 운영 환경을 쿠버네티스로 전환했습니다.
 확장성, 자동화, 무중단 배포 등 MSA 환경에서 필요한 기능들을 제대로 활용하기 위한 선택이었죠.
 
-> 관련 글: [Docker-compose를 떠나 쿠버네티스로, 사내 MSA의 성장기]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
+> 관련 글: [개발 서버도 없던 팀이 GitOps를 갖추기까지: 맨땅에서 시작한 쿠버네티스 도입기]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
 
 전환 후 메트릭을 살펴보다가, 묘한 패턴을 발견했습니다.
 배포 직후 몇 분간 첫 API 요청이 유독 느리다는 거였죠. 평소엔 `100~200ms`인 응답이 배포 직후엔 `1.2~1.4`초씩 걸리는 상황이었습니다. 😱

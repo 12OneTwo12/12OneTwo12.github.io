@@ -15,7 +15,7 @@ date: '2025-11-18'
 Recently, our team migrated from a Docker Compose-based production environment to Kubernetes.
 It was a choice to properly utilize features needed in an MSA environment, such as scalability, automation, and zero-downtime deployment.
 
-> Related article: [From Docker-compose to Kubernetes: The Growth Story of Our Company's MSA]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
+> Related article: [From No Dev Server to GitOps: My Journey of Introducing Kubernetes from Scratch]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
 
 While examining metrics after the migration, I discovered a peculiar pattern.
 For a few minutes after deployment, the first API requests were unusually slow. Responses that normally took `100~200ms` were taking `1.2-1.4` seconds right after deployment.
