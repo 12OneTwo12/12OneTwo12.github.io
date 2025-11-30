@@ -30,7 +30,7 @@ toc: true
 | Spring Batch  | `{{< experience-years start="2023-05-01" >}}` | 대규모 데이터 처리 시스템 설계 및 Chunk, Partitioning을 통한 성능 최적화 경험                   |
 | Spring Cloud  | `{{< experience-years start="2024-03-01" >}}` | Gateway, Eureka 등을 활용한 MSA 구축 및 운영 경험                                     |
 | MySQL         | `{{< experience-years start="2023-03-06" >}}` | **Certified - SQL Developer** \| 데이터베이스 설계, 쿼리 튜닝 및 Replication 운영 경험                         |
-| Kubernetes    | `{{< experience-years start="2023-12-01" >}}` | GKE 기반 인프라 설계, 구축 및 ArgoCD를 활용한 배포 자동화 경험                                  |
+| Kubernetes    | `{{< experience-years start="2023-12-01" >}}` | **Certified - Certified Kubernetes Administrator (CKA)** \| GKE 기반 인프라 구축, Helm 패키지 관리 및 ArgoCD 배포 자동화 경험 |
 | Linux         | `{{< experience-years start="2022-03-06" >}}` | **Certified - Linux Master Level-II**, **AWS Certified Cloud Practitioner (CCP)** \| 서버 설정 및 스크립트 작성 등 운영 경험     |
 
 ## **Work Experience**
@@ -205,6 +205,7 @@ toc: true
 
 ## **Certificate**
 
+- **[Certified Kubernetes Administrator (CKA)](https://www.credly.com/badges/e357623d-2e5c-4c5c-aed9-d3e90f06aa56/public_url)** \| Cloud Native Computing Foundation (CNCF) / 2025.11
 - **리눅스마스터 2급** \| KAIT / 2024.10
-- **Certified Cloud Practitioner (CCP)** \| AWS / 2024.08
+- **[Certified Cloud Practitioner (CCP)](https://www.credly.com/badges/924d4107-fbcb-4a48-abed-7f42266ae34f/public_url)** \| AWS / 2024.08
 - **SQLD** \| 한국데이터산업진흥원 / 2022.12
