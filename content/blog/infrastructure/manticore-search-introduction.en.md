@@ -58,7 +58,7 @@ One of the great attractions of Manticore Search was its **native support for SQ
 SELECT * FROM poi WHERE MATCH('Gangnam Station');
 ```
 
-![manticore-sql](https://previews.dropbox.com/p/thumb/AC0kqDEVDa7csrXvSzUz2xHBR9uymklifI1x9l8Tgfk6UocD5P_JW9MT2IEbGRZfXbK_g9WWqui_Rhe6QuNRP2AH3HvV9n7OA7Ayv8nZm7Gbr2dIBIqd7UIcJIa5LiznytDeRLZ2F6pMojG7b5LjlIgtsP1VBZ8Io6ZuZQI_aYjZYJjdqvlunbCM7dNhYzfrhtE3thmMzEePvH_dxRXCfWRsSHnmtBSH6eyaA0YjWIAWnkTDvQx65iegTLDOEoA38Z2th7jIZm-Hf7HHzl8EixjMzBcU9q2Ndy0H6wEQrQiUVzf7cIC37ZC11iu3v3aOLnxQl2juWKmYAs4iC63roZFd/p.png?is_prewarmed=true)
+![manticore-sql](https://www.dropbox.com/scl/fi/zqywde80vp8pkzuewyz2c/manticore-sql-example.png?rlkey=p97zv65ncxpq4059mllw8u8w7&st=bvjclmbw&raw=1)
 
 In addition, it basically supports the **HTTP JSON API**, which is essential for modern web service architectures.
 
@@ -72,7 +72,7 @@ curl -X POST 'http://127.0.0.1:9308/search' -H 'Content-Type: application/json' 
 }'
 ```
 
-![manticore-http](https://previews.dropbox.com/p/thumb/AC2xnivdJx2UdgNROejy01d1_6ZgHt4pPKDHOnT-Umd6NI5sA-H2bWgVifYUfg6Mi5Lwjm5qL3QUPIbXJZcWjZk4dfd9IA0qB8akuLjq61nqC4_QtQt6GuvPsHlFhcz4UYhd6WeFVzhLLwckEzZqkAT4fxaOTJhhnFigyQRzIJotZN1mRCHIbaLQLFMPPI1ByjfCfLUeikNQ9PkP1nI_os3e1FI-FxbfHi_SNI7Y7_1he4_bOZqPB4DEWXKonrlH1rkbuhbBmZytz38xphqZ59Kc4n0kmY9nddcHPUXbGvdvKTOkUeF6yuYX4MVIOrnQSJmjckYyJ9BxX8XX_8uMLfbj/p.png?is_prewarmed=true)
+![manticore-http](https://www.dropbox.com/scl/fi/scanv3bz1eb7bap1avr41/manticore-http-example.png?rlkey=x01gm289tn0uris9xyf3w9a07&st=603zekxv&raw=1)
 
 ## Comparison with Other Search Engines: Why Manticore?
 

@@ -30,7 +30,7 @@ This blog is a record of my struggles and growth. Rather than glamorous success 
 | Spring Batch  | `{{< experience-years start="2023-05-01" >}}` | Experience designing large-scale data processing systems and optimizing performance through Chunk and Partitioning |
 | Spring Cloud  | `{{< experience-years start="2024-03-01" >}}` | Experience building and operating MSA using Gateway, Eureka, etc. |
 | MySQL         | `{{< experience-years start="2023-03-06" >}}` | **Certified - SQL Developer** \| Experience in database design, query tuning, and Replication operations |
-| Kubernetes    | `{{< experience-years start="2023-12-01" >}}` | Experience designing and building GKE-based infrastructure and automating deployments with ArgoCD |
+| Kubernetes    | `{{< experience-years start="2023-12-01" >}}` | **Certified - Certified Kubernetes Administrator (CKA)** \| GKE infra design, Helm package management, and ArgoCD deployment automation |
 | Linux         | `{{< experience-years start="2022-03-06" >}}` | **Certified - Linux Master Level-II**, **AWS Certified Cloud Practitioner (CCP)** \| Experience in server configuration, script writing, and operations |
 
 ## **Work Experience**
@@ -205,6 +205,7 @@ This blog is a record of my struggles and growth. Rather than glamorous success 
 
 ## **Certificate**
 
+- **[Certified Kubernetes Administrator (CKA)](https://www.credly.com/badges/e357623d-2e5c-4c5c-aed9-d3e90f06aa56/public_url)** \| Cloud Native Computing Foundation (CNCF) / 2025.11
 - **Linux Master Level 2** \| KAIT / 2024.10
-- **Certified Cloud Practitioner (CCP)** \| AWS / 2024.08
+- **[Certified Cloud Practitioner (CCP)](https://www.credly.com/badges/924d4107-fbcb-4a48-abed-7f42266ae34f/public_url)** \| AWS / 2024.08
 - **SQLD** \| Korea Data Agency / 2022.12
