@@ -143,7 +143,7 @@ I believe CKA isn't just a certification—it's **a catalyst for truly understan
 
 I especially **strongly recommend it for those who, like me, have only used Managed Kubernetes**. If you're good at deploying applications in production but don't know much about Kubernetes internals, you'll learn a lot while preparing for CKA.
 
-The value of CKA isn't the "certificate" itself—it's that **the preparation process forces you to study areas you haven't dealt with in production.**
+The value of CKA isn't the "certificate" itself—I think it's that **the exam preparation process helps you study areas you haven't explored before.**
 
 Since the exam is hands-on, you don't just memorize theory but actually practice commands in a terminal, which really helps with learning.
 
