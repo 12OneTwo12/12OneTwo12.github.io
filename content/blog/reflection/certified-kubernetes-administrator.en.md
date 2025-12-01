@@ -86,7 +86,7 @@ For exam preparation, I used the following resources. Since many others have alr
 - [[CKA] CKA Exam 2025 Problem-Solving Summary 1 - hyunlulu](https://hyunlulu.tistory.com/entry/CKA-CKA-exam-2025-question-%EB%AC%B8%EC%A0%9C%ED%92%80%EC%9D%B4-%EC%A0%95%EB%A6%AC)
   - This is a problem-solving guide. It helped me understand the types of questions. There's also a part 2, so check it out as well.
 
-My preparation took about a month. Since I already had some Kubernetes knowledge, I studied at a relaxed pace for about a month. If you're starting from scratch with no Kubernetes experience, I'd recommend allocating 2-3 months.
+My preparation took about a month. Although I had some Kubernetes knowledge, I couldn't dedicate much time to studying due to work commitments, so it took longer than expected. If you're starting from scratch with no Kubernetes experience, I'd recommend allocating 2-3 months.
 
 ## Exam Results and Honest Review
 
