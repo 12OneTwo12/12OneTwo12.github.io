@@ -299,7 +299,7 @@ Results were quite surprising.
 
 Now when developing one API, I can start by loading only needed context like `/skill core-principles.md`, `/skill mvc-layers`, `/skill testing-guide`, `/skill api-design`.
 
-I'll leave [side project Skills configuration](https://github.com/12OneTwo12/grow-snap/tree/dev/grow-snap-backend/.claude/skills) so you can see if you're curious.
+I'll leave [side project Skills configuration](https://github.com/12OneTwo12/upvy/tree/dev/upvy-backend/.claude/skills) so you can see if you're curious.
 
 ---
 
@@ -379,7 +379,7 @@ So I introduced Gemini Assistant code review in PR units, and doing this **great
 3. Gemini code reviews
 4. I can judge by looking at PR decorations and review comments
 
-If you look at **[PR where I actually collaborate with two AIs](https://github.com/12OneTwo12/grow-snap/pull/35)**, understanding of work process will be easier.
+If you look at **[PR where I actually collaborate with two AIs](https://github.com/12OneTwo12/upvy/pull/35)**, understanding of work process will be easier.
 
 Doing this, I could entrust even more complex tasks to AI.
 
@@ -442,7 +442,7 @@ Actually in almost all processes of collaboration, I always went through the pro
 
 Looking at Claude Code's execution plans, you can see thinking and development processes are quite similar to us developers. In that process, I proposed other alternatives like talking with other human developers, and also accepted Claude code's refutations.
 
-**HOTL (Human-on-the-Loop):** For simple tasks like batch parameter changes, Claude Rule, Skill modifications, there were occasional cases where AI performed autonomously and I just checked results. (ex.[PR-Separating CLAUDE.md into Skills](https://github.com/12OneTwo12/grow-snap/pull/41))
+**HOTL (Human-on-the-Loop):** For simple tasks like batch parameter changes, Claude Rule, Skill modifications, there were occasional cases where AI performed autonomously and I just checked results. (ex.[PR-Separating CLAUDE.md into Skills](https://github.com/12OneTwo12/upvy/pull/41))
 
 As mentioned above, since automation tools verify on PR, there were tasks where checking at final confirmation was sufficient with my intervention.
 I felt that switching modes according to work characteristics is key.
@@ -495,5 +495,5 @@ I think I've barely started now.
 
 ### References
 - [Toby's Meetup Report - 31-Year Developer's Message on How to Live as a Developer in the AI Era]({{< relref "/blog/reflection/how-to-live-as-a-developer-in-the-ai-era" >}})
-- [My Side Project Proceeding with AI Collaboration - GrowSnap](https://github.com/12OneTwo12/grow-snap)
+- [My Side Project Proceeding with AI Collaboration - GrowSnap](https://github.com/12OneTwo12/upvy)
 - [AgentCoder: Multiagent-Code Generation with Iterative Testing and Optimisation (2024)](https://arxiv.org/html/2312.13010v2) - Multi-agent cross-verification effect research

@@ -299,7 +299,7 @@ Claude Code는 작업을 시작하기 전에 관련된 Skill 문서를 자동으
 
 이제 API 하나 개발할 때는 `/skill core-principles.md`,`/skill mvc-layers`, `/skill testing-guide`, `/skill api-design` 이런 식으로 필요한 컨텍스트만 로드하고 시작할 수 있게 됐습니다.
 
-[사이드 프로젝트 Skills 구성](https://github.com/12OneTwo12/grow-snap/tree/dev/grow-snap-backend/.claude/skills)을 보실 수 있게 남길테니 궁금하신 분들은 보셔도 좋을 것 같습니다.
+[사이드 프로젝트 Skills 구성](https://github.com/12OneTwo12/upvy/tree/dev/upvy-backend/.claude/skills)을 보실 수 있게 남길테니 궁금하신 분들은 보셔도 좋을 것 같습니다.
 
 ---
 
@@ -379,7 +379,7 @@ AI끼리 리뷰를 반복할수록 성능이 올라갔습니다.
 3. Gemini가 코드 리뷰하고
 4. 저는 PR 데코레이션과 리뷰 코멘트를 보고 판단할 수 있게 됐습니다.
 
-제가 **[실제로 두 AI와 함께 협업하는 PR](https://github.com/12OneTwo12/grow-snap/pull/35)** 을 보시면 작업 과정의 이해가 좀더 용이하실 것 같습니다.
+제가 **[실제로 두 AI와 함께 협업하는 PR](https://github.com/12OneTwo12/upvy/pull/35)** 을 보시면 작업 과정의 이해가 좀더 용이하실 것 같습니다.
 
 이렇게 되니 AI에게 더 복잡한 작업도 맡길 수 있게 됐습니다.
 
@@ -442,7 +442,7 @@ AI가 요구사항대로 테스트 작성 → AI가 코드 작성 → 테스트 
 
 Claude Code의 실행계획을 보면 저희 개발자들과 생각 및 개발과정이 꽤나 비슷하단 걸 알 수 있습니다. 저는 저 과정속에서 다른 인간 개발자분과 이야기하듯 다른 대안을 제시하기도 Claude code의 반박에 납득하기도 했죠.
 
-**HOTL (Human-on-the-Loop):** 파라미터 일괄 변경, Claude Rule, Skill 수정과 같은 단순 작업은 AI가 자율적으로 수행하고, 저는 결과만 확인하는 경우도 간혹 있었습니다. (ex.[PR-CLAUDE.md Skills로 분리](https://github.com/12OneTwo12/grow-snap/pull/41))
+**HOTL (Human-on-the-Loop):** 파라미터 일괄 변경, Claude Rule, Skill 수정과 같은 단순 작업은 AI가 자율적으로 수행하고, 저는 결과만 확인하는 경우도 간혹 있었습니다. (ex.[PR-CLAUDE.md Skills로 분리](https://github.com/12OneTwo12/upvy/pull/41))
 
 위에서 언급했듯 PR에 자동화 도구들이 검증해주니, 최종적인 확인에서 제가 개입하는 정도로 충분한 작업들도 있었죠.
 작업 특성에 따라 모드를 전환하는 게 핵심이라고 느꼈습니다.
@@ -495,5 +495,5 @@ AI를 단순 어시스트가 아닌 **학습 파트너이자 협업 도구**로 
 
 ### 참고 자료
 - [토비님 밋업 참관기 - 31년차 개발자가 전하는 AI시대 개발자로 살아가는 법]({{< relref "/blog/reflection/how-to-live-as-a-developer-in-the-ai-era" >}})
-- [AI와 협업으로 진행하는 제 사이드 프로젝트 - GrowSnap](https://github.com/12OneTwo12/grow-snap)
+- [AI와 협업으로 진행하는 제 사이드 프로젝트 - GrowSnap](https://github.com/12OneTwo12/upvy)
 - [AgentCoder: Multiagent-Code Generation with Iterative Testing and Optimisation (2024)](https://arxiv.org/html/2312.13010v2) - Multi-agent 교차검증 효과 연구
