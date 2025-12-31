@@ -87,7 +87,7 @@ Memories accumulated in ChatGPT exist only in ChatGPT, and memories accumulated 
 
 What if, after using ChatGPT for a year and diligently building up Memory, ChatGPT changes its paid version policy, performance drops, a better model appears on another platform, or you need to switch to Claude or Gemini for other reasons?
 
-Despairingly, you have to rebuild Memory from scratch on the other platform.
+**Despairingly, you have to rebuild Memory from scratch on the other platform.**
 
 Developers are accustomed to managing dependencies. When dependencies on libraries, frameworks, or specific cloud services arise, we try to manage and minimize them. Similarly, **LLM platform dependency becomes something that needs to be managed**.
 
@@ -474,7 +474,7 @@ Right now, my development blog only has experiences and rules, but for example, 
 
 When I ask "What do I need to do today?", the AI checks my schedule and to-dos and tells me.
 
-Through the MCP server, my second brain becomes not passive but actively helps with my work, and the more I record, the better it understands me and can reason.
+Through the MCP server, my second brain becomes **not passive but actively** helps with my work, and the more I record, the better it understands me and can reason.
 
 It gives advice based on experience, warns me about mistakes I often make, and consistently maintains rules.
 
@@ -492,11 +492,11 @@ However, as the LLM became able to read and utilize my blog, the blog became **a
 
 I haven't written many blog posts, but I had organized experience-related parts, and while thinking about making an MCP server, I felt so glad I had written them down.
 
-However, to utilize it well as a second brain, I think it needs to be well organized. Posts that aren't properly organized are difficult for AI to utilize, and in some cases can give wrong information or cause hallucinations.
+However, **to utilize it well as a second brain, it needs to be well organized**. Posts that aren't properly organized are difficult for AI to utilize, and in some cases can give wrong information or cause hallucinations.
 
-That could actually interfere with collaborating or utilizing AI. The importance of documentation is emphasized once again here. I felt once more that the ability to properly organize and record is a very important capability for developers.
+That could actually interfere with collaborating or utilizing AI. The importance of documentation is emphasized once again here. **I felt once more that the ability to properly organize and record is a very important capability for developers.**
 
-I also realized again that if you record and organize well, it becomes a huge asset. Thinking that its value will grow even more in the future made me resolve to record and organize more diligently.
+I also realized again **that if you record and organize well, it becomes a huge asset**. Thinking that its value will grow even more in the future made me resolve to record and organize more diligently.
 
 ### 2. Context is Important for AI Collaboration
 
@@ -514,7 +514,7 @@ But as documents increased, management became difficult, and updating them every
 
 Also, common rules across multiple projects had to be added for each project every time.
 
-By introducing the MCP server, all these problems were solved. My blog became my context repository, and the MCP server provides it to the LLM in real-time.
+By introducing the MCP server, all these problems were solved. **My blog became my context repository**, and the MCP server provides it to the LLM in real-time.
 
 ### 3. The Usefulness of Second Brain
 
@@ -532,7 +532,7 @@ By making my development blog into an MCP server, **the value of the blog has gr
 
 This is because it's not just an organization post, but has become a vector DB of my personal experiences and a knowledge repository that the LLM refers to in real-time.
 
-If Obsidian is a second external hard drive rather than a second brain, I think the MCP server has become a real second brain.
+**If Obsidian is a second external hard drive rather than a second brain, the MCP server has become a real second brain.**
 
 Of course, there are still many shortcomings and things to improve, and it should be considered that there may be incorrect information among the posts I've written. However, just from what I've experienced so far, I think building the MCP server was sufficiently valuable.
 
