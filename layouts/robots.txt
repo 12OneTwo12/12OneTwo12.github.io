@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /docs/
+Disallow: /ko/docs/
+Disallow: /en/docs/
 
 Sitemap: {{ .Site.BaseURL }}sitemap.xml
 Sitemap: {{ .Site.BaseURL }}ko/sitemap.xml
