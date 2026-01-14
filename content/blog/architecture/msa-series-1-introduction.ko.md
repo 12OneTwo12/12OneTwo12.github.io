@@ -86,7 +86,7 @@ flowchart TB
         direction TB
         subgraph S1R1[" "]
             direction LR
-            S1_Order["주문"]
+            S1_Order["💥 주문"]
             S1_Product["상품"]
         end
         subgraph S1R2[" "]
@@ -100,7 +100,7 @@ flowchart TB
         direction TB
         subgraph S2R1[" "]
             direction LR
-            S2_Order["주문"]
+            S2_Order["💥 주문"]
             S2_Product["상품"]
         end
         subgraph S2R2[" "]
