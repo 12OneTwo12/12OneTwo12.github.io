@@ -86,7 +86,7 @@ flowchart TB
         direction TB
         subgraph S1R1[" "]
             direction LR
-            S1_Order["Order"]
+            S1_Order["💥 Order"]
             S1_Product["Product"]
         end
         subgraph S1R2[" "]
@@ -100,7 +100,7 @@ flowchart TB
         direction TB
         subgraph S2R1[" "]
             direction LR
-            S2_Order["Order"]
+            S2_Order["💥 Order"]
             S2_Product["Product"]
         end
         subgraph S2R2[" "]
