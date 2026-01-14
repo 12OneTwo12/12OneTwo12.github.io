@@ -5,7 +5,8 @@ tags:
   - architecture
   - distributed-systems
 date: '2025-01-14'
-series: msa-consideration
+series:
+  - msa-consideration
 ---
 
 As developers, I think we all encounter moments when we find ourselves pondering about MSA (Microservices Architecture). Each time, we fall into various considerations.
