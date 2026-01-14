@@ -4,7 +4,7 @@ tags:
   - msa
   - architecture
   - distributed-systems
-date: '2025-01-14'
+date: '2026-01-14'
 ---
 
 As developers, I think we all encounter moments when we find ourselves pondering about MSA (Microservices Architecture). Each time, we fall into various considerations.
