@@ -168,15 +168,17 @@ MSA 관점에서 중요한 건 이겁니다: **동기 통신은 호출하는 쪽
 
 자 그렇다면 동기 통신과 비동기 통신을 통해 서비스 간 통신을 구현하는 방법에는 어떤 것들이 있을까요? 그리고 우리는 어떤 방법을 선택해야 할까요?
 
----
+구체적인 구현 방법을 살펴보기 전에, 한 가지 짚고 넘어가고 싶은 부분이 있습니다.
 
-### 동기 vs 비동기
+### 비동기라고 다 비동기가 아니다
 
-**동기 호출도 Fallback으로 장애 전파를 막을 수 있지만, 호출 시점에 상대 서비스 상태에 의존하게 됩니다.** 비동기로 전환하면 이 의존성을 덜어낼 수 있어요. 
+동기 호출은 상대 서비스가 다운되면 장애가 전파됩니다. 물론 Fallback이나 Circuit Breaker로 어느 정도 막을 수 있지만, **호출 시점에 상대 서비스 상태에 의존하게 되는 건 변하지 않습니다.** 비동기로 전환하면 이 의존성을 덜어낼 수 있어요.
 
-다만 "이 이벤트가 언제까지는 처리되어야 해"라고 기대하거나 처리 결과를 기대하고 폴링하기 시작하면, **Hidden Synchronous Dependency(숨겨진 동기적 의존성)** 가 생깁니다. 
+하지만 비동기로 바꿨다고 해서 무조건 의존성이 사라지는 건 아닙니다. 예를 들어 "이 이벤트가 5초 안에는 처리되어야 해"라고 기대하거나, 처리 결과를 기다리며 폴링하기 시작하면 어떻게 될까요?
 
-겉은 비동기인데 속은 동기인 셈이죠. 결국 동기냐 비동기냐는 **"얼마나 느슨하게 결합할 수 있는가"의 문제**라고 생각합니다.
+이런 상황을 **Hidden Synchronous Dependency(숨겨진 동기적 의존성)** 라고 부릅니다. 겉으로는 비동기인데 실제로는 동기처럼 동작하는 셈이죠. 비동기의 장점인 "느슨한 결합"을 제대로 누리려면 이 부분을 주의해야 한다고 생각합니다.
+
+결국 동기냐 비동기냐는 단순히 "기다리느냐 안 기다리느냐"가 아니라 **"얼마나 느슨하게 결합할 수 있는가"의 문제**라고 생각합니다.
 
 ---
 
@@ -316,24 +318,6 @@ message User {
 
 이처럼 `.proto` 파일 하나로 서비스 인터페이스와 메시지 타입을 정의하면, 클라이언트와 서버 양쪽에서 동일한 타입을 사용할 수 있습니다.
 
-### 서비스를 어떻게 찾을 것인가: Service Discovery
-
-REST, gRPC, GraphQL 어떤 프로토콜을 사용하든, 서비스 간 통신을 하려면 **상대 서비스의 위치를 알아야 합니다.** 모놀리식에서는 고민할 필요 없던 문제죠. GraphQL Federation도 마찬가지입니다. Gateway가 각 Subgraph 서비스의 위치를 알아야 쿼리를 라우팅할 수 있습니다.
-
-```mermaid
-flowchart LR
-    OrderService["주문 서비스"] -->|"1. 회원 서비스 어디있어?"| Registry["Service Registry"]
-    Registry -->|"2. 10.0.1.5:8080"| OrderService
-    OrderService -->|"3. 실제 호출"| UserService["회원 서비스"]
-```
-
-대표적인 방식:
-- **Client-side Discovery**: 클라이언트가 Registry에서 직접 조회 (Eureka, Consul)
-- **Server-side Discovery**: 로드밸런서/Gateway가 라우팅 (AWS ALB, K8s Service)
-- **DNS 기반**: `user-service.default.svc.cluster.local` 형태로 접근 (Kubernetes)
-
-Kubernetes 환경이라면 내장 DNS로 충분하고, 그렇지 않다면 Consul이나 Eureka를 검토해보세요. Service Discovery 자체로도 큰 주제이지만, 여기서는 "통신 전에 이 문제를 먼저 해결해야 한다"는 점만 짚고 넘어가겠습니다.
-
 ### GraphQL Federation
 
 GraphQL은 페이스북에서 개발한 쿼리 언어로, 클라이언트가 필요한 데이터만 정확하게 요청할 수 있다는 특징이 있습니다.
@@ -394,6 +378,24 @@ GraphQL 도입 시 반드시 알아야 할 문제가 **N+1 쿼리**입니다. `o
 - **REST를 피해야 할 때**: 서비스 간 호출이 초당 수천 건 이상으로 성능이 병목일 때, 스키마 변경이 잦아서 타입 안전성이 중요할 때
 
 기술 선택에서 가장 위험한 건 **"좋아 보여서"** 라고 생각합니다. gRPC의 성능이 좋다고 해서 모든 곳에 도입하면, 디버깅과 운영 및 유지보수의 어려움과 학습 비용이 그 성능 이득을 상쇄할 수 있도 있으니까요.
+
+### 서비스를 어떻게 찾을 것인가: Service Discovery
+
+REST, gRPC, GraphQL 어떤 프로토콜을 사용하든, 서비스 간 통신을 하려면 **상대 서비스의 위치를 알아야 합니다.** 모놀리식에서는 고민할 필요 없던 문제죠.
+
+```mermaid
+flowchart LR
+    OrderService["주문 서비스"] -->|"1. 회원 서비스 어디있어?"| Registry["Service Registry"]
+    Registry -->|"2. 10.0.1.5:8080"| OrderService
+    OrderService -->|"3. 실제 호출"| UserService["회원 서비스"]
+```
+
+대표적인 방식:
+- **Client-side Discovery**: 클라이언트가 Registry에서 직접 조회 (Eureka, Consul)
+- **Server-side Discovery**: 로드밸런서/Gateway가 라우팅 (AWS ALB, K8s Service)
+- **DNS 기반**: `user-service.default.svc.cluster.local` 형태로 접근 (Kubernetes)
+
+Kubernetes 환경이라면 내장 DNS로 충분하고, 그렇지 않다면 Consul이나 Eureka를 검토해보세요. Service Discovery 자체로도 큰 주제이지만, 여기서는 "통신 전에 이 문제를 먼저 해결해야 한다"는 점만 짚고 넘어가겠습니다.
 
 ### API Gateway: 외부와 내부의 경계
 
