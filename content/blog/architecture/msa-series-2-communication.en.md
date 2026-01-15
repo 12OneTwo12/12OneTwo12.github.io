@@ -579,6 +579,10 @@ Asynchronous communication also has **situations to avoid**.
 - **Avoid Choreography when**: Workflows have 5+ complex steps, compensating transactions are needed, you need to know "where in the flow are we now?"
 - **Avoid async entirely when**: Users need immediate results, order guarantees are tricky, team lacks capability to handle debugging complexity
 
+I think there's one more thing to be careful about when introducing asynchronous communication. **If you overuse events, fail to document them properly, or develop inconsistently, complexity can increase dramatically.** When you can no longer tell when events are published, who publishes them, and who processes them—I've found this becomes a major culprit making the entire service difficult to understand.
+
+When I joined my team, an MSA migration was already in progress, and one of the hardest parts of understanding the system was the SNS+SQS setup. There was no documentation at all, so I had to Ctrl+F topic names across each service's codebase, hunting down publishers and subscribers one by one. The advantage of event-driven architecture, "loose coupling," can degenerate into "nobody knows the complete flow."
+
 Personally, I think async is **trading off complexity for failure propagation**. Synchronous calls' "failure propagation" problem becomes "message loss," "order reversal," and "duplicate processing" problems in async.
 
 ---
