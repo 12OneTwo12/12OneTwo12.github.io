@@ -168,15 +168,17 @@ Consider sending notifications after an order is completed. There's no need to w
 
 So what methods are available for implementing inter-service communication through synchronous and asynchronous communication? And which should we choose?
 
----
+Before diving into specific implementation methods, there's one thing I'd like to address.
 
-### Synchronous vs Asynchronous
+### Async Isn't Always Truly Async
 
-**While synchronous calls can prevent failure propagation through fallbacks, they still depend on the target service's state at call time.** Switching to asynchronous can reduce this dependency.
+Synchronous calls propagate failures when the target service goes down. You can mitigate this with fallbacks or circuit breakers, but **the fundamental dependency on the target service's state at call time remains unchanged.** Switching to asynchronous can reduce this dependency.
 
-However, if you start expecting "this event should be processed by a certain time" or polling for processing results, you create **Hidden Synchronous Dependency**.
+But switching to async doesn't automatically eliminate dependencies. What happens if you expect "this event should be processed within 5 seconds" or start polling for processing results?
 
-It looks asynchronous on the surface but is synchronous underneath. Ultimately, whether to go synchronous or asynchronous is about **"how loosely can we couple?"**
+This situation is called **Hidden Synchronous Dependency**. It looks asynchronous on the surface but actually behaves synchronously. To truly benefit from async's "loose coupling" advantage, you need to be careful about this.
+
+Ultimately, the choice between synchronous and asynchronous isn't simply about "waiting vs not waiting"—it's about **"how loosely can we couple?"**
 
 ---
 
@@ -316,24 +318,6 @@ message User {
 
 By defining service interfaces and message types in a single `.proto` file, both client and server can use identical types.
 
-### How to Find Services: Service Discovery
-
-Regardless of whether you use REST, gRPC, or GraphQL, you need to **know the location of the target service** for inter-service communication. This wasn't a concern in monoliths. The same applies to GraphQL Federation—the Gateway needs to know each Subgraph service's location to route queries.
-
-```mermaid
-flowchart LR
-    OrderService["Order Service"] -->|"1. Where is User Service?"| Registry["Service Registry"]
-    Registry -->|"2. 10.0.1.5:8080"| OrderService
-    OrderService -->|"3. Actual call"| UserService["User Service"]
-```
-
-Common approaches:
-- **Client-side Discovery**: Client queries Registry directly (Eureka, Consul)
-- **Server-side Discovery**: Load balancer/Gateway handles routing (AWS ALB, K8s Service)
-- **DNS-based**: Access via `user-service.default.svc.cluster.local` format (Kubernetes)
-
-If you're in a Kubernetes environment, the built-in DNS is sufficient; otherwise, consider Consul or Eureka. Service Discovery is a big topic on its own, but here I'll just note that "this problem needs to be solved before communication can happen."
-
 ### GraphQL Federation
 
 GraphQL is a query language developed by Facebook that allows clients to request exactly the data they need.
@@ -394,6 +378,24 @@ Each technology has clear **situations to avoid** as much as advantages.
 - **Avoid REST when**: Inter-service calls exceed thousands per second and performance is a bottleneck, schema changes are frequent and type safety is important
 
 The most dangerous thing in technology selection is choosing because **"it looks cool."** Adopting gRPC everywhere because of its performance advantages can result in debugging, operations, and maintenance difficulties plus learning costs that offset those performance gains.
+
+### How to Find Services: Service Discovery
+
+Regardless of whether you use REST, gRPC, or GraphQL, you need to **know the location of the target service** for inter-service communication. This wasn't a concern in monoliths.
+
+```mermaid
+flowchart LR
+    OrderService["Order Service"] -->|"1. Where is User Service?"| Registry["Service Registry"]
+    Registry -->|"2. 10.0.1.5:8080"| OrderService
+    OrderService -->|"3. Actual call"| UserService["User Service"]
+```
+
+Common approaches:
+- **Client-side Discovery**: Client queries Registry directly (Eureka, Consul)
+- **Server-side Discovery**: Load balancer/Gateway handles routing (AWS ALB, K8s Service)
+- **DNS-based**: Access via `user-service.default.svc.cluster.local` format (Kubernetes)
+
+If you're in a Kubernetes environment, the built-in DNS is sufficient; otherwise, consider Consul or Eureka. Service Discovery is a big topic on its own, but here I'll just note that "this problem needs to be solved before communication can happen."
 
 ### API Gateway: The Boundary Between External and Internal
 
