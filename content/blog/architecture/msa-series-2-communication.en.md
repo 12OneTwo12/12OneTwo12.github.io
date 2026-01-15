@@ -591,7 +591,7 @@ Personally, I think async is **trading off complexity for failure propagation**.
 
 We've explored various communication methods in MSA environments. So what should we actually choose?
 
-My personal view is that **technology isn't an either/or choice**. In real MSA environments, using both synchronous and asynchronous communication within a single system based on the situation is common.
+My personal view is that **technology isn't an either/or choice**. Of course, there are architectural patterns like Event-Driven Architecture (EDA) that build systems entirely around event-based communication, but in real MSA environments, using both synchronous and asynchronous communication within a single system based on the situation seems to be the norm. I'll cover EDA in more depth in a separate post if the opportunity arises.
 
 For example, thinking about an order flow:
 - **Order → Check user balance**: Synchronous (balance verification required before payment)
@@ -638,21 +638,13 @@ Ultimately, I believe **choosing a communication method in MSA isn't a technolog
 
 ### Conclusion
 
-To summarize what we covered in this post:
-
-1. **Inter-service communication in MSA happens over networks, requiring fundamentally different considerations than monoliths.** Always keep the 8 Fallacies of Distributed Computing in mind.
-
-2. **Synchronous and asynchronous communication each have their purposes.** Use synchronous when immediate responses are needed; use asynchronous when you don't need to wait for results or need to notify multiple services simultaneously.
-
-3. **REST, gRPC, and GraphQL each have pros and cons.** gRPC is often suitable for internal inter-service communication, while REST API is often suitable for client-server communication.
-
-4. **Message Queue, Event Broker, and Kafka each have different characteristics.** Use Message Queue for point-to-point communication, Event Broker for simple event propagation, and Kafka when event reprocessing or persistence is needed.
-
 This may sound cliché, but ultimately **there is no right answer**. Understanding each approach's trade-offs and making choices that fit your team and service situation is what matters.
+
+And I believe what's more important than the technology choice itself is **following your team's conventions**. For example, if your team has agreed to "use REST API even for internal MSA service communication," I don't think you should introduce gRPC on your own just because you think it performs better. The moment you do, consistency breaks down, complexity increases, and it ultimately hurts the entire team. If you genuinely believe there's a more suitable technology, the right approach is to discuss it with the whole team, establish conventions together, and move in that direction as a group.
 
 Inter-service communication in MSA isn't simply about "REST or gRPC?" or "Kafka or not?"—it's closer to choosing how much failure to tolerate, where to absorb latency, and where to place complexity.
 
-In this post, I've tried to organize these decision points as structurally as possible.
+In this post, I've tried to organize these decision points and the thoughts I've had along the way as structurally as possible.
 
 In the next post, I'll discuss failure handling challenges on top of these communication methods.
 
