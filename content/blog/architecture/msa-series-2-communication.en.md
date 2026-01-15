@@ -7,7 +7,7 @@ tags:
   - rest
   - grpc
   - kafka
-date: '2026-01-19'
+date: '2026-01-15'
 ---
 
 Previous: [[Reflections on MSA 1/6] What is Microservices Architecture (MSA)?]({{< relref "/blog/architecture/msa-series-1-introduction" >}})
@@ -284,7 +284,37 @@ Beyond simple request-response (Unary), gRPC supports **streaming**.
 | **Client Streaming** | Client ⇒ Server → Client | File uploads, sensor data |
 | **Bidirectional** | Client ⇔ Server | Chat, real-time games |
 
-Streaming is defined in `.proto` files using the `stream` keyword (e.g., `returns (stream Order)`).
+Streaming is defined in `.proto` files using the `stream` keyword.
+
+```protobuf
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  // Unary - simple request/response
+  rpc GetUser(GetUserRequest) returns (User);
+
+  // Server Streaming - server streams multiple responses
+  rpc ListUsers(ListUsersRequest) returns (stream User);
+}
+
+message GetUserRequest {
+  int64 id = 1;
+}
+
+message ListUsersRequest {
+  int32 page_size = 1;
+}
+
+message User {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+}
+```
+
+By defining service interfaces and message types in a single `.proto` file, both client and server can use identical types.
 
 ### How to Find Services: Service Discovery
 
