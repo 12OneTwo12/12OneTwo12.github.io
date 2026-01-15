@@ -16,17 +16,17 @@ Previous: [[Reflections on MSA 1/6] What is Microservices Architecture (MSA)?]({
 
 In the previous post, we explored the basic concepts, advantages, and disadvantages of Microservices Architecture (MSA).
 
-One of the things I thought about most while working in an MSA environment was "inter-service communication." What used to be a simple method call in a monolith turned out to require surprisingly complex decision-making in MSA.
+**One of the things I thought about most while working in an MSA environment was "inter-service communication."** What used to be a simple method call in a monolith turned out to require surprisingly complex decision-making in MSA.
 
 In this post, assuming you've already considered MSA's learning curve and complexity and decided to adopt it after weighing the trade-offs, let's think about how to design and implement inter-service communication in an MSA environment.
 
 Let's start with the root of the problem.
 
-In MSA, each service is deployed and operated independently. Is inter-service communication essential in such an environment?
+In MSA, each service is deployed and operated independently. **Is inter-service communication essential in such an environment?**
 
 While not absolutely necessary, in most cases, inter-service communication is unavoidable.
 
-When designing systems to achieve business objectives, services divided by domain or functionality typically need to collaborate with each other or require each other's data.
+When designing systems to achieve business objectives, **services divided by domain or functionality typically need to collaborate with each other or require each other's data**.
 
 But before we go further, there's an important fact we need to address first.
 
@@ -38,7 +38,7 @@ In the previous post, we saw that in monolithic architecture, all functionality 
 
 So how does inter-service communication work in a monolithic environment?
 
-Strictly speaking, inter-service communication doesn't exist in a monolithic environment. Since all functionality runs within a single process, you can directly call other functions through function or method calls.
+Strictly speaking, inter-service communication doesn't exist in a monolithic environment. **Since all functionality runs within a single process, you can directly call other functions through function or method calls.**
 
 ```mermaid
 flowchart TB
@@ -63,7 +63,7 @@ flowchart TB
 
 Let's use the concert ticketing service from the previous post as an example. If the order functionality needs user information, you simply call `userService.getUser(userId)`.
 
-This means monolithic environments have no network communication overhead, and maintaining data consistency is relatively straightforward.
+This means monolithic environments have **no network communication overhead, and maintaining data consistency is relatively straightforward**.
 
 ### Communication in MSA
 
@@ -174,9 +174,9 @@ So what methods are available for implementing inter-service communication throu
 
 **While synchronous calls can prevent failure propagation through fallbacks, they still depend on the target service's state at call time.** Switching to asynchronous can reduce this dependency.
 
-However, if you start expecting "this event should be processed by a certain time" or polling for processing results, you create Hidden Synchronous Dependency.
+However, if you start expecting "this event should be processed by a certain time" or polling for processing results, you create **Hidden Synchronous Dependency**.
 
-It looks asynchronous on the surface but is synchronous underneath. Ultimately, whether to go synchronous or asynchronous is about "how loosely can we couple?"
+It looks asynchronous on the surface but is synchronous underneath. Ultimately, whether to go synchronous or asynchronous is about **"how loosely can we couple?"**
 
 ---
 
