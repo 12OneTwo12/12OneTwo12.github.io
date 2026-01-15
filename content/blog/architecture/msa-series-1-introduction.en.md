@@ -1,5 +1,5 @@
 ---
-title: "[Thoughts on MSA 1/5] What is MSA (Microservices Architecture)?"
+title: "[Reflections on MSA 1/6] What is MSA (Microservices Architecture)?"
 tags:
   - msa
   - architecture
@@ -419,3 +419,5 @@ Now, let's assume you and I have chosen MSA, and it's time to face the first pra
 **How will services communicate with each other?**
 
 In the next episode, I'll discuss inter-service communication methods (synchronous/asynchronous, REST/gRPC/message queues) and the trade-offs of each.
+
+Next: [[Reflections on MSA 2/6] Inter-Service Communication in MSA - How Should We Do It?]({{< relref "/blog/architecture/msa-series-2-communication" >}})
