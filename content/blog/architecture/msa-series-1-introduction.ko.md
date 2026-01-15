@@ -1,5 +1,5 @@
 ---
-title: "[MSA에 관한 고찰 1/5편] MSA(Microservices Architecture)란 무엇인가?"
+title: "[MSA에 관한 고찰 1/6편] MSA(Microservices Architecture)란 무엇인가?"
 tags:
   - msa
   - architecture
@@ -419,3 +419,5 @@ MSA가 무엇인지, 왜 등장했는지, 그리고 어떤 대안들이 있는�
 **서비스들은 서로 어떻게 대화할 것인가?**
 
 다음 편에서는 서비스 간 통신 방식(동기/비동기, REST/gRPC/메시지 큐)과 각각의 트레이드오프에 대해 이야기해보려합니다.
+
+전편: [[MSA에 관한 고찰 2/5편] MSA에서의 서비스간 통신 - 어떻게 해야 하는가]({{< relref "/blog/architecture/msa-series-2-communication" >}})
