@@ -648,7 +648,13 @@ Inter-service communication in MSA isn't simply about "REST or gRPC?" or "Kafka 
 
 In this post, I've tried to organize these decision points and the thoughts I've had along the way as structurally as possible.
 
-In the next post, I'll discuss failure handling challenges on top of these communication methods.
+But one problem remains. If you chose synchronous communication, what happens when the target service goes down? If the payment service slows down, the order service slows down too. And if the order service slows down, services calling it also slow down. Failures propagate like dominoes. This cascading failure is a characteristic of synchronous calls. Because the caller waits for a response, the callee's failure immediately affects the caller.
+
+Asynchronous communication is different. Since messages are placed in a queue and the call returns immediately, the producer can continue operating even if the consumer is down. Failures don't propagate "immediately." Instead, messages pile up in the queue and get processed when the consumer recovers. But asynchronous communication isn't problem-free either. It introduces data consistency issues like message loss and duplicate processing. Ultimately, whichever approach you choose, you need to handle failures.
+
+In the next post, I'll discuss how failures propagate in synchronous calls and where we should cut the chain. The data consistency issues of asynchronous communication will be covered in Part 4 on data separation.
+
+Next: [[Reflections on MSA 3/6] How Failures Propagate, and Where We Should Cut the Chain]({{< relref "/blog/architecture/msa-series-3-resilience" >}})
 
 ---
 
