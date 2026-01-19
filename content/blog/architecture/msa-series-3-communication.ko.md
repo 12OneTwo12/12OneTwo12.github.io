@@ -10,7 +10,7 @@ tags:
 date: '2026-01-16'
 ---
 
-전편: [[MSA에 관한 고찰 2/6편] 서비스를 어떻게 나눌 것인가 - 경계 설정의 어려움]({{< relref "/blog/architecture/msa-series-2-boundary" >}})
+전편: [[MSA에 관한 고찰 2/6편] MSA에서 서비스는 어떻게 나눌 것인가]({{< relref "/blog/architecture/msa-series-2-boundary" >}})
 
 ---
 

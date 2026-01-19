@@ -1,5 +1,5 @@
 ---
-title: "[MSA에 관한 고찰 2/6편] 서비스를 어떻게 나눌 것인가 - 경계 설정의 어려움"
+title: "[MSA에 관한 고찰 2/6편] MSA에서 서비스는 어떻게 나눌 것인가"
 tags:
   - msa
   - architecture

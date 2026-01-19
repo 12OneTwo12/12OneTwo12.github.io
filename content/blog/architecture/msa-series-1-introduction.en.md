@@ -414,4 +414,4 @@ Now, let's assume you and I have chosen MSA, and it's time to face the first pra
 
 In the next episode, I'll discuss how to set service boundaries, the criteria for division, and the mistakes commonly made.
 
-Next: [[Reflections on MSA 2/6] How to Divide Services - The Challenge of Setting Boundaries]({{< relref "/blog/architecture/msa-series-2-boundary" >}})
+Next: [[Reflections on MSA 2/6] How to Divide Services in MSA]({{< relref "/blog/architecture/msa-series-2-boundary" >}})
