@@ -75,6 +75,8 @@ A failure in just the Payment Service causes the Order Service to die from threa
 
 This is a simple scenario, but in real MSA environments, dozens or hundreds of services are intertwined. It can become difficult to predict how a single service failure will propagate.
 
+Such failure propagation happens frequently in the real world. During the 2017 AWS S3 outage, countless services that depended on S3 went down in a cascade. It was S3's own problem, but even the dashboard for checking S3's status depended on S3, making it difficult to even assess the situation. I think this case shows what can happen when you don't understand how far your dependencies spread.
+
 So how can we prevent this failure propagation?
 
 ---
@@ -123,6 +125,13 @@ For example, let's assume the Payment Service has the following response times:
 If you set Timeout to 400-600ms (2-3x the average of 200ms), about 5% of normal requests could fail due to Timeout. On the other hand, if you set it to 1-1.5 seconds with some margin based on P99 (800ms), over 99% of normal requests succeed while still failing fast during incidents.
 
 Of course, this value varies depending on service characteristics. Critical calls like payment should have more margin, while calls where failure is acceptable (like recommendations) can be set more aggressively. The key is to **start with evidence-based numbers and adjust through monitoring**.
+
+One more thing to consider is that you should **distinguish between Connection Timeout and Read Timeout** when configuring.
+
+- **Connection Timeout**: The time to wait for establishing a connection. This is the time until the TCP handshake completes. Usually set short, around 1-3 seconds. If you can't even establish a connection, the server is likely dead or there's a network problem.
+- **Read Timeout (Socket Timeout)**: The time to wait for response data after the connection is established. The P99-based value I mentioned earlier mainly refers to this.
+
+If you don't distinguish between the two and only set a single Timeout, it becomes difficult to respond differently to connection failures versus response delays. Most HTTP client libraries allow you to set these two values separately, so I recommend checking your library's options.
 
 The important thing is that **if you set a Timeout, you also need to decide what to do when a Timeout occurs.** Should you just return an error, retry, or execute fallback logic?
 
@@ -564,6 +573,10 @@ In the next part, I'll discuss the Database per Service principle, problems with
 ---
 
 ## References
+
+### Failure Cases
+
+- [Summary of the Amazon S3 Service Disruption (2017)](https://aws.amazon.com/message/41926/)
 
 ### Fault Tolerance Patterns
 
