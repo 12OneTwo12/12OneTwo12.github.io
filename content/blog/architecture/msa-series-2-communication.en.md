@@ -415,19 +415,21 @@ Key roles of API Gateway:
 
 Common implementations: Kong, AWS API Gateway, Spring Cloud Gateway
 
-**Caution**: The Gateway can become a Single Point of Failure. Gateway failure = entire system failure, so redundancy and health checks are essential.
+**Caution**: The Gateway can become a Single Point of Failure. Gateway failure = entire system failure, so I think redundancy and health checks are essential.
 
 ---
 
 ## Asynchronous Communication: Message Queue vs Event Broker
 
-Now let's look at asynchronous communication. The most commonly mentioned concepts are **Message Queue** and **Event Broker**.
+Now that we've covered synchronous communication, let's look at asynchronous communication. What options are available for asynchronous communication?
+
+The most commonly mentioned concepts are **Message Queue** and **Event Broker**.
 
 These concepts are sometimes used interchangeably, but strictly speaking, they have different patterns and purposes.
 
 ### Message Queue (SQS, RabbitMQ)
 
-Message Queue is a **point-to-point** communication pattern. One message is processed by only one consumer.
+Message Queue is a **point-to-point** communication pattern. One message is processed by only one consumer. Popular Message Queue implementations include AWS SQS and RabbitMQ.
 
 ```mermaid
 flowchart LR
@@ -436,8 +438,6 @@ flowchart LR
 ```
 
 Let's use the concert ticketing service as an example. When the order service puts a payment request in the Message Queue, the payment service retrieves and processes that message. Since the message disappears from the queue once consumed, no other service can process the same message again.
-
-Popular Message Queue implementations include AWS SQS and RabbitMQ.
 
 Message Queue is suitable for:
 - **Delivering work to only one service**
@@ -458,7 +458,7 @@ flowchart LR
 
 Back to the concert ticketing example. When an order is completed, several follow-up tasks are needed: sending notifications to the user, recording settlement data, and deducting inventory.
 
-When the order service publishes an "order completed" event to the Event Broker, the notification, settlement, and inventory services each subscribe to that event and perform their work. **A single event is delivered to multiple services simultaneously**.
+When the order service publishes an "order completed" event to the Event Broker, the notification, settlement, and inventory services each subscribe to that event and perform their work. **A single event is delivered to multiple services**.
 
 Popular Event Broker implementations include AWS SNS and Redis Pub/Sub. However, note that delivery guarantees vary by implementation. Redis Pub/Sub is truly fire-and-forget—if there are no subscribers, messages are lost. But SNS, when integrated with SQS, persists messages and enables reprocessing. In practice, the SNS+SQS combination is widely used, as it provides both Event Broker's fan-out characteristics and Message Queue's persistence.
 
@@ -489,17 +489,25 @@ flowchart LR
 
 In typical Message Queues, messages are deleted once consumed. But in Kafka, **messages are retained during the retention period even after consumption**. Each Consumer manages its own offset and can read the same message multiple times.
 
-Thanks to this characteristic, Kafka excels in these scenarios:
+Thanks to this characteristic, Kafka shines in these scenarios:
 
 - **Event Replay**: Resetting a Consumer's offset to the beginning allows reprocessing all events. Useful when adding new services or reprocessing data due to bugs.
 - **Event Sourcing**: Preserving all state change history and reconstructing current state by replaying events when needed.
 - **Audit Logs**: Since all events are retained, past records can be queried anytime.
 
-Of course, Kafka also supports Pub/Sub patterns, so it can be used like an Event Broker. But rather than viewing Kafka simply as "a tool for delivering events to multiple subscribers," it's best to choose it when **event persistence and reprocessing capability** are needed.
+Of course, Kafka also supports Pub/Sub patterns, so it can be used like an Event Broker. But rather than viewing Kafka simply as "a tool for delivering events to multiple subscribers," I think it's best to choose it when **event persistence and reprocessing capability** are needed.
 
-However, there's an important caveat. While Kafka is a powerful tool, there are significant **trade-offs**. There are many concepts to learn—partitions, offsets, consumer groups—and cluster operations and monitoring require substantial resources. When I first introduced Kafka, I was drawn to the "event reprocessing" advantage, but in practice, the complexity required to realize that advantage was considerable. If simple event propagation is the goal, the SNS+SQS combination can be much lighter and easier to manage.
+However, there's an important caveat. While Kafka is a powerful and excellent tool, there are significant **trade-offs**. There are many concepts to learn—partitions, offsets, consumer groups—and cluster operations and monitoring require substantial resources. When I first introduced Kafka, I was drawn to the "event reprocessing" advantage, but in practice, the complexity required to realize that advantage was considerable. If simple event propagation is the goal, I find the SNS+SQS combination much lighter and easier to manage.
 
-There's another critical point to know. **Kafka provides at-least-once delivery by default.** This means messages are delivered at least once, but due to network issues or Consumer restarts, **the same message may be processed multiple times**. While Kafka does support exactly-once semantics, the configuration is complex and has performance overhead, so in most cases, **designing for idempotency on the Consumer side** is the standard approach. Thinking "it's an event, so it'll only be processed once" can lead to duplicate processing bugs later.
+There's another critical point to know. **Kafka provides at-least-once delivery by default.** This means messages are delivered at least once, but due to network issues or Consumer restarts, **the same message may be processed multiple times**. While Kafka does support exactly-once semantics, the configuration is complex and has performance overhead, so I think **designing for idempotency on the Consumer side** is the better approach in most cases. Thinking "it's an event, so it'll only be processed once" can lead to duplicate processing bugs later.
+
+There's an excellent article that explains Kafka really well. If you want to understand Kafka more deeply, I recommend checking it out:
+
+- [The Log: What every software engineer should know about real-time data's unifying abstraction](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying)
+
+This is a 2013 article by Jay Kreps, who developed Apache Kafka at LinkedIn. It starts from the concept of logs and excellently explains the background and design philosophy behind Kafka's creation, as well as its internal workings. I'd love to write a separate Kafka analysis post if I get the chance.
+
+Now let's get back to the main topic. So which tool should we choose?
 
 ### Message Queue vs Event Broker vs Kafka Comparison
 
@@ -642,7 +650,7 @@ Ultimately, I believe **choosing a communication method in MSA isn't a technolog
 
 This may sound cliché, but ultimately **there is no right answer**. Understanding each approach's trade-offs and making choices that fit your team and service situation is what matters.
 
-And I believe what's more important than the technology choice itself is **following your team's conventions**. For example, if your team has agreed to "use REST API even for internal MSA service communication," I don't think you should introduce gRPC on your own just because you think it performs better. The moment you do, consistency breaks down, complexity increases, and it ultimately hurts the entire team. If you genuinely believe there's a more suitable technology, the right approach is to discuss it with the whole team, establish conventions together, and move in that direction as a group.
+And as I mentioned above, I believe what's more important than the technology choice itself is **following your team's conventions**. For example, if your team has agreed to "use REST API even for internal MSA service communication," I don't think you should introduce gRPC on your own just because you think it performs better. The moment you do, consistency breaks down, complexity increases, and it ultimately hurts the entire team. If you genuinely believe there's a more suitable technology, the right approach is to discuss it with the whole team, establish conventions together, and move in that direction as a group.
 
 Inter-service communication in MSA isn't simply about "REST or gRPC?" or "Kafka or not?"—it's closer to choosing how much failure to tolerate, where to absorb latency, and where to place complexity.
 
