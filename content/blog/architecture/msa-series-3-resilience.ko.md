@@ -310,7 +310,7 @@ flowchart TB
 실제로는 이 패턴들을 개별적으로 사용하기보다 **조합해서 사용**하는 것이 일반적입니다.
 
 ```mermaid
-flowchart TB
+flowchart LR
     Request["요청"] --> Bulkhead["🚧 Bulkhead"]
     Bulkhead --> Timeout["⏱️ Timeout"]
     Timeout --> Retry["🔄 Retry"]
