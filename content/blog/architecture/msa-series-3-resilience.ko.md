@@ -112,7 +112,17 @@ sequenceDiagram
 
 Timeout 설정에서 고민되는 부분은 **적절한 값을 어떻게 정할 것인가**입니다.
 
-너무 짧으면 정상적인 요청도 실패로 처리될 수 있고, 너무 길면 장애 전파를 막는 효과가 떨어집니다. 일반적으로는 평균 응답 시간의 2~3배 정도를 기준으로 설정하되, 서비스의 특성에 맞게 조정하는 것이 좋다고 생각합니다. 이 적정 값을 찾아내고 유지하는 것이 쉽지 않기 때문에, 모니터링과 지속적인 튜닝이 필요한 영역인 것 같습니다.
+너무 짧으면 정상적인 요청도 실패로 처리될 수 있고, 너무 길면 장애 전파를 막는 효과가 떨어집니다. 평균 응답 시간보다는 **P99(99번째 백분위수) 응답 시간**을 기준으로 설정하는 것이 실무적으로 효과적입니다.
+
+예를 들어, 결제 서비스의 응답 시간이 다음과 같다고 가정해보겠습니다.
+
+- 평균: 200ms
+- P95: 400ms
+- P99: 800ms
+
+평균(200ms)의 2~3배인 400~600ms로 Timeout을 설정하면, 정상 요청의 약 5%가 Timeout으로 실패할 수 있습니다. 반면 P99(800ms)를 기준으로 여유를 두어 1~1.5초로 설정하면, 정상 요청의 99% 이상이 성공하면서도 장애 상황에서는 빠르게 실패할 수 있습니다.
+
+물론 이 값도 서비스 특성에 따라 달라집니다. 결제처럼 중요한 호출은 여유를 더 두고, 추천처럼 실패해도 괜찮은 호출은 더 공격적으로 설정할 수 있죠. 중요한 건 **근거 있는 수치로 시작해서 모니터링하며 조정**하는 것입니다.
 
 중요한 것은 **Timeout을 설정했다면 Timeout 발생 시 어떻게 처리할지도 함께 정해야 한다**는 점입니다. 그냥 에러를 반환할지, 재시도를 할지, 대체 로직을 실행할지 말이죠.
 
@@ -162,7 +172,17 @@ sequenceDiagram
 
 HTTP 메서드별로 보면 GET, PUT, DELETE는 스펙상 멱등해야 하고, POST는 기본적으로 멱등하지 않습니다. 하지만 스펙이 멱등을 요구해도 실제 구현이 멱등하지 않을 수 있기 때문에, Retry가 필요한 API는 명시적으로 멱등성을 검증해야 합니다. Retry를 적용하기 전에 꼭 멱등성을 검토해봐야하는 이유입니다.
 
-그리고 재시도 횟수도 적절히 제한해야 합니다. 무한정 재시도하면 장애가 장기화될 수 있으니까요. 일반적으로 3~5회 정도가 적당하지 않나 싶습니다.
+그리고 재시도 횟수도 적절히 제한해야 합니다. 무한정 재시도하면 장애가 장기화될 수 있으니까요.
+
+재시도 횟수를 정할 때는 **총 대기 시간**을 함께 고려해야 합니다. Exponential Backoff를 적용하면 재시도 횟수에 따라 총 대기 시간이 급격히 늘어나기 때문입니다.
+
+```
+3회 재시도 (1초 + 2초 + 4초) = 최대 7초
+5회 재시도 (1초 + 2초 + 4초 + 8초 + 16초) = 최대 31초
+7회 재시도 = 최대 127초 (2분 이상)
+```
+
+사용자가 2분 넘게 기다리는 건 현실적이지 않죠. 그래서 대부분의 경우 **3~5회**가 적당합니다. 일시적인 네트워크 문제는 보통 몇 초 내에 해결되고, 그 이상 실패한다면 재시도보다는 Circuit Breaker가 개입해야 할 상황일 가능성이 높습니다.
 
 ### 3. Circuit Breaker: 차단하기
 
@@ -411,6 +431,89 @@ flowchart LR
 다만 Service Mesh와 애플리케이션 레벨 구현은 역할이 다르다고 생각합니다. Service Mesh는 기본적인 Retry, Timeout, Circuit Breaker를 처리하기에 좋지만, **비즈니스 로직이 필요한 Fallback은 애플리케이션에서 구현**해야 합니다.
 
 서비스가 10개 미만이고 단일 언어라면 Resilience4j로 충분하지만, 폴리글랏 환경에서 수십 개 서비스를 운영한다면 Service Mesh 도입을 검토해볼 만하다고 생각합니다.
+
+---
+
+## 모니터링하기
+
+앞서 안티패턴에서 "모니터링 없이 도입"을 언급했습니다. 장애 대응 패턴을 도입했다면, **이 패턴들이 실제로 어떻게 동작하고 있는지 관찰할 수 있어야 합니다.**
+
+Circuit Breaker가 Open 상태가 됐는데 아무도 모른다면, 장애 대응이 아니라 장애 은폐가 되어버리죠. 다음은 모니터링해야 할 핵심 메트릭들입니다.
+
+### 핵심 메트릭
+
+| 메트릭 | 의미 | 알람 기준 예시 |
+|--------|------|----------------|
+| **Circuit Breaker 상태** | Closed/Open/Half-Open | Open 전환 시 즉시 알람 |
+| **실패율 (Failure Rate)** | 최근 N개 요청 중 실패 비율 | 30% 초과 시 경고, 50% 초과 시 위험 |
+| **응답 시간 분포** | P50, P95, P99 | P99가 Timeout의 80% 도달 시 경고 |
+| **Retry 발생 횟수** | 재시도가 얼마나 자주 발생하는지 | 급증 시 경고 |
+| **Fallback 호출 빈도** | 대체 로직이 얼마나 사용되는지 | 평소 대비 급증 시 경고 |
+
+### Resilience4j + Micrometer 연동
+
+Resilience4j는 Micrometer와 통합되어 있어서, 이 메트릭들을 자동으로 수집할 수 있습니다.
+
+```yaml
+# application.yml
+resilience4j:
+  circuitbreaker:
+    instances:
+      payment:
+        register-health-indicator: true  # Actuator health에 노출
+management:
+  metrics:
+    tags:
+      application: order-service
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+```
+
+이렇게 설정하면 `/actuator/prometheus` 엔드포인트에서 다음과 같은 메트릭을 확인할 수 있습니다:
+
+```
+# Circuit Breaker 상태
+resilience4j_circuitbreaker_state{name="payment"} 0  # 0=closed, 1=open, 2=half-open
+
+# 실패율
+resilience4j_circuitbreaker_failure_rate{name="payment"} 12.5
+
+# 호출 결과별 카운트
+resilience4j_circuitbreaker_calls_seconds_count{kind="successful", name="payment"} 1000
+resilience4j_circuitbreaker_calls_seconds_count{kind="failed", name="payment"} 50
+```
+
+이 메트릭들을 Prometheus로 수집하고 Grafana로 시각화하면, 장애 대응 패턴의 동작을 실시간으로 관찰할 수 있습니다.
+
+### 알람 설정 예시
+
+단순히 메트릭을 수집하는 것만으로는 부족하다고 생각합니다. **이상 징후가 감지되면 가능한 빨리 알 수 있어야 합니다.** Prometheus AlertManager나 Grafana Alerting 등에서 다음과 같은 알람 규칙을 설정할 수 있습니다.
+
+```yaml
+# 알람 규칙 예시 (PromQL 기반)
+groups:
+  - name: resilience
+    rules:
+      - alert: CircuitBreakerOpen
+        expr: resilience4j_circuitbreaker_state == 1
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Circuit Breaker가 Open 상태입니다"
+
+      - alert: HighFailureRate
+        expr: resilience4j_circuitbreaker_failure_rate > 30
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "실패율이 30%를 초과했습니다"
+```
+
+Circuit Breaker가 Open으로 전환되면 알람이 오고, 실패율이 30%를 넘으면 경고가 발생합니다. 이렇게 해야 "패턴이 동작은 하는데 우리가 모르고 있었다"는 상황을 방지할 수 있습니다.
 
 ---
 
