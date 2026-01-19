@@ -1,5 +1,5 @@
 ---
-title: "[Reflections on MSA 2/6] How to Divide Services - The Challenge of Setting Boundaries"
+title: "[Reflections on MSA 2/6] How to Divide Services in MSA"
 tags:
   - msa
   - architecture
