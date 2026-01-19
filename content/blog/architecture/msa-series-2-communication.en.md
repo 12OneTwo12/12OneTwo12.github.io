@@ -118,8 +118,6 @@ I believe these fallacies are crucial considerations when designing inter-servic
 
 Ultimately, **since network communication is essential in distributed systems, careful thought about how to design inter-service communication is extremely important**.
 
----
-
 ## The First Fork in the Road: Synchronous vs Asynchronous
 
 So what communication methods are available in an MSA environment?
@@ -179,8 +177,6 @@ But switching to async doesn't automatically eliminate dependencies. What happen
 This situation is called **Hidden Synchronous Dependency**. It looks asynchronous on the surface but actually behaves synchronously. To truly benefit from async's "loose coupling" advantage, you need to be careful about this.
 
 Ultimately, the choice between synchronous and asynchronous isn't simply about "waiting vs not waiting"—it's about **"how loosely can we couple?"**
-
----
 
 ## Synchronous Communication: REST vs gRPC vs GraphQL
 
@@ -417,8 +413,6 @@ Common implementations: Kong, AWS API Gateway, Spring Cloud Gateway
 
 **Caution**: The Gateway can become a Single Point of Failure. Gateway failure = entire system failure, so I think redundancy and health checks are essential.
 
----
-
 ## Asynchronous Communication: Message Queue vs Event Broker
 
 Now that we've covered synchronous communication, let's look at asynchronous communication. What options are available for asynchronous communication?
@@ -595,7 +589,6 @@ When I joined my team, an MSA migration was already in progress, and one of the 
 
 Personally, I think async is **trading off complexity for failure propagation**. Synchronous calls' "failure propagation" problem becomes "message loss," "order reversal," and "duplicate processing" problems in async.
 
----
 
 ## Summary: So What Should We Choose?
 
@@ -663,8 +656,6 @@ Asynchronous communication is different. Since messages are placed in a queue an
 In the next post, I'll discuss how failures propagate in synchronous calls and where we should cut the chain. The data consistency issues of asynchronous communication will be covered in Part 4 on data separation.
 
 Next: [[Reflections on MSA 3/6] How Failures Propagate, and Where We Should Cut the Chain]({{< relref "/blog/architecture/msa-series-3-resilience" >}})
-
----
 
 ## References
 

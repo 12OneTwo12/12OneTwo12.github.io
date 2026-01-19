@@ -195,8 +195,6 @@ If there's a Util class commonly used across all features, conflicts are bound t
 
 Also, resolving conflicts would require coordination and communication between teams, which could lead to decreased development speed.
 
----
-
 ## The Emergence of MSA
 
 MSA emerged to overcome these limitations.
@@ -304,8 +302,6 @@ As you can see from the table, **MSA is not superior to monolithic in every aspe
 
 Ultimately, I think **which architecture is better depends on the situation—team size, service complexity, scaling requirements, etc.**
 
----
-
 ## Is MSA the Only Alternative to Monolithic?
 
 So is MSA the only way to overcome monolithic limitations?
@@ -407,8 +403,6 @@ There's a software development rule called YAGNI (You Aren't Gonna Need It). It 
 I think hastily adopting MSA can cause even greater pain due to the various problems mentioned earlier and poorly defined service boundaries.
 
 So when should you choose MSA, and when should you avoid it? I'll cover this question in detail in the final episode of this series.
-
----
 
 ## In the Next Episode
 
