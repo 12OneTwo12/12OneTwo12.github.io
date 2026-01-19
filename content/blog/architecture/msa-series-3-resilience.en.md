@@ -310,7 +310,7 @@ Determining thread pool sizes also requires thought. Too small and requests migh
 In practice, it's common to **use these patterns in combination** rather than individually.
 
 ```mermaid
-flowchart TB
+flowchart LR
     Request["Request"] --> Bulkhead["🚧 Bulkhead"]
     Bulkhead --> Timeout["⏱️ Timeout"]
     Timeout --> Retry["🔄 Retry"]
