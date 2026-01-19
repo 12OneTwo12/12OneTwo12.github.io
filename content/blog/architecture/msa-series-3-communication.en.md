@@ -14,11 +14,11 @@ Previous: [[Reflections on MSA 2/6] How to Divide Services in MSA]({{< relref "/
 
 ---
 
-In the previous post, we explored the basic concepts, advantages, and disadvantages of Microservices Architecture (MSA).
+In the previous episode, we looked at how to divide services and the principles and considerations for setting boundaries.
 
 **One of the things I thought about most while working in an MSA environment was "inter-service communication."** What used to be a simple method call in a monolith turned out to require surprisingly complex decision-making in MSA.
 
-In this post, assuming you've already considered MSA's learning curve and complexity and decided to adopt it after weighing the trade-offs, let's think about how to design and implement inter-service communication in an MSA environment.
+In this episode, assuming you've already considered MSA's learning curve and complexity and decided to adopt it after weighing the trade-offs, let's think about how to design and implement inter-service communication in an MSA environment.
 
 Let's start with the root of the problem.
 
