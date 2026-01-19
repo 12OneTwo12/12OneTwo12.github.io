@@ -410,8 +410,8 @@ We've explored what MSA is, why it emerged, and what alternatives exist.
 
 Now, let's assume you and I have chosen MSA, and it's time to face the first practical problem.
 
-**How will services communicate with each other?**
+**"How do we divide services?"**
 
-In the next episode, I'll discuss inter-service communication methods (synchronous/asynchronous, REST/gRPC/message queues) and the trade-offs of each.
+In the next episode, I'll discuss how to set service boundaries, the criteria for division, and the mistakes commonly made.
 
-Next: [[Reflections on MSA 2/6] Inter-Service Communication in MSA - How Should We Do It?]({{< relref "/blog/architecture/msa-series-2-communication" >}})
+Next: [[Reflections on MSA 2/6] How to Divide Services - The Challenge of Setting Boundaries]({{< relref "/blog/architecture/msa-series-2-boundary" >}})

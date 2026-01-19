@@ -1,5 +1,5 @@
 ---
-title: "[MSA에 관한 고찰 3/6편] 장애는 어떻게 전파되고, 우리는 어디서 끊어야 하는가"
+title: "[MSA에 관한 고찰 4/6편] 장애는 어떻게 전파되고, 우리는 어디서 끊어야 하는가"
 tags:
   - msa
   - architecture
@@ -10,7 +10,7 @@ tags:
 date: '2026-01-19'
 ---
 
-전편: [[MSA에 관한 고찰 2/6편] MSA에서의 서비스간 통신]({{< relref "/blog/architecture/msa-series-2-communication" >}})
+전편: [[MSA에 관한 고찰 3/6편] MSA에서의 서비스간 통신]({{< relref "/blog/architecture/msa-series-3-communication" >}})
 
 ---
 
