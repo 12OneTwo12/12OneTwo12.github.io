@@ -24,8 +24,6 @@ So, how do failures propagate in MSA environments, and where and how should we b
 
 In this part, I'd like to discuss the failure propagation mechanisms in MSA environments and the patterns to prevent them.
 
----
-
 ## How Failures Propagate
 
 First, how do failures propagate? In monolithic environments, I mentioned in Part 1 that since all functions run within a single process, a failure in one module can affect the entire application. So in MSA, where services are separated, does failure isolation happen naturally?
@@ -78,8 +76,6 @@ This is a simple scenario, but in real MSA environments, dozens or hundreds of s
 Such failure propagation happens frequently in the real world. During the 2017 AWS S3 outage, countless services that depended on S3 went down in a cascade. It was S3's own problem, but even the dashboard for checking S3's status depended on S3, making it difficult to even assess the situation. I think this case shows what can happen when you don't understand how far your dependencies spread.
 
 So how can we prevent this failure propagation?
-
----
 
 ## Ways to Break Failure Propagation
 
@@ -303,8 +299,6 @@ This way, even if the Notification Service slows down and all 5 notification thr
 
 Determining thread pool sizes also requires thought. Too small and requests might be rejected even under normal conditions; too large and the isolation effect diminishes. I think it's best to base it on the average throughput and response time of each service, then adjust through monitoring.
 
----
-
 ## Combining Patterns
 
 In practice, it's common to **use these patterns in combination** rather than individually.
@@ -360,8 +354,6 @@ As I emphasized "when not to use" in Part 2, fault tolerance patterns also have 
 
 Now do you have a sense of when to apply these patterns and when to avoid them? Let's look at how we can implement them.
 
----
-
 ## Implementation
 
 ### Application-Level: Resilience4j
@@ -416,8 +408,6 @@ But wouldn't it be cumbersome to apply this to every service? As services multip
 
 In such cases, you might consider solving this at the infrastructure level.
 
----
-
 ### Infrastructure-Level: Service Mesh
 
 **Service Mesh** is an approach that pushes these cross-cutting concerns down to the infrastructure level. It's similar to how AOP separates cross-cutting concerns in Spring.
@@ -440,8 +430,6 @@ In Kubernetes, Service Meshes like Istio and Linkerd attach a Sidecar Proxy next
 However, I think Service Mesh and application-level implementation serve different roles. Service Mesh is good for handling basic Retry, Timeout, and Circuit Breaker, but **Fallback that requires business logic must be implemented in the application**.
 
 If you have fewer than 10 services with a single language, Resilience4j is sufficient. But if you're operating dozens of services in a polyglot environment, I think it's worth considering Service Mesh adoption.
-
----
 
 ## Monitoring
 
@@ -524,8 +512,6 @@ groups:
 
 When Circuit Breaker transitions to Open, you get an alert; when failure rate exceeds 30%, a warning is triggered. This is how you prevent situations where "the pattern is working but we didn't know about it."
 
----
-
 ## Verification: Chaos Engineering
 
 We've looked at various fault tolerance patterns and implementation methods. But one question remains.
@@ -548,8 +534,6 @@ I think this is the core philosophy of Chaos Engineering. For every external cal
 
 Of course, I don't think you need to run Chaos Monkey in production from the start. Even just killing specific services in a staging environment and observing how the system responds can reveal a lot.
 
----
-
 ## Summary
 
 In this part, we looked at how failures propagate in MSA environments and the various fault tolerance patterns to prevent them.
@@ -557,8 +541,6 @@ In this part, we looked at how failures propagate in MSA environments and the va
 Ultimately, I think **fault tolerance is not about "preventing failures from occurring" but about "making the system survive even when failures occur."**
 
 One of the most frequent concerns while working in MSA environments was "what happens to our system if this service dies?" I believe having clear answers to that question is what allows you to respond calmly when failures come.
-
----
 
 ## Next Part
 
@@ -569,8 +551,6 @@ We've decided on communication methods and learned about fault tolerance. But th
 Now that I've said it, it seems like nothing but tricky problems haha..
 
 In the next part, I'll discuss the Database per Service principle, problems with distributed transactions, the Saga pattern, and data synchronization strategies.
-
----
 
 ## References
 
