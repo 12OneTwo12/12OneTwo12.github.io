@@ -10,7 +10,7 @@ tags:
 date: '2026-01-19'
 ---
 
-Previous: [[Reflections on MSA 2/6] Inter-Service Communication in MSA]({{< relref "/blog/architecture/msa-series-2-communication.en" >}})
+Previous: [[Reflections on MSA 2/6] Inter-Service Communication in MSA]({{< relref "/blog/architecture/msa-series-2-communication" >}})
 
 ---
 
