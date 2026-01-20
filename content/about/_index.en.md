@@ -177,7 +177,7 @@ I think about **"What improvement does our service need most right now?"** befor
 ## **Side Project**
 
 #### **Upvy** - Educational Short-form Video Platform
-> [App Store](https://apps.apple.com/app/upvy/id6756291696) | [GitHub](https://github.com/12OneTwo12/upvy)
+> *2025.10 ~ Present* | [App Store](https://apps.apple.com/app/upvy/id6756291696) | [GitHub](https://github.com/12OneTwo12/upvy)
 
 - **Overview**: Educational short-form platform that turns scroll time into learning time
 - **Tech**: `Kotlin` `Spring WebFlux` `R2DBC` `React Native` `Vertex AI`

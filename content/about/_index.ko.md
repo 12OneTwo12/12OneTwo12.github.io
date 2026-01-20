@@ -177,7 +177,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 ## **Side Project**
 
 #### **Upvy** - 교육용 숏폼 영상 플랫폼
-> [App Store](https://apps.apple.com/app/upvy/id6756291696) | [GitHub](https://github.com/12OneTwo12/upvy)
+> *2025.10 ~ Present* | [App Store](https://apps.apple.com/app/upvy/id6756291696) | [GitHub](https://github.com/12OneTwo12/upvy)
 
 - **개요**: 스크롤 시간을 학습 시간으로 전환하는 교육용 숏폼 플랫폼
 - **기술**: `Kotlin` `Spring WebFlux` `R2DBC` `React Native` `Vertex AI`
