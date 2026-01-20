@@ -176,6 +176,16 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 - **기술**: `Spring Batch`, `Java 11`, `JPA`
 {{% /details %}}
 
+## **Side Project**
+
+### **Upvy** - 교육용 숏폼 영상 플랫폼
+> [App Store](https://apps.apple.com/app/upvy/id6756291696) | [GitHub](https://github.com/12OneTwo12/upvy)
+
+- **개요**: 스크롤 시간을 학습 시간으로 전환하는 교육용 숏폼 플랫폼 (1인 개발, 운영 중)
+- **기술**: `Kotlin` `Spring WebFlux` `R2DBC` `React Native` `Vertex AI`
+- **규모**: 133,000 LOC, 79% test coverage
+- **주요 구현**: AI 기반 YouTube 영상 자동 편집 파이프라인 (Vertex AI Gemini + Speech-to-Text)
+
 ## **Certificate**
 
 - **[Certified Kubernetes Administrator (CKA)](https://www.credly.com/badges/e357623d-2e5c-4c5c-aed9-d3e90f06aa56/public_url)** \| CNCF / 2025.11
@@ -185,7 +195,6 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 
 ## **Activity**
 
-- **사이드 프로젝트**: [Upvy](https://apps.apple.com/app/upvy/id6756291696) - AI 기반 교육용 숏폼 플랫폼 ([GitHub](https://github.com/12OneTwo12/upvy))
 - **오픈소스 기여**: Spring Security [PR#16216](https://github.com/spring-projects/spring-security/pull/16216)
 - **기술 스터디**: [백엔드 아티클 스터디](https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c) (2023.08 ~ 진행중)
 - **교육**: [빅데이터 기반 지능형SW 및 MLOps 개발자 양성 과정](https://inthiswork.com/archives/105995) (2022.07 ~ 2022.12)

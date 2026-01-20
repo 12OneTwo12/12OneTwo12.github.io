@@ -176,6 +176,16 @@ I think about **"What improvement does our service need most right now?"** befor
 - **Tech**: `Spring Batch`, `Java 11`, `JPA`
 {{% /details %}}
 
+## **Side Project**
+
+### **Upvy** - Educational Short-form Video Platform
+> [App Store](https://apps.apple.com/app/upvy/id6756291696) | [GitHub](https://github.com/12OneTwo12/upvy)
+
+- **Overview**: Educational short-form platform that turns scroll time into learning time (Solo development, Live)
+- **Tech**: `Kotlin` `Spring WebFlux` `R2DBC` `React Native` `Vertex AI`
+- **Scale**: 133,000 LOC, 79% test coverage
+- **Key Implementation**: AI-powered YouTube video auto-editing pipeline (Vertex AI Gemini + Speech-to-Text)
+
 ## **Certificate**
 
 - **[Certified Kubernetes Administrator (CKA)](https://www.credly.com/badges/e357623d-2e5c-4c5c-aed9-d3e90f06aa56/public_url)** \| CNCF / 2025.11
@@ -185,7 +195,6 @@ I think about **"What improvement does our service need most right now?"** befor
 
 ## **Activity**
 
-- **Side Project**: [Upvy](https://apps.apple.com/app/upvy/id6756291696) - AI-powered educational short-form platform ([GitHub](https://github.com/12OneTwo12/upvy))
 - **Open Source**: Spring Security [PR#16216](https://github.com/spring-projects/spring-security/pull/16216)
 - **Tech Study**: [Backend Article Study](https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c) (2023.08 ~ ongoing)
 - **Training**: [Big Data Based Intelligent SW and MLOps Developer Course](https://inthiswork.com/archives/105995) (2022.07 ~ 2022.12)
