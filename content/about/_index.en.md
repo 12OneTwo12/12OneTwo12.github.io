@@ -21,7 +21,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 
 I'm Jeongil Jung, a backend developer with 3 years of experience, always asking **"What improvement does our service need most right now?"**
 
-From K8s infrastructure to MSA migration, monitoring systems, and team development culture— if it didn't exist, I proposed it and built it with my team.
+From K8s infrastructure to MSA migration, monitoring systems, and team development culture— if needed, I proposed it and built it with my team.
 
 I managed infrastructure solo for 7 months during a DevOps vacancy, and completed our MSA migration with zero downtime.
 
