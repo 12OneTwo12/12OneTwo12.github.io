@@ -127,10 +127,10 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   - [**DB Replication 복제지연**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})으로 데이터 불일치
   - N+1, 인덱스 미활용으로 서버 부하 증가
 - **[주요 기여]**
-  - [JPA 일원화로 **Deadlock 해결**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
+  - JPA 일원화로 [**HikariCP Deadlock 해결**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
   - AbstractRoutingDataSource + AOP로 **동적 DataSource 분리**
-  - [Redis 캐싱]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}})으로 **외부 API 성능 최적화**, 커버링 인덱스로 **쿼리 성능 개선**
-  - [Git flow 도입]({{< relref "/blog/culture/git-flow-introduction" >}})으로 **협업 프로세스 개선**
+  - Redis 캐싱으로 [**외부 API 성능 최적화**]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), 커버링 인덱스로 **쿼리 성능 개선**
+  - Git flow 도입으로 [**협업 프로세스 개선**]({{< relref "/blog/culture/git-flow-introduction" >}})
 - **[성과]**
   - API 응답속도: 10.3초 → **1.3초 (87% 개선)**
   - 캐싱 적용 API: 5.1초 → **1.3초 (75% 개선)**
@@ -159,10 +159,10 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 - #### **Spring Batch 성능 최적화**
   Chunk/Partitioning 도입으로 **배치 처리 시간 64% 단축** (13분 → 5분)
 {{% details title="**자세히 보기**" %}}
-- **개요**: PHP/Crontab 기반 배치를 [Spring Batch로 전환]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) 및 성능 개선
+- **개요**: PHP/Crontab 기반 배치를 Spring Batch로 전환 및 [**성능 개선**]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}})
 - **기간**: 2024.05 ~ 2025.03 | 4~6명 팀, 배치 시스템 전환 및 성능 최적화 설계 참여
 - **[문제]**
-  - [Job 동시 실행 시 Metadata Table Deadlock 발생]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
+  - Job 동시 실행 시 [**Metadata Table Deadlock 발생**]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
   - Tasklet 방식으로 대량 데이터 처리 시 성능 저하 및 정합성 문제
 - **[주요 기여]**
   - Isolation Level 변경으로 Deadlock 해결
@@ -170,7 +170,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   - 해결 사례 **사내 문서화 및 공유**
 - **[성과]**
   - 배치 처리 시간: 13.3분 → **4.8분 (64% 단축)**
-  - 트랜잭션 처리 시간: 22분 → **0.01초 (정합성 문제 99.9% 감소)**
+  - 트랜잭션 락 점유: 22분 → **0.01초** (Chunk 단위 커밋으로 정합성 문제 99.9% 감소)
 - **기술**: `Spring Batch`, `Java 11`, `JPA`
 {{% /details %}}
 
