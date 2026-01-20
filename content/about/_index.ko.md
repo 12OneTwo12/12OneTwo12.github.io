@@ -48,15 +48,15 @@ toc: true
 {{% details title="**자세히 보기**" %}}
 - **개요**: Java Servlet 기반 모놀리식을 [Kotlin/Spring Cloud MSA로 무중단 전환]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
 - **기간**: 2025.04 ~ 2025.11 | 3명 중 **구현 담당** (설계 참여)
-- **문제**
+- **[문제]**
   - 핵심 도메인(매물, 중개사-사용자 매칭)의 강결합으로 기존 점진적 전환 전략 적용 불가
   - 도메인별 개별 분리 시 데이터 불일치 및 비즈니스 로직 꼬임 위험
-- **주요 기여**
+- **[주요 기여]**
   - 강결합 도메인을 하나의 단위로 묶어 동시 분리하는 **부분적 빅뱅 전략 설계**
   - 과도기 **데이터 정합성 보장**을 위한 Dual Write + 검증 배치 설계
   - 헥사고날 아키텍처 + CQRS 패턴 적용으로 **도메인 로직의 기술 의존성 제거**
   - FeignClient 동기 통신, AWS SQS **이벤트 기반 통신 구축**
-- **성과**
+- **[성과]**
   - 서비스 가용성 **100% 유지**하며 MSA 전환 완료
   - 도메인 분리로 신규 기능 추가 속도 **약 2배 향상**
 - **기술**: `Kotlin`, `Spring Cloud`, `Feign Client`, `CQRS`, `Hexagonal Architecture`, `AWS SQS`
@@ -67,15 +67,15 @@ toc: true
 {{% details title="**자세히 보기**" %}}
 - **개요**: 단일 VM에서 [Kubernetes로 전환]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) 및 [모니터링 시스템 구축]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}})
 - **기간**: 2025.04 ~ 2025.09 | **단독 수행**
-- **문제**
+- **[문제]**
   - 단일 인스턴스 + Shell Script 배포 → **SPOF**, 장애 복구 시 개발자 수동 개입 필수
   - 모니터링 부재로 장애 인식을 CS에만 의존 (평균 1시간 소요)
-- **주요 기여**
+- **[주요 기여]**
   - GKE vs Self-Managed K8s 비교 후 **GKE 도입 제안 및 구축**
   - Spring Cloud Eureka/Gateway 종속성 제거 → **Kubernetes 네이티브 전환**
   - GitHub Actions + ArgoCD 기반 **CI/CD 파이프라인 구축**
   - Grafana LGTM Stack **모니터링 시스템 설계 및 구축** (사이드카 패턴 활용)
-- **성과**
+- **[성과]**
   - 장애 인지 시간: 1시간 → **1분 (98% 단축)**
   - 롤백 시간: 12분 → **2분 (83% 단축)**
   - **무중단 배포** 체계 및 **자동 스케일링** 확보
@@ -87,14 +87,14 @@ toc: true
 {{% details title="**자세히 보기**" %}}
 - **개요**: [온프레미스 IDC에서 AWS로 무중단 전환]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
 - **기간**: 2025.07 ~ 2025.08 | 2명 중 **마이그레이션 전략 담당**
-- **문제**
+- **[문제]**
   - 하드웨어 접촉 불량으로 간헐적 서버 다운 발생
   - 수동 스케일링 한계 및 운영 부담 가중
-- **주요 기여**
+- **[주요 기여]**
   - DNS 전파 시간을 고려한 **이중 운영 전략** 설계
   - AWS DMS(CDC) 기반 IDC → RDS **실시간 동기화 파이프라인 구축**
   - Terraform으로 AWS 인프라(EC2, RDS, VPC) **코드화**
-- **성과**
+- **[성과]**
   - **다운타임 0**으로 마이그레이션 완료
   - 하드웨어 장애 이슈 해결, 트래픽 대응 확장성 확보
 - **기술**: `AWS`, `Terraform`, `AWS DMS`, `AWS RDS`, `AWS VPC`
@@ -115,15 +115,15 @@ toc: true
 {{% details title="**자세히 보기**" %}}
 - **개요**: PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선
 - **기간**: 2024.04 ~ 2025.03 | 2~6명
-- **문제**
+- **[문제]**
   - JPA + MyBatis 혼용으로 [**HikariCP Deadlock** 발생]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}})
   - [**DB Replication 복제지연**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})으로 데이터 불일치
   - N+1, 인덱스 미활용으로 서버 부하 증가
-- **주요 기여**
+- **[주요 기여]**
   - [JPA 일원화로 **Deadlock 해결**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
   - AbstractRoutingDataSource + AOP로 **동적 DataSource 분리**
   - [Redis 캐싱]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), [커버링 인덱스]({{< relref "/blog/architecture/jpa-sql-ideology-and-gap" >}}) 도입으로 **쿼리 성능 최적화**
-- **성과**
+- **[성과]**
   - API 응답속도: 10.3초 → **1.3초 (87% 개선)**
   - 캐싱 적용 API: 5.1초 → **1.3초 (75% 개선)**
   - HikariCP Deadlock 및 Replication 지연 문제 해결
@@ -135,14 +135,14 @@ toc: true
 {{% details title="**자세히 보기**" %}}
 - **개요**: [분산된 정산 로직을 단일 시스템으로 통합](https://www.notion.so/Analyzed-the-existing-As-Is-settlement-architecture-and-dependency-configurations-13fde4324e3d80878b38c17b3370231f?pvs=21)
 - **기간**: 2024.06 ~ 2025.03 | 4명 중 **아키텍처 분석 및 전환 전략 담당**
-- **문제**
+- **[문제]**
   - 정산 로직이 3개 서버, 13개 Procedure, 11개 Function으로 분산 → 유지보수 비용 과다
   - 분산 환경에서 **Race Condition** 발생
-- **주요 기여**
+- **[주요 기여]**
   - 기존 아키텍처 의존성 분석 및 **점진적 전환 전략** 설계
   - Redisson 분산 락으로 **Race Condition 해결**
   - [Git flow 도입]({{< relref "/blog/culture/git-flow-introduction" >}})으로 형상 관리 체계화
-- **성과**
+- **[성과]**
   - 요구사항 반영 속도: 4.06주 → **2.18주 (46% 향상)**
   - 동시성 문제 해결로 정산 **신뢰성 향상**
 - **기술**: `Spring Boot`, `Java 11`, `JPA`, `Redisson`
@@ -153,14 +153,14 @@ toc: true
 {{% details title="**자세히 보기**" %}}
 - **개요**: PHP/Crontab 기반 배치를 [Spring Batch로 전환]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) 및 성능 개선
 - **기간**: 2024.05 ~ 2025.03 | 4~6명
-- **문제**
+- **[문제]**
   - [Job 동시 실행 시 Metadata Table Deadlock 발생]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
   - Tasklet 방식으로 대량 데이터 처리 시 성능 저하 및 정합성 문제
-- **주요 기여**
+- **[주요 기여]**
   - Isolation Level 변경으로 Deadlock 해결
   - Tasklet → **Chunk + Partitioning** 전환으로 성능 최적화
   - 해결 사례 **사내 문서화 및 공유**
-- **성과**
+- **[성과]**
   - 배치 처리 시간: 13.3분 → **4.8분 (64% 단축)**
   - 트랜잭션 처리 시간: 22분 → **0.01초 (정합성 문제 99.9% 감소)**
 - **기술**: `Spring Batch`, `Java 11`, `JPA`
