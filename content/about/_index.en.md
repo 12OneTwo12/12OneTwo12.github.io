@@ -51,7 +51,7 @@ I think about **"What improvement does our service need most right now?"** befor
 {{< /callout >}}
 
 - #### **Monolith → MSA Migration**
-  Decoupled tightly coupled domains, **doubled new feature development speed**
+  Decoupled tightly coupled domains, **100% service availability** during transition
 {{% details title="**See Details**" %}}
 - **Overview**: [Zero-downtime migration from Java Servlet monolith to Kotlin/Spring Cloud MSA]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
 - **Duration**: 2025.04 ~ 2025.11 | 3-member team, led 5 service implementations (Property Listings, Broker-User Matching, Transaction Prices, User, Notification)
@@ -65,7 +65,7 @@ I think about **"What improvement does our service need most right now?"** befor
   - FeignClient sync communication, AWS SQS **event-driven communication**
 - **[Results]**
   - MSA migration completed with **100% service availability**
-  - New feature development speed **~2x faster** due to domain separation
+  - Hexagonal Architecture enabled **independent domain deployment**
 - **Tech**: `Kotlin`, `Spring Cloud`, `Feign Client`, `CQRS`, `Hexagonal Architecture`, `AWS SQS`
 {{% /details %}}
 
