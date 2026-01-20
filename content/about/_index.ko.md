@@ -25,10 +25,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 
 기술 구현 자체보다 **"지금 서비스에 가장 필요한 개선이 무엇인가?"** 를 먼저 생각합니다.
 
-**주요 역량 및 경험**
-- **시스템 아키텍처 전환**: 모놀리식 → MSA 전환 설계 및 구현, 온프레미스 → 클라우드 무중단 마이그레이션
-- **인프라 구축**: Managed Kubernetes 기반 인프라 설계, 구축 및 운영, Grafana LGTM Stack 모니터링 시스템 구축
-- **성능 최적화**: API 응답속도 87% 개선, 배치 처리 64% 단축, 장애 인지 시간 98% 단축
+**Core Strengths:** MSA 전환 설계 및 구현 · K8s 인프라 구축 · 쿼리 및 API 성능 최적화 · 모니터링 시스템 구축
 
 ## **Skills**
 
@@ -57,7 +54,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   강결합 도메인 분리로 **신규 기능 추가 속도 2배 향상**
 {{% details title="**자세히 보기**" %}}
 - **개요**: Java Servlet 기반 모놀리식을 [Kotlin/Spring Cloud MSA로 무중단 전환]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
-- **기간**: 2025.04 ~ 2025.11 | 3명 팀, **5개 서비스 분리 구현 전담** (부동산 매물·중개사-사용자 매칭·실거래가·유저·알림)
+- **기간**: 2025.04 ~ 2025.11 | 3명 팀, 5개 서비스 구현 주도 (부동산 매물·중개사-사용자 매칭·실거래가·유저·알림)
 - **[문제]**
   - 핵심 도메인(매물, 중개사-사용자 매칭)의 강결합으로 기존 점진적 전환 전략 적용 불가
   - 도메인별 개별 분리 시 데이터 불일치 및 비즈니스 로직 꼬임 위험
@@ -72,11 +69,11 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 - **기술**: `Kotlin`, `Spring Cloud`, `Feign Client`, `CQRS`, `Hexagonal Architecture`, `AWS SQS`
 {{% /details %}}
 
-- #### **Kubernetes 인프라 및 모니터링 시스템 구축 (단독 수행)**
+- #### **Kubernetes 인프라 및 모니터링 시스템 구축**
   장애 인지 시간 **98% 단축** (1시간 → 1분), 롤백 시간 **83% 단축**
 {{% details title="**자세히 보기**" %}}
 - **개요**: 단일 VM에서 [Kubernetes로 전환]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) 및 [모니터링 시스템 구축]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}})
-- **기간**: 2025.04 ~ 2025.09 | **단독 수행**
+- **기간**: 2025.04 ~ 2025.09 | 인프라 영역 전담
 - **[문제]**
   - 단일 인스턴스 + Shell Script 배포 → **SPOF**, 장애 복구 시 개발자 수동 개입 필수
   - 모니터링 부재로 장애 인식을 CS에만 의존 (평균 1시간 소요)
@@ -96,7 +93,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   서비스 **다운타임 0**으로 클라우드 전환 성공
 {{% details title="**자세히 보기**" %}}
 - **개요**: [온프레미스 IDC에서 AWS로 무중단 전환]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
-- **기간**: 2025.07 ~ 2025.08 | 2명 팀, **전략 설계 및 DMS·Terraform 구축 전담**
+- **기간**: 2025.07 ~ 2025.08 | 2명 팀, 전략 설계 및 DMS·Terraform 구축 담당
 - **[문제]**
   - 하드웨어 접촉 불량으로 간헐적 서버 다운 발생
   - 수동 스케일링 한계 및 운영 부담 가중
@@ -124,7 +121,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   SQL 튜닝 및 캐싱으로 **API 응답속도 87% 개선** (10.3초 → 1.3초)
 {{% details title="**자세히 보기**" %}}
 - **개요**: PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선
-- **기간**: 2024.04 ~ 2025.03 | 2~6명 팀, **성능 최적화 및 트러블슈팅 전담**
+- **기간**: 2024.04 ~ 2025.03 | 2~6명 팀, 성능 최적화 및 트러블슈팅 참여
 - **[문제]**
   - JPA + MyBatis 혼용으로 [**HikariCP Deadlock** 발생]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}})
   - [**DB Replication 복제지연**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})으로 데이터 불일치
@@ -144,7 +141,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   24개 DB Procedure/Function으로 분산된 정산 로직 통합, **요구사항 반영 속도 46% 향상**
 {{% details title="**자세히 보기**" %}}
 - **개요**: [분산된 정산 로직을 단일 시스템으로 통합](https://www.notion.so/Analyzed-the-existing-As-Is-settlement-architecture-and-dependency-configurations-13fde4324e3d80878b38c17b3370231f?pvs=21)
-- **기간**: 2024.06 ~ 2025.03 | 4명 팀, **아키텍처 분석 및 전환 전략 전담**
+- **기간**: 2024.06 ~ 2025.03 | 4명 팀, 전환 전략 설계 및 구현 참여
 - **[문제]**
   - 정산 로직이 3개 서버, 13개 Procedure, 11개 Function으로 분산 → 유지보수 비용 과다
   - 분산 환경에서 **Race Condition** 발생
@@ -162,7 +159,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   Chunk/Partitioning 도입으로 **배치 처리 시간 64% 단축** (13분 → 5분)
 {{% details title="**자세히 보기**" %}}
 - **개요**: PHP/Crontab 기반 배치를 [Spring Batch로 전환]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) 및 성능 개선
-- **기간**: 2024.05 ~ 2025.03 | 4~6명 팀, **배치 전환 및 최적화 전담**
+- **기간**: 2024.05 ~ 2025.03 | 4~6명 팀, 배치 시스템 전환 및 성능 최적화 설계 참여
 - **[문제]**
   - [Job 동시 실행 시 Metadata Table Deadlock 발생]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
   - Tasklet 방식으로 대량 데이터 처리 시 성능 저하 및 정합성 문제
@@ -181,9 +178,9 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 ### **Upvy** - 교육용 숏폼 영상 플랫폼
 > [App Store](https://apps.apple.com/app/upvy/id6756291696) | [GitHub](https://github.com/12OneTwo12/upvy)
 
-- **개요**: 스크롤 시간을 학습 시간으로 전환하는 교육용 숏폼 플랫폼 (1인 개발, 운영 중)
+- **개요**: 스크롤 시간을 학습 시간으로 전환하는 교육용 숏폼 플랫폼
 - **기술**: `Kotlin` `Spring WebFlux` `R2DBC` `React Native` `Vertex AI`
-- **규모**: 133,000 LOC, 79% test coverage
+- **특징**: 1인 풀스택 개발 · App Store 출시 및 운영 중 · 79% test coverage
 - **주요 구현**: AI 기반 YouTube 영상 자동 편집 파이프라인 (Vertex AI Gemini + Speech-to-Text)
 
 ## **Certificate**

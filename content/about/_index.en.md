@@ -25,10 +25,7 @@ I traced a single error log to uncover the cause of a HikariCP Deadlock. Asking 
 
 I think about **"What improvement does our service need most right now?"** before diving into implementation.
 
-**Core Competencies & Experience**
-- **System Architecture Migration**: Monolith → MSA design and implementation, On-premise → Cloud zero-downtime migration
-- **Infrastructure**: Managed Kubernetes infrastructure design, build and operations, Grafana LGTM Stack monitoring system setup
-- **Performance Optimization**: API response 87% faster, Batch processing 64% faster, Incident detection 98% faster
+**Core Strengths:** MSA Migration Design & Implementation · K8s Infrastructure · Query & API Performance Optimization · Monitoring System
 
 ## **Skills**
 
@@ -57,7 +54,7 @@ I think about **"What improvement does our service need most right now?"** befor
   Decoupled tightly coupled domains, **doubled new feature development speed**
 {{% details title="**See Details**" %}}
 - **Overview**: [Zero-downtime migration from Java Servlet monolith to Kotlin/Spring Cloud MSA]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
-- **Duration**: 2025.04 ~ 2025.11 | 3-member team, **led implementation of 5 services** (Property Listings, Broker-User Matching, Transaction Prices, User, Notification)
+- **Duration**: 2025.04 ~ 2025.11 | 3-member team, led 5 service implementations (Property Listings, Broker-User Matching, Transaction Prices, User, Notification)
 - **[Problem]**
   - Tightly coupled core domains (listings, broker-user matching) blocked gradual migration
   - Risk of data inconsistency and business logic conflicts with domain-by-domain separation
@@ -72,11 +69,11 @@ I think about **"What improvement does our service need most right now?"** befor
 - **Tech**: `Kotlin`, `Spring Cloud`, `Feign Client`, `CQRS`, `Hexagonal Architecture`, `AWS SQS`
 {{% /details %}}
 
-- #### **Kubernetes Infrastructure & Monitoring System (Solo)**
+- #### **Kubernetes Infrastructure & Monitoring System**
   Incident detection **98% faster** (1hr → 1min), Rollback **83% faster**
 {{% details title="**See Details**" %}}
 - **Overview**: [Migrated from single VM to Kubernetes]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) and [built monitoring system]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}})
-- **Duration**: 2025.04 ~ 2025.09 | **Solo**
+- **Duration**: 2025.04 ~ 2025.09 | Infrastructure owner
 - **[Problem]**
   - Single instance + Shell Script deployment → **SPOF**, manual intervention for recovery
   - No monitoring, relied on customer support for incident detection (avg 1 hour)
@@ -96,7 +93,7 @@ I think about **"What improvement does our service need most right now?"** befor
   Cloud migration with **zero downtime**
 {{% details title="**See Details**" %}}
 - **Overview**: [Zero-downtime migration from on-premise IDC to AWS]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
-- **Duration**: 2025.07 ~ 2025.08 | 2-member team, **led strategy design, DMS & Terraform implementation**
+- **Duration**: 2025.07 ~ 2025.08 | 2-member team, strategy design & DMS/Terraform implementation
 - **[Problem]**
   - Intermittent server downtime due to hardware issues
   - Manual scaling limitations and operational burden
@@ -124,7 +121,7 @@ I think about **"What improvement does our service need most right now?"** befor
   SQL tuning and caching, **API response 87% faster** (10.3s → 1.3s)
 {{% details title="**See Details**" %}}
 - **Overview**: Migrated PHP legacy back-office to Spring with performance improvements
-- **Duration**: 2024.04 ~ 2025.03 | 2~6-member team, **led performance optimization and troubleshooting**
+- **Duration**: 2024.04 ~ 2025.03 | 2~6-member team, performance optimization & troubleshooting
 - **[Problem]**
   - [**HikariCP Deadlock**]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}}) due to JPA + MyBatis mix
   - [**DB Replication lag**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}}) causing data inconsistency
@@ -144,7 +141,7 @@ I think about **"What improvement does our service need most right now?"** befor
   Integrated 24 DB Procedures/Functions, **46% faster requirement delivery**
 {{% details title="**See Details**" %}}
 - **Overview**: [Integrated distributed settlement logic into single system](https://www.notion.so/Analyzed-the-existing-As-Is-settlement-architecture-and-dependency-configurations-13fde4324e3d80878b38c17b3370231f?pvs=21)
-- **Duration**: 2024.06 ~ 2025.03 | 4-member team, **led architecture analysis and migration strategy**
+- **Duration**: 2024.06 ~ 2025.03 | 4-member team, migration strategy design & implementation
 - **[Problem]**
   - Settlement logic across 3 servers, 13 Procedures, 11 Functions → high maintenance cost
   - **Race Condition** in distributed environment
@@ -162,7 +159,7 @@ I think about **"What improvement does our service need most right now?"** befor
   Chunk/Partitioning, **batch processing 64% faster** (13min → 5min)
 {{% details title="**See Details**" %}}
 - **Overview**: [Migrated PHP/Crontab batch to Spring Batch]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) with optimization
-- **Duration**: 2024.05 ~ 2025.03 | 4~6-member team, **led batch migration and optimization**
+- **Duration**: 2024.05 ~ 2025.03 | 4~6-member team, batch system migration & optimization design
 - **[Problem]**
   - [Metadata Table Deadlock on concurrent Job execution]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
   - Tasklet causing performance and consistency issues with large data
@@ -181,9 +178,9 @@ I think about **"What improvement does our service need most right now?"** befor
 ### **Upvy** - Educational Short-form Video Platform
 > [App Store](https://apps.apple.com/app/upvy/id6756291696) | [GitHub](https://github.com/12OneTwo12/upvy)
 
-- **Overview**: Educational short-form platform that turns scroll time into learning time (Solo development, Live)
+- **Overview**: Educational short-form platform that turns scroll time into learning time
 - **Tech**: `Kotlin` `Spring WebFlux` `R2DBC` `React Native` `Vertex AI`
-- **Scale**: 133,000 LOC, 79% test coverage
+- **Highlights**: Solo full-stack development · Live on App Store · 79% test coverage
 - **Key Implementation**: AI-powered YouTube video auto-editing pipeline (Vertex AI Gemini + Speech-to-Text)
 
 ## **Certificate**
