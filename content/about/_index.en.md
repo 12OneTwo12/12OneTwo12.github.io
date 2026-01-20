@@ -53,13 +53,13 @@ I think about **"What improvement does our service need most right now?"** befor
 - #### **Monolith → MSA Migration**
   Decoupled tightly coupled domains, **100% service availability** during transition
 {{% details title="**See Details**" %}}
-- **Overview**: [Zero-downtime migration from Java Servlet monolith to Kotlin/Spring Cloud MSA]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
+- **Overview**: Zero-downtime migration from Java Servlet monolith to Kotlin/Spring Cloud MSA
 - **Duration**: 2025.04 ~ 2025.11 | 3-member team, led 5 service implementations (Property Listings, Broker-User Matching, Transaction Prices, User, Notification)
 - **[Problem]**
   - Tightly coupled core domains (listings, broker-user matching) blocked gradual migration
   - Risk of data inconsistency and business logic conflicts with domain-by-domain separation
 - **[Key Contributions]**
-  - Designed **partial big-bang strategy** to migrate tightly coupled domains as a single unit
+  - Designed [**partial big-bang strategy**]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}}) to migrate tightly coupled domains as a single unit
   - Dual Write + validation batch for **data consistency during transition**
   - Hexagonal Architecture + CQRS to **remove technical dependencies from domain logic**
   - FeignClient sync communication, AWS SQS **event-driven communication**
@@ -72,16 +72,16 @@ I think about **"What improvement does our service need most right now?"** befor
 - #### **Kubernetes Infrastructure & Monitoring System**
   Incident detection **98% faster** (1hr → 1min), Rollback **83% faster**
 {{% details title="**See Details**" %}}
-- **Overview**: [Migrated from single VM to Kubernetes]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) and [built monitoring system]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}})
+- **Overview**: Migrated from single VM to Kubernetes and built monitoring system
 - **Duration**: 2025.04 ~ 2025.09 | Infrastructure owner
 - **[Problem]**
   - Single instance + Shell Script deployment → **SPOF**, manual intervention for recovery
   - No monitoring, relied on customer support for incident detection (avg 1 hour)
 - **[Key Contributions]**
-  - Compared GKE vs Self-Managed K8s, **proposed and built GKE adoption**
+  - Compared GKE vs Self-Managed K8s, [**proposed and built GKE adoption**]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
   - Removed Spring Cloud Eureka/Gateway dependencies → **Kubernetes native transition**
   - Built GitHub Actions + ArgoCD **CI/CD pipeline**
-  - Designed and built Grafana LGTM Stack **monitoring system** (sidecar pattern)
+  - Designed and built Grafana LGTM Stack [**monitoring system**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}) (sidecar pattern)
 - **[Results]**
   - Incident detection: 1hr → **1min (98% faster)**
   - Rollback time: 12min → **2min (83% faster)**
@@ -92,13 +92,13 @@ I think about **"What improvement does our service need most right now?"** befor
 - #### **On-premise → AWS Cloud Zero-Downtime Migration**
   Cloud migration with **zero downtime**
 {{% details title="**See Details**" %}}
-- **Overview**: [Zero-downtime migration from on-premise IDC to AWS]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
+- **Overview**: Zero-downtime migration from on-premise IDC to AWS
 - **Duration**: 2025.07 ~ 2025.08 | 2-member team, strategy design & DMS/Terraform implementation
 - **[Problem]**
   - Intermittent server downtime due to hardware issues
   - Manual scaling limitations and operational burden
 - **[Key Contributions]**
-  - Designed **dual operation strategy** considering DNS propagation time
+  - Designed [**dual operation strategy**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}}) considering DNS propagation time
   - Built AWS DMS (CDC) based IDC → RDS **real-time sync pipeline**
   - Codified AWS infrastructure (EC2, RDS, VPC) with Terraform **(IaC)**
 - **[Results]**
@@ -129,7 +129,7 @@ I think about **"What improvement does our service need most right now?"** befor
 - **[Key Contributions]**
   - [Unified to JPA to **resolve Deadlock**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
   - AbstractRoutingDataSource + AOP for **dynamic DataSource routing**
-  - [Redis caching]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), [covering index]({{< relref "/blog/architecture/jpa-sql-ideology-and-gap" >}}) for **query performance optimization**
+  - [Redis caching]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}) for **external API optimization**, covering index for **query performance**
   - Introduced [Git flow]({{< relref "/blog/culture/git-flow-introduction" >}}) for **improved collaboration process**
 - **[Results]**
   - API response: 10.3s → **1.3s (87% faster)**
