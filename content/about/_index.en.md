@@ -85,6 +85,7 @@ I completed our MSA migration with zero downtime, and reduced incident detection
   - Removed Spring Cloud Eureka/Gateway dependencies → **Kubernetes native transition**
   - Built GitHub Actions + ArgoCD **CI/CD pipeline**
   - Designed and built Grafana LGTM Stack [**monitoring system**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}) (sidecar pattern)
+  - Some services [**on-premises → AWS cloud zero-downtime migration**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
 - **[Results]**
   - Incident detection: 1hr → **1min (98% faster)**
   - Rollback time: 12min → **2min (83% faster)**
@@ -92,22 +93,22 @@ I completed our MSA migration with zero downtime, and reduced incident detection
 - **Tech**: `Kubernetes`, `GKE`, `ArgoCD`, `GitHub Actions`, `Grafana`, `Loki`, `Tempo`, `Prometheus`
 {{% /details %}}
 
-- #### **On-premise → AWS Cloud Zero-Downtime Migration**
-  Cloud migration with **zero downtime**
+- #### **AI Chatbot '[Butogi](https://bootalk.co.kr/ai/chat)' Location-based Property Recommendation**
+  Built **natural language location search** with RAG + Geo-search
 {{% details title="**See Details**" %}}
-- **Overview**: Zero-downtime migration from on-premise IDC to AWS
-- **Duration**: 2025.07 ~ 2025.08 | 2-member team, strategy design & DMS/Terraform implementation
+- **Overview**: Added location-based property recommendation feature to existing real estate AI chatbot 'Butogi'
+- **Duration**: 2025.08 ~ 2025.11 | 3-member team, backend owner
 - **[Problem]**
-  - Intermittent server downtime due to hardware issues
-  - Manual scaling limitations and operational burden
+  - Existing chatbot only had real estate Q&A RAG, no property recommendation feature
+  - Unable to handle location-based natural language queries like "Recommend apartments near Yeouido Station"
 - **[Key Contributions]**
-  - Designed [**dual operation strategy**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}}) considering DNS propagation time
-  - Built AWS DMS (CDC) based IDC → RDS **real-time sync pipeline**
-  - Codified AWS infrastructure (EC2, RDS, VPC) with Terraform **(IaC)**
+  - Automated **location data (coordinates, stations, districts) indexing** to Elasticsearch via Spring Batch daily job
+  - Built RAG pipeline: LLM extracts location keywords from natural language → Elasticsearch **similarity search to identify location** → radius filtering → property recommendation
+  - Built **vectorization and similarity search** for property data using OpenAI Embedding API
 - **[Results]**
-  - Migration completed with **zero downtime**
-  - Resolved hardware issues, achieved traffic scalability
-- **Tech**: `AWS`, `Terraform`, `AWS DMS`, `AWS RDS`, `AWS VPC`
+  - Launched **AI property recommendation** with natural language location search
+  - Supported **complex queries** like "2-room within 10 min walk from Gangnam Station"
+- **Tech**: `Kotlin`, `Spring Batch`, `Elasticsearch`, `OpenAI API`, `RAG`, `Geo-search`, `Embedding`
 {{% /details %}}
 
 ---

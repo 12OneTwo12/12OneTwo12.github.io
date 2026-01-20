@@ -85,6 +85,7 @@ MSA 전환을 서비스 중단 없이 완료했고, 장애 인지 시간을 1시
   - Spring Cloud Eureka/Gateway 종속성 제거 → **Kubernetes 네이티브 전환**
   - GitHub Actions + ArgoCD 기반 **CI/CD 파이프라인 구축**
   - Grafana LGTM Stack [**모니터링 시스템 설계 및 구축**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}) (사이드카 패턴 활용)
+  - 일부 서비스 [**온프레미스 → AWS 클라우드 무중단 마이그레이션**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
 - **[성과]**
   - 장애 인지 시간: 1시간 → **1분 (98% 단축)**
   - 롤백 시간: 12분 → **2분 (83% 단축)**
@@ -92,22 +93,22 @@ MSA 전환을 서비스 중단 없이 완료했고, 장애 인지 시간을 1시
 - **기술**: `Kubernetes`, `GKE`, `ArgoCD`, `GitHub Actions`, `Grafana`, `Loki`, `Tempo`, `Prometheus`
 {{% /details %}}
 
-- #### **온프레미스 → AWS 클라우드 무중단 마이그레이션**
-  서비스 **다운타임 0**으로 클라우드 전환 성공
+- #### **AI 챗봇 '[부토기](https://bootalk.co.kr/ai/chat)' 위치 기반 매물 추천 기능 개발**
+  RAG + Geo-search로 **자연어 위치 검색 기반 매물 추천** 구현
 {{% details title="**자세히 보기**" %}}
-- **개요**: 온프레미스 IDC에서 AWS로 무중단 전환
-- **기간**: 2025.07 ~ 2025.08 | 2명 팀, 전략 설계 및 DMS·Terraform 구축 담당
+- **개요**: 기존 부동산 AI 챗봇 '부토기'에 위치 기반 매물 추천 기능 추가 개발
+- **기간**: 2025.08 ~ 2025.11 | 3명 팀, 백엔드 전담
 - **[문제]**
-  - 하드웨어 접촉 불량으로 간헐적 서버 다운 발생
-  - 수동 스케일링 한계 및 운영 부담 가중
+  - 기존 챗봇은 부동산 Q&A RAG만 존재, 매물 추천 기능 부재
+  - "여의도역 근처 아파트 추천해줘" 같은 위치 기반 자연어 검색 불가
 - **[주요 기여]**
-  - DNS 전파 시간을 고려한 [**이중 운영 전략** 설계]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
-  - AWS DMS(CDC) 기반 IDC → RDS **실시간 동기화 파이프라인 구축**
-  - Terraform으로 AWS 인프라(EC2, RDS, VPC) **코드화**
+  - Spring Batch 일배치로 Elasticsearch에 **위치 정보(좌표, 역, 지역명) 인덱싱** 자동화
+  - 자연어에서 LLM 위치 키워드 추출 → Elasticsearch **유사도 검색으로 위치 특정** → 반경 필터링 → 매물 추천 RAG 파이프라인 구축
+  - OpenAI Embedding API 활용 매물 데이터 **벡터화 및 유사도 검색** 구현
 - **[성과]**
-  - **다운타임 0**으로 마이그레이션 완료
-  - 하드웨어 장애 이슈 해결, 트래픽 대응 확장성 확보
-- **기술**: `AWS`, `Terraform`, `AWS DMS`, `AWS RDS`, `AWS VPC`
+  - 자연어 위치 검색 기반 **AI 매물 추천** 기능 런칭
+  - "강남역 도보 10분 이내 투룸" 같은 **복합 조건 검색** 지원
+- **기술**: `Kotlin`, `Spring Batch`, `Elasticsearch`, `OpenAI API`, `RAG`, `Geo-search`, `Embedding`
 {{% /details %}}
 
 ---
