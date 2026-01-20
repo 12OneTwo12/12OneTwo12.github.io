@@ -59,7 +59,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   - 핵심 도메인(매물, 중개사-사용자 매칭)의 강결합으로 기존 점진적 전환 전략 적용 불가
   - 도메인별 개별 분리 시 데이터 불일치 및 비즈니스 로직 꼬임 위험
 - **[주요 기여]**
-  - [강결합 도메인을 하나의 단위로 묶어 동시 분리]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})하는 **부분적 빅뱅 전략 설계**
+  - 강결합 도메인을 하나의 단위로 묶어 동시 분리하는 [**부분적 빅뱅 전략 설계**]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
   - 과도기 **데이터 정합성 보장**을 위한 Dual Write + 검증 배치 설계
   - 헥사고날 아키텍처 + CQRS 패턴 적용으로 **도메인 로직의 기술 의존성 제거**
   - FeignClient 동기 통신, AWS SQS **이벤트 기반 통신 구축**
