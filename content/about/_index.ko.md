@@ -53,13 +53,13 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 - #### **모놀리식 → MSA 전환 설계 및 구현**
   강결합 도메인 분리, **서비스 가용성 100% 유지하며 전환 완료**
 {{% details title="**자세히 보기**" %}}
-- **개요**: Java Servlet 기반 모놀리식을 [Kotlin/Spring Cloud MSA로 무중단 전환]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
+- **개요**: Java Servlet 기반 모놀리식을 Kotlin/Spring Cloud MSA로 무중단 전환
 - **기간**: 2025.04 ~ 2025.11 | 3명 팀, 5개 서비스 구현 주도 (부동산 매물·중개사-사용자 매칭·실거래가·유저·알림)
 - **[문제]**
   - 핵심 도메인(매물, 중개사-사용자 매칭)의 강결합으로 기존 점진적 전환 전략 적용 불가
   - 도메인별 개별 분리 시 데이터 불일치 및 비즈니스 로직 꼬임 위험
 - **[주요 기여]**
-  - 강결합 도메인을 하나의 단위로 묶어 동시 분리하는 **부분적 빅뱅 전략 설계**
+  - [강결합 도메인을 하나의 단위로 묶어 동시 분리]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})하는 **부분적 빅뱅 전략 설계**
   - 과도기 **데이터 정합성 보장**을 위한 Dual Write + 검증 배치 설계
   - 헥사고날 아키텍처 + CQRS 패턴 적용으로 **도메인 로직의 기술 의존성 제거**
   - FeignClient 동기 통신, AWS SQS **이벤트 기반 통신 구축**
@@ -72,16 +72,16 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 - #### **Kubernetes 인프라 및 모니터링 시스템 구축**
   장애 인지 시간 **98% 단축** (1시간 → 1분), 롤백 시간 **83% 단축**
 {{% details title="**자세히 보기**" %}}
-- **개요**: 단일 VM에서 [Kubernetes로 전환]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) 및 [모니터링 시스템 구축]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}})
+- **개요**: 단일 VM에서 Kubernetes로 전환 및 모니터링 시스템 구축
 - **기간**: 2025.04 ~ 2025.09 | 인프라 영역 전담
 - **[문제]**
   - 단일 인스턴스 + Shell Script 배포 → **SPOF**, 장애 복구 시 개발자 수동 개입 필수
   - 모니터링 부재로 장애 인식을 CS에만 의존 (평균 1시간 소요)
 - **[주요 기여]**
-  - GKE vs Self-Managed K8s 비교 후 **GKE 도입 제안 및 구축**
+  - GKE vs Self-Managed K8s 비교 후 [**GKE 도입 제안 및 구축**]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
   - Spring Cloud Eureka/Gateway 종속성 제거 → **Kubernetes 네이티브 전환**
   - GitHub Actions + ArgoCD 기반 **CI/CD 파이프라인 구축**
-  - Grafana LGTM Stack **모니터링 시스템 설계 및 구축** (사이드카 패턴 활용)
+  - Grafana LGTM Stack [**모니터링 시스템 설계 및 구축**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}) (사이드카 패턴 활용)
 - **[성과]**
   - 장애 인지 시간: 1시간 → **1분 (98% 단축)**
   - 롤백 시간: 12분 → **2분 (83% 단축)**
@@ -92,13 +92,13 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 - #### **온프레미스 → AWS 클라우드 무중단 마이그레이션**
   서비스 **다운타임 0**으로 클라우드 전환 성공
 {{% details title="**자세히 보기**" %}}
-- **개요**: [온프레미스 IDC에서 AWS로 무중단 전환]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
+- **개요**: 온프레미스 IDC에서 AWS로 무중단 전환
 - **기간**: 2025.07 ~ 2025.08 | 2명 팀, 전략 설계 및 DMS·Terraform 구축 담당
 - **[문제]**
   - 하드웨어 접촉 불량으로 간헐적 서버 다운 발생
   - 수동 스케일링 한계 및 운영 부담 가중
 - **[주요 기여]**
-  - DNS 전파 시간을 고려한 **이중 운영 전략** 설계
+  - DNS 전파 시간을 고려한 [**이중 운영 전략** 설계]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
   - AWS DMS(CDC) 기반 IDC → RDS **실시간 동기화 파이프라인 구축**
   - Terraform으로 AWS 인프라(EC2, RDS, VPC) **코드화**
 - **[성과]**
@@ -129,7 +129,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 - **[주요 기여]**
   - [JPA 일원화로 **Deadlock 해결**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
   - AbstractRoutingDataSource + AOP로 **동적 DataSource 분리**
-  - [Redis 캐싱]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), [커버링 인덱스]({{< relref "/blog/architecture/jpa-sql-ideology-and-gap" >}}) 도입으로 **쿼리 성능 최적화**
+  - [Redis 캐싱]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}})으로 **외부 API 성능 최적화**, 커버링 인덱스로 **쿼리 성능 개선**
   - [Git flow 도입]({{< relref "/blog/culture/git-flow-introduction" >}})으로 **협업 프로세스 개선**
 - **[성과]**
   - API 응답속도: 10.3초 → **1.3초 (87% 개선)**
