@@ -1,5 +1,5 @@
 ---
-title: Resolving DB Replication Lag
+title: "DB Replication Lag: How to Solve It"
 tags:
   - "db"
   - "rdbms"
@@ -9,97 +9,210 @@ tags:
 date: '2024-11-15'
 ---
 
-I'm sharing about a replication lag issue I encountered at work.
+When developing in an environment that uses database Replication, there's a problem you'll inevitably encounter at some point. It's the **replication lag** problem.
 
-------------------------------------------------------------------
+I also faced this issue at my company, and went through various considerations during the resolution process. In this article, I want to share my experience about why replication lag occurs and what solutions are available.
 
-### Problem Occurrence
+## What is Replication Lag?
 
-Our company uses database replication to distribute load and improve performance.
+Before discussing the replication lag problem, let me first touch on why we use Replication.
 
+Database Replication is a widely used approach to **distribute read load**. By configuring Master to handle writes (INSERT, UPDATE, DELETE) and Slave to handle reads (SELECT), we can effectively distribute the load.
 
-![Replication Structure](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbFKM8F%2FbtrivOHy0Cu%2FvKnHaVkMDbsl90KTDCxUk0%2Fimg.png)
+```mermaid
+flowchart LR
+    App["Application"]
+    Proxy["ProxySQL"]
+    Master["Master DB"]
+    Slave["Slave DB"]
 
-The system is configured as Active-Active redundancy in a Master-Slave structure, and through ProxySQL, `SELECT` statements are sent to Slave, and `INSERT`, `UPDATE`, `DELETE` statements are sent to Master. Afterwards, data changed in Master is synchronized to Slave.
+    App --> Proxy
+    Proxy -->|"INSERT/UPDATE/DELETE"| Master
+    Proxy -->|"SELECT"| Slave
+    Master -->|"Replication"| Slave
+```
 
-Through this structure, we were distributing load and improving performance, but one of the problems that occasionally occurs here is the "replication lag issue".
+Our company was also routing queries through ProxySQL with this structure. SELECT statements go to Slave, and write operations go to Master.
 
-![Replication Lag Issue](https://velog.velcdn.com/images/kimtjsdlf/post/6958e35a-7f9a-4a3d-a011-a1ebf9a39153/image.png)
+But here's where the problem arises. **It takes time for data to replicate from Master to Slave**. No matter how fast it is, it's never zero.
 
-For example, when a user performs an `INSERT` operation and immediately calls `SELECT`, if data synchronization to Slave is not complete, from the user's perspective, data may appear to be missing.
+```mermaid
+sequenceDiagram
+    participant User as User
+    participant App as Application
+    participant Master as Master DB
+    participant Slave as Slave DB
 
-![Exception Example](https://velog.velcdn.com/images/12onetwo12/post/51cb4601-f3bf-4a08-8d2a-8471d4be69cc/image.png)
+    User->>App: Save data request
+    App->>Master: INSERT
+    Master-->>App: Save complete
+    App-->>User: Save complete response
 
-The above example is a screen where an exception message occurred due to a related problem was sent to Slack.
+    Note over Master,Slave: Replicating... (lag occurs)
 
----
+    User->>App: Query just saved data
+    App->>Slave: SELECT
+    Slave-->>App: No data ❌
+    App-->>User: "Data not found"
+```
 
-### Solution Methods
+From the user's perspective, they queried data they just saved and it says it doesn't exist, causing confusion like "I definitely saved it, why isn't it there?" In our service, we often received exception alerts on Slack or user inquiries due to this problem.
 
-The company considered various methods to solve the replication lag problem. Generally, the following solutions can be considered:
+## Problem Scenario
 
-- **Read-Your-Own-Write**
-- **Monotonic Reads**
-- **Consistent Reads**
+The typical scenario where replication lag occurred in our service was as follows:
 
-However, the method our company initially chose was simple and straightforward.
+1. User saves specific data (INSERT to Master)
+2. Immediately queries that data after saving (SELECT from Slave)
+3. Data doesn't appear because replication isn't complete yet
+4. Subsequent logic throws "data not found" exception
 
-> **For applications handling major business logic, don't use ProxySQL and only point to Master.**
+What makes this problem tricky is that **it doesn't always occur**. In most cases, replication completes quickly without issues, but when traffic spikes or Master is under heavy load, replication delay increases and the problem surfaces.
 
-There were three main reasons for adopting this method:
+## Solution Review
 
-1. Because it's a **temporary problem**, and once data is synchronized, no more problems occur.
-2. Because **major business logic often requires SELECT after INSERT**, it could lower the probability of problems occurring.
-3. Because **other development schedules were prioritized**, we needed to save additional debugging and development time.
+There are several methods to solve the replication lag problem. Let me examine the characteristics and trade-offs of each approach.
 
-This method was somewhat distant from the goal of load distribution through replication, but it was a realistic alternative to solve the immediate problem.
+### 1. Read-Your-Own-Write
 
----
+This is the most intuitive solution. **Subsequent reads by a user who performed a write operation are processed from Master**.
 
-### Considering and Applying More Substantial Solution Methods
+```mermaid
+flowchart LR
+    subgraph "Read-Your-Own-Write"
+        User["User A"]
+        Master["Master DB"]
+        Slave["Slave DB"]
 
-I, who was feeling the need for a better solution, volunteered to solve this problem myself when there was room in the schedule. The main references I consulted while searching for related materials were:
+        User -->|"1. INSERT"| Master
+        User -->|"2. SELECT (own data)"| Master
+        User -->|"3. SELECT (others' data)"| Slave
+    end
+```
 
-- [Applying AbstractRoutingDataSource](https://velog.io/@ghkvud2/AbstractRoutingDataSource-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
-- [Select Database - Drunken HW's Blog](https://drunkenhw.github.io/java/select-database/)
+**Pros:**
+- Data you wrote is always immediately queryable
+- Implementation is relatively simple
 
-Based on these materials, I introduced a method to solve it using **AbstractRoutingDataSource**. Through this method, I implemented it to point to Master in parts containing logic that may require `SELECT` operations after `INSERT`.
+**Cons:**
+- Additional logic needed to determine "data you wrote"
+- State sharing issues between servers when implementing with sessions or cookies
 
-#### **Application Method**
+### 2. Monotonic Reads
 
-1. **Applying AbstractRoutingDataSource, AOP**:
-    - I distinguished parts where `SELECT` operations are needed after `INSERT` and configured them to point to Master within that logic.
+This approach ensures that a user's read requests are **processed consistently in time order**. Once you read data at a certain point in time, subsequent reads won't show data from before that point.
 
-2. **Introducing Transactions**:
-    - When using ProxySQL, it basically points only to Master within a transaction. Using this, I made it naturally point to Master even where individual `INSERT` operations occur.
+**Pros:**
+- Prevents time reversal phenomenon
 
-3. **Using Master Only for Major Business Logic**:
-    - For some major business applications, I configured them to connect directly to Master only without going through ProxySQL.
+**Cons:**
+- High implementation complexity
+- Doesn't solve replication lag itself
 
-This method still left some potential for problems. For example, when users A and B insert and query data almost simultaneously, problems can occur when B tries to immediately query data that A `INSERT`ed. However, I judged that such cases would not be frequent.
+### 3. Using Transactions
 
-Also, since major business logic was connected only to Master, the possibility that users would experience problems was very low.
+When using a proxy like ProxySQL, you can leverage the characteristic that **all queries within a transaction are routed to Master**.
 
----
+```java
+@Transactional
+public void processOrder(OrderRequest request) {
+    // Both INSERT and SELECT are processed at Master
+    orderRepository.save(order);
+    Order savedOrder = orderRepository.findById(order.getId());
+    // ...
+}
+```
 
-### Reflections
+**Pros:**
+- Just add `@Transactional` to existing code
+- The simplest solution
 
-Actually, I think the replication lag problem is a chronic problem that must be faced when having a Replication structure or when data replication between different DBs must occur.
+**Cons:**
+- Read-only queries also go to Master, reducing load distribution benefits
+- Transaction scope must be carefully designed
 
-I had always been thinking "I should solve it later, I should solve it" and kept postponing it, but after attending NAVER conference DAN24 this time and listening to Kim Jin-han's session [Growth and Change of NAVER Pay Payment System](https://dan.naver.com/24/sessions/635) at NAVER FINANCIAL Tech, I thought "I also want to solve the replication lag problem when I return to the company" and ended up solving it.
+### 4. Using AbstractRoutingDataSource
 
-It was a very good session and presentation.
+Spring's `AbstractRoutingDataSource` allows you to **dynamically select DataSource based on business logic**.
 
->The above content may contain inaccurate information.
-As a second-year backend developer, I'm aware that I'm quite lacking,
-so I'm worried that the information I've written may not be accurate.
-My information may be incorrect, so please use it for reference only and I recommend looking into the related content yourself.
-If there's any incorrect information or if you'd like to comment on anything, please feel free to write!
-I'll accept it and strive to improve!
+```java
+public class RoutingDataSource extends AbstractRoutingDataSource {
+    @Override
+    protected Object determineCurrentLookupKey() {
+        return TransactionSynchronizationManager.isCurrentTransactionReadOnly()
+            ? "slave" : "master";
+    }
+}
+```
+
+**Pros:**
+- Fine-grained control possible
+- Can be flexibly configured with AOP
+
+**Cons:**
+- Initial setup is somewhat complex
+- Increases DataSource management points
+
+## Our Choice
+
+After reviewing various methods, we chose a **phased approach**.
+
+### Phase 1: Apply Transactions to Major Business Logic
+
+As the quickest applicable method, we applied `@Transactional` to major business logic that requires SELECT immediately after INSERT. This way, ProxySQL routes all queries within that transaction to Master.
+
+### Phase 2: Introduce AbstractRoutingDataSource + AOP
+
+For the long term, we configured `AbstractRoutingDataSource` to enable more fine-grained control. We created custom annotations so that specific methods would always point to Master.
+
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface UseMasterDB {
+}
+
+@Aspect
+@Component
+public class DataSourceRoutingAspect {
+
+    @Around("@annotation(UseMasterDB)")
+    public Object routeToMaster(ProceedingJoinPoint joinPoint) throws Throwable {
+        try {
+            DataSourceContextHolder.setDataSourceType("master");
+            return joinPoint.proceed();
+        } finally {
+            DataSourceContextHolder.clear();
+        }
+    }
+}
+```
+
+### Phase 3: Direct Master Connection for Some Services
+
+For applications handling core business logic that is particularly sensitive to replication lag, we configured them to connect directly to Master without going through ProxySQL. This was a decision to prioritize data consistency over load distribution benefits.
+
+## Remaining Concerns
+
+This approach solved most replication lag issues, but it's not a perfect solution.
+
+For example, if User A saves data and User B queries that data, replication lag can still occur. However, such cases are infrequent, and even when they occur, the data appears upon retry shortly after, so it didn't lead to critical problems.
+
+I think the replication lag problem is difficult to completely avoid as long as you use a Replication structure. Ultimately, it seems important to **judge how much delay to allow and which cases require strong consistency** based on business requirements, and choose the appropriate strategy accordingly.
+
+## Summary
+
+Here's what I learned while solving the replication lag problem:
+
+1. **Processing all reads from Master would solve it**, but that defeats the purpose of using Replication
+2. **Understand trade-offs and choose** (consistency vs performance)
+3. **Gradual improvement** is realistic (improve step by step rather than creating a perfect structure at once)
+4. **Strategy varies by business requirements** (there's no one-size-fits-all answer)
+
+This experience was inspired by Jin-han Kim's session [Growth and Change of NAVER Pay Payment System](https://dan.naver.com/24/sessions/635) at NAVER conference DAN24, which motivated me to seriously tackle this problem. I hope this helps anyone facing similar issues.
 
 ---
 
 ### Reference
-https://drunkenhw.github.io/java/select-database/
-https://velog.io/@ghkvud2/AbstractRoutingDataSource-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0
-https://velog.io/@kimtjsdlf/%EB%B3%B5%EC%A0%9C2-%EB%B3%B5%EC%A0%9C-%EC%A7%80%EC%97%B0
+- https://drunkenhw.github.io/java/select-database/
+- https://velog.io/@ghkvud2/AbstractRoutingDataSource-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0
+- Martin Kleppmann - *Designing Data-Intensive Applications* (O'Reilly, 2017) - Chapter 5: Replication

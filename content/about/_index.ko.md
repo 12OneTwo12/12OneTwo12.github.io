@@ -130,6 +130,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   - [JPA 일원화로 **Deadlock 해결**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
   - AbstractRoutingDataSource + AOP로 **동적 DataSource 분리**
   - [Redis 캐싱]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), [커버링 인덱스]({{< relref "/blog/architecture/jpa-sql-ideology-and-gap" >}}) 도입으로 **쿼리 성능 최적화**
+  - [Git flow 도입]({{< relref "/blog/culture/git-flow-introduction" >}})으로 **협업 프로세스 개선**
 - **[성과]**
   - API 응답속도: 10.3초 → **1.3초 (87% 개선)**
   - 캐싱 적용 API: 5.1초 → **1.3초 (75% 개선)**
