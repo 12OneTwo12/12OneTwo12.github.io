@@ -47,7 +47,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 
 ### **부톡㈜**
 > AI 기반 부동산 중개 플랫폼 <br>
->*2025.03 ~ Present ({{< work-duration start="2025-03-01" >}})* | Back-end Developer
+>*2025.03 ~ Present ({{< work-duration start="2025-03-01" >}})* | Back-end Developer (개발팀 4명)
 
 {{< callout type="info" icon="code" >}}
 **주요 기술**: `Kotlin` `Spring Cloud` `Kubernetes` `ArgoCD` `Grafana LGTM Stack` `Redis` `MySQL`
@@ -114,7 +114,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 
 ### **㈜헬로핀테크**
 > P2P 온라인투자연계 금융플랫폼 (누적대출액 2조 5천억원) <br>
->*2023.03 ~ 2025.03 (2년)* | Back-end Developer
+>*2023.03 ~ 2025.03 (2년)* | Back-end Developer (개발팀 5~10명)
 
 {{< callout type="info" icon="code" >}}
 **주요 기술**: `Java` `Spring Boot` `Spring Batch` `JPA` `Redis` `MySQL` `Kubernetes`
@@ -124,7 +124,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   SQL 튜닝 및 캐싱으로 **API 응답속도 87% 개선** (10.3초 → 1.3초)
 {{% details title="**자세히 보기**" %}}
 - **개요**: PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선
-- **기간**: 2024.04 ~ 2025.03 | 2~6명 팀, **성능 최적화 전담**
+- **기간**: 2024.04 ~ 2025.03 | 2~6명 팀, **성능 최적화 및 트러블슈팅 전담**
 - **[문제]**
   - JPA + MyBatis 혼용으로 [**HikariCP Deadlock** 발생]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}})
   - [**DB Replication 복제지연**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})으로 데이터 불일치

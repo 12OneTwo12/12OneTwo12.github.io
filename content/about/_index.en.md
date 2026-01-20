@@ -47,7 +47,7 @@ I think about **"What improvement does our service need most right now?"** befor
 
 ### **Bootalk Inc.**
 > AI-based real estate brokerage platform <br>
->*2025.03 ~ Present ({{< work-duration start="2025-03-01" >}})* | Backend Engineer
+>*2025.03 ~ Present ({{< work-duration start="2025-03-01" >}})* | Backend Engineer (4-member dev team)
 
 {{< callout type="info" icon="code" >}}
 **Tech Stack**: `Kotlin` `Spring Cloud` `Kubernetes` `ArgoCD` `Grafana LGTM Stack` `Redis` `MySQL`
@@ -114,7 +114,7 @@ I think about **"What improvement does our service need most right now?"** befor
 
 ### **Hello Fintech Co., Ltd.**
 > P2P Online Investment Platform (₩2.5 trillion cumulative loans) <br>
->*2023.03 ~ 2025.03 (2 years)* | Backend Developer
+>*2023.03 ~ 2025.03 (2 years)* | Backend Developer (5~10-member dev team)
 
 {{< callout type="info" icon="code" >}}
 **Tech Stack**: `Java` `Spring Boot` `Spring Batch` `JPA` `Redis` `MySQL` `Kubernetes`
@@ -124,7 +124,7 @@ I think about **"What improvement does our service need most right now?"** befor
   SQL tuning and caching, **API response 87% faster** (10.3s → 1.3s)
 {{% details title="**See Details**" %}}
 - **Overview**: Migrated PHP legacy back-office to Spring with performance improvements
-- **Duration**: 2024.04 ~ 2025.03 | 2~6-member team, **led performance optimization**
+- **Duration**: 2024.04 ~ 2025.03 | 2~6-member team, **led performance optimization and troubleshooting**
 - **[Problem]**
   - [**HikariCP Deadlock**]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}}) due to JPA + MyBatis mix
   - [**DB Replication lag**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}}) causing data inconsistency
