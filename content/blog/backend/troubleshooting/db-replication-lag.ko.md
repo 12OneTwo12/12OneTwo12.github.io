@@ -1,5 +1,5 @@
 ---
-title: DB Replication 복제 지연 해결
+title: "DB Replication 복제 지연, 어떻게 해결할 것인가"
 tags:
   - "db"
   - "rdbms"
@@ -9,98 +9,210 @@ tags:
 date: '2024-11-15'
 ---
 
-이번에 회사에서 직면했던 복제지연 문제에 관한 내용을 공유하고자 글을 남깁니다.
+데이터베이스 Replication을 사용하는 환경에서 개발하다 보면, 언젠가 한번쯤은 마주치게 되는 문제가 있습니다. 바로 **복제 지연(Replication Lag)** 문제입니다.
 
-------------------------------------------------------------------
+저 역시 회사에서 이 문제를 직면했고, 해결 과정에서 여러 고민을 했던 경험이 있습니다. 이 글에서는 복제 지연이 왜 발생하는지, 그리고 어떤 해결 방법들이 있는지 제 경험을 바탕으로 공유해보려 합니다.
 
-### 문제 발생
+## 복제 지연이란?
 
-저희 회사에서는 database replication을 통해 부하를 분산하여 성능을 높히는 방식을 사용하고 있습니다.
+복제 지연 문제를 이야기하기 전에, 먼저 왜 Replication을 사용하는지부터 짚어보겠습니다.
 
+데이터베이스 Replication은 **읽기 부하를 분산**하기 위해 널리 사용되는 방식입니다. Master에서는 쓰기(INSERT, UPDATE, DELETE)를 처리하고, Slave에서는 읽기(SELECT)를 처리하도록 구성하면 부하를 효과적으로 분산할 수 있죠.
 
-![Replication Structure](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbFKM8F%2FbtrivOHy0Cu%2FvKnHaVkMDbsl90KTDCxUk0%2Fimg.png)
+```mermaid
+flowchart LR
+    App["애플리케이션"]
+    Proxy["ProxySQL"]
+    Master["Master DB"]
+    Slave["Slave DB"]
 
-시스템은 Master-Slave 구조의 Active-Active 이중화로 구성되어 있으며, ProxySQL을 통해 `SELECT` 문은 Slave로, `INSERT`, `UPDATE`, `DELETE` 문은 Master로 전송됩니다. 이후 Master에서 변경된 데이터는 Slave로 동기화됩니다.
+    App --> Proxy
+    Proxy -->|"INSERT/UPDATE/DELETE"| Master
+    Proxy -->|"SELECT"| Slave
+    Master -->|"복제"| Slave
+```
 
-이 구조를 통해 부하를 분산하고 성능을 향상시키고 있었으나, 여기서 종종 발생하는 문제 중 하나가 바로 "복제 지연 문제"입니다.
+저희 회사에서도 위와 같은 구조로 ProxySQL을 통해 쿼리를 라우팅하고 있었습니다. SELECT 문은 Slave로, 쓰기 작업은 Master로 전송되는 방식이죠.
 
-![Replication Lag Issue](https://velog.velcdn.com/images/kimtjsdlf/post/6958e35a-7f9a-4a3d-a011-a1ebf9a39153/image.png)
+그런데 여기서 문제가 발생합니다. **Master에서 Slave로 데이터가 복제되는 데는 시간이 걸린다**는 점입니다. 아무리 빨라도 0은 아니거든요.
 
-예를 들어, 사용자가 `INSERT` 작업을 수행한 직후에 `SELECT`를 호출할 때, Slave에 데이터 동기화가 완료되지 않았다면 사용자 입장에서는 데이터가 누락된 것처럼 보일 수 있습니다.
+```mermaid
+sequenceDiagram
+    participant User as 사용자
+    participant App as 애플리케이션
+    participant Master as Master DB
+    participant Slave as Slave DB
 
-![Exception Example](https://velog.velcdn.com/images/12onetwo12/post/51cb4601-f3bf-4a08-8d2a-8471d4be69cc/image.png)
+    User->>App: 데이터 저장 요청
+    App->>Master: INSERT
+    Master-->>App: 저장 완료
+    App-->>User: 저장 완료 응답
 
-위 예시는 관련 문제로 발생한 예외 메시지가 Slack에 전송된 화면입니다.
+    Note over Master,Slave: 복제 중... (지연 발생)
 
----
+    User->>App: 방금 저장한 데이터 조회
+    App->>Slave: SELECT
+    Slave-->>App: 데이터 없음 ❌
+    App-->>User: "데이터가 없습니다"
+```
 
-### 해결 방법
+사용자 입장에서는 방금 저장한 데이터를 조회했는데 없다고 나오니, "분명 저장했는데 왜 없지?"라는 혼란을 겪게 됩니다. 실제로 저희 서비스에서도 이런 문제로 인해 Slack에 예외 알림이 오거나, 사용자 문의가 들어오는 경우가 종종 있었습니다.
 
-회사는 복제 지연 문제를 해결하기 위해 여러 가지 방법을 고민했습니다. 일반적으로 고려할 수 있는 해결 방안은 다음과 같습니다.
+## 문제 상황
 
-- **자신이 쓴 데이터 읽기(Read-Your-Own-Write)**
-- **단조 읽기(Monotonic Reads)**
-- **일관된 순서로 읽기(Consistent Reads)**
+저희 서비스에서 복제 지연 문제가 발생했던 대표적인 시나리오는 다음과 같았습니다.
 
-하지만, 저희 회사가 처음에 선택한 방법은 간단하고 직관적인 방식이었습니다.
+1. 사용자가 특정 데이터를 저장 (Master에 INSERT)
+2. 저장 완료 후 바로 해당 데이터를 조회 (Slave에서 SELECT)
+3. 아직 복제가 완료되지 않아 데이터가 조회되지 않음
+4. 후속 로직에서 "데이터가 없다"는 예외 발생
 
-> **주요 비즈니스 로직을 다루는 애플리케이션의 경우 ProxySQL을 사용하지 않고 Master만 바라보도록 한다.**
+이 문제가 까다로운 이유는 **항상 발생하는 게 아니라는 점**입니다. 대부분의 경우에는 복제가 빠르게 완료되어 문제가 없지만, 트래픽이 몰리거나 Master에 부하가 걸리면 복제 지연이 길어지면서 문제가 표면화됩니다.
 
-이 방법을 채택한 이유는 크게 세 가지였습니다.
+## 해결 방법 검토
 
-1. **일시적인 문제**로, 데이터가 동기화되면 더 이상 문제는 발생하지 않기 때문.
-2. **주요 비즈니스 로직에서는 INSERT 후 SELECT가 필요한 경우가 많아** 문제 발생 가능성을 낮출 수 있었기 때문.
-3. **다른 개발 일정이 우선시되었기 때문에** 추가적인 디버깅 및 개발 시간을 절약해야 했기 때문.
+복제 지연 문제를 해결하기 위한 방법은 여러 가지가 있습니다. 각 방법의 특징과 trade-off를 살펴보겠습니다.
 
-이 방법은 복제를 통한 부하 분산이라는 목표와는 다소 거리가 있었지만, 당장의 문제를 해결하기 위해서는 현실적인 대안이었습니다.
+### 1. Read-Your-Own-Write (자신이 쓴 데이터 읽기)
 
----
+가장 직관적인 해결책입니다. **쓰기 작업을 수행한 사용자의 후속 읽기는 Master에서 처리**하는 방식이죠.
 
-### 더 내용적인 해결 방법 고민 및 적역
+```mermaid
+flowchart LR
+    subgraph "Read-Your-Own-Write"
+        User["사용자 A"]
+        Master["Master DB"]
+        Slave["Slave DB"]
 
-더 나은 해결책에 대한 필요성을 느끼고 있었던 저는, 일정에 여유가 생기자 이 문제를 직접 해결해보겠다고 자청했습니다. 관련 자료를 찾아보며 참고한 주요 레퍼런스는 다음과 같습니다.
+        User -->|"1. INSERT"| Master
+        User -->|"2. SELECT (본인 데이터)"| Master
+        User -->|"3. SELECT (타인 데이터)"| Slave
+    end
+```
 
-- [AbstractRoutingDataSource 적용하기](https://velog.io/@ghkvud2/AbstractRoutingDataSource-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
-- [Select Database - Drunken HW’s Blog](https://drunkenhw.github.io/java/select-database/)
+**장점:**
+- 자신이 쓴 데이터는 항상 즉시 조회 가능
+- 구현이 비교적 단순
 
-이 자료들을 바탕으로 **AbstractRoutingDataSource**를 사용하여 해결하는 방법을 도입했습니다. 이 방식을 통해, `INSERT` 후 `SELECT` 작업이 필요할 수 있는 로직이 포함된 부분에서는 Master를 바라보도록 구현했습니다.
+**단점:**
+- "자신이 쓴 데이터"를 어떻게 판별할 것인지 추가 로직 필요
+- 세션이나 쿠키 기반으로 구현 시 서버 간 상태 공유 문제
 
-#### **적용 방법**
+### 2. Monotonic Reads (단조 읽기)
 
-1. **AbstractRoutingDataSource, AOP 적용**:
-    - `INSERT` 후 `SELECT` 작업이 필요한 부분을 구분해, 해당 로직 내에서는 Master를 바라보도록 설정했습니다.
+한 사용자의 읽기 요청이 **시간 순서대로 일관성 있게** 처리되도록 보장하는 방식입니다. 한번 특정 시점의 데이터를 읽었다면, 이후에는 그보다 과거의 데이터를 읽지 않도록 하는 거죠.
 
-2. **트랜잭션 도입**:
-    - ProxySQL을 사용하는 경우 트랜잭션 내에서는 기본적으로 Master만 바라보게 됩니다. 이를 활용하여, 개별적인 `INSERT` 작업이 이뤄지는 곳에서도 자연스럽게 Master를 바라보도록 했습니다.
+**장점:**
+- 시간 역전 현상 방지
 
-3. **주요 비즈니스 로직에만 Master 사용**:
-    - 일부 주요 비즈니스 애플리케이션의 경우 ProxySQL을 거치지 않고 Master에만 직접 연결하도록 했습니다.
+**단점:**
+- 구현 복잡도가 높음
+- 복제 지연 자체를 해결하지는 않음
 
-이 방식은 여전히 몇 가지 문제의 소지를 남겼습니다. 예를 들어, 사용자가 A와 B가 거의 동시에 데이터를 삽입하고 조회하는 경우, A가 `INSERT`한 데이터를 B가 바로 조회하려고 할 때 문제가 발생할 수 있습니다. 그러나 이러한 케이스는 빈번하지 않을 것이라고 판단했습니다.
+### 3. 트랜잭션 활용
 
-또한, 주요 비즈니스 로직은 Master에만 연결해 두었기 때문에 사용자 입장에서 문제를 느낄 가능성은 매우 낮았습니다.
+ProxySQL과 같은 프록시를 사용하는 경우, **트랜잭션 내에서는 모든 쿼리가 Master로 라우팅**되는 특성을 활용할 수 있습니다.
 
----
+```java
+@Transactional
+public void processOrder(OrderRequest request) {
+    // INSERT와 SELECT 모두 Master에서 처리됨
+    orderRepository.save(order);
+    Order savedOrder = orderRepository.findById(order.getId());
+    // ...
+}
+```
 
-### 느낀 점
+**장점:**
+- 기존 코드에 `@Transactional`만 추가하면 됨
+- 가장 간단한 해결책
 
-사실 복제지연 문제는 Replication 구조를 가지고 있거나 서로 다른 DB간 데이터 복제가 이루어져야할 때 맞이할 수 밖에 없는 고질적인 문제라고 생각합니다.
+**단점:**
+- 읽기 전용 쿼리도 Master로 가면서 부하 분산 효과 감소
+- 트랜잭션 범위를 신중하게 설계해야 함
 
-항상 나중에 해결해야지 해결해야지라는 생각으로 미뤄왔지만 이번에 NAVER 컨퍼런스인 DAN24에 다녀오면서 NAVER FINANCIAL Tech에 김진한님 세션 [네이버페이 결제 시스템의 성장과 변화](https://dan.naver.com/24/sessions/635)를 듣고 ``아 나도 회사 돌아가면 복제지연 문제를 해결해보고 싶다``라는 생각이 들어 해결하게 됐습니다.
+### 4. AbstractRoutingDataSource 활용
 
-굉장히 좋은 세션과 발표였습니다.
+Spring에서 제공하는 `AbstractRoutingDataSource`를 사용하면 **비즈니스 로직에 따라 동적으로 DataSource를 선택**할 수 있습니다.
 
->위 본문 내용중 정확하지 않은 내용이 포함돼 있을 수 있습니다.
-저는 2년차 백엔드 개발자로 스스로 굉장히 부족한 사람이라는 점을 인지하고 있는지라
-제가 적은 정보가 정확하지 않을까 걱정하고 있습니다.
-혹여 제 정보가 잘못 됐을 수 있으니 단지 참고용으로만 봐주시고 관련된 내용을 한번 직접 알아보시는 걸 추천합니다.
-혹여 잘못된 내용이 있거나 말씀해주시고 싶은 부분이 있으시다면 부담없이 적어주세요!
-수용하고 개선하기 위해 노력하겠습니다!
+```java
+public class RoutingDataSource extends AbstractRoutingDataSource {
+    @Override
+    protected Object determineCurrentLookupKey() {
+        return TransactionSynchronizationManager.isCurrentTransactionReadOnly()
+            ? "slave" : "master";
+    }
+}
+```
+
+**장점:**
+- 세밀한 제어 가능
+- AOP와 결합하여 유연하게 구성 가능
+
+**단점:**
+- 초기 설정이 다소 복잡
+- DataSource 관리 포인트 증가
+
+## 저희의 선택
+
+여러 방법을 검토한 결과, 저희는 **단계적 접근**을 선택했습니다.
+
+### 1단계: 주요 비즈니스 로직에 트랜잭션 적용
+
+가장 빠르게 적용할 수 있는 방법으로, INSERT 후 즉시 SELECT가 필요한 주요 비즈니스 로직에 `@Transactional`을 적용했습니다. 이렇게 하면 ProxySQL이 해당 트랜잭션 내의 모든 쿼리를 Master로 라우팅합니다.
+
+### 2단계: AbstractRoutingDataSource + AOP 도입
+
+장기적으로는 `AbstractRoutingDataSource`를 활용하여 더 세밀한 제어가 가능하도록 구성했습니다. 커스텀 어노테이션을 만들어 특정 메서드에서는 무조건 Master를 바라보도록 설정할 수 있게 했죠.
+
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface UseMasterDB {
+}
+
+@Aspect
+@Component
+public class DataSourceRoutingAspect {
+
+    @Around("@annotation(UseMasterDB)")
+    public Object routeToMaster(ProceedingJoinPoint joinPoint) throws Throwable {
+        try {
+            DataSourceContextHolder.setDataSourceType("master");
+            return joinPoint.proceed();
+        } finally {
+            DataSourceContextHolder.clear();
+        }
+    }
+}
+```
+
+### 3단계: 일부 서비스는 Master 직접 연결
+
+복제 지연에 특히 민감한 핵심 비즈니스 로직을 다루는 애플리케이션의 경우, ProxySQL을 거치지 않고 Master에 직접 연결하도록 구성했습니다. 이는 부하 분산 효과를 포기하는 대신 데이터 일관성을 우선시한 결정이었습니다.
+
+## 남은 고민
+
+이 방식으로 대부분의 복제 지연 문제는 해결되었지만, 완벽한 해결책은 아닙니다.
+
+예를 들어, 사용자 A가 데이터를 저장하고 사용자 B가 그 데이터를 조회하는 경우에는 여전히 복제 지연 문제가 발생할 수 있습니다. 다만 이런 케이스는 빈도가 낮고, 발생하더라도 잠시 후 다시 조회하면 데이터가 보이기 때문에 치명적인 문제로 이어지지는 않았습니다.
+
+복제 지연 문제는 Replication 구조를 사용하는 한 완전히 피하기 어려운 문제라고 생각합니다. 결국 **어느 정도의 지연을 허용할 것인지, 어떤 케이스에서 강한 일관성이 필요한지**를 비즈니스 요구사항에 맞게 판단하고, 그에 맞는 전략을 선택하는 것이 중요한 것 같습니다.
+
+## 정리
+
+복제 지연 문제를 해결하면서 배운 점을 정리하면 다음과 같습니다.
+
+1. **모든 읽기를 Master에서 처리하면 해결되지만**, 그러면 Replication을 쓰는 의미가 없어짐
+2. **트레이드오프를 이해하고 선택**해야 함 (일관성 vs 성능)
+3. **점진적 개선**이 현실적 (한 번에 완벽한 구조를 만들기보다 단계적으로 개선)
+4. **비즈니스 요구사항에 따라 전략이 달라짐** (모든 상황에 맞는 정답은 없음)
+
+이 경험은 NAVER 컨퍼런스 DAN24에서 김진한님의 [네이버페이 결제 시스템의 성장과 변화](https://dan.naver.com/24/sessions/635) 세션을 듣고 영감을 받아 본격적으로 해결하게 된 계기가 되었습니다. 비슷한 문제를 겪고 계신 분들께 조금이나마 도움이 되었으면 합니다.
 
 ---
 
 ### Reference
-https://drunkenhw.github.io/java/select-database/
-https://velog.io/@ghkvud2/AbstractRoutingDataSource-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0
-https://velog.io/@kimtjsdlf/%EB%B3%B5%EC%A0%9C2-%EB%B3%B5%EC%A0%9C-%EC%A7%80%EC%97%B0
-
+- https://drunkenhw.github.io/java/select-database/
+- https://velog.io/@ghkvud2/AbstractRoutingDataSource-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0
+- Martin Kleppmann - *Designing Data-Intensive Applications* (O'Reilly, 2017) - Chapter 5: Replication

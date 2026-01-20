@@ -130,6 +130,7 @@ I think about **"What improvement does our service need most right now?"** befor
   - [Unified to JPA to **resolve Deadlock**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
   - AbstractRoutingDataSource + AOP for **dynamic DataSource routing**
   - [Redis caching]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), [covering index]({{< relref "/blog/architecture/jpa-sql-ideology-and-gap" >}}) for **query performance optimization**
+  - Introduced [Git flow]({{< relref "/blog/culture/git-flow-introduction" >}}) for **improved collaboration process**
 - **[Results]**
   - API response: 10.3s → **1.3s (87% faster)**
   - Cached API: 5.1s → **1.3s (75% faster)**
