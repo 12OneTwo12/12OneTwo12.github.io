@@ -51,7 +51,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 {{< /callout >}}
 
 - #### **모놀리식 → MSA 전환 설계 및 구현**
-  강결합 도메인 분리로 **신규 기능 추가 속도 2배 향상**
+  강결합 도메인 분리, **서비스 가용성 100% 유지하며 전환 완료**
 {{% details title="**자세히 보기**" %}}
 - **개요**: Java Servlet 기반 모놀리식을 [Kotlin/Spring Cloud MSA로 무중단 전환]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
 - **기간**: 2025.04 ~ 2025.11 | 3명 팀, 5개 서비스 구현 주도 (부동산 매물·중개사-사용자 매칭·실거래가·유저·알림)
@@ -65,7 +65,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   - FeignClient 동기 통신, AWS SQS **이벤트 기반 통신 구축**
 - **[성과]**
   - 서비스 가용성 **100% 유지**하며 MSA 전환 완료
-  - 도메인 분리로 신규 기능 추가 속도 **약 2배 향상**
+  - 헥사고날 아키텍처 적용으로 **도메인 독립 배포 체계 구축**
 - **기술**: `Kotlin`, `Spring Cloud`, `Feign Client`, `CQRS`, `Hexagonal Architecture`, `AWS SQS`
 {{% /details %}}
 
