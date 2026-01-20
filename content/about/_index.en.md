@@ -137,22 +137,22 @@ I think about **"What improvement does our service need most right now?"** befor
 - **Tech**: `Spring Boot`, `Java 11`, `JPA`, `Redis`, `MySQL`
 {{% /details %}}
 
-- #### **Settlement System Renewal (Design & Implementation)**
-  Integrated 24 DB Procedures/Functions, **46% faster requirement delivery**
+- #### **Infrastructure Operations & Maintenance**
+  Covered DevOps gap, **resolved session loss with Redis Session Clustering**
 {{% details title="**See Details**" %}}
-- **Overview**: [Integrated distributed settlement logic into single system](https://www.notion.so/Analyzed-the-existing-As-Is-settlement-architecture-and-dependency-configurations-13fde4324e3d80878b38c17b3370231f?pvs=21)
-- **Duration**: 2024.06 ~ 2025.03 | 4-member team, migration strategy design & implementation
+- **Overview**: Cloud-based server infrastructure operations and maintenance
+- **Duration**: 2023.12 ~ 2024.09 | Solo infrastructure owner
 - **[Problem]**
-  - Settlement logic across 3 servers, 13 Procedures, 11 Functions → high maintenance cost
-  - **Race Condition** in distributed environment
+  - **Infrastructure operations gap** due to DevOps departure
+  - K8s Ingress Sticky Session causing **session loss** on app restart
 - **[Key Contributions]**
-  - Analyzed existing architecture dependencies, designed **gradual migration strategy**
-  - Redisson distributed lock to **resolve Race Condition**
-  - Introduced [Git flow]({{< relref "/blog/culture/git-flow-introduction" >}}) for version control
+  - **Owned infrastructure operations** until new DevOps hire
+  - Managed **19 instances, 10 nodes, 3 web servers, 9 WAS, 2 DBs**
+  - Implemented **Redis Session Clustering** to resolve session loss
 - **[Results]**
-  - Requirement delivery: 4.06 weeks → **2.18 weeks (46% faster)**
-  - Improved settlement **reliability** by resolving concurrency issues
-- **Tech**: `Spring Boot`, `Java 11`, `JPA`, `Redisson`
+  - **Stable infrastructure** maintained during gap period
+  - Session loss resolved, **improved user experience**
+- **Tech**: `Kubernetes`, `Jenkins`, `ArgoCD`, `ELK`, `Prometheus`, `Redis`, `MySQL`
 {{% /details %}}
 
 - #### **Spring Batch Performance Optimization**

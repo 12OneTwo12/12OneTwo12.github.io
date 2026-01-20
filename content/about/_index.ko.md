@@ -137,22 +137,22 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 - **기술**: `Spring Boot`, `Java 11`, `JPA`, `Redis`, `MySQL`
 {{% /details %}}
 
-- #### **정산 시스템 리뉴얼 (설계 및 구현)**
-  24개 DB Procedure/Function으로 분산된 정산 로직 통합, **요구사항 반영 속도 46% 향상**
+- #### **서비스 인프라 운영 및 유지보수**
+  DevOps 공백 기간 인프라 전담, **Redis Session Clustering으로 세션 유실 문제 해결**
 {{% details title="**자세히 보기**" %}}
-- **개요**: [분산된 정산 로직을 단일 시스템으로 통합](https://www.notion.so/Analyzed-the-existing-As-Is-settlement-architecture-and-dependency-configurations-13fde4324e3d80878b38c17b3370231f?pvs=21)
-- **기간**: 2024.06 ~ 2025.03 | 4명 팀, 전환 전략 설계 및 구현 참여
+- **개요**: 클라우드 기반 서버 인프라 운영 및 유지보수
+- **기간**: 2023.12 ~ 2024.09 | 인프라 운영 전담
 - **[문제]**
-  - 정산 로직이 3개 서버, 13개 Procedure, 11개 Function으로 분산 → 유지보수 비용 과다
-  - 분산 환경에서 **Race Condition** 발생
+  - 기존 DevOps 퇴사로 **인프라 운영 공백** 발생
+  - K8s Ingress Sticky Session 설정으로 앱 재기동 시 **세션 유실** 발생
 - **[주요 기여]**
-  - 기존 아키텍처 의존성 분석 및 **점진적 전환 전략** 설계
-  - Redisson 분산 락으로 **Race Condition 해결**
-  - [Git flow 도입]({{< relref "/blog/culture/git-flow-introduction" >}})으로 형상 관리 체계화
+  - 새로운 DevOps 입사 전까지 **인프라 운영 전담**
+  - 19개 인스턴스, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB **운영 및 유지보수**
+  - **Redis Session Clustering** 도입으로 세션 유실 문제 해결
 - **[성과]**
-  - 요구사항 반영 속도: 4.06주 → **2.18주 (46% 향상)**
-  - 동시성 문제 해결로 정산 **신뢰성 향상**
-- **기술**: `Spring Boot`, `Java 11`, `JPA`, `Redisson`
+  - 운영 공백 기간 **안정적 인프라 유지**
+  - 세션 유실 문제 해결로 **사용자 경험 개선**
+- **기술**: `Kubernetes`, `Jenkins`, `ArgoCD`, `ELK`, `Prometheus`, `Redis`, `MySQL`
 {{% /details %}}
 
 - #### **Spring Batch 성능 최적화**
