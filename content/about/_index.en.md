@@ -19,11 +19,11 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 
 ## **Profile**
 
-**A developer who enjoys starting with "Why?" and digging to the root of problems.**
+I'm Jeongil Jung, a backend developer with 3 years of experience, always asking **"What improvement does our service need most right now?"**
 
-I traced a single error log to uncover the cause of a HikariCP Deadlock. Asking "Why is incident detection so slow?" led me to build a monitoring system that cut detection time from 1 hour to 1 minute.
+From K8s infrastructure to MSA migration, monitoring systems, and team development culture— if it didn't exist, I proposed it and built it with my team.
 
-I think about **"What improvement does our service need most right now?"** before diving into implementation.
+I managed infrastructure solo for 7 months during a DevOps vacancy, and completed our MSA migration with zero downtime.
 
 **Core Strengths:** MSA Migration Design & Implementation · K8s Infrastructure · Query & API Performance Optimization · Monitoring System
 
