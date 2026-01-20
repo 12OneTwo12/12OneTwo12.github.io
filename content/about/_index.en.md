@@ -1,7 +1,21 @@
 ---
-title: "About Me"
+title: ""
 toc: true
 ---
+<style>
+.content h2:first-of-type {
+  margin-top: 0.5rem;
+}
+.content p:first-of-type {
+  margin-top: 0.5rem;
+}
+.content p:first-of-type + h2 {
+  margin-top: 1rem;
+}
+</style>
+## **Contact**
+
+jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https://jeongil.dev/en/blog)
 
 ## **Profile**
 
@@ -15,10 +29,6 @@ I think about **"What improvement does our service need most right now?"** befor
 - **System Architecture Migration**: Monolith → MSA design and implementation, On-premise → Cloud zero-downtime migration
 - **Infrastructure**: Managed Kubernetes infrastructure design, build and operations, Grafana LGTM Stack monitoring system setup
 - **Performance Optimization**: API response 87% faster, Batch processing 64% faster, Incident detection 98% faster
-
-This blog is a record of my trial-and-error and growth. Rather than polished success stories, I want to honestly share the struggles and thoughts I encountered while solving problems.
-
-![GitHub Contribution](https://ghchart.rshah.org/12OneTwo12)
 
 ## **Skills**
 
@@ -114,7 +124,7 @@ This blog is a record of my trial-and-error and growth. Rather than polished suc
   SQL tuning and caching, **API response 87% faster** (10.3s → 1.3s)
 {{% details title="**See Details**" %}}
 - **Overview**: Migrated PHP legacy back-office to Spring with performance improvements
-- **Duration**: 2024.04 ~ 2025.03 | 2~6 members
+- **Duration**: 2024.04 ~ 2025.03 | 2~6 members, **performance optimization lead**
 - **[Problem]**
   - [**HikariCP Deadlock**]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}}) due to JPA + MyBatis mix
   - [**DB Replication lag**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}}) causing data inconsistency
@@ -152,7 +162,7 @@ This blog is a record of my trial-and-error and growth. Rather than polished suc
   Chunk/Partitioning, **batch processing 64% faster** (13min → 5min)
 {{% details title="**See Details**" %}}
 - **Overview**: [Migrated PHP/Crontab batch to Spring Batch]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) with optimization
-- **Duration**: 2024.05 ~ 2025.03 | 4~6 members
+- **Duration**: 2024.05 ~ 2025.03 | 4~6 members, **batch migration and optimization lead**
 - **[Problem]**
   - [Metadata Table Deadlock on concurrent Job execution]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
   - Tasklet causing performance and consistency issues with large data
@@ -168,15 +178,14 @@ This blog is a record of my trial-and-error and growth. Rather than polished suc
 
 ## **Certificate**
 
-| Certificate | Issuer | Date |
-|:------|:--------|:------|
-| [Certified Kubernetes Administrator (CKA)](https://www.credly.com/badges/e357623d-2e5c-4c5c-aed9-d3e90f06aa56/public_url) | CNCF | 2025.11 |
-| [AWS Certified Cloud Practitioner](https://www.credly.com/badges/924d4107-fbcb-4a48-abed-7f42266ae34f/public_url) | AWS | 2024.08 |
-| Linux Master Level 2 | KAIT | 2024.10 |
-| SQLD | Korea Data Agency | 2022.12 |
+- **[Certified Kubernetes Administrator (CKA)](https://www.credly.com/badges/e357623d-2e5c-4c5c-aed9-d3e90f06aa56/public_url)** \| CNCF / 2025.11
+- **Linux Master Level 2** \| KAIT / 2024.10
+- **[Certified Cloud Practitioner (CCP)](https://www.credly.com/badges/924d4107-fbcb-4a48-abed-7f42266ae34f/public_url)** \| AWS / 2024.08
+- **SQLD** \| Korea Data Agency / 2022.12
 
 ## **Activity**
 
+- **Side Project**: [Upvy](https://apps.apple.com/app/upvy/id6756291696) - AI-powered educational short-form platform ([GitHub](https://github.com/12OneTwo12/upvy))
 - **Open Source**: Spring Security [PR#16216](https://github.com/spring-projects/spring-security/pull/16216)
 - **Tech Study**: [Backend Article Study](https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c) (2023.08 ~ ongoing)
 - **Training**: [Big Data Based Intelligent SW and MLOps Developer Course](https://inthiswork.com/archives/105995) (2022.07 ~ 2022.12)

@@ -1,7 +1,21 @@
 ---
-title: "About Me"
+title: ""
 toc: true
 ---
+<style>
+.content h2:first-of-type {
+  margin-top: 0.5rem;
+}
+.content p:first-of-type {
+  margin-top: 0.5rem;
+}
+.content p:first-of-type + h2 {
+  margin-top: 1rem;
+}
+</style>
+## **Contact**
+
+jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https://jeongil.dev/ko/blog)
 
 ## **Profile**
 
@@ -15,10 +29,6 @@ toc: true
 - **시스템 아키텍처 전환**: 모놀리식 → MSA 전환 설계 및 구현, 온프레미스 → 클라우드 무중단 마이그레이션
 - **인프라 구축**: Managed Kubernetes 기반 인프라 설계, 구축 및 운영, Grafana LGTM Stack 모니터링 시스템 구축
 - **성능 최적화**: API 응답속도 87% 개선, 배치 처리 64% 단축, 장애 인지 시간 98% 단축
-
-이 블로그는 저의 삽질과 성장의 기록입니다. 화려한 성공담보다는, 문제 해결 과정에서 마주했던 고민과 제 생각들을 솔직하게 나누고 싶습니다.
-
-![GitHub 잔디](https://ghchart.rshah.org/12OneTwo12)
 
 ## **Skills**
 
@@ -47,7 +57,7 @@ toc: true
   강결합 도메인 분리로 **신규 기능 추가 속도 2배 향상**
 {{% details title="**자세히 보기**" %}}
 - **개요**: Java Servlet 기반 모놀리식을 [Kotlin/Spring Cloud MSA로 무중단 전환]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
-- **기간**: 2025.04 ~ 2025.11 | 3명 중 **구현 담당** (설계 참여)
+- **기간**: 2025.04 ~ 2025.11 | 3명, **구현 담당** (설계 참여)
 - **[문제]**
   - 핵심 도메인(매물, 중개사-사용자 매칭)의 강결합으로 기존 점진적 전환 전략 적용 불가
   - 도메인별 개별 분리 시 데이터 불일치 및 비즈니스 로직 꼬임 위험
@@ -86,7 +96,7 @@ toc: true
   서비스 **다운타임 0**으로 클라우드 전환 성공
 {{% details title="**자세히 보기**" %}}
 - **개요**: [온프레미스 IDC에서 AWS로 무중단 전환]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
-- **기간**: 2025.07 ~ 2025.08 | 2명 중 **마이그레이션 전략 담당**
+- **기간**: 2025.07 ~ 2025.08 | 2명, **마이그레이션 전략 담당**
 - **[문제]**
   - 하드웨어 접촉 불량으로 간헐적 서버 다운 발생
   - 수동 스케일링 한계 및 운영 부담 가중
@@ -114,7 +124,7 @@ toc: true
   SQL 튜닝 및 캐싱으로 **API 응답속도 87% 개선** (10.3초 → 1.3초)
 {{% details title="**자세히 보기**" %}}
 - **개요**: PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선
-- **기간**: 2024.04 ~ 2025.03 | 2~6명
+- **기간**: 2024.04 ~ 2025.03 | 2~6명, **성능 최적화 설계 및 구현 담당**
 - **[문제]**
   - JPA + MyBatis 혼용으로 [**HikariCP Deadlock** 발생]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}})
   - [**DB Replication 복제지연**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})으로 데이터 불일치
@@ -134,7 +144,7 @@ toc: true
   24개 DB Procedure/Function으로 분산된 정산 로직 통합, **요구사항 반영 속도 46% 향상**
 {{% details title="**자세히 보기**" %}}
 - **개요**: [분산된 정산 로직을 단일 시스템으로 통합](https://www.notion.so/Analyzed-the-existing-As-Is-settlement-architecture-and-dependency-configurations-13fde4324e3d80878b38c17b3370231f?pvs=21)
-- **기간**: 2024.06 ~ 2025.03 | 4명 중 **아키텍처 분석 및 전환 전략 담당**
+- **기간**: 2024.06 ~ 2025.03 | 4명, **아키텍처 분석 및 전환 전략 담당**
 - **[문제]**
   - 정산 로직이 3개 서버, 13개 Procedure, 11개 Function으로 분산 → 유지보수 비용 과다
   - 분산 환경에서 **Race Condition** 발생
@@ -152,7 +162,7 @@ toc: true
   Chunk/Partitioning 도입으로 **배치 처리 시간 64% 단축** (13분 → 5분)
 {{% details title="**자세히 보기**" %}}
 - **개요**: PHP/Crontab 기반 배치를 [Spring Batch로 전환]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) 및 성능 개선
-- **기간**: 2024.05 ~ 2025.03 | 4~6명
+- **기간**: 2024.05 ~ 2025.03 | 4~6명, **배치 전환 및 최적화 담당**
 - **[문제]**
   - [Job 동시 실행 시 Metadata Table Deadlock 발생]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
   - Tasklet 방식으로 대량 데이터 처리 시 성능 저하 및 정합성 문제
@@ -168,15 +178,14 @@ toc: true
 
 ## **Certificate**
 
-| 자격증 | 발급기관 | 취득일 |
-|:------|:--------|:------|
-| [Certified Kubernetes Administrator (CKA)](https://www.credly.com/badges/e357623d-2e5c-4c5c-aed9-d3e90f06aa56/public_url) | CNCF | 2025.11 |
-| [AWS Certified Cloud Practitioner](https://www.credly.com/badges/924d4107-fbcb-4a48-abed-7f42266ae34f/public_url) | AWS | 2024.08 |
-| 리눅스마스터 2급 | KAIT | 2024.10 |
-| SQLD | 한국데이터산업진흥원 | 2022.12 |
+- **[Certified Kubernetes Administrator (CKA)](https://www.credly.com/badges/e357623d-2e5c-4c5c-aed9-d3e90f06aa56/public_url)** \| CNCF / 2025.11
+- **리눅스마스터 2급** \| KAIT / 2024.10
+- **[Certified Cloud Practitioner (CCP)](https://www.credly.com/badges/924d4107-fbcb-4a48-abed-7f42266ae34f/public_url)** \| AWS / 2024.08
+- **SQLD** \| 한국데이터산업진흥원 / 2022.12
 
 ## **Activity**
 
+- **사이드 프로젝트**: [Upvy](https://apps.apple.com/app/upvy/id6756291696) - AI 기반 교육용 숏폼 플랫폼 ([GitHub](https://github.com/12OneTwo12/upvy))
 - **오픈소스 기여**: Spring Security [PR#16216](https://github.com/spring-projects/spring-security/pull/16216)
 - **기술 스터디**: [백엔드 아티클 스터디](https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c) (2023.08 ~ 진행중)
 - **교육**: [빅데이터 기반 지능형SW 및 MLOps 개발자 양성 과정](https://inthiswork.com/archives/105995) (2022.07 ~ 2022.12)
