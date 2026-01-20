@@ -57,7 +57,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   강결합 도메인 분리로 **신규 기능 추가 속도 2배 향상**
 {{% details title="**자세히 보기**" %}}
 - **개요**: Java Servlet 기반 모놀리식을 [Kotlin/Spring Cloud MSA로 무중단 전환]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
-- **기간**: 2025.04 ~ 2025.11 | 3명, **구현 담당** (설계 참여)
+- **기간**: 2025.04 ~ 2025.11 | 3명 팀, **5개 서비스 분리 구현 전담** (부동산 매물·중개사-사용자 매칭·실거래가·유저·알림)
 - **[문제]**
   - 핵심 도메인(매물, 중개사-사용자 매칭)의 강결합으로 기존 점진적 전환 전략 적용 불가
   - 도메인별 개별 분리 시 데이터 불일치 및 비즈니스 로직 꼬임 위험
@@ -96,7 +96,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   서비스 **다운타임 0**으로 클라우드 전환 성공
 {{% details title="**자세히 보기**" %}}
 - **개요**: [온프레미스 IDC에서 AWS로 무중단 전환]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
-- **기간**: 2025.07 ~ 2025.08 | 2명, **마이그레이션 전략 담당**
+- **기간**: 2025.07 ~ 2025.08 | 2명 팀, **전략 설계 및 DMS·Terraform 구축 전담**
 - **[문제]**
   - 하드웨어 접촉 불량으로 간헐적 서버 다운 발생
   - 수동 스케일링 한계 및 운영 부담 가중
@@ -124,7 +124,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   SQL 튜닝 및 캐싱으로 **API 응답속도 87% 개선** (10.3초 → 1.3초)
 {{% details title="**자세히 보기**" %}}
 - **개요**: PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선
-- **기간**: 2024.04 ~ 2025.03 | 2~6명, **성능 최적화 설계 및 구현 담당**
+- **기간**: 2024.04 ~ 2025.03 | 2~6명 팀, **성능 최적화 전담**
 - **[문제]**
   - JPA + MyBatis 혼용으로 [**HikariCP Deadlock** 발생]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}})
   - [**DB Replication 복제지연**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})으로 데이터 불일치
@@ -144,7 +144,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   24개 DB Procedure/Function으로 분산된 정산 로직 통합, **요구사항 반영 속도 46% 향상**
 {{% details title="**자세히 보기**" %}}
 - **개요**: [분산된 정산 로직을 단일 시스템으로 통합](https://www.notion.so/Analyzed-the-existing-As-Is-settlement-architecture-and-dependency-configurations-13fde4324e3d80878b38c17b3370231f?pvs=21)
-- **기간**: 2024.06 ~ 2025.03 | 4명, **아키텍처 분석 및 전환 전략 담당**
+- **기간**: 2024.06 ~ 2025.03 | 4명 팀, **아키텍처 분석 및 전환 전략 전담**
 - **[문제]**
   - 정산 로직이 3개 서버, 13개 Procedure, 11개 Function으로 분산 → 유지보수 비용 과다
   - 분산 환경에서 **Race Condition** 발생
@@ -162,7 +162,7 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
   Chunk/Partitioning 도입으로 **배치 처리 시간 64% 단축** (13분 → 5분)
 {{% details title="**자세히 보기**" %}}
 - **개요**: PHP/Crontab 기반 배치를 [Spring Batch로 전환]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) 및 성능 개선
-- **기간**: 2024.05 ~ 2025.03 | 4~6명, **배치 전환 및 최적화 담당**
+- **기간**: 2024.05 ~ 2025.03 | 4~6명 팀, **배치 전환 및 최적화 전담**
 - **[문제]**
   - [Job 동시 실행 시 Metadata Table Deadlock 발생]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
   - Tasklet 방식으로 대량 데이터 처리 시 성능 저하 및 정합성 문제
@@ -195,6 +195,6 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 
 ## **Activity**
 
-- **오픈소스 기여**: Spring Security [PR#16216](https://github.com/spring-projects/spring-security/pull/16216)
+- **오픈소스**: Spring Security 문서 개선 기여 [PR#16216](https://github.com/spring-projects/spring-security/pull/16216)
 - **기술 스터디**: [백엔드 아티클 스터디](https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c) (2023.08 ~ 진행중)
 - **교육**: [빅데이터 기반 지능형SW 및 MLOps 개발자 양성 과정](https://inthiswork.com/archives/105995) (2022.07 ~ 2022.12)

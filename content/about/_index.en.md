@@ -57,7 +57,7 @@ I think about **"What improvement does our service need most right now?"** befor
   Decoupled tightly coupled domains, **doubled new feature development speed**
 {{% details title="**See Details**" %}}
 - **Overview**: [Zero-downtime migration from Java Servlet monolith to Kotlin/Spring Cloud MSA]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
-- **Duration**: 2025.04 ~ 2025.11 | 3 members, **implementation lead** (design participation)
+- **Duration**: 2025.04 ~ 2025.11 | 3-member team, **led implementation of 5 services** (Property Listings, Broker-User Matching, Transaction Prices, User, Notification)
 - **[Problem]**
   - Tightly coupled core domains (listings, broker-user matching) blocked gradual migration
   - Risk of data inconsistency and business logic conflicts with domain-by-domain separation
@@ -96,7 +96,7 @@ I think about **"What improvement does our service need most right now?"** befor
   Cloud migration with **zero downtime**
 {{% details title="**See Details**" %}}
 - **Overview**: [Zero-downtime migration from on-premise IDC to AWS]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
-- **Duration**: 2025.07 ~ 2025.08 | 2 members, **led migration strategy**
+- **Duration**: 2025.07 ~ 2025.08 | 2-member team, **led strategy design, DMS & Terraform implementation**
 - **[Problem]**
   - Intermittent server downtime due to hardware issues
   - Manual scaling limitations and operational burden
@@ -124,7 +124,7 @@ I think about **"What improvement does our service need most right now?"** befor
   SQL tuning and caching, **API response 87% faster** (10.3s → 1.3s)
 {{% details title="**See Details**" %}}
 - **Overview**: Migrated PHP legacy back-office to Spring with performance improvements
-- **Duration**: 2024.04 ~ 2025.03 | 2~6 members, **performance optimization lead**
+- **Duration**: 2024.04 ~ 2025.03 | 2~6-member team, **led performance optimization**
 - **[Problem]**
   - [**HikariCP Deadlock**]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}}) due to JPA + MyBatis mix
   - [**DB Replication lag**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}}) causing data inconsistency
@@ -144,7 +144,7 @@ I think about **"What improvement does our service need most right now?"** befor
   Integrated 24 DB Procedures/Functions, **46% faster requirement delivery**
 {{% details title="**See Details**" %}}
 - **Overview**: [Integrated distributed settlement logic into single system](https://www.notion.so/Analyzed-the-existing-As-Is-settlement-architecture-and-dependency-configurations-13fde4324e3d80878b38c17b3370231f?pvs=21)
-- **Duration**: 2024.06 ~ 2025.03 | 4 members, **led architecture analysis and migration strategy**
+- **Duration**: 2024.06 ~ 2025.03 | 4-member team, **led architecture analysis and migration strategy**
 - **[Problem]**
   - Settlement logic across 3 servers, 13 Procedures, 11 Functions → high maintenance cost
   - **Race Condition** in distributed environment
@@ -162,7 +162,7 @@ I think about **"What improvement does our service need most right now?"** befor
   Chunk/Partitioning, **batch processing 64% faster** (13min → 5min)
 {{% details title="**See Details**" %}}
 - **Overview**: [Migrated PHP/Crontab batch to Spring Batch]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) with optimization
-- **Duration**: 2024.05 ~ 2025.03 | 4~6 members, **batch migration and optimization lead**
+- **Duration**: 2024.05 ~ 2025.03 | 4~6-member team, **led batch migration and optimization**
 - **[Problem]**
   - [Metadata Table Deadlock on concurrent Job execution]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
   - Tasklet causing performance and consistency issues with large data
@@ -195,6 +195,6 @@ I think about **"What improvement does our service need most right now?"** befor
 
 ## **Activity**
 
-- **Open Source**: Spring Security [PR#16216](https://github.com/spring-projects/spring-security/pull/16216)
+- **Open Source**: Spring Security documentation improvement [PR#16216](https://github.com/spring-projects/spring-security/pull/16216)
 - **Tech Study**: [Backend Article Study](https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c) (2023.08 ~ ongoing)
 - **Training**: [Big Data Based Intelligent SW and MLOps Developer Course](https://inthiswork.com/archives/105995) (2022.07 ~ 2022.12)
