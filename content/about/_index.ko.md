@@ -53,9 +53,9 @@ toc: true
   - 도메인별 개별 분리 시 데이터 불일치 및 비즈니스 로직 꼬임 위험
 - **주요 기여**
   - 강결합 도메인을 하나의 단위로 묶어 동시 분리하는 **부분적 빅뱅 전략 설계**
-  - 과도기 데이터 정합성을 위한 Dual Write + 검증 배치 설계
-  - 헥사고날 아키텍처 + CQRS 패턴 적용으로 도메인 로직의 기술 의존성 제거
-  - FeignClient 동기 통신, AWS SQS 이벤트 처리 구축
+  - 과도기 **데이터 정합성 보장**을 위한 Dual Write + 검증 배치 설계
+  - 헥사고날 아키텍처 + CQRS 패턴 적용으로 **도메인 로직의 기술 의존성 제거**
+  - FeignClient 동기 통신, AWS SQS **이벤트 기반 통신 구축**
 - **성과**
   - 서비스 가용성 **100% 유지**하며 MSA 전환 완료
   - 도메인 분리로 신규 기능 추가 속도 **약 2배 향상**
@@ -68,17 +68,17 @@ toc: true
 - **개요**: 단일 VM에서 [Kubernetes로 전환]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) 및 [모니터링 시스템 구축]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}})
 - **기간**: 2025.04 ~ 2025.09 | **단독 수행**
 - **문제**
-  - 단일 인스턴스 + Shell Script 배포 → SPOF, 장애 복구 시 개발자 수동 개입 필수
+  - 단일 인스턴스 + Shell Script 배포 → **SPOF**, 장애 복구 시 개발자 수동 개입 필수
   - 모니터링 부재로 장애 인식을 CS에만 의존 (평균 1시간 소요)
 - **주요 기여**
-  - GKE vs Self-Managed K8s 비교 후 GKE 도입 **제안 및 구축**
-  - Spring Cloud Eureka/Gateway 종속성 제거 → Kubernetes 네이티브 전환
-  - GitHub Actions + ArgoCD 기반 CI/CD 파이프라인 구축
-  - Grafana LGTM Stack 모니터링 시스템 설계 및 구축 (사이드카 패턴 활용)
+  - GKE vs Self-Managed K8s 비교 후 **GKE 도입 제안 및 구축**
+  - Spring Cloud Eureka/Gateway 종속성 제거 → **Kubernetes 네이티브 전환**
+  - GitHub Actions + ArgoCD 기반 **CI/CD 파이프라인 구축**
+  - Grafana LGTM Stack **모니터링 시스템 설계 및 구축** (사이드카 패턴 활용)
 - **성과**
   - 장애 인지 시간: 1시간 → **1분 (98% 단축)**
   - 롤백 시간: 12분 → **2분 (83% 단축)**
-  - 무중단 배포 체계 및 자동 스케일링 확보
+  - **무중단 배포** 체계 및 **자동 스케일링** 확보
 - **기술**: `Kubernetes`, `GKE`, `ArgoCD`, `GitHub Actions`, `Grafana`, `Loki`, `Tempo`, `Prometheus`
 {{% /details %}}
 
@@ -91,9 +91,9 @@ toc: true
   - 하드웨어 접촉 불량으로 간헐적 서버 다운 발생
   - 수동 스케일링 한계 및 운영 부담 가중
 - **주요 기여**
-  - DNS 전파 시간을 고려한 **이중 운영 전략 설계**
-  - AWS DMS(CDC) 기반 IDC → RDS 실시간 동기화 파이프라인 구축
-  - Terraform으로 AWS 인프라(EC2, RDS, VPC) 코드화
+  - DNS 전파 시간을 고려한 **이중 운영 전략** 설계
+  - AWS DMS(CDC) 기반 IDC → RDS **실시간 동기화 파이프라인 구축**
+  - Terraform으로 AWS 인프라(EC2, RDS, VPC) **코드화**
 - **성과**
   - **다운타임 0**으로 마이그레이션 완료
   - 하드웨어 장애 이슈 해결, 트래픽 대응 확장성 확보
@@ -116,13 +116,13 @@ toc: true
 - **개요**: PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선
 - **기간**: 2024.04 ~ 2025.03 | 2~6명
 - **문제**
-  - JPA + MyBatis 혼용으로 [HikariCP Deadlock 발생]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}})
-  - [DB Replication 복제지연]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})으로 데이터 불일치
+  - JPA + MyBatis 혼용으로 [**HikariCP Deadlock** 발생]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}})
+  - [**DB Replication 복제지연**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})으로 데이터 불일치
   - N+1, 인덱스 미활용으로 서버 부하 증가
 - **주요 기여**
-  - [JPA 일원화로 Deadlock 해결]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
-  - AbstractRoutingDataSource + AOP로 동적 DataSource 분리
-  - [Redis 캐싱 설계]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), [커버링 인덱스 도입]({{< relref "/blog/architecture/jpa-sql-ideology-and-gap" >}}), 이벤트 기반 비동기 처리
+  - [JPA 일원화로 **Deadlock 해결**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
+  - AbstractRoutingDataSource + AOP로 **동적 DataSource 분리**
+  - [Redis 캐싱]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), [커버링 인덱스]({{< relref "/blog/architecture/jpa-sql-ideology-and-gap" >}}) 도입으로 **쿼리 성능 최적화**
 - **성과**
   - API 응답속도: 10.3초 → **1.3초 (87% 개선)**
   - 캐싱 적용 API: 5.1초 → **1.3초 (75% 개선)**
@@ -137,10 +137,10 @@ toc: true
 - **기간**: 2024.06 ~ 2025.03 | 4명 중 **아키텍처 분석 및 전환 전략 담당**
 - **문제**
   - 정산 로직이 3개 서버, 13개 Procedure, 11개 Function으로 분산 → 유지보수 비용 과다
-  - 분산 환경에서 Race Condition 발생
+  - 분산 환경에서 **Race Condition** 발생
 - **주요 기여**
-  - 기존 아키텍처 의존성 분석 및 **점진적 전환 전략 설계**
-  - Redisson 기반 분산 락으로 Race Condition 해결
+  - 기존 아키텍처 의존성 분석 및 **점진적 전환 전략** 설계
+  - Redisson 분산 락으로 **Race Condition 해결**
   - [Git flow 도입]({{< relref "/blog/culture/git-flow-introduction" >}})으로 형상 관리 체계화
 - **성과**
   - 요구사항 반영 속도: 4.06주 → **2.18주 (46% 향상)**
