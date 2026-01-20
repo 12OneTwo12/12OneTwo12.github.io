@@ -21,9 +21,9 @@ jji042842@gmail.com · [GitHub](https://github.com/12OneTwo12) · [Blog](https:/
 
 I'm Jeongil Jung, a backend developer with 3 years of experience, always asking **"What improvement does our service need most right now?"**
 
-From K8s infrastructure to MSA migration, monitoring systems, and team development culture— if needed, I proposed it and built it with my team.
+From API performance optimization to MSA migration, K8s infrastructure setup and operations, and team development culture— if needed, I proposed it and built it with my team.
 
-I managed infrastructure solo for 7 months during a DevOps vacancy, and completed our MSA migration with zero downtime.
+I completed our MSA migration with zero downtime, and reduced incident detection time from 1 hour to 1 minute.
 
 **Core Strengths:** MSA Migration Design & Implementation · K8s Infrastructure · Query & API Performance Optimization · Monitoring System
 
