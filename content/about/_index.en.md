@@ -58,14 +58,17 @@ I completed our MSA migration with zero downtime, and reduced incident detection
 - **[Problem]**
   - Tightly coupled core domains (listings, broker-user matching) blocked gradual migration
   - Risk of data inconsistency and business logic conflicts with domain-by-domain separation
+  - Common code duplicated across service codebases, causing version mismatch and maintenance overhead
 - **[Key Contributions]**
   - Designed [**partial big-bang strategy**]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}}) to migrate tightly coupled domains as a single unit
   - Dual Write + validation batch for **data consistency during transition**
   - Hexagonal Architecture + CQRS to **remove technical dependencies from domain logic**
   - FeignClient sync communication, AWS SQS **event-driven communication**
+  - [**Multi-module structure design**]({{< relref "/blog/architecture/msa-to-multi-module" >}}) for **centralized dependency management** and code deduplication
 - **[Results]**
   - **Zero-downtime** MSA migration completed
   - Hexagonal Architecture enabled **independent domain deployment**
+  - Multi-module migration **eliminated code duplication** and unified dependency versions
 - **Tech**: `Kotlin`, `Spring Cloud`, `Feign Client`, `CQRS`, `Hexagonal Architecture`, `AWS SQS`
 {{% /details %}}
 
