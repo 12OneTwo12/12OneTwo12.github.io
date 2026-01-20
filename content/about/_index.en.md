@@ -51,10 +51,10 @@ I completed our MSA migration with zero downtime, and reduced incident detection
 {{< /callout >}}
 
 - #### **Monolith → MSA Migration**
-  Decoupled tightly coupled domains, **100% service availability** during transition
+  Decoupled tightly coupled domains, **zero-downtime transition**
 {{% details title="**See Details**" %}}
 - **Overview**: Zero-downtime migration from Java Servlet monolith to Kotlin/Spring Cloud MSA
-- **Duration**: 2025.04 ~ 2025.11 | 3-member team, led 5 service implementations (Property Listings, Broker-User Matching, Transaction Prices, User, Notification)
+- **Duration**: 2025.04 ~ 2025.11 | 3-member team, designed and implemented 5 of 18 services (Property Listings, Broker-User Matching, Transaction Prices, User, Notification)
 - **[Problem]**
   - Tightly coupled core domains (listings, broker-user matching) blocked gradual migration
   - Risk of data inconsistency and business logic conflicts with domain-by-domain separation
@@ -64,13 +64,13 @@ I completed our MSA migration with zero downtime, and reduced incident detection
   - Hexagonal Architecture + CQRS to **remove technical dependencies from domain logic**
   - FeignClient sync communication, AWS SQS **event-driven communication**
 - **[Results]**
-  - MSA migration completed with **100% service availability**
+  - **Zero-downtime** MSA migration completed
   - Hexagonal Architecture enabled **independent domain deployment**
 - **Tech**: `Kotlin`, `Spring Cloud`, `Feign Client`, `CQRS`, `Hexagonal Architecture`, `AWS SQS`
 {{% /details %}}
 
 - #### **Kubernetes Infrastructure & Monitoring System**
-  Incident detection **98% faster** (1hr → 1min), Rollback **83% faster**
+  From no monitoring, incident detection **98% faster** (1hr → 1min), Rollback **83% faster**
 {{% details title="**See Details**" %}}
 - **Overview**: Migrated from single VM to Kubernetes and built monitoring system
 - **Duration**: 2025.04 ~ 2025.09 | Infrastructure owner
