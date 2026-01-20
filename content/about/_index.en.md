@@ -127,10 +127,10 @@ I think about **"What improvement does our service need most right now?"** befor
   - [**DB Replication lag**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}}) causing data inconsistency
   - N+1, missing indexes causing server load
 - **[Key Contributions]**
-  - [Unified to JPA to **resolve Deadlock**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
+  - Unified to JPA to [**resolve HikariCP Deadlock**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
   - AbstractRoutingDataSource + AOP for **dynamic DataSource routing**
-  - [Redis caching]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}) for **external API optimization**, covering index for **query performance**
-  - Introduced [Git flow]({{< relref "/blog/culture/git-flow-introduction" >}}) for **improved collaboration process**
+  - Redis caching for [**external API optimization**]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), covering index for **query performance**
+  - Introduced Git flow for [**improved collaboration process**]({{< relref "/blog/culture/git-flow-introduction" >}})
 - **[Results]**
   - API response: 10.3s → **1.3s (87% faster)**
   - Cached API: 5.1s → **1.3s (75% faster)**
@@ -159,10 +159,10 @@ I think about **"What improvement does our service need most right now?"** befor
 - #### **Spring Batch Performance Optimization**
   Chunk/Partitioning, **batch processing 64% faster** (13min → 5min)
 {{% details title="**See Details**" %}}
-- **Overview**: [Migrated PHP/Crontab batch to Spring Batch]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) with optimization
+- **Overview**: Migrated PHP/Crontab batch to Spring Batch with [**optimization**]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}})
 - **Duration**: 2024.05 ~ 2025.03 | 4~6-member team, batch system migration & optimization design
 - **[Problem]**
-  - [Metadata Table Deadlock on concurrent Job execution]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
+  - [**Metadata Table Deadlock**]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}}) on concurrent Job execution
   - Tasklet causing performance and consistency issues with large data
 - **[Key Contributions]**
   - Resolved Deadlock by changing Isolation Level
@@ -170,7 +170,7 @@ I think about **"What improvement does our service need most right now?"** befor
   - **Documented and shared** solution internally
 - **[Results]**
   - Batch processing: 13.3min → **4.8min (64% faster)**
-  - Transaction time: 22min → **0.01s (99.9% fewer consistency issues)**
+  - Transaction lock hold: 22min → **0.01s** (99.9% fewer consistency issues with Chunk commits)
 - **Tech**: `Spring Batch`, `Java 11`, `JPA`
 {{% /details %}}
 
