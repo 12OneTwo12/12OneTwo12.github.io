@@ -1,5 +1,5 @@
 ---
-title: "[Reflections on MSA 3/6] Inter-Service Communication in MSA - How Should We Do It?"
+title: "[Reflections on MSA 3/7] Inter-Service Communication in MSA - How Should We Do It?"
 tags:
   - msa
   - architecture
@@ -10,7 +10,7 @@ tags:
 date: '2026-01-16'
 ---
 
-Previous: [[Reflections on MSA 2/6] How to Divide Services in MSA]({{< relref "/blog/architecture/msa-series-2-boundary" >}})
+Previous: [[Reflections on MSA 2/7] How to Divide Services in MSA]({{< relref "/blog/architecture/msa-series-2-boundary" >}})
 
 ---
 
@@ -655,7 +655,7 @@ Asynchronous communication is different. Since messages are placed in a queue an
 
 In the next post, I'll discuss how failures propagate in synchronous calls and where we should cut the chain. The data consistency issues of asynchronous communication will be covered in Part 4 on data separation.
 
-Next: [[Reflections on MSA 4/6] How Failures Propagate, and Where We Should Cut the Chain]({{< relref "/blog/architecture/msa-series-4-resilience" >}})
+Next: [[Reflections on MSA 4/7] How Failures Propagate, and Where We Should Cut the Chain]({{< relref "/blog/architecture/msa-series-4-resilience" >}})
 
 ## References
 

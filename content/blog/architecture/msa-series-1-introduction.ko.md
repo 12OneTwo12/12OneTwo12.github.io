@@ -1,5 +1,5 @@
 ---
-title: "[MSA에 관한 고찰 1/6편] MSA(Microservices Architecture)란 무엇인가?"
+title: "[MSA에 관한 고찰 1/7편] MSA(Microservices Architecture)란 무엇인가?"
 tags:
   - msa
   - architecture
@@ -414,4 +414,4 @@ MSA가 무엇인지, 왜 등장했는지, 그리고 어떤 대안들이 있는�
 
 다음 편에서는 DDD와 Bounded Context, Business Capability 기반 분해, 그리고 서비스 경계 설정 시 주의할 점들에 대해 이야기해보려합니다.
 
-후편: [[MSA에 관한 고찰 2/6편] MSA에서 서비스는 어떻게 나눌 것인가]({{< relref "/blog/architecture/msa-series-2-boundary" >}})
+후편: [[MSA에 관한 고찰 2/7편] MSA에서 서비스는 어떻게 나눌 것인가]({{< relref "/blog/architecture/msa-series-2-boundary" >}})

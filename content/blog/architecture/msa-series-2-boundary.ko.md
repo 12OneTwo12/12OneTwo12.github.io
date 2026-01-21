@@ -1,5 +1,5 @@
 ---
-title: "[MSA에 관한 고찰 2/6편] MSA에서 서비스는 어떻게 나눌 것인가"
+title: "[MSA에 관한 고찰 2/7편] MSA에서 서비스는 어떻게 나눌 것인가"
 tags:
   - msa
   - architecture
@@ -9,7 +9,7 @@ tags:
 date: '2026-01-15'
 ---
 
-전편: [[MSA에 관한 고찰 1/6편] MSA(Microservices Architecture)란 무엇인가?]({{< relref "/blog/architecture/msa-series-1-introduction" >}})
+전편: [[MSA에 관한 고찰 1/7편] MSA(Microservices Architecture)란 무엇인가?]({{< relref "/blog/architecture/msa-series-1-introduction" >}})
 
 ---
 
@@ -379,7 +379,7 @@ flowchart LR
 
 다음 편에서는 서비스 간 통신 방식(동기/비동기, REST/gRPC/메시지 큐)과 각각의 트레이드오프에 대해 이야기해보겠습니다.
 
-후편: [[MSA에 관한 고찰 3/6편] MSA에서의 서비스간 통신 - 어떻게 해야 하는가]({{< relref "/blog/architecture/msa-series-3-communication" >}})
+후편: [[MSA에 관한 고찰 3/7편] MSA에서의 서비스간 통신 - 어떻게 해야 하는가]({{< relref "/blog/architecture/msa-series-3-communication" >}})
 
 ## 참고 자료
 

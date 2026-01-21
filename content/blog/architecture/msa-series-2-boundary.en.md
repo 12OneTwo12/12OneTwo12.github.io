@@ -1,5 +1,5 @@
 ---
-title: "[Reflections on MSA 2/6] How to Divide Services in MSA"
+title: "[Reflections on MSA 2/7] How to Divide Services in MSA"
 tags:
   - msa
   - architecture
@@ -9,7 +9,7 @@ tags:
 date: '2026-01-15'
 ---
 
-Previous: [[Reflections on MSA 1/6] What is MSA (Microservices Architecture)?]({{< relref "/blog/architecture/msa-series-1-introduction" >}})
+Previous: [[Reflections on MSA 1/7] What is MSA (Microservices Architecture)?]({{< relref "/blog/architecture/msa-series-1-introduction" >}})
 
 ---
 
@@ -377,7 +377,7 @@ If you've decided how to divide services, the next problem awaits. **How will th
 
 In the next episode, I'll discuss inter-service communication methods (synchronous/asynchronous, REST/gRPC/message queues) and the trade-offs of each.
 
-Next: [[Reflections on MSA 3/6] Inter-Service Communication in MSA - How Should We Do It?]({{< relref "/blog/architecture/msa-series-3-communication" >}})
+Next: [[Reflections on MSA 3/7] Inter-Service Communication in MSA - How Should We Do It?]({{< relref "/blog/architecture/msa-series-3-communication" >}})
 
 ## References
 
