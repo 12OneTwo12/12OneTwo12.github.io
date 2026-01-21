@@ -111,13 +111,17 @@ flowchart TB
 
 The biggest advantage of "Database per Service" in my view is that **the criteria are clear**. No need to worry about "where and how should we divide the DB?"—just divide by service.
 
+Another advantage is that **Polyglot Persistence** becomes possible. Since each service has its own DB, you can choose the DB technology that best fits each service's characteristics. For example, use RDB for the Order Service where transactions are important, Elasticsearch for the Search Service that needs full-text search, and Redis for session storage that requires fast reads/writes. With a shared DB, all services are locked into a single DB technology, but separating DBs gives you this flexibility.
+
 ### Other Separation Strategies
 
 Of course, "Database per Service" isn't the only way. There are a few alternatives.
 
 #### Schema per Service
 
-Schema per Service physically uses a single DB instance but achieves logical separation with separate schemas per service. It can reduce operational costs and is less burdensome in early stages. Since it's the same DB instance, cross-schema JOINs are possible and transactions can be grouped if desired. (Note: This applies to MySQL; PostgreSQL requires separate configuration like `dblink` or `postgres_fdw`.)
+Schema per Service physically uses a single DB instance but achieves logical separation with separate schemas per service. It can reduce operational costs and is less burdensome in early stages. Since it's the same DB instance, cross-schema JOINs are possible and transactions can be grouped if desired. Whether MySQL or PostgreSQL, cross-schema JOINs and transactions work without additional configuration within the same instance.
+
+Note: PostgreSQL's `dblink` or `postgres_fdw` are needed when accessing a **different database**, not a different schema. In PostgreSQL, "schema" and "database" are different concepts.
 
 However, the problem is that it's still a shared DB, so the Noisy Neighbor problem remains, and you're never completely free from the shared DB problems mentioned earlier (fear of schema changes, deployment dependencies).
 
@@ -266,7 +270,7 @@ But thinking about it for a moment, there are drawbacks to this method.
 
 - **Increased latency**: Processing one request requires multiple API calls, so naturally it's slower. Network round trips are added.
 - **Failure propagation**: The problem we covered in Part 3. If the User Service dies, order queries don't work either. The entire thing fails because of one user name. Of course, you can apply fault isolation patterns, but the fact that there's a dependency doesn't change.
-- **N+1 problem**: Think about order list queries. If you query 10 orders, User API 10 times, Product API 10 times... It's likely to affect performance.
+- **N+1 problem**: Think about order list queries. If you query 10 orders, User API 10 times, Product API 10 times... It's likely to affect performance. Of course, you can mitigate this with Batch APIs (e.g., `GET /users?ids=1,2,3,4,5`) that query multiple records at once, but this makes API design more complex, and it's not applicable to all situations, so I don't think it's a fundamental solution.
 
 ### Solution 2: Data Replication
 
@@ -314,7 +318,7 @@ Since you're querying from the same DB engine, you can use JOIN if you want, and
 
 Of course, this approach has drawbacks too.
 
-- **Possibility of data inconsistency**: If events are delayed, stale data may be visible temporarily. Data consistency issues can occur due to event loss.
+- **Possibility of data inconsistency**: If events are delayed, stale data may be visible temporarily. Data consistency issues can occur due to event loss. (This can be addressed with the Transactional Outbox pattern or reliable message brokers like Kafka—I'll cover this in detail in Part 6.)
 - **Increased storage**: Same data is stored in multiple places, so more storage is needed.
 - **Synchronization logic management**: You need to create and maintain event processing logic.
 
@@ -450,6 +454,8 @@ Of course, CQRS has its price. With two models, there's more code to manage. Com
 And there's a time gap until writes are reflected in the read model. Situations like "I just modified it, why hasn't it changed?" can occur. You also need to consider event processing and retry on failure. I'll cover this in more detail in Part 6.
 
 So I think CQRS is effective for **complex domains** or **cases where read/write patterns differ**. It might be overkill for simple CRUD apps. However, if you've chosen data replication in MSA, you're already following CQRS structure, so it's naturally applied.
+
+By the way, CQRS is often mentioned alongside **Event Sourcing**, but they're independent patterns. Event Sourcing stores state changes as a sequence of events, and it pairs well with CQRS, which is why they're often used together. But CQRS can be applied without Event Sourcing, and this article doesn't cover Event Sourcing separately. I'm mentioning this because you might wonder, "If I do CQRS, don't I have to do Event Sourcing too?"
 
 ### When Should You Choose What?
 

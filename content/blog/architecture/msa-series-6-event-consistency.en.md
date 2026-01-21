@@ -114,7 +114,7 @@ public void publishPendingEvents() {
 
 Event publishing is handled by a separate scheduler. It polls the outbox table to find unpublished events and publishes them. If you manage publication status with a flag, even if publishing fails, it remains in outbox so you can retry on the next poll.
 
-There are drawbacks too. There's delay equal to the polling interval, and you need to manage the outbox table. But in terms of guaranteeing data consistency, I think it's much better than processing DB saves and event publishing separately.
+There are drawbacks too. There's delay equal to the polling interval, and you need to manage the outbox table. In particular, you need to periodically delete or archive published records—otherwise the outbox table keeps growing. But even considering this management overhead, I think it's much better than processing DB saves and event publishing separately in terms of guaranteeing data consistency.
 
 ### Change Data Capture (CDC)
 
@@ -140,6 +140,8 @@ Tools like Debezium or AWS DMS read MySQL's Binlog or PostgreSQL's WAL to publis
 With this configuration, the advantage is **you don't need to do anything in application code**. Polling delay is reduced and all DB changes can be captured. **Just save to DB and changes are automatically propagated.**
 
 The problem arises here. Infrastructure complexity increases. You need to operate CDC, configure it differently for each DB, and debugging is difficult when problems occur.
+
+And what I think is even more painful is that **when the source table schema changes**, you need to update the CDC pipeline too. Tools like Debezium are sensitive to schema changes—DDL changes can alter event formats or break the pipeline entirely. It's essentially one more thing to manage.
 
 Ultimately, both Transactional Outbox and CDC have trade-offs, so I think it's important to choose based on your team's situation.
 
@@ -703,6 +705,8 @@ public class BookingSaga {
 ```
 
 If you save state as each Saga step completes, even if the Orchestrator restarts, it can resume from where it stopped or execute compensating transactions. This saved state is also used for failure analysis and monitoring.
+
+One more thing to watch out for here. When the Orchestrator restarts and re-executes the same step, **each service call must also be idempotent**. For example, use an idempotency key (as I mentioned in Part 3) when calling the payment service so that calling it twice doesn't result in duplicate charges. That way, even if the Orchestrator retries, it can be handled safely.
 
 ### When to Choose What?
 
