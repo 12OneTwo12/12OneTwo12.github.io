@@ -93,17 +93,17 @@ MSA 전환을 서비스 중단 없이 완료했고, 장애 인지 시간을 1시
 - **기술**: `Kubernetes`, `GKE`, `ArgoCD`, `GitHub Actions`, `Grafana`, `Loki`, `Tempo`, `Prometheus`
 {{% /details %}}
 
-- #### **AI 챗봇 '[부토기](https://bootalk.co.kr/ai/chat)' 위치 기반 매물 추천 기능 개발**
-  RAG + Geo-search로 **자연어 위치 검색 기반 매물 추천** 구현
+- #### **[자연어 위치 검색 기반 매물 추천 시스템](https://bootalk.co.kr/ai/chat) 설계·구현**
+  RAG + Geo-search로 **자연어 위치 검색 매물 추천** 구현
 {{% details title="**자세히 보기**" %}}
-- **개요**: 기존 부동산 AI 챗봇 '부토기'에 위치 기반 매물 추천 기능 추가 개발
+- **개요**: 기존 부동산 AI 서비스 '부토기'에 위치 기반 매물 추천 기능 추가 개발
 - **기간**: 2025.08 ~ 2025.11 | 3명 팀, 백엔드 전담
 - **[문제]**
-  - 기존 챗봇은 부동산 Q&A RAG만 존재, 매물 추천 기능 부재
+  - 기존 AI 서비스는 부동산 Q&A RAG만 존재, 매물 추천 기능 부재
   - "여의도역 근처 아파트 추천해줘" 같은 위치 기반 자연어 검색 불가
 - **[주요 기여]**
-  - Spring Batch 일배치로 Elasticsearch에 **위치 정보(좌표, 역, 지역명) 인덱싱** 자동화
-  - 자연어에서 LLM 위치 키워드 추출 → Elasticsearch **유사도 검색으로 위치 특정** → 반경 필터링 → 매물 추천 RAG 파이프라인 구축
+  - Spring Batch 일배치로 Elasticsearch에 **위치 정보(POI) 인덱싱** 자동화
+  - 자연어 질의에서 LLM을 이용해 위치·조건 키워드 추출 → Elasticsearch **유사도 검색으로 위치 특정** → 반경, 조건 필터링 → 매물 추천 RAG 파이프라인 구축
   - OpenAI Embedding API 활용 매물 데이터 **벡터화 및 유사도 검색** 구현
 - **[성과]**
   - 자연어 위치 검색 기반 **AI 매물 추천** 기능 런칭
