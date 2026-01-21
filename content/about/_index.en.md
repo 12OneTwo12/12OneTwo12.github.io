@@ -93,17 +93,17 @@ I completed our MSA migration with zero downtime, and reduced incident detection
 - **Tech**: `Kubernetes`, `GKE`, `ArgoCD`, `GitHub Actions`, `Grafana`, `Loki`, `Tempo`, `Prometheus`
 {{% /details %}}
 
-- #### **AI Chatbot '[Butogi](https://bootalk.co.kr/ai/chat)' Location-based Property Recommendation**
-  Built **natural language location search** with RAG + Geo-search
+- #### **[Natural Language Location-based Property Recommendation System](https://bootalk.co.kr/ai/chat) Design & Implementation**
+  Built **natural language location search property recommendation** with RAG + Geo-search
 {{% details title="**See Details**" %}}
-- **Overview**: Added location-based property recommendation feature to existing real estate AI chatbot 'Butogi'
+- **Overview**: Added location-based property recommendation feature to existing real estate AI service 'Butogi'
 - **Duration**: 2025.08 ~ 2025.11 | 3-member team, backend owner
 - **[Problem]**
-  - Existing chatbot only had real estate Q&A RAG, no property recommendation feature
+  - Existing AI service only had real estate Q&A RAG, no property recommendation feature
   - Unable to handle location-based natural language queries like "Recommend apartments near Yeouido Station"
 - **[Key Contributions]**
-  - Automated **location data (coordinates, stations, districts) indexing** to Elasticsearch via Spring Batch daily job
-  - Built RAG pipeline: LLM extracts location keywords from natural language → Elasticsearch **similarity search to identify location** → radius filtering → property recommendation
+  - Automated **POI (Point of Interest) indexing** to Elasticsearch via Spring Batch daily job
+  - Built RAG pipeline: LLM extracts location & condition keywords from natural language → Elasticsearch **similarity search to identify location** → radius & condition filtering → property recommendation
   - Built **vectorization and similarity search** for property data using OpenAI Embedding API
 - **[Results]**
   - Launched **AI property recommendation** with natural language location search
