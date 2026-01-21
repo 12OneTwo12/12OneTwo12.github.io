@@ -1,5 +1,5 @@
 ---
-title: "[Reflections on MSA 4/6] How Failures Propagate and Where We Should Break the Chain"
+title: "[Reflections on MSA 4/7] How Failures Propagate and Where We Should Break the Chain"
 tags:
   - msa
   - architecture
@@ -10,7 +10,7 @@ tags:
 date: '2026-01-19'
 ---
 
-Previous: [[Reflections on MSA 3/6] Inter-Service Communication in MSA - How Should We Do It?]({{< relref "/blog/architecture/msa-series-3-communication" >}})
+Previous: [[Reflections on MSA 3/7] Inter-Service Communication in MSA - How Should We Do It?]({{< relref "/blog/architecture/msa-series-3-communication" >}})
 
 ---
 
@@ -551,6 +551,10 @@ We've decided on communication methods and learned about fault tolerance. But th
 Now that I've said it, it seems like nothing but tricky problems haha..
 
 In the next part, I'll discuss the Database per Service principle, problems with distributed transactions, the Saga pattern, and data synchronization strategies.
+
+Next: [[Reflections on MSA 5/7] How Should We Separate Data?]({{< relref "/blog/architecture/msa-series-5-data-separation" >}})
+
+---
 
 ## References
 
