@@ -455,7 +455,7 @@ public class OrderDetailView {
 
 그래서 CQRS는 **복잡한 도메인**이나 **읽기/쓰기 패턴이 다른 경우**에 효과적이라고 생각합니다. 단순한 CRUD 앱에는 과한 선택일 수 있고요. 다만 MSA에서 데이터 복제를 선택했다면, 이미 CQRS의 구조를 따르게 되니 자연스럽게 적용되는 셈이라고 저는 생각합니다.
 
-참고로 CQRS는 **Event Sourcing**과 함께 언급되는 경우가 많은데요. 근데 사실 둘은 독립적인 패턴이라고 저는 생각합니다. Event Sourcing은 상태 변경을 이벤트의 연속으로 저장하는 패턴인데, CQRS와 궁합이 좋아서 같이 사용되는 경우가 많은 것 같아요. 하지만 CQRS는 Event Sourcing 없이도 충분히 적용할 수 있고, 이 글에서도 Event Sourcing은 별도로 다루지 않으려고 합니다. "CQRS 하면 Event Sourcing도 해야 하는 거 아니야?"라고 오해하실 수 있어서 짚고 넘어가는 거예요.
+참고로 CQRS는 **Event Sourcing**과 함께 언급되는 경우가 많은것 같습니다. 다만 저는 둘은 독립적인 패턴이라고 생각합니다. Event Sourcing은 상태 변경을 이벤트의 연속으로 저장하는 패턴인데, CQRS와 궁합이 좋아서 같이 사용되는 경우가 많은 것 같습니다. 하지만 CQRS는 Event Sourcing 없이도 충분히 적용할 수 있고, 이 글에서 Event Sourcing은 별도로 다루지 않으려고 합니다. "CQRS 하면 Event Sourcing도 해야 하는 거 아니야?"라고 오해하실 수 있어서 한번 짚고 넘어가는 가고 싶었습니다. 기회가 있다면 Event Sourcing도 따로 다른 글에서 다뤄보도록 하겠습니다.
 
 ### 언제 무엇을 선택해야할까요?
 
