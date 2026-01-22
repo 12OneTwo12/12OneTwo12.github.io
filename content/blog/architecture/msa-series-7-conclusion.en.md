@@ -359,7 +359,7 @@ If while reading this series you felt **"MSA is harder than I thought"** rather 
 
 Of course, I don't think MSA is a choice that should always be avoided. If the organization is large, the domain is complex, traffic is high, and independent deployment and scaling are needed, I think MSA can definitely be an extremely effective choice. Companies like Netflix, Amazon, Coupang, and Baemin chose MSA for good reasons.
 
-However, I believe it should be **"a choice made out of necessity."** Not trends or vague expectations or growth aspirations, but a choice to solve problems you're actually experiencing.
+However, I believe it should be **"a choice made out of necessity."** Not trends or vague expectations or growth aspirations, but **"a choice for survival"** to solve problems you're actually experiencing.
 
 **Technology choices are always a succession of trade-offs.** Choose MSA and you gain independence and scalability, but you must bear complexity and operational burden. Choose monolithic and you gain simplicity, but you may hit limits as scale grows.
 
