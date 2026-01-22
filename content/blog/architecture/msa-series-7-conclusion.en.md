@@ -64,13 +64,13 @@ Many seem to choose MSA to achieve "maintainability," "high availability," and "
 
 However, since there are many other alternatives to achieve "maintainability," "high availability," and "scalability," I don't think these reasons alone are sufficient.
 
-"Technical complexity" ultimately becomes a burden that developers and operators must bear. More time and effort are needed to understand and manage complex systems. If monitoring tools are inadequate, it can become almost catastrophic.
+**"Technical complexity" ultimately becomes a burden that developers and operators must bear.** More time and effort are needed to understand and manage complex systems. If monitoring tools are inadequate, it can become almost catastrophic.
 
 From my experience, APM was almost essential. When I first joined the team and we monitored our MSA with only CloudWatch, operations were incredibly difficult beyond imagination. It was hard to grasp the call relationships between services, and tracking which services a request A passed through before returning a response was extremely challenging. The only clues to guess it was the same request were matching timestamps (down to milliseconds) and manually tracing the call flow through code.
 
 Operations finally became more comfortable after implementing the Grafana LGTM Stack [**Monitoring System Design and Implementation**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}). Even now, I remember how truly difficult operations were.
 
-This is why I believe a poorly implemented MSA only increases the burden on developers and operators, and can even make "maintenance" harder. The onboarding difficulty for new team members also increases accordingly.
+This is why I believe **a poorly implemented MSA only increases the burden on developers and operators, and can even make "maintenance" harder**. The onboarding difficulty for new team members also increases accordingly.
 
 Ultimately, I think "improved maintenance" only applies when MSA is well-designed and properly implemented.
 
@@ -80,7 +80,7 @@ There's one more point I think must be considered before adopting MSA: the **org
 
 This connects to MSA's learning curve. MSA isn't just a technical problem—it's a complex issue that must also consider organizational factors.
 
-I don't think it's enough for just one team member to have done MSA or know how to do it. I believe the entire team needs to understand MSA's complexity and have the appropriate development and operational culture in place.
+I don't think it's enough for just one team member to have done MSA or know how to do it. I believe **the entire team needs to understand MSA's complexity and have the appropriate development and operational culture in place**.
 
 If that's not the case, I think it's important to allow sufficient time for learning and preparation. This is because the team needs to be able to anticipate and prepare for problems that may arise during MSA adoption.
 
@@ -98,13 +98,13 @@ I've noticed moments when these desires make me view MSA adoption only in a posi
 
 Of course, I think it's very positive that developers want to grow, learn new technologies, and take on challenges.
 
-However, this mindset can become ambition that clouds judgment, preventing objective, fact-based assessment of whether something is truly needed.
+However, this mindset can become ambition that clouds judgment, **preventing objective, fact-based assessment of whether something is truly needed**.
 
 "Come on, that's going too far. How would you know without researching it?" If you say that, I'd reply: "That was me."
 
 I'm a contradictory person—one part of me kept saying "I still want to try MSA..." while another asked "Is it really necessary?" These kept fighting in my mind, even after I'd concluded "MSA isn't really necessary for our service."
 
-This ambition inevitably becomes a burden on teammates and the company. That's why I think if you feel such ambition, it's better to satisfy it through side projects. (I also satisfied my ambition by building an MSA in a side project before experiencing it in production.)
+This ambition inevitably becomes a burden on teammates and the company. That's why I think **if you feel such ambition, it's better to satisfy it through side projects**. (I also satisfied my ambition by building an MSA in a side project before experiencing it in production.)
 
 Of course, there are many problems you can only encounter in production environments, so side projects have their limits. But I think that's better than pushing through a decision driven by ambition that could harm the entire team.
 
@@ -159,7 +159,7 @@ And I think a well-designed monolith can **solve more problems than you'd expect
 
 Of course, monolithic has clear limitations too. As I mentioned in [Part 1]({{< relref "/blog/architecture/msa-series-1-introduction" >}}), there are difficulties with scaling, deployment, and technology stack constraints. But what I consider important is whether these limitations are **actually problems for our company and team**.
 
-I don't think it's right to choose MSA out of vague fear that "it might happen in the future."
+I don't think it's right to choose MSA out of vague fear that **"it might happen in the future."**
 
 Does it make sense to worry about scaling when traffic isn't high yet? Should a 5-person team worry about deployment conflicts? I think the likelihood of encountering these problems is very low for most startups or early-stage services.
 
@@ -361,7 +361,7 @@ Of course, I don't think MSA is a choice that should always be avoided. If the o
 
 However, I believe it should be **"a choice made out of necessity."** Not trends or vague expectations or growth aspirations, but a choice to solve problems you're actually experiencing.
 
-Technology choices are always a succession of trade-offs. Choose MSA and you gain independence and scalability, but you must bear complexity and operational burden. Choose monolithic and you gain simplicity, but you may hit limits as scale grows.
+**Technology choices are always a succession of trade-offs.** Choose MSA and you gain independence and scalability, but you must bear complexity and operational burden. Choose monolithic and you gain simplicity, but you may hit limits as scale grows.
 
 **I don't think there's a right answer. I just believe there are choices that fit our service, our team, our situation.**
 

@@ -1,5 +1,5 @@
 ---
-title: Infrastructure & DevOps
+title: Infra & DevOps
 weight: 3
 ---
 
