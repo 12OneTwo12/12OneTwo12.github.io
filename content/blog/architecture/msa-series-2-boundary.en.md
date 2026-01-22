@@ -100,7 +100,7 @@ DDD is **an approach to software design centered on the domain (business area)**
 
 In this article, let's focus on **Bounded Context**, which is most directly related to service boundaries.
 
-What is Bounded Context? Simply put, it's **the scope where the same term maintains the same meaning**. When I first encountered this concept, honestly it didn't click. Let me explain with an example.
+What is Bounded Context? Simply put, it's **the scope where the same term maintains the same meaning**. This might not click right away—I know it didn't for me when I first encountered this concept. Let me explain with an example to help.
 
 In a concert ticketing service, think about the term **"customer."**
 
@@ -143,7 +143,7 @@ Simply put, Business Capability means "the capabilities a business must have to 
 - **Notification Delivery**: The capability to send notifications to users
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph Concert["Concert Ticketing Service"]
         Ticketing["Ticket Service<br/>(Ticket Sales)"]
         Seat["Seat Service<br/>(Seat Management)"]

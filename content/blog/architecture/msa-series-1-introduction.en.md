@@ -140,7 +140,11 @@ Let's say the fix took less than 10 seconds, and running all unit tests for the 
 
 However, since the payment feature deals with money, it has more thorough test codes. Let's exaggerate a bit and say that running only the payment unit tests takes 30 minutes. In monolithic architecture, **to fix a very small bug in the order feature, you have to rebuild and redeploy the entire application**, so assuming tests are included in the build, you'd have to wait at least 30 minutes.
 
-This leads to a decrease in productivity.
+If you've been through this, you know—when you're the one who wrote the bug-causing code, those 30 minutes feel absolutely nerve-wracking. Cold sweat, anxiously tapping your feet, knowing that users might not be able to use the service properly for over 30 minutes.
+
+In situations like this, I often find myself staring at the CI/CD pipeline running on the screen, only to sense my manager approaching from behind with that look in their eyes saying, "When's the deployment gonna be done..?"
+
+Ultimately, this leads to a decrease in productivity.
 
 #### 3. Fault Isolation
 
@@ -187,11 +191,9 @@ Finally, monolithic architecture has the problem of lacking team autonomy. Since
 
 If the number of developers working on the entire codebase is small, the problem might be less severe. But let's assume I'm a developer on a very large team.
 
-In the concert ticketing service we discussed earlier, if there are 4 teams by feature and each team has 30 developers, a total of 120 developers would be working on a single codebase simultaneously.
+In the concert ticketing service we discussed earlier, if there are 4 teams by feature and—exaggerating quite a bit—each team has 30 developers, a total of 120 developers would be working on a single codebase simultaneously.
 
-How does that sound? Doesn't just hearing about it give you a headache thinking about resolving Git conflicts?
-
-If there's a Util class commonly used across all features, conflicts are bound to occur frequently.
+How does that sound? Doesn't just hearing about it give you a headache thinking about resolving Git conflicts? If there's a Util class commonly used across all features, conflicts are bound to occur frequently.
 
 Also, resolving conflicts would require coordination and communication between teams, which could lead to decreased development speed.
 
@@ -342,7 +344,7 @@ What's good about this approach?
 
 First, **you can maintain the simplicity of monolithic while reducing coupling between modules.** Since it's still a single application, deployment is simple and you can avoid the complexity of distributed systems. Transactions are still processed in a single DB, so there are no data consistency issues.
 
-Also, **it becomes much easier to migrate to MSA later.** Since module boundaries are already clearly defined, separating a specific module into a separate service becomes relatively easy. I think going through modular monolith to MSA is a safer path than going directly from monolithic to MSA.
+Also, **migrating to MSA later becomes relatively easier.** Since module boundaries are already clearly defined, separating a specific module into a separate service becomes relatively easy. I think going through modular monolith to MSA is a safer path than going directly from monolithic to MSA.
 
 ### SOA (Service-Oriented Architecture)
 

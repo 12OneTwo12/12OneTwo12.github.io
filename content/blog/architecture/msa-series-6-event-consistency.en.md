@@ -151,7 +151,7 @@ Of course, a small team choosing MSA itself might be contradictory.
 
 ## Event-Based Data Consistency Problems
 
-Now let's assume we've decided to synchronize data between different services based on events, and that we've somehow agreed to guarantee atomicity of event publishing using Outbox or CDC.
+Now let's assume we've decided to synchronize data between different services in an MSA environment based on events, and that we've somehow agreed to guarantee atomicity of event publishing using Outbox or CDC.
 
 "Then can we just develop and operate the service without any problems?" **Unfortunately, no.** Other problems can occur. These are other event-based data consistency problems.
 
