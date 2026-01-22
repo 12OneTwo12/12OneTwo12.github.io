@@ -207,7 +207,17 @@
     title="{{ .title }}"
   >
     <div class="hx:flex hx:flex-col hx:gap-0.5 hx:flex-1 hx:min-w-0">
-      <span class="hx:truncate">{{- $truncatedTitle -}}</span>
+      <div class="hx:flex hx:items-center hx:gap-1">
+        <span class="hx:truncate">{{- $truncatedTitle -}}</span>
+        {{- with .context }}
+          {{- if .IsSection }}
+            {{- $count := len .RegularPagesRecursive }}
+            {{- if gt $count 0 }}
+              <span class="hx:text-xs hx:opacity-50 hx:shrink-0">({{ $count }})</span>
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      </div>
       {{- with .context }}
         {{- if and .Date (not .IsSection) }}
           <span class="hx:text-xs hx:opacity-60 hx:whitespace-nowrap">{{ .Date.Format "2006.01.02" }}</span>
