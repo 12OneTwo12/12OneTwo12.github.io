@@ -655,7 +655,7 @@ But one problem remains. If you chose synchronous communication, what happens wh
 
 Asynchronous communication is different. Since messages are placed in a queue and the call returns immediately, the producer can continue operating even if the consumer is down. Failures don't propagate "immediately." Instead, messages pile up in the queue and get processed when the consumer recovers. But asynchronous communication isn't problem-free either. It introduces data consistency issues like message loss and duplicate processing. Ultimately, whichever approach you choose, you need to handle failures.
 
-In the next post, I'll discuss how failures propagate in synchronous calls and where we should cut the chain. The data consistency issues of asynchronous communication will be covered in Part 4 on data separation.
+In the next post, I'll discuss how failures propagate in synchronous calls and where we should cut the chain. The data consistency issues of asynchronous communication will be covered in [Part 6]({{< relref "/blog/architecture/msa-series-6-event-consistency" >}}) on event-based data consistency.
 
 Next: [[Reflections on MSA 4/7] How Failures Propagate, and Where We Should Cut the Chain]({{< relref "/blog/architecture/msa-series-4-resilience" >}})
 
