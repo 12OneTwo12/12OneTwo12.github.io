@@ -341,7 +341,7 @@ Ultimately, the core message I want to convey is this:
 
 If you can answer this question with concrete, data-based answers like **"because the team is large,"** **"because there's lots of traffic,"** **"because failure isolation is needed,"** then I think MSA is worth considering.
 
-But if you were in the same meeting room with me with vague reasons like **"because it's trendy,"** **"because we might need it later,"** **"because MSA seems better,"** I would probably be discussing from a "oppose adoption" position.
+But if you were on my team and called a meeting to discuss MSA adoption with vague reasons like **"because it's trendy,"** **"because we might need it later,"** **"because MSA seems better,"** I would probably be discussing from an "oppose adoption" position.
 
 ## Wrapping Up the Series
 
