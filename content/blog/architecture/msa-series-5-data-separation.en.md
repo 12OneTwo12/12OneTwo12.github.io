@@ -15,7 +15,7 @@ Previous: [[Reflections on MSA 4/7] How Failures Propagate and Where We Should B
 
 In the previous part, we explored how failures propagate in MSA environments and various patterns to prevent them. From Timeout, Retry, to Circuit Breaker, there were many different approaches.
 
-But there's still much more to consider. In Part 2, we thought about how to divide services, and in Parts 3 and 4, we looked at how divided services communicate and respond to failures. Now I want to talk about one of the most troublesome problems in MSA environments: **the data separation problem**. This was actually the area I thought about most when adopting MSA.
+But there's still much more to consider. In [Part 2]({{< relref "/blog/architecture/msa-series-2-boundary" >}}), we thought about how to divide services, and in [Part 3]({{< relref "/blog/architecture/msa-series-3-communication" >}}) and [Part 4]({{< relref "/blog/architecture/msa-series-4-resilience" >}}), we looked at how divided services communicate and respond to failures. Now I want to talk about one of the most troublesome problems in MSA environments: **the data separation problem**. This was actually the area I thought about most when adopting MSA.
 
 What used to be solved with a single JOIN in monolithic architecture requires surprisingly complex decision-making in MSA. In this part, I'll share what considerations I faced, how to separate data in MSA environments, and what becomes difficult after separation.
 
@@ -23,7 +23,7 @@ What used to be solved with a single JOIN in monolithic architecture requires su
 
 Let me start with a fundamental question. Does MSA necessarily require database separation? Let's think about it.
 
-As I mentioned in Part 1, most technologies are usually introduced to solve **specific problems**. So if we look at what **specific problems** can occur when we don't separate databases in MSA, we can easily judge whether separation is necessary.
+As I mentioned in [Part 1]({{< relref "/blog/architecture/msa-series-1-introduction" >}}), most technologies are usually introduced to solve **specific problems**. So if we look at what **specific problems** can occur when we don't separate databases in MSA, we can easily judge whether separation is necessary.
 
 ```mermaid
 flowchart TB
@@ -72,7 +72,7 @@ Services are separated, but deployments must happen together. This too is MSA in
 
 #### Failure Propagation
 
-We talked about failure propagation in Part 3, and sharing a DB causes problems here too. If one service runs heavy queries or holds locks for too long, other services are affected.
+We talked about failure propagation in [Part 3]({{< relref "/blog/architecture/msa-series-3-communication" >}}), and sharing a DB causes problems here too. If one service runs heavy queries or holds locks for too long, other services are affected.
 
 Services are separated, but failures propagate. This is also called the Noisy Neighbor problem. Fault isolation becomes impossible, and like the two problems above, I think this is essentially **giving up the benefits of MSA**.
 
@@ -269,7 +269,7 @@ Implementation is simple and intuitive. And there's the advantage of **always ge
 But thinking about it for a moment, there are drawbacks to this method.
 
 - **Increased latency**: Processing one request requires multiple API calls, so naturally it's slower. Network round trips are added.
-- **Failure propagation**: The problem we covered in Part 3. If the User Service dies, order queries don't work either. The entire thing fails because of one user name. Of course, you can apply fault isolation patterns, but the fact that there's a dependency doesn't change.
+- **Failure propagation**: The problem we covered in [Part 3]({{< relref "/blog/architecture/msa-series-3-communication" >}}). If the User Service dies, order queries don't work either. The entire thing fails because of one user name. Of course, you can apply fault isolation patterns, but the fact that there's a dependency doesn't change.
 - **N+1 problem**: Think about order list queries. If you query 10 orders, User API 10 times, Product API 10 times... It's likely to affect performance. Of course, you can mitigate this with Batch APIs (e.g., `GET /users?ids=1,2,3,4,5`) that query multiple records at once, but this makes API design more complex, and it's not applicable to all situations, so I don't think it's a fundamental solution.
 
 ### Solution 2: Data Replication
@@ -318,7 +318,7 @@ Since you're querying from the same DB engine, you can use JOIN if you want, and
 
 Of course, this approach has drawbacks too.
 
-- **Possibility of data inconsistency**: If events are delayed, stale data may be visible temporarily. Data consistency issues can occur due to event loss. (This can be addressed with the Transactional Outbox pattern or reliable message brokers like Kafka—I'll cover this in detail in Part 6.)
+- **Possibility of data inconsistency**: If events are delayed, stale data may be visible temporarily. Data consistency issues can occur due to event loss. (This can be addressed with the Transactional Outbox pattern or reliable message brokers like Kafka—I'll cover this in detail in [Part 6]({{< relref "/blog/architecture/msa-series-6-event-consistency" >}}).)
 - **Increased storage**: Same data is stored in multiple places, so more storage is needed.
 - **Synchronization logic management**: You need to create and maintain event processing logic.
 
@@ -451,7 +451,7 @@ The source service can focus solely on business logic and data consistency witho
 
 Of course, CQRS has its price. With two models, there's more code to manage. Complexity naturally increases.
 
-And there's a time gap until writes are reflected in the read model. Situations like "I just modified it, why hasn't it changed?" can occur. You also need to consider event processing and retry on failure. I'll cover this in more detail in Part 6.
+And there's a time gap until writes are reflected in the read model. Situations like "I just modified it, why hasn't it changed?" can occur. You also need to consider event processing and retry on failure. I'll cover this in more detail in [Part 6]({{< relref "/blog/architecture/msa-series-6-event-consistency" >}}).
 
 So I think CQRS is effective for **complex domains** or **cases where read/write patterns differ**. It might be overkill for simple CRUD apps. However, if you've chosen data replication in MSA, you're already following CQRS structure, so it's naturally applied.
 

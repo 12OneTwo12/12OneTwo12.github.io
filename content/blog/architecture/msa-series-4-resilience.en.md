@@ -26,7 +26,7 @@ In this part, I'd like to discuss the failure propagation mechanisms in MSA envi
 
 ## How Failures Propagate
 
-First, how do failures propagate? In monolithic environments, I mentioned in Part 1 that since all functions run within a single process, a failure in one module can affect the entire application. So in MSA, where services are separated, does failure isolation happen naturally?
+First, how do failures propagate? In monolithic environments, I mentioned in [Part 1]({{< relref "/blog/architecture/msa-series-1-introduction" >}}) that since all functions run within a single process, a failure in one module can affect the entire application. So in MSA, where services are separated, does failure isolation happen naturally?
 
 Unfortunately, **that's not always the case.**
 
@@ -331,7 +331,7 @@ Of course, you don't need to apply all these patterns to every call. I think you
 
 ### When NOT to Use These Patterns
 
-As I emphasized "when not to use" in Part 2, fault tolerance patterns also have situations where they should be avoided.
+As I emphasized "when not to use" in [Part 2]({{< relref "/blog/architecture/msa-series-2-boundary" >}}), fault tolerance patterns also have situations where they should be avoided.
 
 #### When NOT to use Retry
 - APIs without guaranteed idempotency (risk of duplicate processing)

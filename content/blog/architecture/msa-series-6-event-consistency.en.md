@@ -155,7 +155,7 @@ Now let's assume we've decided to synchronize data between different services in
 
 "Then can we just develop and operate the service without any problems?" **Unfortunately, no.** Other problems can occur. These are other event-based data consistency problems.
 
-In Part 3, I said "asynchronous doesn't mean there are no problems." Event-based data consistency problems are a prime example.
+In [Part 3]({{< relref "/blog/architecture/msa-series-3-communication" >}}), I said "asynchronous doesn't mean there are no problems." Event-based data consistency problems are a prime example.
 
 What problems can occur?
 
@@ -343,7 +343,7 @@ The general guidelines are above, but ultimately I think choosing based on servi
 
 Adding my personal opinion, I think consistency is important either way. If our service decided to use Zero Payload, I think it's better for the entire service to sync data that way. It's like a kind of convention.
 
-As I mentioned in Part 3, even in synchronous communication, I wrote that I think following an agreed-upon consistent approach for inter-service communication is important.
+As I mentioned in [Part 3]({{< relref "/blog/architecture/msa-series-3-communication" >}}), even in synchronous communication, I wrote that I think following an agreed-upon consistent approach for inter-service communication is important.
 
 I think the same applies to data synchronization through events. If some places use Fat Event, some Zero Payload, some partition keys for order guarantee—all different—it becomes too complex and difficult to understand services and event tracking has to be different for each case.
 
@@ -371,7 +371,7 @@ So I think **At-least-once** is suitable for most systems. **Because duplicates 
 
 With At-least-once, duplicates can occur. So consumers must guarantee **idempotency**.
 
-I talked about idempotency when covering Retry in Part 4, and it's the same concept in event processing. The result should be the same even if the same event comes multiple times. The solution is similar. Implement duplicate handling at the application level.
+I talked about idempotency when covering Retry in [Part 4]({{< relref "/blog/architecture/msa-series-4-resilience" >}}), and it's the same concept in event processing. The result should be the same even if the same event comes multiple times. The solution is similar. Implement duplicate handling at the application level.
 
 #### Method 1: Processing Completion Record
 
@@ -574,11 +574,11 @@ Each step (T1, T2, T3) is an independent local transaction. Each service commits
 
 It's not making it "never happened" like a DB rollback, but **"doing new work to undo"**. Not rolling back created data to previous state, but performing new work to remove created data.
 
-There are two ways to implement Saga. Choreography and Orchestration, which we covered in Part 3.
+There are two ways to implement Saga. Choreography and Orchestration, which we covered in [Part 3]({{< relref "/blog/architecture/msa-series-3-communication" >}}).
 
 ### Choreography Saga
 
-Like the structure from Part 3, **connecting through events** without a central coordinator.
+Like the structure from [Part 3]({{< relref "/blog/architecture/msa-series-3-communication" >}}), **connecting through events** without a central coordinator.
 
 ```mermaid
 flowchart LR
@@ -706,7 +706,7 @@ public class BookingSaga {
 
 If you save state as each Saga step completes, even if the Orchestrator restarts, it can resume from where it stopped or execute compensating transactions. This saved state is also used for failure analysis and monitoring.
 
-One more thing to watch out for here. When the Orchestrator restarts and re-executes the same step, **each service call must also be idempotent**. For example, use an idempotency key (as I mentioned in Part 3) when calling the payment service so that calling it twice doesn't result in duplicate charges. That way, even if the Orchestrator retries, it can be handled safely.
+One more thing to watch out for here. When the Orchestrator restarts and re-executes the same step, **each service call must also be idempotent**. For example, use an idempotency key (as I mentioned in [Part 3]({{< relref "/blog/architecture/msa-series-3-communication" >}})) when calling the payment service so that calling it twice doesn't result in duplicate charges. That way, even if the Orchestrator retries, it can be handled safely.
 
 ### When to Choose What?
 
