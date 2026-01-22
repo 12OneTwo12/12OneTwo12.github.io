@@ -84,7 +84,7 @@
             <span class="hx:cursor-default">{{ partial "utils/title" . }}</span>
           </li>
         {{- else -}}
-          {{- $active := eq $pageURL .RelPermalink -}}
+          {{- $active := or (eq $pageURL .RelPermalink) (and .IsSection (.IsAncestor $page)) -}}
           {{- $shouldOpen := or (.Params.sidebar.open) (.IsAncestor $page) $active | default true }}
           <li class="{{ if $shouldOpen }}open{{ end }}">
             {{- $linkTitle := partial "utils/title" . -}}
@@ -105,7 +105,7 @@
             {{- $isInBlog := or (eq .Section "blog") (in .File.Dir "blog/") }}
             {{- $shouldShow := or (ne .Kind "page") (not $isInBlog) }}
             {{- if $shouldShow }}
-            {{- $active := eq $pageURL .RelPermalink -}}
+            {{- $active := or (eq $pageURL .RelPermalink) (and .IsSection (.IsAncestor $page)) -}}
             {{- $shouldOpen := or (.Params.sidebar.open) (.IsAncestor $page) $active | default true }}
             {{- $linkTitle := partial "utils/title" . -}}
             <li class="hx:flex hx:flex-col {{ if $shouldOpen }}open{{ end }}">
