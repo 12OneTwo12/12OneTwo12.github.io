@@ -455,7 +455,7 @@ And there's a time gap until writes are reflected in the read model. Situations 
 
 So I think CQRS is effective for **complex domains** or **cases where read/write patterns differ**. It might be overkill for simple CRUD apps. However, if you've chosen data replication in MSA, you're already following CQRS structure, so it's naturally applied.
 
-By the way, CQRS is often mentioned alongside **Event Sourcing**, but they're independent patterns. Event Sourcing stores state changes as a sequence of events, and it pairs well with CQRS, which is why they're often used together. But CQRS can be applied without Event Sourcing, and this article doesn't cover Event Sourcing separately. I'm mentioning this because you might wonder, "If I do CQRS, don't I have to do Event Sourcing too?"
+By the way, CQRS is often mentioned alongside **Event Sourcing**. However, I think they're independent patterns. Event Sourcing stores state changes as a sequence of events, and it pairs well with CQRS, which is why they're often used together. But CQRS can be applied without Event Sourcing, and this article doesn't cover Event Sourcing separately. I wanted to mention this because you might wonder, "If I do CQRS, don't I have to do Event Sourcing too?" If I get the chance, I'd like to cover Event Sourcing in a separate article.
 
 ### When Should You Choose What?
 
@@ -489,7 +489,7 @@ Ultimately, **data separation comes with a clear price**. I think it's actually 
 
 So whenever I think about data separation, I believe this question should come first: **"Does this data really need to be separated?"**
 
-Just because you can technically separate it doesn't mean you should. If data changes together, is queried together, and needs transactions together, maybe it should be in the same place to begin with.
+Just because you can technically separate it doesn't mean you should. If data changes together, is queried together, and needs transactions together, I think it's worth considering whether it should be in the same place to begin with.
 
 ## In the Next Part
 

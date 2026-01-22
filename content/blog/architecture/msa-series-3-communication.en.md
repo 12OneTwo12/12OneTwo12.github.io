@@ -176,6 +176,8 @@ But switching to async doesn't automatically eliminate dependencies. What happen
 
 This situation is called **Hidden Synchronous Dependency**. It looks asynchronous on the surface but actually behaves synchronously. To truly benefit from async's "loose coupling" advantage, you need to be careful about this.
 
+This tends to happen especially when messages request specific actions. By the way, EDA (Event-Driven Architecture) distinguishes between **Event** and **Command**. An Event announces a fact that already happened, like "OrderCompleted," while a Command requests a specific action, like "ProcessPayment." With Events, the publisher doesn't know what subscribers will do—it just announces the fact, achieving loose coupling. Commands, on the other hand, expect a specific service to perform a specific action, so even with async messaging, they're more likely to become hidden synchronous dependencies. EDA is a vast topic worthy of its own post, so I'll just briefly mention it here and cover it in more depth separately if I get the chance.
+
 Ultimately, the choice between synchronous and asynchronous isn't simply about "waiting vs not waiting"—it's about **"how loosely can we couple?"**
 
 ## Synchronous Communication: REST vs gRPC vs GraphQL
@@ -594,7 +596,7 @@ Personally, I think async is **trading off complexity for failure propagation**.
 
 We've explored various communication methods in MSA environments. So what should we actually choose?
 
-My personal view is that **technology isn't an either/or choice**. Of course, there are architectural patterns like Event-Driven Architecture (EDA) that build systems entirely around event-based communication, but in real MSA environments, using both synchronous and asynchronous communication within a single system based on the situation seems to be the norm. I'll cover EDA in more depth in a separate post if the opportunity arises.
+My personal view is that **technology isn't an either/or choice**. Of course, there are architectural patterns like Event-Driven Architecture (EDA) that build systems entirely around event-based communication, but in real MSA environments, using both synchronous and asynchronous communication within a single system based on the situation seems to be the norm.
 
 For example, thinking about an order flow:
 - **Order → Check user balance**: Synchronous (balance verification required before payment)
