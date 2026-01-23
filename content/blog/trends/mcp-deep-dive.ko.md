@@ -597,6 +597,159 @@ sequenceDiagram
 
 이렇게 세 기능이 유기적으로 연결되어 풍부한 AI 경험을 만들어냅니다.
 
+### FastMCP로 직접 구현해보기
+
+지금까지 Tools, Resources, Prompts의 개념을 살펴봤는데요. 실제로 어떻게 구현하는지 궁금하지 않으신가요? [FastMCP](https://github.com/jlowin/fastmcp)를 사용하면 Python 데코레이터로 간단하게 MCP 서버를 만들 수 있더라구요.
+
+FastMCP는 MCP 서버 구현을 위한 Pythonic한 프레임워크입니다. 복잡한 프로토콜 처리를 추상화해서 비즈니스 로직에만 집중할 수 있게 해줍니다.
+
+```python
+from fastmcp import FastMCP
+from datetime import datetime
+
+# MCP 서버 인스턴스 생성
+# 이 서버가 바로 "Server" 컴포넌트가 됩니다
+mcp = FastMCP("날씨 서비스")
+
+# ===== Tools: LLM이 호출하는 함수 =====
+# @mcp.tool() 데코레이터로 정의
+# LLM이 "Model-Controlled" 방식으로 알아서 호출합니다
+@mcp.tool()
+def get_weather(city: str) -> str:
+    """
+    지정된 도시의 현재 날씨 정보를 조회합니다.
+
+    이 docstring이 앞서 설명한 'description'이 됩니다.
+    LLM은 이 설명을 보고 언제 이 도구를 사용할지 판단합니다.
+
+    Args:
+        city: 날씨를 조회할 도시 이름 (예: "서울", "부산")
+             이 부분이 inputSchema의 properties가 됩니다.
+    """
+    # 실제로는 외부 날씨 API를 호출하겠지만, 예시로 하드코딩
+    weather_data = {
+        "서울": {"temp": 15, "condition": "맑음"},
+        "부산": {"temp": 18, "condition": "흐림"}
+    }
+
+    if city in weather_data:
+        data = weather_data[city]
+        return f"{city}의 현재 날씨: {data['temp']}°C, {data['condition']}"
+    return f"{city}의 날씨 정보를 찾을 수 없습니다."
+
+
+# ===== Resources: 읽기 전용 데이터 =====
+# @mcp.resource()로 정의, URI 형식으로 식별
+# Tools와 달리 "Application/User-Controlled" 방식입니다
+@mcp.resource("config://weather/settings")
+def get_weather_settings() -> str:
+    """
+    날씨 서비스 설정 정보를 제공합니다.
+
+    Resource는 LLM이 자동으로 선택하는 게 아니라,
+    애플리케이션이나 사용자가 명시적으로 컨텍스트에 추가합니다.
+    """
+    return """
+    지원 도시: 서울, 부산, 대구, 인천, 광주, 대전, 울산
+    업데이트 주기: 10분
+    데이터 출처: 기상청 API
+    """
+
+
+# 동적 리소스 - URI 템플릿 사용
+# {city} 부분이 파라미터로 전달됩니다
+@mcp.resource("weather://forecast/{city}")
+def get_forecast(city: str) -> str:
+    """특정 도시의 주간 예보를 리소스로 제공합니다."""
+    return f"""
+    {city} 주간 예보:
+    - 월요일: 맑음, 15°C
+    - 화요일: 흐림, 13°C
+    - 수요일: 비, 10°C
+    """
+
+
+# ===== Prompts: 재사용 가능한 메시지 템플릿 =====
+# @mcp.prompt()로 정의
+# 사용자가 "/날씨_리포트" 같은 슬래시 커맨드로 선택합니다
+@mcp.prompt()
+def weather_report(city: str) -> str:
+    """
+    종합 날씨 리포트를 생성하는 프롬프트입니다.
+
+    Prompt는 "User-Controlled" 방식으로,
+    사용자가 UI에서 명시적으로 선택해서 사용합니다.
+    """
+    return f"""
+    {city}의 종합 날씨 리포트를 작성해주세요.
+
+    다음 정보를 포함해주세요:
+    1. 현재 날씨 상태
+    2. 오늘의 최고/최저 기온
+    3. 주간 날씨 전망
+    4. 외출 시 주의사항
+
+    친근하고 이해하기 쉬운 어조로 작성해주세요.
+    """
+
+
+# ===== Context: 요청 컨텍스트 활용 =====
+# Context를 통해 로깅, 진행 상황 보고 등이 가능합니다
+from fastmcp import Context
+
+@mcp.tool()
+async def analyze_weather_trend(city: str, ctx: Context) -> str:
+    """
+    도시의 날씨 트렌드를 분석합니다.
+
+    Context를 활용하면 장기 실행 작업의 진행 상황을
+    클라이언트에 보고할 수 있습니다.
+    """
+    await ctx.info(f"{city} 날씨 데이터 수집 중...")
+    # 실제로는 여기서 데이터 수집 로직
+
+    await ctx.report_progress(progress=50, total=100)
+    await ctx.info("트렌드 분석 중...")
+    # 실제로는 여기서 분석 로직
+
+    await ctx.report_progress(progress=100, total=100)
+    return f"{city}의 최근 날씨 트렌드: 평년보다 2°C 높은 기온 유지 중"
+
+
+# 서버 실행 (stdio 전송)
+if __name__ == "__main__":
+    mcp.run()
+```
+
+코드를 보시면 각 데코레이터가 앞서 설명한 개념과 정확히 대응되는 것을 알 수 있습니다.
+
+| 데코레이터 | MCP 개념 | 제어 방식 | 용도 |
+|-----------|---------|----------|------|
+| `@mcp.tool()` | Tools | Model-Controlled | LLM이 판단해서 호출하는 함수 |
+| `@mcp.resource()` | Resources | App/User-Controlled | 읽기 전용 컨텍스트 데이터 |
+| `@mcp.prompt()` | Prompts | User-Controlled | 재사용 가능한 메시지 템플릿 |
+
+특히 주목할 점은 **docstring이 그대로 `description`이 된다**는 점입니다. LLM은 이 설명을 보고 도구를 선택하기 때문에, docstring을 명확하게 작성하는 게 중요하다고 생각합니다.
+
+함수의 타입 힌트(`city: str`)는 자동으로 `inputSchema`로 변환됩니다. FastMCP가 Python의 타입 시스템을 활용해서 JSON Schema를 생성해주는 거죠.
+
+이렇게 만든 서버를 Claude Desktop에서 사용하려면 설정 파일에 추가하면 됩니다.
+
+```json
+{
+  "mcpServers": {
+    "weather": {
+      "command": "python",
+      "args": ["/path/to/weather_server.py"]
+    }
+  }
+}
+```
+
+FastMCP 외에도 TypeScript, Java, Kotlin, C#, Rust 등 다양한 언어로 MCP 서버를 만들 수 있습니다. 공식 문서의 [Build an MCP Server](https://modelcontextprotocol.io/docs/develop/build-server) 가이드에서 각 언어별 구현 방법을 상세히 설명하고 있으니 참고하시면 좋을 것 같습니다.
+
+> ⚠️ **stdio 기반 서버 개발 시 주의사항**: `print()` (Python), `console.log()` (JavaScript) 같은 stdout 출력은 JSON-RPC 메시지를 오염시켜 서버가 깨질 수 있습니다. 로깅은 반드시 stderr나 파일로 출력하도록 설정해야 합니다.
+
 ## 전송 계층: stdio와 Streamable HTTP
 
 지금까지 **무엇**을 주고받는지 살펴봤다면, 이제 **어떻게** 주고받는지 알아볼 차례입니다. MCP는 두 가지 표준 전송 방식을 정의합니다.
@@ -1194,6 +1347,7 @@ MCP는 아직 발전 중인 프로토콜입니다. 스펙도 계속 업데이트
 - [MCP Specification](https://spec.modelcontextprotocol.io/specification/)
 - [MCP Architecture](https://modelcontextprotocol.io/docs/concepts/architecture)
 - [MCP Transports](https://modelcontextprotocol.io/docs/concepts/transports)
+- [Build an MCP Server](https://modelcontextprotocol.io/docs/develop/build-server) - 다양한 언어로 MCP 서버 구현하기 (Python, TypeScript, Java, Kotlin, C#, Rust)
 
 ### Anthropic 발표
 
