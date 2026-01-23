@@ -103,22 +103,22 @@ gRPC     = RPC(호출 방식) + Protobuf(데이터 포맷) + HTTP/2(전송 방�
 
 이 형식만 지키면, HTTP로 보내든 TCP로 보내든 stdio로 보내든 다 JSON-RPC입니다.
 
-### gRPC는 HTTP/2가 필수다
+### gRPC는 HTTP/2 기반이다
 
 반면 gRPC는 다릅니다. [공식 스펙](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md)에서 HTTP/2 기반으로 정의되어 있습니다.
 
 - Protobuf + TCP로 통신하면? → gRPC가 **아닙니다**. 그냥 "Protobuf 기반 RPC"
 - Protobuf + HTTP/2로 통신하면? → gRPC **맞습니다**
 
-gRPC가 HTTP/2를 고정한 이유는, HTTP/2의 기능들(멀티플렉싱, 양방향 스트리밍, 헤더 압축)이 gRPC의 핵심 기능이기 때문입니다.
+표준 gRPC가 HTTP/2를 사용하는 이유는, HTTP/2의 기능들(멀티플렉싱, 양방향 스트리밍, 헤더 압축)이 gRPC의 핵심 기능이기 때문입니다. 다만 전송 계층의 진화(HTTP/3, QUIC 등)에 따른 확장 가능성은 열려 있습니다.
 
 ### 정리
 
 | | JSON-RPC | gRPC |
 |--|----------|------|
 | **호출 방식** | RPC | RPC |
-| **데이터 포맷** | JSON | Protobuf |
-| **전송 방법** | 자유 (스펙에 "transport agnostic" 명시) | HTTP/2 고정 |
+| **데이터 포맷** | JSON | Protobuf (기본) |
+| **전송 방법** | 자유 (스펙에 "transport agnostic" 명시) | HTTP/2 (표준) |
 
 비유하자면, **RPC는 "객체지향 프로그래밍"같은 '개념'** 이고, **JSON-RPC나 gRPC는 "Java", "Python"같은 구체적인 구현**인 셈입니다.
 
@@ -280,7 +280,7 @@ gRPC는 Google이 만든 RPC 프레임워크입니다. JSON-RPC와는 다른 방
 
 **1. Protocol Buffers (Protobuf)**
 
-JSON 대신 바이너리 포맷인 Protobuf를 사용합니다.
+JSON 대신 바이너리 포맷인 Protobuf를 사용합니다. 기술적으로는 다른 코덱도 가능하지만, 실무에서는 거의 대부분 Protobuf를 씁니다. (JSON transcoding을 통해 REST API와 상호운용하는 경우도 있습니다.)
 
 ```protobuf
 // user.proto
@@ -306,10 +306,7 @@ message User {
 
 **2. HTTP/2 기반**
 
-gRPC는 HTTP/2를 필수로 사용합니다. 덕분에:
-- 하나의 연결에서 여러 요청을 동시에 (멀티플렉싱)
-- 헤더 압축
-- 양방향 스트리밍
+표준 gRPC는 HTTP/2를 사용합니다. 이 덕분에 하나의 연결에서 여러 요청을 동시에 처리하는 멀티플렉싱, 헤더 압축, 양방향 스트리밍 같은 기능을 활용할 수 있습니다.
 
 **3. 스트리밍 지원**
 
@@ -328,7 +325,7 @@ service ChatService {
 | | JSON-RPC | gRPC |
 |--|----------|------|
 | **메시지 포맷** | JSON (텍스트) | Protobuf (바이너리) |
-| **전송 계층** | 자유 (HTTP, WS, TCP, stdio) | HTTP/2 필수 |
+| **전송 계층** | 자유 (HTTP, WS, TCP, stdio) | HTTP/2 (표준) |
 | **스키마** | 선택적 | 필수 (.proto 파일) |
 | **코드 생성** | 없음 | 자동 생성 |
 | **스트리밍** | 기본 미지원 | 네이티브 지원 |
@@ -427,10 +424,9 @@ class PaymentClient(private val baseUrl: String) {
 }
 ```
 
-이 모듈을 다른 서비스에서 사용하면:
+이 모듈을 다른 서비스에서 사용하면 이렇게 됩니다.
 
 ```kotlin
-// 다른 서비스에서
 val paymentClient = PaymentClient("https://payment-api.internal")
 val result = paymentClient.processPayment("order-123", 50000L)  // 마치 로컬 함수처럼
 ```
@@ -455,11 +451,7 @@ userClient.getUser(userId)
 
 이 한 줄 안에 URL 조립, HTTP 메서드 선택, 인증 헤더, 재시도, 에러 파싱이 다 들어있습니다.
 
-하지만 이런 클라이언트 라이브러리의 본질은:
-- **서버는 여전히 REST API를 제공**
-- **라이브러리는 클라이언트의 편의를 위한 포장지**
-- 계약은 문서(OpenAPI 등) 수준
-- 필드 하나 바뀌면? → 컴파일 OK, **런타임에 터짐**
+하지만 이런 클라이언트 라이브러리의 본질을 생각해보면, 서버는 여전히 REST API를 제공하고 라이브러리는 클라이언트의 편의를 위한 포장지일 뿐입니다. 계약은 문서(OpenAPI 등) 수준이고, 필드 하나 바뀌면 컴파일은 OK인데 **런타임에 터집니다**.
 
 ### RPC: 통신 모델 + 계약
 
@@ -469,18 +461,9 @@ RPC는 사고방식부터 다릅니다.
 userService.GetUser(GetUserRequest)
 ```
 
-이 순간 개발자 머릿속에는:
-- URL? ❌
-- HTTP verb? ❌
-- 리소스? ❌
+이 순간 개발자 머릿속에는 URL도, HTTP verb도, 리소스도 없습니다. **그냥 함수 호출입니다.**
 
-**그냥 함수 호출입니다.**
-
-RPC의 본질은:
-- **통신을 함수 호출로 모델링**
-- 요청/응답이 **IDL(Interface Definition Language)로 강하게 정의됨**
-- 클라이언트/서버가 **같은 계약을 공유**
-- 필드 하나 바뀌면? → **컴파일 단계에서 감지**
+RPC의 본질은 통신을 함수 호출로 모델링하는 것입니다. 요청/응답이 **IDL(Interface Definition Language)로 강하게 정의**되고, 클라이언트/서버가 **같은 계약을 공유**합니다. 필드 하나 바뀌면? **컴파일 단계에서 감지**됩니다.
 
 ### 진짜 차이를 표로 보면
 
@@ -495,15 +478,12 @@ RPC의 본질은:
 
 ### 클라이언트 라이브러리로 RPC 흉내는 낼 수 있지만
 
-클라이언트 라이브러리로 RPC처럼 쓸 수는 있습니다. 하지만:
+클라이언트 라이브러리로 RPC처럼 쓸 수는 있습니다. 하지만 REST 클라이언트 라이브러리에는 한계가 있습니다. 계약이 코드가 아니라 문서이고, 서버/클라이언트 릴리즈 싱크가 느슨하며, 언어별 라이브러리 품질 편차가 있습니다.
 
-**REST 클라이언트 라이브러리의 한계:**
-- 계약이 코드가 아니라 문서
-- 서버/클라이언트 릴리즈 싱크가 느슨함
-- 언어별 라이브러리 품질 편차
+물론 OpenAPI + 코드 생성(codegen)을 사용하면 REST에서도 컴파일 타임 검사에 가까운 강한 계약을 만들 수 있습니다. 다만 이건 프로토콜 수준에서 강제되는 게 아니라 도구로 보완하는 방식입니다.
 
 **RPC의 특징:**
-- 계약이 **Single Source of Truth**
+- 계약이 **Single Source of Truth** (IDL이 프로토콜의 일부)
 - 서버/클라이언트가 동시에 진화
 - 다국어 지원이 기본
 
@@ -618,4 +598,4 @@ flowchart TD
 
 ### 관련 글
 
-- [MCP(Model Context Protocol) Deep Dive]({{< relref "/blog/trends/mcp-deep-dive" >}}) - JSON-RPC를 사용하는 실제 프로토콜 예시
+- [MCP(Model Context Protocol) 이해하기]({{< relref "/blog/trends/mcp-deep-dive" >}}) - JSON-RPC를 사용하는 실제 프로토콜 예시
