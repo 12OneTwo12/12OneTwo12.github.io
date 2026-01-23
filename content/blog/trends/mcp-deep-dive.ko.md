@@ -1,5 +1,5 @@
 ---
-title: "MCP(Model Context Protocol) Deep Dive: AI와 외부 세계를 연결하는 표준 프로토콜"
+title: "MCP(Model Context Protocol) 이해하기: AI와 외부 시스템을 연결하는 표준 프로토콜"
 tags:
   - "ai"
   - "mcp"
@@ -7,7 +7,7 @@ tags:
   - "protocol"
   - "anthropic"
   - "json-rpc"
-date: '2026-01-23'
+date: '2026-01-25'
 ---
 
 요즘 AI 분야에서 MCP(Model Context Protocol)에 대한 이야기가 많이 들려옵니다. 저도 [이전 글]({{< relref "/blog/trends/llms-txt-mcp-second-brain" >}})에서 MCP 서버를 직접 만들어 활용하는 경험을 공유했었는데요.
@@ -43,6 +43,8 @@ flowchart TB
 
 마치 JSON이 등장하기 전, 각 서비스가 저마다 다른 데이터 포맷(XML, CSV 등)을 사용하던 시절과 비슷합니다. 새로운 서비스가 추가될 때마다 별도의 파서(parser)를 만들어야 했죠. (물론 지금도 XML 쓰는 곳이 있지만요...)
 
+![](https://assets.apidog.com/blog-next/2025/03/image-253.png)
+
 Anthropic은 이 문제를 **USB-C**에 비유해서 설명합니다. 예전에는 휴대폰마다 충전 단자가 달랐습니다. 삼성은 마이크로 USB, 애플은 라이트닝, 또 다른 제조사는 또 다른 규격을 썼죠. 그러다 USB-C라는 표준이 등장하면서 하나의 케이블로 모든 기기를 연결할 수 있게 되었습니다.
 
 ```mermaid
@@ -60,12 +62,12 @@ MCP가 바로 그 **USB-C 역할**을 합니다. 하나의 프로토콜로 다�
 
 ### MCP의 탄생과 채택
 
-MCP는 2024년 11월 25일 Anthropic이 오픈소스로 공개했습니다. 흥미로운 점은 공개 후 빠르게 업계 표준으로 자리잡아가고 있다는 점입니다.
+MCP는 [2024년 11월 25일 Anthropic이 오픈소스로 공개](https://www.anthropic.com/news/model-context-protocol)했습니다. 흥미로운 점은 공개 후 빠르게 업계 표준으로 자리잡아가고 있다는 점입니다.
 
-- **2024년 11월**: Anthropic이 MCP 공개, Python/TypeScript SDK 제공
-- **2025년 3월**: OpenAI가 ChatGPT 데스크톱 앱에 MCP 지원 추가
-- **2025년 4월**: Google DeepMind가 Gemini 모델에 MCP 지원 예고
-- **2025년 12월**: Linux Foundation 산하 Agentic AI Foundation(AAIF)에 MCP 기부
+- **2024년 11월**: [Anthropic이 MCP 공개](https://www.anthropic.com/news/model-context-protocol), Python/TypeScript SDK 제공
+- **2025년 3월**: [OpenAI CEO Sam Altman이 MCP 지원 발표](https://siliconangle.com/2025/03/27/openai-adds-support-anthropics-mcp-llm-connectivity-protocol/) - "People love MCP and we are excited to add support across our products"
+- **2025년 4월**: [Google DeepMind CEO Demis Hassabis가 Gemini에 MCP 지원 예고](https://techcrunch.com/2025/04/09/google-says-itll-embrace-anthropics-standard-for-connecting-ai-models-to-data/) - "MCP is a good protocol and it's rapidly becoming an open standard"
+- **2025년 12월**: [Linux Foundation 산하 Agentic AI Foundation(AAIF)에 MCP 기부](https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation) - Anthropic, Block, OpenAI가 공동 설립
 
 Anthropic이 만들었지만 OpenAI나 Google도 채택했다는 점이 인상적이였습니다. **경쟁사도 인정하는 표준**이 되어가고 있는 거죠. 이는 MCP가 특정 회사의 기술이 아닌 업계 전체의 공통 과제를 해결하려 한다는 점을 보여주는 것 같습니다.
 
@@ -1117,6 +1119,8 @@ flowchart TB
 
 결국 **표준화의 이점이 도입 비용을 상쇄하는지**가 핵심인 것 같습니다. 서비스가 성장하고 AI 기능이 늘어날수록 MCP의 가치는 커지지만, 처음부터 과도하게 설계할 필요는 없지 않나 싶네요.
 
+다만 이제까지 이야기한건 우리 서비스에 MCP를 도입해 사용자에게 제공할때의 이야기 였습니다. 하지만 현재 보통의 경우에는 로컬 환경에서 개인이 MCP 서버를 설치해 실행하는 경우가 많죠. 그렇기 때문에 설계에 대한 부분은 단순히 로컬에서 MCP 서버를 실행하는 경우와는 다른 문제입니다.
+
 ## MCP의 한계와 보안 고려사항
 
 지금까지 MCP의 구조와 기능을 살펴봤습니다. 하지만 모든 기술이 그렇듯 MCP도 완벽하지는 않습니다.
@@ -1129,7 +1133,7 @@ flowchart TB
 
 - **Prompt Injection**: [Simon Willison의 분석](https://simonwillison.net/2025/Apr/9/mcp-prompt-injection/)에 따르면, MCP 서버가 반환하는 데이터에 악의적인 지시가 포함될 경우 LLM의 동작을 조작할 수 있습니다. OWASP에서도 Prompt Injection을 LLM 보안 위험 1위로 선정했습니다.
 - **Tool Poisoning**: [Palo Alto Unit42 연구](https://unit42.paloaltonetworks.com/model-context-protocol-attack-vectors/)에서 도구의 메타데이터(description)에 악성 지시를 숨겨 LLM이 의도치 않은 도구를 호출하게 만드는 공격 벡터를 발표했습니다. 사용자에게는 보이지 않지만 AI 모델은 해석할 수 있는 악성 지시가 문제입니다.
-- **Critical RCE 취약점**: CVE-2025-6514(CVSS 9.6)는 mcp-remote 패키지에서 발견된 원격 코드 실행 취약점으로, [43만 개 이상의 개발 환경이 영향](https://datasciencedojo.com/blog/mcp-security-risks-and-challenges/)을 받았습니다.
+- **Critical RCE 취약점**: [JFrog Security Research가 발견한 CVE-2025-6514](https://jfrog.com/blog/2025-6514-critical-mcp-remote-rce-vulnerability/)(CVSS 9.6)는 mcp-remote 패키지(v0.0.5~0.1.15)에서 발견된 원격 코드 실행 취약점입니다. 악성 MCP 서버에 연결 시 클라이언트 OS에서 임의 명령이 실행될 수 있으며, 해당 패키지는 [43만 7천 회 이상 다운로드](https://thehackernews.com/2025/07/critical-mcp-remote-vulnerability.html)되었습니다.
 
 **노출된 MCP 서버:**
 
@@ -1155,15 +1159,9 @@ flowchart TB
 
 특히 MCP 서버가 파일 시스템이나 데이터베이스에 접근한다면, **최소 권한 원칙**을 적용하는 것이 중요하다고 생각합니다.
 
-### 복잡성
-
-MCP를 도입하면 시스템 복잡성이 증가합니다. Host, Client, Server, 전송 계층, 초기화 과정, 기능 협상... 알아야 할 것들이 많습니다.
-
-단순히 하나의 외부 API를 연동하는 게 목적이라면, MCP 없이 직접 통합하는 게 더 간단할 수 있습니다. 앞서 "언제 MCP를 도입해야 할까?" 섹션에서 정리한 것처럼, **표준화의 이점이 복잡성을 상쇄할 만큼 충분한지** 상황에 맞게 판단해야 합니다.
-
 ## 정리
 
-이번 글에서 MCP의 구조와 동작 원리를 살펴보았습니다. 정리하면:
+이번 글에서 MCP의 구조와 동작 원리를 살펴보았습니다. 정리하자면
 
 1. **MCP는 AI와 외부 시스템을 연결하는 표준 프로토콜**입니다. USB-C처럼 하나의 표준으로 다양한 연결을 가능하게 합니다.
 
