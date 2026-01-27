@@ -76,7 +76,7 @@ I completed our MSA migration with zero downtime, and reduced incident detection
 - **Duration**: 2025.04 ~ 2025.09 | Infrastructure owner
 - **[Problem]**
   - Single instance + Shell Script deployment → **SPOF**, manual intervention for recovery
-  - No monitoring, relied on customer support for incident detection (avg **1 hour**)
+  - No monitoring, relied on customer support for incident detection (avg 1 hour) → **risk of users leaving the service**
 - **[Key Contributions]**
   - [**Proposed and built GKE adoption**]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) – chose Managed K8s to **minimize operational burden** without dedicated DevOps
   - Discovered **hidden legacy configs** during migration (hardcoded SQS URLs, undocumented firewall rules) → environment variable separation, Cloud NAT adoption
@@ -84,7 +84,7 @@ I completed our MSA migration with zero downtime, and reduced incident detection
   - Built GitHub Actions + ArgoCD CI/CD → [**migrated to Jenkins on K8s**]({{< relref "/blog/infrastructure/github-actions-to-jenkins" >}}) due to **Self-hosted Runner limitations**
   - Some services [**on-premises → AWS zero-downtime migration**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}}) – chose **AWS DMS CDC** for real-time sync over dual-write/batch sync
 - **[Results]**
-  - Incident detection: 1hr → **1min (98% faster)**
+  - **Eliminated CS dependency**, incident detection: 1hr → **1min (98% faster)**
   - Rollback time: 12min → **2min (83% faster)**
   - Deployment time: 15min → **5min (67% faster)**
   - **Zero-downtime deployment** and **auto-scaling** achieved

@@ -76,7 +76,7 @@ MSA 전환을 서비스 중단 없이 완료했고, 장애 인지 시간을 1시
 - **기간**: 2025.04 ~ 2025.09 | 인프라 영역 전담
 - **[문제]**
   - 단일 인스턴스 + Shell Script 배포 → **SPOF**, 장애 복구 시 개발자 수동 개입 필수
-  - 모니터링 부재로 장애 인식을 CS에만 의존 (평균 **1시간** 소요)
+  - 모니터링 부재로 장애 인식을 CS에만 의존 (평균 1시간) → **사용자 서비스 이탈 위험**
 - **[주요 기여]**
   - [**GKE 도입 제안 및 구축**]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) – 전문 DevOps 부재 상황에서 **운영 부담 최소화** 위해 Managed K8s 선택
   - 마이그레이션 중 SQS URL 하드코딩, 미문서화 방화벽 등 **레거시 숨은 설정 발견** → 환경변수 분리, Cloud NAT 도입
@@ -84,7 +84,7 @@ MSA 전환을 서비스 중단 없이 완료했고, 장애 인지 시간을 1시
   - GitHub Actions + ArgoCD 기반 CI/CD 구축 → **Self-hosted Runner 한계**로 [**Jenkins on K8s 전환**]({{< relref "/blog/infrastructure/github-actions-to-jenkins" >}})
   - 일부 서비스 [**온프레미스 → AWS 무중단 마이그레이션**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}}) – 이중 쓰기/배치 동기화 대비 **실시간 동기화 위해 AWS DMS CDC** 선택
 - **[성과]**
-  - 장애 인지 시간: 1시간 → **1분 (98% 단축)**
+  - **CS 의존 탈피**, 장애 인지 시간: 1시간 → **1분 (98% 단축)**
   - 롤백 시간: 12분 → **2분 (83% 단축)**
   - 배포 시간: 15분 → **5분 (67% 단축)**
   - **무중단 배포** 체계 및 **자동 스케일링** 확보
