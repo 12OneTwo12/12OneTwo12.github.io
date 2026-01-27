@@ -43,54 +43,52 @@ I completed our MSA migration with zero downtime, and reduced incident detection
 ## **Work Experience**
 
 ### **Bootalk Inc.**
-> AI-based real estate brokerage platform <br>
+> AI-based real estate brokerage platform (210K+ users, 50K+ broker matches) <br>
 >*2025.03 ~ Present ({{< work-duration start="2025-03-01" >}})* | Backend Engineer (4-member dev team)
 
 {{< callout type="info" icon="code" >}}
 **Tech Stack**: `Kotlin` `Spring Cloud` `Kubernetes` `ArgoCD` `Grafana LGTM Stack` `Redis` `MySQL`
 {{< /callout >}}
 
-- #### **Monolith → MSA Migration**
-  Decoupled tightly coupled domains, **zero-downtime transition**
+- #### **Monolith → MSA Migration Architecture Design & Implementation**
+  Decoupled tightly coupled domains, **zero-downtime transition completed**, common code changes **16 PRs → 1 PR**
 {{% details title="**See Details**" %}}
 - **Overview**: Zero-downtime migration from Java Servlet monolith to Kotlin/Spring Cloud MSA
 - **Duration**: 2025.04 ~ 2025.11 | 3-member team, designed and implemented 5 of 18 services (Property Listings, Broker-User Matching, Transaction Prices, User, Notification)
 - **[Problem]**
-  - Tightly coupled core domains (listings, broker-user matching) blocked gradual migration
-  - Risk of data inconsistency and business logic conflicts with domain-by-domain separation
-  - Common code duplicated across service codebases, causing version mismatch and maintenance overhead
+  - Tightly coupled core domains (listings, broker-user matching) blocked gradual migration strategy
+  - Common code **scattered across 16 repos** → **16 PRs required** for same change, version mismatch
 - **[Key Contributions]**
-  - Designed [**partial big-bang strategy**]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}}) to migrate tightly coupled domains as a single unit
+  - After initial gradual migration attempt failed, designed [**partial big-bang strategy**]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}}) – migrated tightly coupled domains simultaneously
   - Dual Write + validation batch for **data consistency during transition**
   - Hexagonal Architecture + CQRS to **remove technical dependencies from domain logic**
-  - FeignClient sync communication, AWS SQS **event-driven communication**
-  - [**Multi-module structure design**]({{< relref "/blog/architecture/msa-to-multi-module" >}}) for **centralized dependency management** and code deduplication
+  - [**Multi-module structure design**]({{< relref "/blog/architecture/msa-to-multi-module" >}}) – after initial Common bloat issue, **limited to Type/Enum/Util only**, separated infra code to dedicated modules
 - **[Results]**
-  - **Zero-downtime** MSA migration completed
-  - Hexagonal Architecture enabled **independent domain deployment**
-  - Multi-module migration **eliminated code duplication** and unified dependency versions
+  - **Zero-downtime** MSA migration completed, Hexagonal Architecture enabled **independent domain deployment**
+  - Common code changes: 16 PRs → **1 PR**, Build time: 27min → **8min**
 - **Tech**: `Kotlin`, `Spring Cloud`, `Feign Client`, `CQRS`, `Hexagonal Architecture`, `AWS SQS`
 {{% /details %}}
 
 - #### **Kubernetes Infrastructure & Monitoring System**
-  From no monitoring, incident detection **98% faster** (1hr → 1min), Rollback **83% faster**
+  From no monitoring, incident detection **98% faster** (1hr → 1min), deployment time **67% faster**
 {{% details title="**See Details**" %}}
-- **Overview**: Migrated from single VM to Kubernetes and built monitoring system
+- **Overview**: Migrated from single VM to Kubernetes and built Grafana LGTM Stack monitoring system
 - **Duration**: 2025.04 ~ 2025.09 | Infrastructure owner
 - **[Problem]**
   - Single instance + Shell Script deployment → **SPOF**, manual intervention for recovery
-  - No monitoring, relied on customer support for incident detection (avg 1 hour)
+  - No monitoring, relied on customer support for incident detection (avg **1 hour**)
 - **[Key Contributions]**
-  - Compared GKE vs Self-Managed K8s, [**proposed and built GKE adoption**]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
-  - Removed Spring Cloud Eureka/Gateway dependencies → **Kubernetes native transition**
-  - Built GitHub Actions + ArgoCD **CI/CD pipeline**
-  - Designed and built Grafana LGTM Stack [**monitoring system**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}) (sidecar pattern)
-  - Some services [**on-premises → AWS cloud zero-downtime migration**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
+  - [**Proposed and built GKE adoption**]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) – chose Managed K8s to **minimize operational burden** without dedicated DevOps
+  - Discovered **hidden legacy configs** during migration (hardcoded SQS URLs, undocumented firewall rules) → environment variable separation, Cloud NAT adoption
+  - [**Selected Grafana LGTM Stack**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}) – **cost-effective** alternative ($12~37/month) vs ELK ($92~200/month)
+  - Built GitHub Actions + ArgoCD CI/CD → [**migrated to Jenkins on K8s**]({{< relref "/blog/infrastructure/github-actions-to-jenkins" >}}) due to **Self-hosted Runner limitations**
+  - Some services [**on-premises → AWS zero-downtime migration**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}}) – chose **AWS DMS CDC** for real-time sync over dual-write/batch sync
 - **[Results]**
   - Incident detection: 1hr → **1min (98% faster)**
   - Rollback time: 12min → **2min (83% faster)**
+  - Deployment time: 15min → **5min (67% faster)**
   - **Zero-downtime deployment** and **auto-scaling** achieved
-- **Tech**: `Kubernetes`, `GKE`, `ArgoCD`, `GitHub Actions`, `Grafana`, `Loki`, `Tempo`, `Prometheus`
+- **Tech**: `Kubernetes`, `GKE`, `ArgoCD`, `Jenkins`, `Grafana`, `Loki`, `Tempo`, `Prometheus`
 {{% /details %}}
 
 - #### **[Natural Language Location-based Property Recommendation System](https://bootalk.co.kr/ai/chat) Design & Implementation**
@@ -121,24 +119,22 @@ I completed our MSA migration with zero downtime, and reduced incident detection
 **Tech Stack**: `Java` `Spring Boot` `Spring Batch` `JPA` `Redis` `MySQL` `Kubernetes`
 {{< /callout >}}
 
-- #### **Back-office Server Performance Optimization**
+- #### **Back-office Server Performance Optimization & Troubleshooting**
   SQL tuning and caching, **API response 87% faster** (10.3s → 1.3s)
 {{% details title="**See Details**" %}}
-- **Overview**: Migrated PHP legacy back-office to Spring with performance improvements
+- **Overview**: Migrated PHP legacy back-office to Spring with performance improvements and incident response
 - **Duration**: 2024.04 ~ 2025.03 | 2~6-member team, performance optimization & troubleshooting
 - **[Problem]**
-  - [**HikariCP Deadlock**]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}}) due to JPA + MyBatis mix
-  - [**DB Replication lag**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}}) causing data inconsistency
-  - N+1, missing indexes causing server load
+  - JPA + MyBatis mix + OSIV enabled → **2 connections held per request** → HikariCP Deadlock
+  - **Replication lag** when reading from Slave immediately after Master write → data inconsistency → increased user inquiries
 - **[Key Contributions]**
-  - Unified to JPA to [**resolve HikariCP Deadlock**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
-  - AbstractRoutingDataSource + AOP for **dynamic DataSource routing**
-  - Redis caching for [**external API optimization**]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), covering index for **query performance**
-  - Introduced Git flow for [**improved collaboration process**]({{< relref "/blog/culture/git-flow-introduction" >}})
+  - [**Resolved HikariCP Deadlock**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}}) – analyzed root cause, unified to JPA for sequential connection usage
+  - [**Resolved Replication lag**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}}) – staged approach: @Transactional → AbstractRoutingDataSource + AOP for **consistency/performance tradeoff** control
+  - [**External API Redis caching**]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}) – leveraged existing infra, cache hit **57ms (90x faster)**
+  - [**Proposed Git Flow adoption**]({{< relref "/blog/culture/git-flow-introduction" >}}) – visualized cherry-pick conflict cases to convince team, introduced Pn rule code review
 - **[Results]**
-  - API response: 10.3s → **1.3s (87% faster)**
-  - Cached API: 5.1s → **1.3s (75% faster)**
-  - Resolved HikariCP Deadlock and Replication lag
+  - API response: 10.3s → **1.3s (87% faster)**, cached API: 5.1s → **1.3s (75% faster)**
+  - HikariCP Deadlock and Replication lag **fully resolved**
 - **Tech**: `Spring Boot`, `Java 11`, `JPA`, `Redis`, `MySQL`
 {{% /details %}}
 
@@ -163,19 +159,18 @@ I completed our MSA migration with zero downtime, and reduced incident detection
 - #### **Spring Batch Performance Optimization**
   Chunk/Partitioning, **batch processing 64% faster** (13min → 5min)
 {{% details title="**See Details**" %}}
-- **Overview**: Migrated PHP/Crontab batch to Spring Batch with [**optimization**]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}})
+- **Overview**: Migrated PHP/Crontab batch to Spring Batch with optimization
 - **Duration**: 2024.05 ~ 2025.03 | 4~6-member team, batch system migration & optimization design
 - **[Problem]**
-  - [**Metadata Table Deadlock**]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}}) on concurrent Job execution
-  - Tasklet causing performance and consistency issues with large data
+  - **Metadata Table Deadlock** on concurrent Job execution – SELECT shared lock → INSERT exclusive lock transition caused deadlock
+  - Tasklet with entire job in single transaction → **MVCC snapshot missed intermediate deposit data**
 - **[Key Contributions]**
-  - Resolved Deadlock by changing Isolation Level
-  - Migrated Tasklet → **Chunk + Partitioning**
-  - **Documented and shared** solution internally
+  - [**Resolved Deadlock**]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}}) – compared 4 approaches (prevent concurrent execution, change isolation, DAO override, 5.0 upgrade), **changed Isolation Level via Bean config**
+  - [**Chunk + 10 partition parallel processing**]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) – tested thread pool sizes, applied optimal value, **documented and shared internally**
 - **[Results]**
   - Batch processing: 13.3min → **4.8min (64% faster)**
-  - Transaction lock hold: 22min → **0.01s** (99.9% fewer consistency issues with Chunk commits)
-- **Tech**: `Spring Batch`, `Java 11`, `JPA`
+  - Transaction lock hold: 22min → **0.01s** (consistency issues **99.9% reduced** with Chunk commits)
+- **Tech**: `Spring Batch`, `Java 11`, `JPA`, `QueryDSL`
 {{% /details %}}
 
 ## **Side Project**

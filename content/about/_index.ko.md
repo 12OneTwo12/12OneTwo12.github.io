@@ -43,54 +43,52 @@ MSA 전환을 서비스 중단 없이 완료했고, 장애 인지 시간을 1시
 ## **Work Experience**
 
 ### **부톡㈜**
-> AI 기반 부동산 중개 플랫폼 <br>
+> AI 기반 부동산 중개 플랫폼 (누적 회원 21만, 중개 매칭 5만 건) <br>
 >*2025.03 ~ Present ({{< work-duration start="2025-03-01" >}})* | Back-end Developer (개발팀 4명)
 
 {{< callout type="info" icon="code" >}}
 **주요 기술**: `Kotlin` `Spring Cloud` `Kubernetes` `ArgoCD` `Grafana LGTM Stack` `Redis` `MySQL`
 {{< /callout >}}
 
-- #### **모놀리식 → MSA 전환 설계 및 구현**
-  강결합 도메인 분리, **무중단 전환 완료**
+- #### **모놀리식 → MSA 전환 아키텍처 설계 및 구현**
+  강결합 도메인 분리, **무중단 전환 완료**, 공통 로직 수정 **16개 PR → 1개 PR**
 {{% details title="**자세히 보기**" %}}
 - **개요**: Java Servlet 기반 모놀리식을 Kotlin/Spring Cloud MSA로 무중단 전환
 - **기간**: 2025.04 ~ 2025.11 | 3명 팀, 총 18개 서비스 중 5개 설계 및 구현 담당 (부동산 매물·중개사-사용자 매칭·실거래가·유저·알림)
 - **[문제]**
-  - 핵심 도메인(매물, 중개사-사용자 매칭)의 강결합으로 기존 점진적 전환 전략 적용 불가
-  - 도메인별 개별 분리 시 데이터 불일치 및 비즈니스 로직 꼬임 위험
-  - 공통 코드가 서비스별 개별 코드베이스에 중복 관리되어 버전 불일치 및 유지보수 부담
+  - 핵심 도메인(매물, 중개사-사용자 매칭)의 **강결합**으로 점진적 전환 전략 적용 불가
+  - 공통 코드가 **16개 레포에 분산** → 동일 수정에 **16개 PR 필요**, 버전 불일치
 - **[주요 기여]**
-  - 강결합 도메인을 하나의 단위로 묶어 동시 분리하는 [**부분적 빅뱅 전략 설계**]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
+  - 초기 점진적 전환 시도 실패 후 [**부분적 빅뱅 전략 설계**]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}}) – 강결합 도메인 동시 분리로 전환
   - 과도기 **데이터 정합성 보장**을 위한 Dual Write + 검증 배치 설계
   - 헥사고날 아키텍처 + CQRS 패턴 적용으로 **도메인 로직의 기술 의존성 제거**
-  - FeignClient 동기 통신, AWS SQS **이벤트 기반 통신 구축**
-  - [**멀티모듈 구조 설계**]({{< relref "/blog/architecture/msa-to-multi-module" >}})로 **공통 의존성 중앙 관리** 및 중복 코드 제거
+  - [**멀티모듈 구조 설계**]({{< relref "/blog/architecture/msa-to-multi-module" >}}) – 초기 Common 비대화 문제 발생 후 **Type/Enum/Util만 공통화**, 인프라 코드는 별도 모듈로 분리
 - **[성과]**
-  - **무중단** MSA 전환 완료
-  - 헥사고날 아키텍처 적용으로 **도메인 독립 배포 체계 구축**
-  - 멀티모듈 전환으로 **공통 코드 중복 제거** 및 의존성 버전 일원화
+  - **무중단** MSA 전환 완료, 헥사고날 아키텍처로 **도메인 독립 배포 체계** 구축
+  - 공통 로직 수정: 16개 PR → **1개 PR**, 빌드 시간: 27분 → **8분**
 - **기술**: `Kotlin`, `Spring Cloud`, `Feign Client`, `CQRS`, `Hexagonal Architecture`, `AWS SQS`
 {{% /details %}}
 
 - #### **Kubernetes 인프라 및 모니터링 시스템 구축**
-  모니터링 부재 환경에서 장애 인지 시간 **98% 단축** (1시간 → 1분), 롤백 시간 **83% 단축**
+  모니터링 부재 환경에서 장애 인지 시간 **98% 단축** (1시간 → 1분), 배포 시간 **67% 단축**
 {{% details title="**자세히 보기**" %}}
-- **개요**: 단일 VM에서 Kubernetes로 전환 및 모니터링 시스템 구축
+- **개요**: 단일 VM에서 Kubernetes로 전환 및 Grafana LGTM Stack 모니터링 시스템 구축
 - **기간**: 2025.04 ~ 2025.09 | 인프라 영역 전담
 - **[문제]**
   - 단일 인스턴스 + Shell Script 배포 → **SPOF**, 장애 복구 시 개발자 수동 개입 필수
-  - 모니터링 부재로 장애 인식을 CS에만 의존 (평균 1시간 소요)
+  - 모니터링 부재로 장애 인식을 CS에만 의존 (평균 **1시간** 소요)
 - **[주요 기여]**
-  - GKE vs Self-Managed K8s 비교 후 [**GKE 도입 제안 및 구축**]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
-  - Spring Cloud Eureka/Gateway 종속성 제거 → **Kubernetes 네이티브 전환**
-  - GitHub Actions + ArgoCD 기반 **CI/CD 파이프라인 구축**
-  - Grafana LGTM Stack [**모니터링 시스템 설계 및 구축**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}) (사이드카 패턴 활용)
-  - 일부 서비스 [**온프레미스 → AWS 클라우드 무중단 마이그레이션**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}})
+  - [**GKE 도입 제안 및 구축**]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}) – 전문 DevOps 부재 상황에서 **운영 부담 최소화** 위해 Managed K8s 선택
+  - 마이그레이션 중 SQS URL 하드코딩, 미문서화 방화벽 등 **레거시 숨은 설정 발견** → 환경변수 분리, Cloud NAT 도입
+  - [**Grafana LGTM Stack 선택**]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}) – ELK($92~200/월) 대비 **비용 효율적**($12~37/월) 대안 도입
+  - GitHub Actions + ArgoCD 기반 CI/CD 구축 → **Self-hosted Runner 한계**로 [**Jenkins on K8s 전환**]({{< relref "/blog/infrastructure/github-actions-to-jenkins" >}})
+  - 일부 서비스 [**온프레미스 → AWS 무중단 마이그레이션**]({{< relref "/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" >}}) – 이중 쓰기/배치 동기화 대비 **실시간 동기화 위해 AWS DMS CDC** 선택
 - **[성과]**
   - 장애 인지 시간: 1시간 → **1분 (98% 단축)**
   - 롤백 시간: 12분 → **2분 (83% 단축)**
+  - 배포 시간: 15분 → **5분 (67% 단축)**
   - **무중단 배포** 체계 및 **자동 스케일링** 확보
-- **기술**: `Kubernetes`, `GKE`, `ArgoCD`, `GitHub Actions`, `Grafana`, `Loki`, `Tempo`, `Prometheus`
+- **기술**: `Kubernetes`, `GKE`, `ArgoCD`, `Jenkins`, `Grafana`, `Loki`, `Tempo`, `Prometheus`
 {{% /details %}}
 
 - #### **[자연어 위치 검색 기반 매물 추천 시스템](https://bootalk.co.kr/ai/chat) 설계·구현**
@@ -121,61 +119,57 @@ MSA 전환을 서비스 중단 없이 완료했고, 장애 인지 시간을 1시
 **주요 기술**: `Java` `Spring Boot` `Spring Batch` `JPA` `Redis` `MySQL` `Kubernetes`
 {{< /callout >}}
 
-- #### **백오피스 서버 성능 최적화**
+- #### **백오피스 서버 성능 최적화 및 트러블슈팅**
   SQL 튜닝 및 캐싱으로 **API 응답속도 87% 개선** (10.3초 → 1.3초)
 {{% details title="**자세히 보기**" %}}
-- **개요**: PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선
+- **개요**: PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선 및 장애 대응
 - **기간**: 2024.04 ~ 2025.03 | 2~6명 팀, 성능 최적화 및 트러블슈팅 참여
 - **[문제]**
-  - JPA + MyBatis 혼용으로 [**HikariCP Deadlock** 발생]({{< relref "/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" >}})
-  - [**DB Replication 복제지연**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}})으로 데이터 불일치
-  - N+1, 인덱스 미활용으로 서버 부하 증가
+  - JPA + MyBatis 혼용 + OSIV 활성화로 **한 요청에서 2개 Connection 점유** → HikariCP Deadlock
+  - Master 저장 후 즉시 Slave 조회 시 **Replication 지연으로 데이터 불일치** → 사용자 문의 증가
 - **[주요 기여]**
-  - JPA 일원화로 [**HikariCP Deadlock 해결**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}})
-  - AbstractRoutingDataSource + AOP로 **동적 DataSource 분리**
-  - Redis 캐싱으로 [**외부 API 성능 최적화**]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}), 커버링 인덱스로 **쿼리 성능 개선**
-  - Git flow 도입으로 [**협업 프로세스 개선**]({{< relref "/blog/culture/git-flow-introduction" >}})
+  - [**HikariCP Deadlock 해결**]({{< relref "/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" >}}) – 원인 분석 후 JPA 일원화로 Connection 순차 사용 유도
+  - [**Replication 지연 해결**]({{< relref "/blog/backend/troubleshooting/db-replication-lag" >}}) – 단계적 접근: @Transactional → AbstractRoutingDataSource + AOP로 **일관성/성능 트레이드오프** 조절
+  - [**외부 API Redis 캐싱**]({{< relref "/blog/backend/performance/look-aside-cache-api-perf" >}}) – 기존 인프라 활용, 캐시 히트 시 **57ms (90배 향상)**
+  - [**Git Flow 도입 제안**]({{< relref "/blog/culture/git-flow-introduction" >}}) – Cherry-pick 충돌 사례 시각화로 팀 설득, Pn룰 코드리뷰 도입
 - **[성과]**
-  - API 응답속도: 10.3초 → **1.3초 (87% 개선)**
-  - 캐싱 적용 API: 5.1초 → **1.3초 (75% 개선)**
-  - HikariCP Deadlock 및 Replication 지연 문제 해결
+  - API 응답속도: 10.3초 → **1.3초 (87% 개선)**, 캐싱 적용 API: 5.1초 → **1.3초 (75% 개선)**
+  - HikariCP Deadlock 및 Replication 지연 문제 **완전 해결**
 - **기술**: `Spring Boot`, `Java 11`, `JPA`, `Redis`, `MySQL`
 {{% /details %}}
 
 - #### **서비스 인프라 운영 및 유지보수**
-  DevOps 공백 기간 인프라 전담, **Redis Session Clustering으로 세션 유실 문제 해결**
+  DevOps 공백 기간(6개월) 인프라 전담, **Redis Session Clustering으로 세션 유실 문제 해결**
 {{% details title="**자세히 보기**" %}}
-- **개요**: 클라우드 기반 서버 인프라 운영 및 유지보수
+- **개요**: DevOps 공백 기간 클라우드 기반 서버 인프라 운영 전담
 - **기간**: 2023.12 ~ 2024.09 | 인프라 운영 전담
 - **[문제]**
   - 기존 DevOps 퇴사로 **인프라 운영 공백** 발생
   - K8s Ingress Sticky Session 설정으로 앱 재기동 시 **세션 유실** 발생
 - **[주요 기여]**
-  - 새로운 DevOps 입사 전까지 **인프라 운영 전담**
-  - 19개 인스턴스, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB **운영 및 유지보수**
+  - 새로운 DevOps 입사 전까지 **인프라 운영 전담** (6개월)
+  - **19개 인스턴스**, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB 운영 및 유지보수
   - **Redis Session Clustering** 도입으로 세션 유실 문제 해결
 - **[성과]**
-  - 운영 공백 기간 **안정적 인프라 유지**
-  - 세션 유실 문제 해결로 **사용자 경험 개선**
+  - 운영 공백 기간 **안정적 인프라 유지**, 세션 유실 문제 해결로 **사용자 경험 개선**
 - **기술**: `Kubernetes`, `Jenkins`, `ArgoCD`, `ELK`, `Prometheus`, `Redis`, `MySQL`
 {{% /details %}}
 
 - #### **Spring Batch 성능 최적화**
   Chunk/Partitioning 도입으로 **배치 처리 시간 64% 단축** (13분 → 5분)
 {{% details title="**자세히 보기**" %}}
-- **개요**: PHP/Crontab 기반 배치를 Spring Batch로 전환 및 [**성능 개선**]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}})
+- **개요**: PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선
 - **기간**: 2024.05 ~ 2025.03 | 4~6명 팀, 배치 시스템 전환 및 성능 최적화 설계 참여
 - **[문제]**
-  - Job 동시 실행 시 [**Metadata Table Deadlock 발생**]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}})
-  - Tasklet 방식으로 대량 데이터 처리 시 성능 저하 및 정합성 문제
+  - Job 동시 실행 시 **Metadata Table Deadlock** – SELECT 공유락 → INSERT 배타락 전환 시 교착
+  - Tasklet 방식 전체 작업이 하나의 트랜잭션 → **MVCC 스냅샷으로 중간 입금 데이터 누락**
 - **[주요 기여]**
-  - Isolation Level 변경으로 Deadlock 해결
-  - Tasklet → **Chunk + Partitioning** 전환으로 성능 최적화
-  - 해결 사례 **사내 문서화 및 공유**
+  - [**Deadlock 해결**]({{< relref "/blog/backend/troubleshooting/spring-batch-job-deadlock" >}}) – 4가지 방법(동시 실행 금지, Isolation 변경, DAO Override, 5.0 업그레이드) 비교 후 **Bean 설정으로 Isolation Level 변경**
+  - [**Chunk + 10개 파티션 병렬 처리**]({{< relref "/blog/backend/performance/spring-batch-tasklet-to-chunk" >}}) – 스레드 풀 크기 테스트 후 최적값 적용, **사내 문서화 및 공유**
 - **[성과]**
   - 배치 처리 시간: 13.3분 → **4.8분 (64% 단축)**
-  - 트랜잭션 락 점유: 22분 → **0.01초** (Chunk 단위 커밋으로 정합성 문제 99.9% 감소)
-- **기술**: `Spring Batch`, `Java 11`, `JPA`
+  - 트랜잭션 락 점유: 22분 → **0.01초** (Chunk 단위 커밋으로 정합성 문제 **99.9% 감소**)
+- **기술**: `Spring Batch`, `Java 11`, `JPA`, `QueryDSL`
 {{% /details %}}
 
 ## **Side Project**
