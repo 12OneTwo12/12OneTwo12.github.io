@@ -251,10 +251,18 @@
         }
 
         .project-summary {
+            display: flex;
+            justify-content: space-between;
             font-size: 8pt;
             color: #555;
             margin-bottom: 3px;
             margin-left: 12px;
+        }
+
+        .project-role {
+            color: #999;
+            flex-shrink: 0;
+            margin-left: 10px;
         }
 
         .project-content {
@@ -498,9 +506,9 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">모놀리식 → MSA 전환 아키텍처 설계 및 구현</span>
-                        <span class="project-period">2025.04 – 2025.11 · 3명 팀 · 총 18개 서비스 중 5개 설계 및 구현 담당</span>
+                        <span class="project-period">2025.04 – 2025.11 · 3명 팀</span>
                     </div>
-                    <div class="project-summary">Java Servlet 기반 모놀리식을 Kotlin/Spring Cloud MSA로 무중단 전환</div>
+                    <div class="project-summary"><span>Java Servlet 기반 모놀리식을 Kotlin/Spring Cloud MSA로 무중단 전환</span><span class="project-role">총 18개 서비스 중 5개 설계 및 구현 담당</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -525,9 +533,9 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">Kubernetes 인프라 및 모니터링 시스템 구축</span>
-                        <span class="project-period">2025.04 – 2025.09 · 1명 · 인프라 설계/구축 전담</span>
+                        <span class="project-period">2025.04 – 2025.09 · 1명</span>
                     </div>
-                    <div class="project-summary">단일 VM에서 Kubernetes로 전환 및 Grafana LGTM Stack 모니터링 시스템 구축</div>
+                    <div class="project-summary"><span>단일 VM에서 Kubernetes로 전환 및 Grafana LGTM Stack 모니터링 시스템 구축</span><span class="project-role">인프라 설계/구축 전담</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -554,9 +562,9 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">자연어 위치 검색 기반 AI 매물 추천 시스템 (<a href="https://bootalk.co.kr/ai/chat" style="color: #0066cc;">서비스</a>)</span>
-                        <span class="project-period">2025.08 – 2025.11 · 3명 팀 · 백엔드 전담</span>
+                        <span class="project-period">2025.08 – 2025.11 · 3명 팀</span>
                     </div>
-                    <div class="project-summary">RAG + Elasticsearch Geo-search로 자연어 위치 검색 매물 추천 기능 개발</div>
+                    <div class="project-summary"><span>RAG + Elasticsearch Geo-search로 자연어 위치 검색 매물 추천 기능 개발</span><span class="project-role">백엔드 전담</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -594,9 +602,9 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">백오피스 서버 성능 최적화 및 트러블슈팅</span>
-                        <span class="project-period">2024.04 – 2025.03 · 2~6명 팀 · 성능 최적화 및 트러블슈팅 담당</span>
+                        <span class="project-period">2024.04 – 2025.03 · 2~6명 팀</span>
                     </div>
-                    <div class="project-summary">PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선 및 장애 대응</div>
+                    <div class="project-summary"><span>PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선 및 장애 대응</span><span class="project-role">성능 최적화 및 트러블슈팅 담당</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -621,9 +629,9 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">서비스 인프라 운영 및 유지보수</span>
-                        <span class="project-period">2023.12 – 2024.09 · 1명 · 인프라 운영 전담</span>
+                        <span class="project-period">2023.12 – 2024.09 · 1명</span>
                     </div>
-                    <div class="project-summary">DevOps 공백 기간 클라우드 기반 서버 인프라 운영 전담</div>
+                    <div class="project-summary"><span>DevOps 공백 기간 클라우드 기반 서버 인프라 운영</span><span class="project-role">인프라 운영 전담</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -647,9 +655,9 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">Spring Batch 성능 최적화</span>
-                        <span class="project-period">2024.05 – 2025.03 · 4~6명 팀 · 배치 시스템 전환 및 성능 최적화 설계 담당</span>
+                        <span class="project-period">2024.05 – 2025.03 · 4~6명 팀</span>
                     </div>
-                    <div class="project-summary">PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선</div>
+                    <div class="project-summary"><span>PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선</span><span class="project-role">배치 시스템 전환 및 성능 최적화 설계 담당</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
