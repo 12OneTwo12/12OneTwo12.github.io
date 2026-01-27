@@ -247,9 +247,9 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">모놀리식 → MSA 전환 아키텍처 설계 및 구현</span>
-                        <span class="project-period">2025.04 – 2025.11 · 3명 팀 (아키텍처 설계 리드)</span>
+                        <span class="project-period">2025.04 – 2025.11 · 3명 팀 · 총 18개 서비스 중 5개 설계 및 구현 담당</span>
                     </div>
-                    <div class="project-summary">Java Servlet 기반 모놀리식을 Kotlin/Spring Cloud MSA로 무중단 전환 (총 18개 서비스 중 5개 담당)</div>
+                    <div class="project-summary">Java Servlet 기반 모놀리식을 Kotlin/Spring Cloud MSA로 무중단 전환</div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -293,13 +293,14 @@
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s" target="_blank">GKE 도입 제안 및 구축</a> – 전문 DevOps 부재 상황에서 <strong>운영 부담 최소화</strong> 위해 Managed K8s 선택</li>
                             <li>마이그레이션 중 SQS URL 하드코딩, 미문서화 방화벽 등 <strong>레거시 숨은 설정 발견 → 환경변수 분리, Cloud NAT 도입</strong></li>
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system" target="_blank">Grafana LGTM Stack 선택</a> – ELK($92~200/월) 대비 <strong>비용 효율적</strong>($12~37/월) 대안 도입</li>
-                            <li>GitHub Actions + ArgoCD 기반 CI/CD 구축 → 사용량 한계로 <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins" target="_blank"><strong>Jenkins on K8s</strong> 전환</a></li>
-                            <li>일부 서비스 <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" target="_blank">온프레미스 → AWS 무중단 마이그레이션</a> (AWS DMS CDC 활용)</li>
+                            <li>GitHub Actions + ArgoCD 기반 CI/CD 구축 → <strong>Self-hosted Runner 한계</strong>로 <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins" target="_blank"><strong>Jenkins on K8s</strong> 전환</a></li>
+                            <li>일부 서비스 <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" target="_blank">온프레미스 → AWS 무중단 마이그레이션</a> (이중 쓰기/배치 동기화 대비 <strong>실시간 동기화 위해 AWS DMS CDC</strong> 선택)</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li>장애 인지 시간: 1시간 → <strong>1분 (98% 단축)</strong>, 롤백 시간: 12분 → <strong>2분 (83% 단축)</strong></li>
+                            <li>장애 인지 시간: 1시간 → <strong>1분 (98% 단축)</strong></li>
+                            <li>롤백 시간: 12분 → <strong>2분 (83% 단축)</strong></li>
                             <li>배포 시간: 15분 → <strong>5분 (67% 단축)</strong></li>
                             <li><strong>무중단 배포</strong> 체계 및 <strong>자동 스케일링</strong> 확보</li>
                         </ul>
