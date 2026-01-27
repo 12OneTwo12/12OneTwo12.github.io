@@ -363,15 +363,15 @@
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
-                            <li>JPA + MyBatis 혼용으로 <a href="https://jeongil.dev/ko/blog/reflection/hikaricp-deadlock-with-jpa-mybatis-memoir" target="_blank">HikariCP Deadlock</a> 발생</li>
-                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag" target="_blank">DB Replication 복제지연</a>으로 데이터 불일치</li>
+                            <li>JPA + MyBatis 혼용으로 <strong>HikariCP Deadlock</strong> 발생</li>
+                            <li><strong>DB Replication 복제지연</strong>으로 데이터 불일치</li>
                             <li>N+1, 인덱스 미활용으로 서버 부하 증가</li>
                         </ul>
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li>JPA 일원화로 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" target="_blank">HikariCP Deadlock 해결</a></li>
-                            <li>AbstractRoutingDataSource + AOP로 <strong>동적 DataSource 분리</strong></li>
+                            <li>AbstractRoutingDataSource + AOP로 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag" target="_blank">동적 DataSource 분리</a></li>
                             <li>Redis 캐싱으로 <a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf" target="_blank">외부 API 성능 최적화</a>, 커버링 인덱스로 쿼리 성능 개선</li>
                             <li>Git flow 도입으로 <a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction" target="_blank">협업 프로세스 개선</a></li>
                         </ul>
@@ -423,18 +423,18 @@
                         <span class="project-title">Spring Batch 성능 최적화</span>
                         <span class="project-period">2024.05 – 2025.03 · 4~6명 팀</span>
                     </div>
-                    <div class="project-summary">PHP/Crontab 기반 배치를 Spring Batch로 전환 및 <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk" target="_blank" style="color: #0066cc;">성능 개선</a></div>
+                    <div class="project-summary">PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선</div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
-                            <li>Job 동시 실행 시 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock" target="_blank">Metadata Table Deadlock</a> 발생</li>
+                            <li>Job 동시 실행 시 <strong>Metadata Table Deadlock</strong> 발생</li>
                             <li>Tasklet 방식으로 대량 데이터 처리 시 <strong>성능 저하 및 정합성 문제</strong></li>
                         </ul>
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li>Isolation Level 변경으로 <strong>Deadlock 해결</strong></li>
-                            <li>Tasklet → <strong>Chunk + Partitioning</strong> 전환으로 성능 최적화</li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock" target="_blank">Isolation Level 변경으로 Deadlock 해결</a></li>
+                            <li>Tasklet → <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk" target="_blank">Chunk + Partitioning 전환으로 성능 최적화</a></li>
                             <li>해결 사례 <strong>사내 문서화 및 공유</strong></li>
                         </ul>
 
