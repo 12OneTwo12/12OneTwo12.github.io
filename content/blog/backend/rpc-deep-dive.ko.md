@@ -6,7 +6,7 @@ tags:
   - "json-rpc"
   - "protocol"
   - "backend"
-date: '2026-01-30'
+date: '2026-01-27'
 ---
 
 얼마 전 [MCP(Model Context Protocol) 글]({{< relref "/blog/trends/mcp-deep-dive" >}})을 쓰면서 JSON-RPC를 다루게 되었습니다. 그런데 글을 쓰다 보니 스스로에게 질문이 생기더라구요.

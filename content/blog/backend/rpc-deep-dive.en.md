@@ -6,7 +6,7 @@ tags:
   - "json-rpc"
   - "protocol"
   - "backend"
-date: '2026-01-30'
+date: '2026-01-27'
 ---
 
 A while ago, while writing about [MCP (Model Context Protocol)]({{< relref "/blog/trends/mcp-deep-dive" >}}), I found myself dealing with JSON-RPC. As I was writing, a question popped into my head.
