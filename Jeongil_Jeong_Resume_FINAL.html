@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeongil Jeong - Resume</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Calibri, 'Segoe UI', Arial, sans-serif;
+            background: #f0f0f0;
+            color: #000;
+            font-size: 11pt;
+            line-height: 1.2;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 20px auto;
+            background: white;
+            padding: 14mm 16mm;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        /* ============ HEADER ============ */
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 8px;
+        }
+
+        .name {
+            font-size: 22pt;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .contact {
+            font-size: 10pt;
+        }
+
+        .contact a {
+            color: #0000EE;
+            text-decoration: none;
+        }
+
+        .sep {
+            margin: 0 6px;
+            color: #666;
+        }
+
+        /* ============ SECTION ============ */
+        .section {
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 11pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 1px;
+            margin-bottom: 6px;
+        }
+
+        /* ============ EXPERIENCE ============ */
+        .entry {
+            margin-bottom: 8px;
+        }
+
+        .entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .entry-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .entry-company {
+            font-weight: bold;
+            font-size: 11pt;
+        }
+
+        .entry-location {
+            font-size: 10pt;
+        }
+
+        .entry-title {
+            font-style: italic;
+            font-size: 10.5pt;
+        }
+
+        .entry-date {
+            font-size: 10pt;
+        }
+
+        .entry-context {
+            font-size: 9.5pt;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .bullets {
+            padding-left: 16px;
+            margin: 2px 0 0 0;
+        }
+
+        .bullets li {
+            font-size: 10pt;
+            margin-bottom: 1px;
+            line-height: 1.25;
+        }
+
+        .bullets li:last-child {
+            margin-bottom: 0;
+        }
+
+        b {
+            font-weight: bold;
+        }
+
+        /* ============ SKILLS ============ */
+        .skills-line {
+            font-size: 10pt;
+            margin-bottom: 1px;
+        }
+
+        .skills-cat {
+            font-weight: bold;
+        }
+
+        /* ============ PROJECTS ============ */
+        .project-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .project-name {
+            font-weight: bold;
+            font-size: 10.5pt;
+        }
+
+        .project-tech {
+            font-style: italic;
+            font-weight: normal;
+            font-size: 10pt;
+        }
+
+        .project-date {
+            font-size: 10pt;
+        }
+
+        .project-bullets {
+            padding-left: 16px;
+            margin: 2px 0 0 0;
+        }
+
+        .project-bullets li {
+            font-size: 10pt;
+            margin-bottom: 1px;
+            line-height: 1.25;
+        }
+
+        /* ============ CERTS ============ */
+        .cert-line {
+            font-size: 10pt;
+            margin-bottom: 1px;
+        }
+
+        /* ============ EDUCATION ============ */
+        .edu-entry {
+            margin-bottom: 4px;
+        }
+
+        .edu-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .edu-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .edu-school {
+            font-weight: bold;
+            font-size: 10.5pt;
+        }
+
+        .edu-loc {
+            font-size: 10pt;
+        }
+
+        .edu-degree {
+            font-style: italic;
+            font-size: 10pt;
+        }
+
+        .edu-date {
+            font-size: 10pt;
+        }
+
+        a {
+            color: #0000EE;
+            text-decoration: none;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .page {
+                margin: 0;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="name">Jeongil Jeong</div>
+            <div class="contact">
+                <a href="mailto:jji042842@gmail.com">jji042842@gmail.com</a>
+                <span class="sep">|</span>
+                +82-10-9800-6069
+                <span class="sep">|</span>
+                South Korea (Open to Relocation)
+                <span class="sep">|</span>
+                <a href="https://github.com/12OneTwo12">GitHub</a>
+                <span class="sep">|</span>
+                <a href="https://jeongil.dev/en/blog">Blog</a>
+            </div>
+        </header>
+
+        <!-- EXPERIENCE -->
+        <section class="section">
+            <div class="section-title">Experience</div>
+
+            <!-- Bootalk -->
+            <div class="entry">
+                <div class="entry-row">
+                    <span class="entry-company">Bootalk, Inc.</span>
+                    <span class="entry-location">Seoul, South Korea</span>
+                </div>
+                <div class="entry-row">
+                    <span class="entry-title">Backend Engineer</span>
+                    <span class="entry-date">Mar 2025 – Present</span>
+                </div>
+                <div class="entry-context">AI-powered real estate platform with 210K users and 50K property matches</div>
+                <ul class="bullets">
+                    <li>Led <b>zero-downtime monolith-to-MSA migration</b> for 5 of 18 services using Kotlin, Spring Cloud, Hexagonal Architecture, and CQRS, reducing build time by <b>70% (27min → 8min)</b> and consolidating 16 repositories to 1 PR workflow</li>
+                    <li>Designed and deployed <b>GKE Kubernetes infrastructure single-handedly</b>, achieving <b>98% faster incident detection</b> (1hr → 1min) and <b>83% faster rollback</b> (12min → 2min) via GitOps CI/CD with ArgoCD and Jenkins</li>
+                    <li>Built <b>Grafana LGTM Stack</b> observability platform (Loki, Grafana, Tempo, Mimir), cutting monitoring costs by <b>80%</b> compared to ELK ($12-37/mo vs $92-200/mo)</li>
+                    <li>Developed <b>RAG + Elasticsearch</b> natural language property recommendation system with geo-search, enabling complex queries like "apartments within 10min walk from Gangnam Station"</li>
+                </ul>
+            </div>
+
+            <!-- HelloFintech -->
+            <div class="entry">
+                <div class="entry-row">
+                    <span class="entry-company">HelloFintech, Inc.</span>
+                    <span class="entry-location">Seoul, South Korea</span>
+                </div>
+                <div class="entry-row">
+                    <span class="entry-title">Backend Engineer</span>
+                    <span class="entry-date">Mar 2023 – Mar 2025</span>
+                </div>
+                <div class="entry-context">P2P lending fintech platform with $2.5B cumulative loan volume</div>
+                <ul class="bullets">
+                    <li>Improved <b>API response time by 87%</b> (10.3s → 1.3s) through SQL query optimization and Redis look-aside caching, achieving <b>90x latency reduction</b> on cache hits (5.1s → 57ms)</li>
+                    <li>Diagnosed and resolved <b>HikariCP connection pool deadlock</b> caused by JPA/MyBatis coexistence with OSIV enabled, eliminating recurring production incidents across 9 application servers</li>
+                    <li>Optimized <b>Spring Batch processing time by 64%</b> (13min → 5min) by converting Tasklet to Chunk-based processing with 10-partition parallel execution</li>
+                    <li>Resolved <b>MySQL replication lag</b> data inconsistency using AbstractRoutingDataSource + AOP for dynamic read/write splitting</li>
+                    <li>Solely managed production infrastructure (<b>19 instances, 10 nodes, 9 WAS, 2 DB clusters</b>) for 6 months during DevOps vacancy; implemented Redis Session Clustering</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section class="section">
+            <div class="section-title">Skills</div>
+            <div class="skills-line"><span class="skills-cat">Languages:</span> Java, Kotlin</div>
+            <div class="skills-line"><span class="skills-cat">Backend:</span> Spring Boot, Spring Cloud, Spring Batch, Spring WebFlux, JPA/Hibernate, MyBatis, QueryDSL</div>
+            <div class="skills-line"><span class="skills-cat">Infrastructure:</span> Kubernetes, Docker, Jenkins, ArgoCD, Grafana, Prometheus, Loki, Tempo</div>
+            <div class="skills-line"><span class="skills-cat">Database:</span> MySQL, Redis, Elasticsearch</div>
+            <div class="skills-line"><span class="skills-cat">Cloud:</span> GCP (GKE, Cloud NAT), AWS (EC2, SQS, DMS)</div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="section">
+            <div class="section-title">Projects</div>
+            <div class="entry">
+                <div class="project-row">
+                    <span><span class="project-name">Upvy</span> <span class="project-tech">| Kotlin, Spring WebFlux, R2DBC, React Native, Vertex AI</span></span>
+                    <span class="project-date">Oct 2025 – Present</span>
+                </div>
+                <ul class="project-bullets">
+                    <li>Solo-built educational short-form video platform live on <a href="https://apps.apple.com/app/upvy/id6756291696">App Store</a>; async backend with WebFlux + R2DBC, LLM + STT auto-editing pipeline</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- CERTIFICATIONS -->
+        <section class="section">
+            <div class="section-title">Certifications</div>
+            <div class="cert-line"><b>Certified Kubernetes Administrator (CKA)</b> – CNCF, Nov 2025</div>
+            <div class="cert-line"><b>AWS Certified Cloud Practitioner</b> – Amazon Web Services, Aug 2024</div>
+            <div class="cert-line"><b>Linux Master Level 2</b> – KAIT, Oct 2024</div>
+            <div class="cert-line"><b>SQL Developer (SQLD)</b> – Korea Data Agency, Dec 2022</div>
+        </section>
+
+        <!-- ADDITIONAL -->
+        <section class="section">
+            <div class="section-title">Additional</div>
+            <div class="cert-line"><b>Open Source:</b> Contributed to Spring Security documentation (<a href="https://github.com/spring-projects/spring-security/pull/16216">PR #16216</a>)</div>
+        </section>
+
+        <!-- EDUCATION -->
+        <section class="section">
+            <div class="section-title">Education</div>
+            <div class="edu-entry">
+                <div class="edu-row">
+                    <span class="edu-school">Korea National Open University</span>
+                    <span class="edu-loc">Seoul, South Korea</span>
+                </div>
+                <div class="edu-row">
+                    <span class="edu-degree">Bachelor of Science in Computer Science</span>
+                    <span class="edu-date">Mar 2025 – Present</span>
+                </div>
+            </div>
+            <div class="edu-entry">
+                <div class="edu-row">
+                    <span class="edu-school">Korean International School of Ho Chi Minh City</span>
+                    <span class="edu-loc">Ho Chi Minh City, Vietnam</span>
+                </div>
+                <div class="edu-row">
+                    <span class="edu-degree">High School Diploma</span>
+                    <span class="edu-date">Mar 2014 – Feb 2017</span>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
