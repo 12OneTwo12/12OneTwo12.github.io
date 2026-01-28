@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정정일 이력서</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+            background: #f0f0f0;
+            color: #222;
+            line-height: 1.4;
+            font-size: 8.5pt;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 20px auto;
+            background: white;
+            padding: 36px 44px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+            page-break-after: always;
+        }
+
+        /* ============ HEADER ============ */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #222;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .name {
+            font-size: 28pt;
+            font-weight: 700;
+            color: #111;
+            letter-spacing: -0.5px;
+        }
+
+        .title {
+            font-size: 11pt;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .header-links {
+            margin-top: 2px;
+            font-size: 8.5pt;
+        }
+
+        .header-links a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .header-links a:hover {
+            text-decoration: underline;
+        }
+
+        .header-right {
+            text-align: right;
+            font-size: 8.5pt;
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .header-right a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .header-right a:hover {
+            text-decoration: underline;
+        }
+
+        .photo-area {
+            width: 85px;
+            height: 110px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 8pt;
+            flex-shrink: 0;
+            margin-left: 24px;
+        }
+
+        /* ============ SECTION ============ */
+        .section {
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 9.5pt;
+            font-weight: 700;
+            color: #111;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .section-title.compact {
+            margin-bottom: 4px;
+        }
+
+        /* ============ PROFILE ============ */
+        .profile-text {
+            font-size: 8.5pt;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .profile-text strong {
+            color: #111;
+            font-weight: 600;
+        }
+
+        /* ============ SKILLS TABLE ============ */
+        .skills-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .skills-table tr {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .skills-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .skills-table td {
+            padding: 5px 0;
+            vertical-align: top;
+            font-size: 8pt;
+        }
+
+        .skills-table .cat {
+            width: 85px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .skills-table .content {
+            color: #333;
+        }
+
+        /* ============ EXPERIENCE ============ */
+        .exp-item {
+            margin-bottom: 12px;
+        }
+
+        .exp-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2px;
+        }
+
+        .exp-company {
+            font-size: 10pt;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .exp-period {
+            font-size: 8pt;
+            color: #888;
+        }
+
+        .exp-meta {
+            font-size: 8pt;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .exp-list {
+            padding-left: 14px;
+            margin: 0;
+        }
+
+        .exp-list li {
+            font-size: 8pt;
+            color: #333;
+            margin-bottom: 3px;
+            line-height: 1.5;
+        }
+
+        .exp-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .exp-list strong {
+            color: #111;
+            font-weight: 600;
+        }
+
+        /* ============ CERTIFICATIONS ============ */
+        .cert-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cert-table td {
+            padding: 4px 0;
+            font-size: 8pt;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .cert-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .cert-name {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .cert-org {
+            color: #666;
+            width: 150px;
+        }
+
+        .cert-date {
+            color: #888;
+            width: 70px;
+            text-align: right;
+        }
+
+        /* ============ EDUCATION ============ */
+        .edu-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .edu-table td {
+            padding: 4px 0;
+            font-size: 8pt;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .edu-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .edu-name {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .edu-status {
+            color: #666;
+            text-align: center;
+            width: 80px;
+        }
+
+        .edu-period {
+            color: #888;
+            width: 120px;
+            text-align: right;
+        }
+
+        /* ============ ADDITIONAL ============ */
+        .add-item {
+            display: flex;
+            margin-bottom: 4px;
+            font-size: 8pt;
+        }
+
+        .add-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .add-label {
+            width: 85px;
+            font-weight: 600;
+            color: #666;
+            flex-shrink: 0;
+        }
+
+        .add-content {
+            color: #333;
+        }
+
+        .add-content a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .add-content a:hover {
+            text-decoration: underline;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .page {
+                margin: 0;
+                box-shadow: none;
+                padding: 36px 44px;
+                height: 297mm;
+                overflow: hidden;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1 class="name">정정일</h1>
+                <div class="title">Backend Developer</div>
+                <div class="header-links">
+                    <p>jji042842@gmail.com · 010-9800-6069 · 1998.04.28</p>
+                </div>
+                <div class="header-links">
+                    <a href="https://github.com/12OneTwo12">github.com/12OneTwo12</a> · <a href="https://jeongil.dev/ko/blog">jeongil.dev/ko/blog</a>
+                </div>
+            </div>
+            <div class="photo-area">증명사진</div>
+        </header>
+
+        <!-- Profile -->
+        <section class="section">
+            <h2 class="section-title">Profile</h2>
+            <p class="profile-text">
+                <strong>"지금 우리 서비스에 가장 필요한 개선이 무엇인가?"</strong>를 고민하는 백엔드 개발자입니다. <br>
+                API 성능 최적화부터 MSA 전환, K8s 인프라 구축, 팀 개발문화 개선까지 <strong>필요하다면 제안하고, 협의하여 팀과 함께 만들어왔습니다.</strong> <br>
+                MSA 전환을 서비스 중단 없이 완료했고, <strong>API 응답속도 87% 개선</strong>(10.3초→1.3초), <strong>장애 인지 시간 98% 단축</strong>(1시간→1분)을 달성했습니다.
+            </p>
+        </section>
+
+        <!-- Skills -->
+        <section class="section">
+            <h2 class="section-title compact">Technical Skills</h2>
+            <table class="skills-table">
+                <tr>
+                    <td class="cat">Backend</td>
+                    <td class="content">Java, Kotlin, Spring Boot, Spring Cloud, Spring Batch, JPA</td>
+                </tr>
+                <tr>
+                    <td class="cat">Infrastructure</td>
+                    <td class="content">Kubernetes, Docker, Jenkins, ArgoCD, Grafana</td>
+                </tr>
+                <tr>
+                    <td class="cat">Database</td>
+                    <td class="content">MySQL, Redis, Elasticsearch</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Work Experience -->
+        <section class="section">
+            <h2 class="section-title">Work Experience</h2>
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <span class="exp-company">부톡㈜</span>
+                    <span class="exp-period">2025.03 – 현재</span>
+                </div>
+                <div class="exp-meta">AI 기반 부동산 중개 플랫폼 · Backend Developer · 개발팀 4명</div>
+                <ul class="exp-list">
+                    <li><strong>모놀리식→MSA 무중단 전환</strong> 설계·구현 (18개 중 5개 서비스 담당), 헥사고날 아키텍처 + CQRS 패턴 적용</li>
+                    <li><strong>GKE Kubernetes 인프라 전담 설계·구축</strong>, GitOps CI/CD 파이프라인으로 <strong>롤백 시간 83% 단축</strong> (12분→2분)</li>
+                    <li>Grafana LGTM Stack 모니터링 시스템 구축, <strong>장애 인지시간 98% 단축</strong> (1시간→1분)</li>
+                    <li>RAG + Elasticsearch 기반 <strong>자연어 위치 검색 매물추천 시스템</strong> 백엔드 전담 개발</li>
+                </ul>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <span class="exp-company">㈜헬로핀테크</span>
+                    <span class="exp-period">2023.03 – 2025.03 (2년)</span>
+                </div>
+                <div class="exp-meta">P2P 온라인투자연계 금융플랫폼 (누적대출 2.5조원) · Backend Developer · 개발팀 5~10명</div>
+                <ul class="exp-list">
+                    <li>백오피스 서버 성능 최적화, SQL 튜닝 및 Redis 캐싱으로 <strong>API 응답속도 87% 개선</strong> (10.3초→1.3초)</li>
+                    <li>JPA/MyBatis 혼용 환경 <strong>HikariCP Deadlock 원인 분석 및 해결</strong></li>
+                    <li><strong>Spring Batch 성능 최적화</strong>, Chunk + Partitioning 전환으로 <strong>배치 처리시간 64% 단축</strong> (13분→5분)</li>
+                    <li>DevOps 공백 6개월간 <strong>서비스 인프라 전담 운영</strong> (19개 인스턴스, 10개 노드), Redis Session Clustering 도입으로 세션 유실 해결</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Side Project -->
+        <section class="section" style="margin-top: 14px;">
+            <h2 class="section-title">Side Project</h2>
+            <div class="exp-item">
+                <div class="exp-header">
+                    <span><span class="exp-company" style="font-size: 9pt;">Upvy</span> – 교육용 숏폼 영상 플랫폼 앱 <span class="exp-meta" style="display: inline; margin: 0;">(1인 개발 · App Store 출시 및 운영중)</span></span>
+                    <span class="exp-period">2025.10 – 현재</span>
+                </div>
+                <ul class="exp-list">
+                    <li>Spring WebFlux + R2DBC 비동기 백엔드, <strong>LLM + BTT</strong> 기반 YouTube <strong>영상 자동 편집 파이프라인 구축</strong></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Certifications -->
+        <section class="section" style="margin-top: 12px;">
+            <h2 class="section-title compact">Certifications</h2>
+            <table class="cert-table">
+                <tr>
+                    <td class="cert-name">Certified Kubernetes Administrator (CKA)</td>
+                    <td class="cert-org">CNCF</td>
+                    <td class="cert-date">2025.11</td>
+                </tr>
+                <tr>
+                    <td class="cert-name">리눅스마스터 2급</td>
+                    <td class="cert-org">KAIT</td>
+                    <td class="cert-date">2024.10</td>
+                </tr>
+                <tr>
+                    <td class="cert-name">AWS Certified Cloud Practitioner</td>
+                    <td class="cert-org">Amazon Web Services</td>
+                    <td class="cert-date">2024.08</td>
+                </tr>
+                <tr>
+                    <td class="cert-name">SQL Developer (SQLD)</td>
+                    <td class="cert-org">한국데이터산업진흥원</td>
+                    <td class="cert-date">2022.12</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Education -->
+        <section class="section">
+            <h2 class="section-title compact">Education</h2>
+            <table class="edu-table">
+                <tr>
+                    <td class="edu-name">한국방송통신대학교 컴퓨터과학과</td>
+                    <td class="edu-status">재학중</td>
+                    <td class="edu-period">2025.03 – 현재</td>
+                </tr>
+                <tr>
+                    <td class="edu-name">국가평생교육진흥원(학점은행제) 컴퓨터공학</td>
+                    <td class="edu-status">학점 취득</td>
+                    <td class="edu-period">2022.11 – 2024.10</td>
+                </tr>
+                <tr>
+                    <td class="edu-name">호치민시 한국국제학교 고등학교</td>
+                    <td class="edu-status">졸업</td>
+                    <td class="edu-period">2014.03 – 2017.02</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Additional -->
+        <section class="section">
+            <h2 class="section-title">Additional</h2>
+            <div class="add-item">
+                <span class="add-label">Open Source</span>
+                <span class="add-content">Spring Security 문서 개선 기여 (PR#16216)</span>
+            </div>
+            <div class="add-item">
+                <span class="add-label">기술 스터디</span>
+                <span class="add-content">백엔드 아티클 스터디 (2023.08 – 진행중)</span>
+            </div>
+            <div class="add-item">
+                <span class="add-label">교육</span>
+                <span class="add-content">빅데이터 기반 지능형SW 및 MLOps 개발자 양성 과정 (2022.07 – 2022.12)</span>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
