@@ -176,7 +176,7 @@ I completed our MSA migration with zero downtime, and reduced incident detection
 ## **Side Project**
 
 #### **Upvy** - Educational Short-form Video Platform
-> *2025.10 ~ Present* | [App Store](https://apps.apple.com/app/upvy/id6756291696) | [GitHub](https://github.com/12OneTwo12/upvy)
+> *2025.10 ~ Present* | [App Store](https://apps.apple.com/app/upvy/id6756291696) | [Play Store](https://play.google.com/store/apps/details?id=com.upvy.app) | [GitHub](https://github.com/12OneTwo12/upvy)
 
 - **Overview**: Educational short-form platform that turns scroll time into learning time
 - **Tech**: `Kotlin` `Spring WebFlux` `R2DBC` `React Native` `Vertex AI`

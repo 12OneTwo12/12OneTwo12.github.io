@@ -175,7 +175,7 @@ MSA 전환을 서비스 중단 없이 완료했고, 장애 인지 시간을 1시
 ## **Side Project**
 
 #### **Upvy** - 교육용 숏폼 영상 플랫폼
-> *2025.10 ~ Present* | [App Store](https://apps.apple.com/app/upvy/id6756291696) | [GitHub](https://github.com/12OneTwo12/upvy)
+> *2025.10 ~ Present* | [App Store](https://apps.apple.com/app/upvy/id6756291696) | [Play Store](https://play.google.com/store/apps/details?id=com.upvy.app) | [GitHub](https://github.com/12OneTwo12/upvy)
 
 - **개요**: 스크롤 시간을 학습 시간으로 전환하는 교육용 숏폼 플랫폼
 - **기술**: `Kotlin` `Spring WebFlux` `R2DBC` `React Native` `Vertex AI`
