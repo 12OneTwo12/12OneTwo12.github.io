@@ -679,7 +679,7 @@ The question for developers is: **what happens to my job?**
 
 Higher-level strategic work requires fewer people. The number of people who design system architecture and make decisions is already limited at most companies. If only those people are needed, what happens to my job? I'm both excited and scared about what will happen.
 
-I hope I won't lose my job and things will flow in a positive direction.
+I hope I won't lose my job and things will flow in a positive direction. To make that happen, I'll need to keep learning and adapting so I don't fall behind.
 
 Thank you for reading this long post.
 
