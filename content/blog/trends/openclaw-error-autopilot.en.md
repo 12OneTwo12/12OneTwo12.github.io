@@ -367,8 +367,6 @@ My test message was sent by a "human," so it worked. The real alert from Grafana
 
 Checking the [Telegram Bot API official documentation](https://core.telegram.org/bots/api#available-types), this was an intentional security policy. It was designed to prevent infinite loops and spam between bots. A natural choice for security, but it threatened my plan.
 
----
-
 ## Finding Solutions: Real-time vs Polling
 
 With Telegram triggers blocked, I needed to find another way. I checked Slack and Discord, but they had similar restrictions. Slack's framework filters bot messages, and Discord restricts bot-to-bot communication. Switching messengers wasn't a fundamental solution.
@@ -523,8 +521,6 @@ When urgent error occurs in production:
 Works identically for both DEV/PROD environments, and 30-minute delay is sufficient for most cases. Urgent errors can be handled immediately via forward, and AI analysis runs in the background.
 
 **Whether I'm sleeping**, **in a meeting**, or **before arriving at work**, AI handles analysis and creates PRs.
-
----
 
 ## Automation Achieved
 
@@ -686,8 +682,6 @@ Higher-level strategic work requires fewer people. The number of people who desi
 I hope I won't lose my job and things will flow in a positive direction.
 
 Thank you for reading this long post.
-
----
 
 ## References
 
