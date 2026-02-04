@@ -128,7 +128,7 @@ When an alert came, I had to manually type the `/autopilot` command or say somet
 
 **The first of the six challenges, "error detection," wasn't automated.**
 
-It wasn't really automation. It was "semi"-automation. For complete automation, AI needed to detect errors on its own and start the process.
+It wasn't really automation. It was "semi"-automation. For automation, AI needed to detect errors on its own and start the process.
 
 ## Discovering OpenClaw: Notifications as Triggers
 
@@ -156,11 +156,11 @@ Web UI   ───┘         ▼
 
 Traditional agents required me to type commands for AI to respond. But OpenClaw **automatically responds when a message arrives**.
 
-You might have already noticed—this means **error alert → AI agent auto-analysis → PR creation** complete automation becomes possible.
+You might have already noticed—this means **error alert → AI agent auto-analysis → PR creation** automation becomes possible.
 
 ```mermaid
 flowchart TB
-    subgraph After["OpenClaw (Full Automation?)"]
+    subgraph After["OpenClaw (Automation)"]
         Alert2["Grafana Alert"] --> TG2["Telegram"]
         TG2 -->|"Auto Trigger"| AI2["AI Agent"]
         AI2 --> PR["PR Creation"]
@@ -545,7 +545,7 @@ Even if alerts come at 3 AM, by morning arrival:
 
 All six challenges defined earlier are now automated:
 
-| Challenge | MCP (Semi-Automation) | OpenClaw (Full Automation) |
+| Challenge | MCP (Semi-Automation) | OpenClaw (Automation) |
 |------|---------------|---------------------|
 | 1. Error Detection | ❌ Manual Trigger | ✅ Cron Job Auto Polling |
 | 2. Log/Trace Query | ✅ | ✅ |
@@ -667,19 +667,13 @@ What I felt through this project is that **AI is evolving from a "helping tool" 
 
 Previously, I asked AI questions and received answers. Now **I give AI tasks and receive results**—in a code-reviewable form (PR). I can feel the scope of what AI can do expanding.
 
-It's still limited to simple tasks, but **if this direction continues, how will developers' roles change?** It's both scary and exciting.
+To be honest, even while building this automation, I keep thinking: **What happens to junior developers like me if AI advances this far?**
 
-I dare to guess that developers' roles will increasingly move toward **higher-level and strategic work**.
+Right now, I'm using AI to boost my productivity, but couldn't companies decide that AI alone is sufficient? Since AI can write code, and only a handful of senior developers are needed for reviews and decision-making.
 
-Leaving direct coding to AI, developers will focus more on **reviewing work, automating, and making decisions**.
+It's scary, but I feel I have no choice but to ride this wave. Resisting AI feels like falling behind. That's why I'm actively trying to adopt it.
 
-Spending more time on system design and architecture, while repetitive tasks are handled by AI.
-
-The question for developers is: **what happens to my job?**
-
-Higher-level strategic work requires fewer people. The number of people who design system architecture and make decisions is already limited at most companies. If only those people are needed, what happens to my job? I'm both excited and scared about what will happen.
-
-I hope I won't lose my job and things will flow in a positive direction. To make that happen, I'll need to keep learning and adapting so I don't fall behind.
+I want to believe that the path to survival is not competing with AI, but becoming a developer who uses AI well.
 
 Thank you for reading this long post.
 
