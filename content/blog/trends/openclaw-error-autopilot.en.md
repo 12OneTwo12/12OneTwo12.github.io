@@ -159,17 +159,17 @@ Traditional agents required me to type commands for AI to respond. But OpenClaw 
 You might have already noticed—this means **error alert → AI agent auto-analysis → PR creation** complete automation becomes possible.
 
 ```mermaid
-flowchart LR
-    subgraph Before["MCP (Semi-Automation)"]
-        Alert1["Grafana Alert"] --> TG1["Telegram"]
-        TG1 --> Human1["👨‍💻 Developer"]
-        Human1 -->|"Manual Trigger"| AI1["AI"]
-    end
-
+flowchart TB
     subgraph After["OpenClaw (Full Automation?)"]
         Alert2["Grafana Alert"] --> TG2["Telegram"]
         TG2 -->|"Auto Trigger"| AI2["AI Agent"]
         AI2 --> PR["PR Creation"]
+    end
+
+    subgraph Before["MCP (Semi-Automation)"]
+        Alert1["Grafana Alert"] --> TG1["Telegram"]
+        TG1 --> Human1["👨‍💻 Developer"]
+        Human1 -->|"Manual Trigger"| AI1["AI"]
     end
 ```
 
@@ -467,7 +467,7 @@ Running Cron too frequently could incur high token costs, so I judged 30-minute 
 But the 30-minute delay still bothered me. It felt insufficient for complete automation. After some thought, I realized a **hybrid approach** could work.
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph "Normal Situation (Auto)"
         Cron1["⏰ Every 30 min<br/>Cron Job"] --> Auto["Auto Process"]
     end

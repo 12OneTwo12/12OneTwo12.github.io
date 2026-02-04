@@ -159,17 +159,17 @@ Discord  ──┤         │
 여기서 눈치채신 분들도 있겠지만, 이렇게 되면 **에러 알림 → AI 에이전트 자동 분석 → PR 생성**까지 완전 자동화가 가능해질 거라 판단했습니다.
 
 ```mermaid
-flowchart LR
-    subgraph Before["MCP (반자동화)"]
-        Alert1["Grafana Alert"] --> TG1["Telegram"]
-        TG1 --> Human1["👨‍💻 개발자"]
-        Human1 -->|"수동 트리거"| AI1["AI"]
-    end
-
+flowchart TB
     subgraph After["OpenClaw (완전 자동화?)"]
         Alert2["Grafana Alert"] --> TG2["Telegram"]
         TG2 -->|"자동 트리거"| AI2["AI Agent"]
         AI2 --> PR["PR 생성"]
+    end
+
+    subgraph Before["MCP (반자동화)"]
+        Alert1["Grafana Alert"] --> TG1["Telegram"]
+        TG1 --> Human1["👨‍💻 개발자"]
+        Human1 -->|"수동 트리거"| AI1["AI"]
     end
 ```
 
@@ -467,7 +467,7 @@ cron add --schedule "*/30 * * * *" --task "Loki에서 에러 체크하고 error-
 그런데 30분 지연이 여전히 찝찝하기도 했습니다. 완전 자동화라고 하기엔 뭔가 부족한 느낌이었죠. 고민 끝에 **하이브리드 방식**으로도 가능하겠다 싶었습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph "일반 상황 (자동)"
         Cron1["⏰ 30분마다<br/>Cron Job"] --> Auto["자동 처리"]
     end
