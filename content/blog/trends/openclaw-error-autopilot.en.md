@@ -613,11 +613,120 @@ OpenClaw is convenient, but there are definitely **things to be careful about**.
 
 OpenClaw agents can **access codebases, GitHub tokens, API keys, etc.** As convenient as it is, it's also risky.
 
+#### Real-World Security Incidents
+
+In January 2026, security researchers [discovered numerous OpenClaw instances exposed on Shodan](https://www.vectra.ai/blog/clawdbot-to-moltbot-to-openclaw-when-automation-becomes-a-digital-backdoor). They were exposed to the public internet without authentication, risking API key and OAuth token leaks.
+
+More seriously, on January 30, 2026, [CVE-2026-25253 (CVSS 8.8), a critical one-click RCE vulnerability](https://thehackernews.com/2026/02/openclaw-bug-enables-one-click-remote.html) was discovered. Just by clicking a malicious link or visiting a specific site, attackers could access the local gateway, manipulate settings, and execute privileged actions.
+
+Also, [341 malicious skills were found in ClawHub (OpenClaw's skill marketplace)](https://thehackernews.com/2026/02/researchers-find-341-malicious-clawhub.html), with 335 of them attempting to install Atomic Stealer (AMOS), a macOS information-stealing malware.
+
+**Rapidly Growing Project's Limitations**
+
+OpenClaw started as Peter Steinberger's side project and [has now transitioned to an organization with multiple maintainers](https://github.com/openclaw). It has 7 core team members, Jamieson O'Reilly joined as security lead, and it's supported by 10+ sponsors.
+
+However, resources are still limited compared to its explosive growth rate (100k stars in a week, 2M visitors). The [OpenClaw GitHub security page](https://github.com/openclaw/openclaw/security) states:
+
+> "OpenClaw is a labor of love. There is no bug bounty program and no budget for paid reports."
+
+It's an open-source project made with love, so there's no bug bounty program or budget. [One security researcher contacted them multiple times, but got a response saying "too much to do," causing delayed responses](https://www.aicerts.ai/news/openclaw-surge-exposes-thousands-prompts-swift-security-overhaul/).
+
+This isn't wrong—most open-source projects operate this way. But **users should know that security issue responses might not be as fast as enterprise products**.
+
+These incidents made the security risks of using OpenClaw clear:
 - **Sensitive info exposure**: `.env` files or secrets might enter AI context
 - **GitHub token permissions**: If it has PR creation and branch creation permissions, abuse is possible
 - **Prompt injection**: If error logs contain malicious content, AI might perform unintended actions
+- **MCP Remote vulnerabilities**: Command injection RCE vulnerabilities like [CVE-2025-6514](https://composio.dev/blog/secure-openclaw-moltbot-clawdbot-setup)
 
-I created a **separate service account** with minimal permissions only. I believe safety measures are better in multiple layers.
+#### So Here's How I Responded
+
+**1) Least Privilege Principle**
+
+I first created a separate GitHub service account with minimal permissions only.
+
+```bash
+# Create GitHub Fine-grained Personal Access Token
+# Permissions: Repository permissions only
+#   - Contents: Read and write (read/modify code)
+#   - Pull requests: Read and write (create PRs)
+#   - Issues: Read and write (create issues)
+#   - All other permissions removed
+```
+
+**2) File System Isolation**
+
+I applied the sandbox settings recommended by [OpenClaw official documentation](https://docs.openclaw.ai/gateway/security).
+
+```json
+// agents.json
+{
+  "agents": {
+    "defaults": {
+      "sandbox": {
+        "enabled": true,
+        "workspaceAccess": "none"  // Isolate agent workspace
+      }
+    }
+  }
+}
+```
+
+This way, the agent only operates within `~/.openclaw/sandboxes` and cannot access the entire host file system.
+
+**3) Environment Variable and API Key Isolation**
+
+I didn't store API keys in plain text in `~/.openclaw/.env`, but instead [used the system keychain](https://composio.dev/blog/secure-openclaw-moltbot-clawdbot-setup).
+
+```bash
+# Auto-configure with openclaw onboard command
+openclaw onboard
+
+# Or manually register in system keychain
+# macOS: Keychain Access
+# Linux: gnome-keyring, KWallet
+```
+
+**4) Brokered Authentication Pattern**
+
+Using [services like Composio](https://composio.dev/blog/secure-openclaw-moltbot-clawdbot-setup), agents can perform tasks without seeing actual API keys.
+
+```
+AI Agent → Composio Proxy → GitHub API
+            (API key injection)
+```
+
+The agent requests Composio to "create a PR," and Composio authenticates on the backend and returns only the result.
+
+**5) Docker Container Isolation (Optional)**
+
+If stronger security is needed, you can [isolate with Docker containers](https://www.docker.com/blog/mcp-security-explained/).
+
+```yaml
+# docker-compose.yml
+services:
+  openclaw:
+    image: openclaw/openclaw:latest
+    user: "1000:1000"  # non-root user
+    read_only: true    # read-only filesystem
+    cap_drop:          # remove unnecessary permissions
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+    volumes:
+      - ./workspace:/workspace:ro  # read-only mount
+```
+
+But since I'm using it in a local environment, I didn't apply Docker. I judged that file system isolation and minimal privilege account were sufficient.
+
+**6) Network Isolation**
+
+I absolutely didn't expose it to the external internet. Methods like Tailscale Funnel have [risks like prompt injection and DDoS](https://www.penligent.ai/hackinglabs/openclaw-sovereign-ai-security-manifest-a-comprehensive-post-mortem-and-architectural-hardening-guide-for-openclaw-ai-2026/), so I excluded them.
+
+Instead, I chose the polling approach mentioned above to not receive external requests.
+
+I believe safety measures are better in multiple layers. Especially since OpenClaw is still in early stages, unexpected vulnerabilities could be discovered, so it's better to approach conservatively.
 
 ### 2. Cost
 
@@ -643,9 +752,13 @@ Lastly, what I consider most important: as the AI ecosystem rapidly develops, ne
 
 Yesterday oh-my-opencode was trending, today OpenClaw is hot, tomorrow who knows what will come next. In this rapidly evolving environment where tools emerge and develop so quickly, nobody knows what bugs early-stage tools might have.
 
-OpenClaw is also still in early stages, so there could be **unexpected bugs or changes**.
+When I looked into it, OpenClaw is a side project that [Austrian developer Peter Steinberger](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code) started on a weekend in November 2025. [He developed it rapidly with an AI-centric development workflow](https://www.superseed.com/journal/who-is-openclaw-anyway/). In a Pragmatic Engineer interview, he mentioned "I ship code I don't read," meaning he delegates much of the work to AI.
 
-Nobody can predict what serious problems might occur, so I think we need to be careful, very careful.
+It [achieved 100k GitHub stars in a week](https://www.trendingtopics.eu/openclaw-2-million-visitors-in-a-week/) and recorded 2 million visitors in a single week with explosive growth, yet **it's a project that started just 3 months ago**. While it has now [transitioned to an organization with 7 core team members](https://github.com/openclaw), it's still a very rapidly changing early-stage project.
+
+Due to this rapid development pace and short history, **unexpected bugs or changes** are possible, and additional security vulnerabilities could be discovered.
+
+Nobody can predict what serious problems might occur, so I think we need to be careful, very careful. Especially when applying to production environments, we need to be even more cautious.
 
 ### But Why Did I Adopt It Despite the Risks?
 
@@ -679,8 +792,25 @@ Thank you for reading this long post.
 
 ## References
 
+### OpenClaw
 - [OpenClaw GitHub](https://github.com/openclaw/openclaw)
+- [OpenClaw Organization](https://github.com/openclaw)
 - [OpenClaw Documentation](https://docs.openclaw.ai)
+- [OpenClaw Security Documentation](https://docs.openclaw.ai/gateway/security)
+- [The creator of Clawd: "I ship code I don't read" - Pragmatic Engineer](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code)
+- [Who is OpenClaw Anyway? - SuperSeed](https://www.superseed.com/journal/who-is-openclaw-anyway/)
+- [OpenClaw: How a Weekend Project Became an Open-Source AI Sensation](https://www.trendingtopics.eu/openclaw-2-million-visitors-in-a-week/)
+
+### Security
+- [From Clawdbot to OpenClaw: When Automation Becomes a Digital Backdoor - Vectra](https://www.vectra.ai/blog/clawdbot-to-moltbot-to-openclaw-when-automation-becomes-a-digital-backdoor)
+- [OpenClaw Bug Enables One-Click Remote Code Execution - The Hacker News](https://thehackernews.com/2026/02/openclaw-bug-enables-one-click-remote.html)
+- [Researchers Find 341 Malicious ClawHub Skills - The Hacker News](https://thehackernews.com/2026/02/researchers-find-341-malicious-clawhub.html)
+- [OpenClaw surge exposes thousands, prompts swift security overhaul - AI CERTs](https://www.aicerts.ai/news/openclaw-surge-exposes-thousands-prompts-swift-security-overhaul/)
+- [How to secure OpenClaw: Docker hardening, credential isolation - Composio](https://composio.dev/blog/secure-openclaw-moltbot-clawdbot-setup)
+- [MCP Security: Risks, Challenges, and How to Mitigate - Docker](https://www.docker.com/blog/mcp-security-explained/)
+- [OpenClaw Sovereign AI Security Manifest - Penligent](https://www.penligent.ai/hackinglabs/openclaw-sovereign-ai-security-manifest-a-comprehensive-post-mortem-and-architectural-hardening-guide-for-openclaw-ai-2026/)
+
+### Tools & Documentation
 - [error-autopilot MCP Repository](https://github.com/12OneTwo12/error-autopilot-mcp)
 - [GitHub 2024 Developer Survey: The AI wave continues to grow](https://github.blog/news-insights/research/survey-ai-wave-grows/)
 - [Grafana Loki Documentation](https://grafana.com/docs/loki/latest/)

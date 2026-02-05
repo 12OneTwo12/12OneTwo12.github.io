@@ -621,15 +621,17 @@ OpenClaw 에이전트는 **코드베이스, GitHub 토큰, API 키 등에 접근
 
 또 [ClawHub(OpenClaw의 스킬 마켓플레이스)에서 341개의 악성 스킬](https://thehackernews.com/2026/02/researchers-find-341-malicious-clawhub.html)이 발견됐는데, 그 중 335개가 Atomic Stealer(AMOS)라는 macOS 정보 탈취 악성코드를 설치하려 했다고 하더라구요.
 
-**사이드 프로젝트의 한계**
+**빠르게 성장하는 프로젝트의 한계**
 
-OpenClaw는 한 사람이 만든 사이드 프로젝트로 시작해ㅅ다 보니, 보안 이슈가 발견되는 속도보다 해결되는 속도가 느릴 수밖에 없습니다. [OpenClaw GitHub 보안 페이지](https://github.com/openclaw/openclaw/security)에 이런 내용이 적혀 있더라구요.
+OpenClaw는 Peter Steinberger의 사이드 프로젝트로 시작했고, [현재는 여러 메인테이너가 참여하는 organization으로 전환](https://github.com/openclaw)되었습니다. 7명의 핵심 팀원이 있고, 보안 담당으로 Jamieson O'Reilly가 합류했으며, 10개 이상의 스폰서가 지원하고 있다고 하더라구요.
+
+하지만 폭발적인 성장 속도(일주일에 10만 스타, 200만 방문자)에 비하면 아직 리소스가 부족한 상황입니다. [OpenClaw GitHub 보안 페이지](https://github.com/openclaw/openclaw/security)에 이런 내용이 적혀 있더라구요.
 
 > "OpenClaw is a labor of love. There is no bug bounty program and no budget for paid reports."
 
-기업이나 단체가 아니라 개인이 사랑으로 만드는 프로젝트라서 버그 바운티 프로그램도 없고 예산도 없다는 얘기입니다. 실제로 [한 보안 연구자가 여러 차례 연락했지만 "할 일이 너무 많다"며 대응이 늦어졌다](https://www.aicerts.ai/news/openclaw-surge-exposes-thousands-prompts-swift-security-overhaul/)는 보고도 있었어요.
+사랑으로 만드는 오픈소스 프로젝트라서 버그 바운티 프로그램도 없고 예산도 없다는 얘기입니다. 실제로 [한 보안 연구자가 여러 차례 연락했지만 "할 일이 너무 많다"며 대응이 늦어졌다](https://www.aicerts.ai/news/openclaw-surge-exposes-thousands-prompts-swift-security-overhaul/)는 보고도 있었어요.
 
-이게 잘못된 건 아닙니다. 다만 **사용자 입장에서는 보안 이슈에 대한 신속한 대응을 기대하기 어렵다**는 걸 알고 써야 한다는 거죠.
+이게 잘못된 건 아닙니다. 오픈소스 프로젝트는 대부분 이런 식으로 운영되니까요. 다만 **사용자 입장에서는 보안 이슈 대응이 기업 제품만큼 빠르지 않을 수 있다**는 걸 알고 써야 한다는 거죠.
 
 이런 사고들을 보면서 OpenClaw 사용 시 주의해야 할 보안 위험이 명확해졌습니다.
 - **민감정보 노출**: `.env` 파일이나 시크릿이 AI 컨텍스트에 들어갈 수 있음
@@ -750,9 +752,9 @@ AI가 분석을 잘못하면, **오히려 더 큰 버그**를 만들 수 있습�
 
 어제는 oh-my-opencode가 유행이더니 오늘은 OpenClaw가 뜨고, 내일은 또 뭐가 뜰지 아무도 모릅니다. 이처럼 빠르게 진화하는 환경에서 툴의 등장과 발전이 너무 빠르기 때문에, 초기단계의 툴에 어떤 버그가 있을지 아무도 알수가 없습니다.
 
-OpenClaw는 [오스트리아 개발자 Peter Steinberger](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code)가 2025년 11월 주말에 시작한 사이드 프로젝트더라구요. [AI 중심 개발 워크플로우로 "혼자서 팀처럼" 빠르게 개발](https://www.superseed.com/journal/who-is-openclaw-anyway/)한 프로젝트라고 합니다. Pragmatic Engineer 인터뷰에서 그는 "I ship code I don't read"(읽지도 않은 코드를 배포한다)라고 언급했는데, AI에게 많은 부분을 맡기는 개발 방식이라는 거죠.
+OpenClaw는 [오스트리아 개발자 Peter Steinberger](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code)가 2025년 11월 주말에 시작한 사이드 프로젝트더라구요. [AI 중심 개발 워크플로우로 빠르게 개발](https://www.superseed.com/journal/who-is-openclaw-anyway/)했다고 합니다. Pragmatic Engineer 인터뷰에서 그는 "I ship code I don't read"(읽지도 않은 코드를 배포한다)라고 언급했는데, AI에게 많은 부분을 맡기는 개발 방식이라는 거죠.
 
-[일주일 만에 GitHub 10만 스타](https://www.trendingtopics.eu/openclaw-2-million-visitors-in-a-week/)를 달성하고, 한 주에 200만 방문자를 기록할 정도로 폭발적인 성장을 했는데, 알고 보니 **불과 3개월 전에 시작된 프로젝트**였습니다.
+[일주일 만에 GitHub 10만 스타](https://www.trendingtopics.eu/openclaw-2-million-visitors-in-a-week/)를 달성하고, 한 주에 200만 방문자를 기록할 정도로 폭발적인 성장을 했는데 **불과 3개월 전에 시작된 프로젝트**입니다. 현재는 [7명의 핵심 팀원이 있는 organization](https://github.com/openclaw)으로 전환되었지만, 여전히 매우 빠르게 변화하고 있는 초기 단계 프로젝트입니다.
 
 이런 빠른 개발 속도와 짧은 역사 때문에 **예기치 않은 버그나 변경**이 있을 수 있고 보안 취약점이 추가로 발견될 가능성도 있습니다.
 
@@ -790,8 +792,25 @@ AI와 경쟁하는 게 아니라 AI를 잘 활용하는 개발자가 되는 게 
 
 ## 참고 자료
 
+### OpenClaw
 - [OpenClaw GitHub](https://github.com/openclaw/openclaw)
+- [OpenClaw Organization](https://github.com/openclaw)
 - [OpenClaw Documentation](https://docs.openclaw.ai)
+- [OpenClaw Security Documentation](https://docs.openclaw.ai/gateway/security)
+- [The creator of Clawd: "I ship code I don't read" - Pragmatic Engineer](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code)
+- [Who is OpenClaw Anyway? - SuperSeed](https://www.superseed.com/journal/who-is-openclaw-anyway/)
+- [OpenClaw: How a Weekend Project Became an Open-Source AI Sensation](https://www.trendingtopics.eu/openclaw-2-million-visitors-in-a-week/)
+
+### Security
+- [From Clawdbot to OpenClaw: When Automation Becomes a Digital Backdoor - Vectra](https://www.vectra.ai/blog/clawdbot-to-moltbot-to-openclaw-when-automation-becomes-a-digital-backdoor)
+- [OpenClaw Bug Enables One-Click Remote Code Execution - The Hacker News](https://thehackernews.com/2026/02/openclaw-bug-enables-one-click-remote.html)
+- [Researchers Find 341 Malicious ClawHub Skills - The Hacker News](https://thehackernews.com/2026/02/researchers-find-341-malicious-clawhub.html)
+- [OpenClaw surge exposes thousands, prompts swift security overhaul - AI CERTs](https://www.aicerts.ai/news/openclaw-surge-exposes-thousands-prompts-swift-security-overhaul/)
+- [How to secure OpenClaw: Docker hardening, credential isolation - Composio](https://composio.dev/blog/secure-openclaw-moltbot-clawdbot-setup)
+- [MCP Security: Risks, Challenges, and How to Mitigate - Docker](https://www.docker.com/blog/mcp-security-explained/)
+- [OpenClaw Sovereign AI Security Manifest - Penligent](https://www.penligent.ai/hackinglabs/openclaw-sovereign-ai-security-manifest-a-comprehensive-post-mortem-and-architectural-hardening-guide-for-openclaw-ai-2026/)
+
+### Tools & Documentation
 - [error-autopilot MCP 저장소](https://github.com/12OneTwo12/error-autopilot-mcp)
 - [GitHub 2024 Developer Survey: The AI wave continues to grow](https://github.blog/news-insights/research/survey-ai-wave-grows/)
 - [Grafana Loki Documentation](https://grafana.com/docs/loki/latest/)
