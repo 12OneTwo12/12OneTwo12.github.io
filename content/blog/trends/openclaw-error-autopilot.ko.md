@@ -611,13 +611,120 @@ OpenClaw가 편리한 건 맞지만, **주의해야 할 점들**도 분명히 �
 
 ### 1. 보안 이슈
 
-OpenClaw 에이전트는 **코드베이스, GitHub 토큰, API 키 등에 접근**할 수 있습니다. 편리한 만큼 위험하기도 합니다.
+OpenClaw 에이전트는 **코드베이스, GitHub 토큰, API 키 등에 접근**할 수 있습니다. 편리한 만큼 위험하기도 하죠.
 
+#### 실제로 발생한 보안 사고들
+
+2026년 1월에 보안 연구자들이 [Shodan에서 수많은 OpenClaw 인스턴스가 노출](https://www.vectra.ai/blog/clawdbot-to-moltbot-to-openclaw-when-automation-becomes-a-digital-backdoor)되어 있는 것을 발견했다고 합니다. 인증 없이 공개 인터넷에 노출되어 API 키와 OAuth 토큰이 유출될 위험이 있었던 거죠.
+
+더 심각했던 건 2026년 1월 30일에 발견된 [CVE-2026-25253(CVSS 8.8)라는 원클릭 RCE 취약점](https://thehackernews.com/2026/02/openclaw-bug-enables-one-click-remote.html)입니다. 악의적인 링크를 클릭하거나 특정 사이트를 방문하기만 해도 공격자가 로컬 게이트웨이에 접근해서 설정을 조작하고 권한 있는 작업을 실행할 수 있었어요.
+
+또 [ClawHub(OpenClaw의 스킬 마켓플레이스)에서 341개의 악성 스킬](https://thehackernews.com/2026/02/researchers-find-341-malicious-clawhub.html)이 발견됐는데, 그 중 335개가 Atomic Stealer(AMOS)라는 macOS 정보 탈취 악성코드를 설치하려 했다고 하더라구요.
+
+**사이드 프로젝트의 한계**
+
+OpenClaw는 한 사람이 만든 사이드 프로젝트로 시작해ㅅ다 보니, 보안 이슈가 발견되는 속도보다 해결되는 속도가 느릴 수밖에 없습니다. [OpenClaw GitHub 보안 페이지](https://github.com/openclaw/openclaw/security)에 이런 내용이 적혀 있더라구요.
+
+> "OpenClaw is a labor of love. There is no bug bounty program and no budget for paid reports."
+
+기업이나 단체가 아니라 개인이 사랑으로 만드는 프로젝트라서 버그 바운티 프로그램도 없고 예산도 없다는 얘기입니다. 실제로 [한 보안 연구자가 여러 차례 연락했지만 "할 일이 너무 많다"며 대응이 늦어졌다](https://www.aicerts.ai/news/openclaw-surge-exposes-thousands-prompts-swift-security-overhaul/)는 보고도 있었어요.
+
+이게 잘못된 건 아닙니다. 다만 **사용자 입장에서는 보안 이슈에 대한 신속한 대응을 기대하기 어렵다**는 걸 알고 써야 한다는 거죠.
+
+이런 사고들을 보면서 OpenClaw 사용 시 주의해야 할 보안 위험이 명확해졌습니다.
 - **민감정보 노출**: `.env` 파일이나 시크릿이 AI 컨텍스트에 들어갈 수 있음
 - **GitHub 토큰 권한**: PR 생성, 브랜치 생성 권한이 있으면 악용 가능성
 - **프롬프트 인젝션**: 에러 로그에 악의적인 내용이 포함되면 AI가 의도치 않은 동작을 할 수도
+- **MCP Remote 취약점**: [CVE-2025-6514](https://composio.dev/blog/secure-openclaw-moltbot-clawdbot-setup) 같은 커맨드 인젝션 RCE 취약점
 
-저는 **별도의 서비스 계정**을 만들어서 최소 권한만 부여했습니다. 안전장치는 여러 겹 둘수록 좋다고 생각합니다.
+#### 그래서 저는 이렇게 대응했습니다
+
+**1) 최소 권한 원칙 (Least Privilege)**
+
+저는 먼저 별도의 GitHub 서비스 계정을 만들어서 최소 권한만 부여했습니다.
+
+```bash
+# GitHub Fine-grained Personal Access Token 생성
+# 권한: Repository permissions만
+#   - Contents: Read and write (코드 읽기/수정)
+#   - Pull requests: Read and write (PR 생성)
+#   - Issues: Read and write (이슈 생성)
+#   - 그 외 권한은 전부 제거
+```
+
+**2) 파일 시스템 격리**
+
+[OpenClaw 공식 문서](https://docs.openclaw.ai/gateway/security)에서 권장하는 샌드박스 설정을 적용했습니다.
+
+```json
+// agents.json
+{
+  "agents": {
+    "defaults": {
+      "sandbox": {
+        "enabled": true,
+        "workspaceAccess": "none"  // 에이전트 워크스페이스 격리
+      }
+    }
+  }
+}
+```
+
+이렇게 설정하면 에이전트가 `~/.openclaw/sandboxes` 안에서만 작동하고, 호스트 파일 시스템 전체에는 접근할 수 없게 됩니다.
+
+**3) 환경변수 및 API 키 격리**
+
+저는 API 키를 평문으로 `~/.openclaw/.env`에 저장하지 않고, [시스템 키체인을 활용](https://composio.dev/blog/secure-openclaw-moltbot-clawdbot-setup)했습니다.
+
+```bash
+# openclaw onboard 명령으로 자동 구성
+openclaw onboard
+
+# 또는 시스템 키체인 수동 등록
+# macOS: Keychain Access
+# Linux: gnome-keyring, KWallet
+```
+
+**4) Brokered Authentication 패턴**
+
+[Composio 같은 서비스](https://composio.dev/blog/secure-openclaw-moltbot-clawdbot-setup)를 사용하면 에이전트가 실제 API 키를 보지 않고도 작업을 수행할 수 있습니다.
+
+```
+AI Agent → Composio Proxy → GitHub API
+            (API 키 주입)
+```
+
+에이전트는 Composio에 "PR 만들어줘"라고 요청하고, Composio가 백엔드에서 인증 후 결과만 반환합니다.
+
+**5) Docker 컨테이너 격리 (선택사항)**
+
+좀 더 강력한 보안이 필요하다면 [Docker 컨테이너로 격리](https://www.docker.com/blog/mcp-security-explained/)할 수 있습니다.
+
+```yaml
+# docker-compose.yml
+services:
+  openclaw:
+    image: openclaw/openclaw:latest
+    user: "1000:1000"  # non-root 사용자
+    read_only: true    # 읽기 전용 파일시스템
+    cap_drop:          # 불필요한 권한 제거
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+    volumes:
+      - ./workspace:/workspace:ro  # 읽기 전용 마운트
+```
+
+하지만 저는 로컬 환경에서 사용하기 때문에 Docker까지는 적용하지 않았습니다. 파일시스템 격리와 최소 권한 계정만으로도 충분하다고 판단했습니다.
+
+**6) 네트워크 격리**
+
+외부 인터넷 노출은 절대 하지 않았습니다. Tailscale Funnel 같은 방식은 [프롬프트 인젝션, DDoS 등의 위험](https://www.penligent.ai/hackinglabs/openclaw-sovereign-ai-security-manifest-a-comprehensive-post-mortem-and-architectural-hardening-guide-for-openclaw-ai-2026/)이 있기 때문에 제외했습니다.
+
+대신 위에서 언급한대로 Polling 방식을 선택해 외부 요청을 받지 않도록 했습니다.
+
+안전장치는 여러 겹 둘수록 좋다고 생각합니다. 특히 OpenClaw는 아직 초기 단계라 예상치 못한 취약점이 발견될 수 있으니 보수적으로 접근하는 게 좋습니다.
 
 ### 2. 비용
 
@@ -643,9 +750,13 @@ AI가 분석을 잘못하면, **오히려 더 큰 버그**를 만들 수 있습�
 
 어제는 oh-my-opencode가 유행이더니 오늘은 OpenClaw가 뜨고, 내일은 또 뭐가 뜰지 아무도 모릅니다. 이처럼 빠르게 진화하는 환경에서 툴의 등장과 발전이 너무 빠르기 때문에, 초기단계의 툴에 어떤 버그가 있을지 아무도 알수가 없습니다.
 
-OpenClaw도 아직 초기 단계라, **예기치 않은 버그나 변경**이 있을 수 있습니다.
+OpenClaw는 [오스트리아 개발자 Peter Steinberger](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code)가 2025년 11월 주말에 시작한 사이드 프로젝트더라구요. [AI 중심 개발 워크플로우로 "혼자서 팀처럼" 빠르게 개발](https://www.superseed.com/journal/who-is-openclaw-anyway/)한 프로젝트라고 합니다. Pragmatic Engineer 인터뷰에서 그는 "I ship code I don't read"(읽지도 않은 코드를 배포한다)라고 언급했는데, AI에게 많은 부분을 맡기는 개발 방식이라는 거죠.
 
-어떤 심각한 문제가 발생할지 아무도 예측할 수 없으니 조심 또 조심해야 한다고 생각합니다.
+[일주일 만에 GitHub 10만 스타](https://www.trendingtopics.eu/openclaw-2-million-visitors-in-a-week/)를 달성하고, 한 주에 200만 방문자를 기록할 정도로 폭발적인 성장을 했는데, 알고 보니 **불과 3개월 전에 시작된 프로젝트**였습니다.
+
+이런 빠른 개발 속도와 짧은 역사 때문에 **예기치 않은 버그나 변경**이 있을 수 있고 보안 취약점이 추가로 발견될 가능성도 있습니다.
+
+어떤 심각한 문제가 발생할지 아무도 예측할 수 없으니 조심 또 조심해야 한다고 생각합니다. 특히 프로덕션 환경에 적용할 때는 더욱 신중해야 하겠죠.
 
 ### 그런데 왜 리스크를 안고 도입했나?
 
