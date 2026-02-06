@@ -318,6 +318,7 @@ The next time I face a similar design decision, I think the memory of this full 
 ### References
 
 #### Hwaseong-si District Split
+- [Administrative District Change Notice (Effective 2026.2.1.) - Ministry of the Interior and Safety](https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=122595)
 - [Hwaseong-si confirms establishment of 4 general districts including Dongtan-gu - Hankook Ilbo](https://www.hankookilbo.com/News/Read/A2025082408260002063)
 - [Hwaseong-si / Administration / District Split - Namuwiki](https://namu.wiki/w/%ED%99%94%EC%84%B1%EC%8B%9C/%ED%96%89%EC%A0%95/%EB%B6%84%EA%B5%AC%20%EC%B6%94%EC%A7%84)
 
