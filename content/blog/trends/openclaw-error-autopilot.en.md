@@ -8,7 +8,7 @@ tags:
   - "llm"
   - "agent"
   - "singularity"
-date: '2026-02-04'
+date: '2026-02-06'
 ---
 
 Hi, I'm Jeongil Jeong, a 3-year backend developer working at a proptech platform.
