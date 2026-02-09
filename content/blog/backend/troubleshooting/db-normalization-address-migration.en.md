@@ -5,7 +5,7 @@ tags:
   - "normalization"
   - "migration"
   - "mysql"
-date: '2026-02-06'
+date: '2026-02-09'
 ---
 
 Everyone knows database normalization is important, but in practice, it seems surprisingly easy to overlook. There are plenty of moments where denormalization wins out for reasons like "one fewer JOIN means better performance" or "it's just easier to store it as text."
