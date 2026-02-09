@@ -116,11 +116,11 @@ The backlash was fierce. I checked the related communities myself, and virtually
 
 - [Over 170 upvotes and 150+ comments on Hacker News](https://news.ycombinator.com/item?id=46625918)
 
-Ruby on Rails creator **DHH (David Heinemeier Hansson)** posted this on Twitter:
+Ruby on Rails creator **DHH (David Heinemeier Hansson)** [posted on Twitter](https://x.com/dhh/status/2009716350374293963):
 
 > *"Confirmation that Anthropic is intentionally blocking OpenCode and all third-party tools. A paranoid attempt to lock developers into Claude Code. A terrible policy for a company that trained its models on our code, our writing, our everything."*
 
-**Theo** from t3.gg also expressed concern on Twitter: *"Anthropic is now cracking down on utilizing Claude subs in 3rd party apps like OpenCode and Clawdbot. Oh boy."*
+**Theo** from t3.gg also [expressed concern on Twitter](https://x.com/theo/status/2009464346846621700): *"Anthropic is now cracking down on utilizing Claude subs in 3rd party apps like OpenCode and Clawdbot. Oh boy."*
 
 Personally, I think DHH's "paranoid attempt" framing is a bit much, but I can fully understand the frustration of developers paying $200/month and wanting to choose their own tools.
 
@@ -130,7 +130,7 @@ On the other hand, some expressed understanding. Yearn Finance developer **@bant
 
 ### Anthropic's Official Stance
 
-**Thariq Shihipar** from the Claude Code team shared the official position on Twitter:
+**Thariq Shihipar** from the Claude Code team [shared the official position on Twitter](https://x.com/trq212/status/2009689809875591565):
 
 - **Reason for blocking**: Unauthorized tools caused bugs and abnormal usage patterns, and when things went wrong, users blamed Claude, damaging trust.
 - Offered to discuss via DM with third-party tool developers

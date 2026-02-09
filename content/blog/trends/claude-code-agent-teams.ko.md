@@ -116,11 +116,11 @@ OpenCode(당시 GitHub 스타 56,000개)를 비롯해 구독 인증을 사용하
 
 - [Hacker News에서 170개 이상의 업보트와 150개 이상의 댓글](https://news.ycombinator.com/item?id=46625918)
 
-Ruby on Rails 창시자 **DHH(David Heinemeier Hansson)** 가 트위터에 이런 글을 올리기도 했습니다.
+Ruby on Rails 창시자 **DHH(David Heinemeier Hansson)** 가 [트위터에](https://x.com/dhh/status/2009716350374293963) 이런 글을 올리기도 했습니다.
 
 > *"Anthropic이 의도적으로 OpenCode와 모든 써드파티 도구를 차단하고 있다는 확인. 개발자들을 Claude Code에 강제로 가두려는 편집증적 시도. 우리의 코드, 우리의 글, 우리의 모든 것으로 모델을 학습시킨 회사가 취할 정책으로서는 끔찍하다."*
 
-t3.gg의 **Theo**도 트위터에서 *"Anthropic is now cracking down on utilizing Claude subs in 3rd party apps like OpenCode and Clawdbot. Oh boy."* 라며 우려를 표했습니다.
+t3.gg의 **Theo**도 [트위터에서](https://x.com/theo/status/2009464346846621700) *"Anthropic is now cracking down on utilizing Claude subs in 3rd party apps like OpenCode and Clawdbot. Oh boy."* 라며 우려를 표했습니다.
 
 개인적으로 DHH의 "편집증적 시도"라는 표현은 과하다고 생각하지만, 월 $200을 내면서 도구 선택권을 원하는 개발자들의 감정 자체는 충분히 이해가 됩니다.
 
@@ -130,7 +130,7 @@ t3.gg의 **Theo**도 트위터에서 *"Anthropic is now cracking down on utilizi
 
 ### Anthropic의 공식 입장
 
-Claude Code 팀의 **Thariq Shihipar**가 트위터에서 공식 입장을 밝혔습니다.
+Claude Code 팀의 **Thariq Shihipar**가 [트위터에서](https://x.com/trq212/status/2009689809875591565) 공식 입장을 밝혔습니다.
 
 - **차단 사유**: 인증되지 않은 도구들이 버그와 비정상적인 사용 패턴을 야기하고, 문제가 생기면 사용자들이 Claude 탓을 해서 신뢰도가 떨어진다.
 - 써드파티 도구 개발자들에게 DM으로 논의할 것을 제안
