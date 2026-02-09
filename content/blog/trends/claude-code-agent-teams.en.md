@@ -239,11 +239,11 @@ Here you can see four analysis agents (backend-analyzer, frontend-analyzer, infr
 
 ![Agent Teams running](https://www.dropbox.com/scl/fi/v2s0iatowdap9js3auq5r/C4DE224D-95DB-44D9-89CB-B82212F0202A.jpg?rlkey=dqzjoovpi223pbyuj4q2yvuzq&st=k1a0x50y&raw=1)
 
-This would have been nearly impossible with existing Sub-Agents or a single session. Cramming an entire MSA into one session's context risks exceeding the context window and producing hallucinations. With Agent Teams, each teammate analyzes only their designated area with an independent context, **noticeably reducing hallucinations.** The process of the Team Lead aggregating each analysis into an integrated document was clean too.
+Existing Sub-Agents could already run in parallel with independent contexts. But Sub-Agents only report results back to the main agent — there's no way for teammates to say "hey, this service is related to your DB schema, can you check?" during analysis. With Agent Teams, teammates exchange messages directly and coordinate autonomously via a shared task list, which **noticeably improved the consistency of analysis results.** The process of the Team Lead aggregating each analysis into an integrated document was clean too.
 
-As a backend developer, what I particularly appreciated was that infrastructure analysis and DB analysis didn't have to wait — **backend service flow analysis ran simultaneously in parallel**. Running everything at once instead of sequentially made a huge difference in perceived speed.
+Being able to use native multi-agent capabilities with just one config change and no extra tool installation was also a plus.
 
-That said, there were drawbacks. oh-my-claudecode has 32 specialized agents (planner, architect, critic, etc.) and 7 execution modes pre-defined and ready to go. With Agent Teams, **you have to describe the team composition and roles every time**. Without pre-defined agent templates, you need to think "what team structure works best for this task?" each time. The one-click experience of oh-my-claudecode's Ultrapilot mode — "just run it in parallel for me" — doesn't exist yet. There were also occasional cases where teammates failed to mark their tasks as complete, giving it a very Research Preview feel.
+That said, there were drawbacks. oh-my-claudecode has 32 specialized agents (planner, architect, critic, etc.) and 7 execution modes **pre-defined as proven patterns**, ready to go out of the box. With Agent Teams, the LLM decides the team composition on the fly each time. It does figure things out if you just say "handle this for me," but it's different from oh-my-claudecode's Ultrapilot mode where **optimized patterns are applied immediately**.
 
 ### Other Features
 
