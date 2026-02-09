@@ -10,15 +10,17 @@ date: '2026-02-06'
 
 Everyone knows database normalization is important, but in practice, it seems surprisingly easy to overlook. There are plenty of moments where denormalization wins out for reasons like "one fewer JOIN means better performance" or "it's just easier to store it as text."
 
-I joined my current team in March 2025, and the DB was already in that state when I arrived. At the time, I thought "it's already running this way" and moved on. But after going through the Hwaseong-si district split migration, I learned firsthand what kind of price denormalization can demand.
+I joined my current team in March 2025, and the DB was already in that state when I arrived. At the time, I didn't fully understand the service yet, and since it was already running that way, I just moved on. But after going through the Hwaseong-si district split migration, I learned firsthand what kind of price denormalization can demand.
 
 > Service names, table names, and column names in this article have been changed from the actual ones.
 
 ## Hwaseong-si Split Into 4 Districts
 
-I work on a real estate service. It's a service that handles so much address data — apartment info, actual transaction prices, property listings, real estate offices — that it's harder to find a table *without* an address than one with.
+I work on a real estate service — one that handles so much address data (apartment info, actual transaction prices, property listings, real estate offices) that it's harder to find a table *without* an address than one with.
 
 On February 1, 2026, Hwaseong-si in Gyeonggi Province was divided into 4 general districts (gu). A city of roughly 1 million people underwent an administrative restructuring — quite a significant event.
+
+[Administrative District Change Notice (Effective 2026.2.1.) - Ministry of the Interior and Safety](https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=122595)
 
 | District | Key Areas |
 |----------|-----------|
@@ -37,17 +39,17 @@ Before: Gyeonggi-do Hwaseong-si Bansong-dong 973
 After:  Gyeonggi-do Hwaseong-si Dongtan-gu Bansong-dong 973
 ```
 
-A new "gu" (district) was inserted right after "Hwaseong-si," and all administrative area codes (`region_code`, `dong_code`) changed as well.
+A new "gu" (district) was added right after "Hwaseong-si," and all administrative area codes (`region_code`, `dong_code`) changed as well.
 
-In a real estate service, addresses changing means DB migration. At first, I thought it would be simple — "just update some address data." But when I actually looked at the DB, the situation was anything but simple.
+In a real estate service, addresses changing means DB migration is needed. At first, I thought it would be simple — "just update some address data." But when I actually looked at the DB, the situation was anything but simple.
 
 ## Where on Earth Are the Addresses?
 
-Our service didn't reference address data through codes in a master table. Instead, address text was stored directly in each table. Some tables had code columns like `region_code` or `dong_code`, but there were far more columns holding raw address strings.
+Our service didn't reference address data through codes in a master table. Instead, address text was stored directly in each table. Some tables had code columns like `region_code` or `dong_code` and retrieved addresses through JOINs, but there were far more columns holding raw address strings.
 
-So the first step of the migration was **"finding where addresses are stored"** — and this turned out to be harder than expected.
+So the first step of the migration was **"finding everywhere addresses are stored"** — and this turned out to be harder than expected.
 
-When I searched the DB using common column names like `addr`, `address`, and `dong_code`, I found 38 tables. I thought that was enough, but as I continued investigating, missed columns started appearing one by one.
+First, I searched the DB using easily guessable common column names like `addr`, `address`, and `dong_code`, and found 38 tables. I thought that was enough, but as I continued investigating, missed columns started appearing one by one.
 
 | Column Name | Example Data |
 |-------------|-------------|
@@ -55,9 +57,13 @@ When I searched the DB using common column names like `addr`, `address`, and `do
 | complex_address | Gyeonggi-do Hwaseong-si Mokdong Dongtan 2 District |
 | jibun_addr | Gyeonggi Hwaseong-si Hyangnam-eup Gumuncheon-ri |
 
-`place1_full_addr`, `complex_address`, `jibun_addr`... every column name was different. Each developer used different names, and in some cases, field names from external APIs were used as-is. Code columns were no different — the same district code was stored under `sigungu_cd`, `arcode`, `stcode`, `sggcode`, and other varying names.
+`place1_full_addr`, `complex_address`, `jibun_addr`... there were tables storing addresses under completely different column names...
 
-Without a standardized naming convention, searching for `addr` or `address` could never find everything. If there had been a naming rule like `addr_*` for address columns and `region_*` for code columns, we could have identified most of the impact scope from column name patterns alone. This was a moment that reminded me of just how important naming conventions are.
+Without any convention, each developer used different names, and in some cases, field names from external APIs were used as-is. Code columns were no different — the same district code was stored under `sigungu_cd`, `arcode`, `stcode`, `sggcode`, and other varying names.
+
+This was a similar problem to what I discussed in [The Absence of Naming Conventions Leads to Incidents]({{< relref "/blog/culture/naming-convention" >}}).
+
+Without a standardized naming convention, searching for `addr` or `address` could never find everything. If there had been a naming rule like `addr_*` for address columns and `region_*` for code columns, we could have identified most of the impact scope from column name patterns alone. It reminded me once again of just how important naming conventions are.
 
 Eventually, I accepted that searching by column name had its limits and changed my approach. I ran `LIKE '%Hwaseong-si%'` against every TEXT/VARCHAR column across every database.
 
@@ -66,14 +72,14 @@ Eventually, I accepted that searching by column name had its limits and changed 
 SELECT COUNT(*) FROM some_table WHERE some_column LIKE '%화성시%';
 ```
 
-It wasn't an efficient method, but it was thorough. And this is where I discovered unexpected false positives.
+It wasn't an efficient method, but it was thorough. I decided accuracy was worth investing my own time and effort. And this is where I discovered unexpected false positives.
 
 ```
 apt_title: "Hwaseongsi-cheong Station Central Park Star Hills Phase 1"
 sector_name: "Hwaseongsi-cheong Station Block 2 Seohee Star Hills"
 ```
 
-Searching for "Hwaseong-si" matched "Hwaseongsi-cheong Station" — an apartment complex name containing the city name as a substring. These had nothing to do with the administrative change and needed to be excluded from migration. In the end, I had to visually inspect sample data for each column.
+Searching for "Hwaseong-si" matched "Hwaseongsi-cheong Station" — an apartment complex name containing the city name as a substring. These had nothing to do with the administrative change and needed to be excluded from migration. In the end, I had to review sample data for each column and determine whether the data actually represented addresses.
 
 The final results looked like this:
 
@@ -84,7 +90,7 @@ The final results looked like this:
 | Affected columns | **120+** |
 | Records to migrate | **~2.8 million** |
 
-The 38 tables from the initial column-name search grew to 75 after the full scan. **The initial search had only found half.**
+The 38 tables from the initial column-name search grew to 75 after the full scan. **The initial search had only found half.** It took quite a bit of time, but accurately identifying the impact scope was an essential step for the overall success of the work.
 
 ## How Do You Migrate 75 Tables?
 
@@ -92,7 +98,7 @@ Identifying the impact scope was just the beginning. Finding 75 tables and 120+ 
 
 ### Why Simple String Replacement Doesn't Work
 
-My first thought was simple. Just REPLACE "Hwaseong-si" with "Hwaseong-si Byeongjeom-gu," right?
+My first thought was simple. Just REPLACE "Hwaseong-si" with something like "Hwaseong-si Byeongjeom-gu," right?
 
 ```sql
 UPDATE apartment SET addr = REPLACE(addr, '화성시', '화성시 병점구');
@@ -157,11 +163,11 @@ In summary, at least 4 types of scripts were needed depending on the storage for
 
 And while these 4 types were the baseline, each table had different false positive conditions. The apartment table had brand names like "Hwaseongsi-cheong Station," the transaction table didn't, and the real estate agent table might have yet another form of false positive. Each table's sample data had to be reviewed, and false positive conditions had to be adjusted per script.
 
-Repeating this for 75 tables and 120 columns meant writing dozens of scripts that were similar but subtly different. I automated what I could, but since each column had different formats and false positive cases, there was no avoiding the one-by-one verification. At this point, I kept thinking, "why was the address stored as plain text in the first place?"
+Repeating this for 75 tables and 120 columns meant writing dozens of scripts that were similar but subtly different. I automated what I could, but since each column had different formats and false positive cases, there was no avoiding the one-by-one verification. At this point, I kept thinking, "why on earth was the address stored as plain text..."
 
 ### Validation: An Endless Loop
 
-Even after writing the scripts, I couldn't run them on production right away. With 2.8 million records being changed, a bug in the script would be hard to reverse.
+After writing the scripts, obviously I couldn't run them on production right away. With 2.8 million records being changed, a bug in the script would be hard to reverse.
 
 I ran them in the development environment first and compared data before and after the changes.
 
@@ -191,7 +197,7 @@ For each of the 75 tables, I ran the cycle: **snapshot → execute → compare �
 
 Even after finishing development environment validation, I couldn't relax. The real nerve-wracking part was production deployment.
 
-In development, mistakes can be redone. Production is different. If a script has an error, incorrect addresses are immediately exposed to users. If something like "Gyeonggi-do Hwaseong-si Byeongjeom-gu Byeongjeom-gu Jinan-dong" — a double insertion — occurred, users would notice immediately.
+In development, mistakes can be redone. Production is different. If a script has an error, incorrect addresses are immediately exposed to users. If something like "Gyeonggi-do Hwaseong-si Byeongjeom-gu Byeongjeom-gu Jinan-dong" — a double insertion — occurred, users would notice right away.
 
 Running UPDATE on 2.8 million records at once could hold table locks for too long, so I executed table by table, with large tables broken into batches. I ran them during low-traffic hours, and after each table, I verified that the changed addresses displayed correctly in the service before moving to the next one. Looking back, this was probably the most nerve-wracking period of the entire process.
 
@@ -241,15 +247,13 @@ WHERE region_code = '4159052000';
 
 Update one master table, and all referencing tables automatically show the changed address. The 7 steps I described earlier — full scan, mapping tables, false positive filtering, per-column scripts, repeated validation, production deployment, post-deployment verification — all replaced by a single UPDATE.
 
-If only it had been this structure from the start — that's the thought that stayed with me.
+If only it had been this structure from the start — that's the thought that stayed with me. Of course, some tables were set up that way, but there were far too many tables storing address text directly, so this work was unavoidable.
 
 **One fact should exist in only one place** — the fundamental principle of normalization, Single Source of Truth, isn't just textbook theory. I truly felt this time that ignoring it can come at a steep price.
 
----
-
 ## But Should Everything Be Normalized?
 
-As I mentioned earlier, during the migration I had nothing but frustration toward the denormalized structure. But after the work was done, I thought about it more coolly and realized that the original decision to store text probably had its reasons.
+As I mentioned earlier, during the migration I had nothing but regret toward the denormalized structure. But after the work was done, I thought about it more coolly and realized that the original decision to store text probably had its reasons.
 
 Our service is overwhelmingly read-heavy — property listings, transaction price lookups, and so on. Just the property listing API alone needs to display dozens of addresses at once, and if addresses were normalized, every listing query would need a JOIN to the administrative area master table. If virtually every read API in a high-traffic service gains an additional JOIN, the performance impact would be non-trivial.
 
@@ -268,8 +272,6 @@ WHERE a.id = 1;
 ```
 
 Displaying a single address requires JOINing 4–5 tables. For a read-heavy service like ours, this isn't practical. Skip normalization and you end up in migration hell like this time. Over-normalize and you end up in query performance hell. I think it ultimately comes down to where you find the balance.
-
----
 
 ## So Where Is the Right Balance?
 
@@ -299,21 +301,19 @@ You might wonder how this differs from the fully denormalized approach. The key 
 
 When only text was stored, determining "which dong does this address belong to" required inference through text parsing. With `region_code`, you can map precisely by code. For reads, use `cached_address` directly without JOINs. When administrative areas change, batch-update `cached_address` based on `region_code`.
 
-If this had been the structure, what would the Hwaseong-si migration have looked like? Update the master table, then run a single script to refresh `cached_address` based on `region_code`. No full scan, no false positive filtering, no per-column scripts.
+In fact, some tables were already designed this way, and during this migration, those tables were relatively easy to handle. Since the mapping was clear based on `region_code`, they could be processed with straightforward replacement scripts without worrying about false positives.
 
----
+But many tables stored only address text without `region_code`, which made this kind of complex work unavoidable. If all tables had been structured this way, the whole process would have been far more manageable.
 
 ## Wrapping Up
 
-The biggest lesson from this experience was that normalization's value isn't visible in normal times. Storing as text makes reads fast and writes easy. The cost of that convenience comes due when data changes — as it did this time. And that cost arrived all at once in the form of a 75-table full scan and 2.8 million records of data cleansing.
+The biggest lesson from this experience was that normalization's value isn't visible in normal times. Storing as text makes reads fast and writes easy. The cost of that convenience comes due when data changes — as it did this time. And that cost arrived all at once, landing on me in the form of a 75-table full scan and 2.8 million records of data cleansing.
 
 That said, I don't think unconditional normalization is the answer either. A structure requiring 5-table JOINs to display a single address, or parsing every external API response into a normalized structure, isn't practical. I think it's ultimately a matter of finding balance between normalization and denormalization.
 
-But one thing became clear after this experience. When choosing to denormalize, the reason shouldn't be "because it's easier." Even when intentionally duplicating text for performance, I think you should keep an update anchor like `region_code` alongside it. That way, when the next change comes, you can respond with a code-based batch update instead of a full scan.
+But one thing became clear after this experience. When choosing to denormalize, I think the reason shouldn't be "because it's easier." Even when intentionally duplicating text for performance, I think you should keep an update anchor like `region_code` alongside it. That way, when the next change comes, you can respond with a code-based batch update instead of a full scan.
 
 The next time I face a similar design decision, I think the memory of this full scan will stay with me for quite a while.
-
----
 
 ### References
 
