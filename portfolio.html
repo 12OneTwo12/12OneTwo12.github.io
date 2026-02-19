@@ -369,6 +369,10 @@ a:hover{text-decoration:underline;}
         <strong>"지금 안전하게 전환할 수 있는 범위"와 "나중에 할 일"을 명확히 분리</strong>하는 것이
         2~3명 팀에서 현실적인 전략이었습니다.
       </div>
+
+      <div class="rb" style="margin-top:8px;">
+        <strong>과도기 안전장치 종합:</strong> Dual Write 검증 배치 (매시간 실행) · Telegram 자동 알림 · 레거시 즉시 롤백 가능 상태 상시 유지 · 카나리 배포로 트래픽 단계적 전환
+      </div>
     </div>
   </div>
 </div></div>
@@ -411,6 +415,7 @@ a:hover{text-decoration:underline;}
             <li>공통 변경 PR: 16개</li>
             <li>공통 의존성: 개별 관리</li>
             <li>버전 불일치 장애: 반복 발생</li>
+            <li>CI 빌드: 서비스별 개별 파이프라인</li>
           </ul>
         </div>
         <div class="cc af">
@@ -419,6 +424,7 @@ a:hover{text-decoration:underline;}
             <li>공통 변경 PR: <strong>1개</strong></li>
             <li>공통 의존성: <strong>중앙 관리</strong></li>
             <li>버전 불일치 장애: <strong>0회</strong></li>
+            <li>CI 빌드 시간: <strong>70% 단축</strong></li>
           </ul>
         </div>
       </div>
@@ -466,6 +472,10 @@ a:hover{text-decoration:underline;}
         공통 모듈이 비대해지면 MSA의 독립성이 무너집니다.
         인프라 코드(JPA Config, Security 등)는 각 모듈에서 독립 관리하고,
         <strong>:common에는 순수 타입 정의만 허용</strong>하는 규칙을 정했습니다.
+      </div>
+
+      <div class="rb" style="margin-top:6px;">
+        <strong>Gradle Version Catalog:</strong> 모든 서비스의 의존성 버전을 <strong>libs.versions.toml</strong> 단일 파일로 관리 → 버전 불일치 장애 원천 차단, Detekt + ReviewDog으로 코드 품질 자동 검증
       </div>
     </div>
   </div>
@@ -966,6 +976,17 @@ a:hover{text-decoration:underline;}
         <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>할 수 있는 유일한 기회입니다.
         WebFlux와 R2DBC는 여기서 먼저 경험한 후 회사 프로젝트에 적용 여부를 판단했습니다.
       </div>
+
+      <div class="dg" style="margin-top:10px;">
+        <div class="dl">FULL STACK ARCHITECTURE</div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:10.5px;">
+          <span style="color:#222;font-weight:600;">Backend</span><span style="color:#666;">Kotlin · Spring WebFlux · R2DBC · Coroutines</span>
+          <span style="color:#222;font-weight:600;">Frontend</span><span style="color:#666;">React Native (Expo) · TypeScript</span>
+          <span style="color:#222;font-weight:600;">AI</span><span style="color:#666;">Vertex AI Gemini · Google STT · YouTube Data API</span>
+          <span style="color:#222;font-weight:600;">Infra</span><span style="color:#666;">GKE · ArgoCD · Cloud SQL · Redis</span>
+          <span style="color:#222;font-weight:600;">Monitoring</span><span style="color:#666;">Grafana · Loki · Tempo · Prometheus</span>
+        </div>
+      </div>
     </div>
 
     <div class="c">
@@ -1038,10 +1059,24 @@ a:hover{text-decoration:underline;}
         기술적으로 우월한 선택보다 <strong class="bd">비즈니스에 합리적인 선택</strong>을 합니다.</p>
       </div>
 
-      <div>
+      <div style="margin-bottom:16px;">
         <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"배운 것을 기록하고 공유한다."</div>
         <p class="bt">기술 블로그 아티클, 2년 넘게 이어온 스터디, 오픈소스 기여.
         문제를 해결한 과정을 기록하면 <strong class="bd">같은 실수를 반복하지 않고, 동료도 성장</strong>합니다.</p>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"AI를 도구로 활용하되, 대체 불가능한 역량에 집중한다."</div>
+        <p class="bt">MCP 프로토콜을 모니터링 시스템에 연동하고, AI Coding Agent로 에러 대응을 자동화했습니다.
+        동시에 <strong class="bd">아키텍처 설계, 장애 근본 원인 분석, 비용 기반 기술 판단</strong>처럼
+        AI가 대체할 수 없는 엔지니어링 역량을 키우는 데 집중합니다.</p>
+      </div>
+
+      <div class="rb" style="margin-top:auto;padding:12px 16px;text-align:center;">
+        <div style="font-size:15px;font-weight:700;color:#222;letter-spacing:-.02em;">
+          "우리 서비스에 지금 가장 필요한 개선은 무엇인가?"
+        </div>
+        <p style="font-size:11px;color:#666;margin-top:6px;">항상 이 질문에서 시작합니다.</p>
       </div>
     </div>
 
