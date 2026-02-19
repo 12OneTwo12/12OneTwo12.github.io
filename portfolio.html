@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정정일 | Backend Developer Portfolio</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+body{
+  font-family:Arial,'Helvetica Neue','Apple SD Gothic Neo',sans-serif;
+  color:#222;background:#e8e8e8;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.slide{
+  width:100vw;min-height:100vh;
+  display:flex;justify-content:center;align-items:center;
+  scroll-snap-align:start;padding:12px 0;
+}
+.si{
+  width:1280px;height:720px;background:#fff;
+  position:relative;padding:30px 48px 24px;
+  box-shadow:0 2px 12px rgba(0,0,0,.1);overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.bar{width:38px;height:2px;background:#333;margin-bottom:7px;flex-shrink:0;}
+.st{font-size:19px;font-weight:700;color:#222;letter-spacing:-.01em;flex-shrink:0;}
+.ss{position:absolute;top:34px;right:48px;font-size:12px;color:#666;}
+.pn{position:absolute;bottom:18px;right:48px;font-size:11px;color:#999;}
+.body{flex:1;display:flex;flex-direction:column;}
+
+h3{font-size:14px;font-weight:700;color:#222;margin-bottom:4px;}
+p,.bt{font-size:12px;color:#666;line-height:1.65;}
+a{color:#1a73e8;text-decoration:none;}
+a:hover{text-decoration:underline;}
+.sub{font-size:18px;color:#666;font-weight:400;}
+.cap{font-size:11px;color:#999;}
+.sm{font-size:11px;color:#999;}
+.bd{font-weight:700;color:#222;}
+.hl{color:#1a73e8;font-weight:700;}
+.sec{font-size:14px;font-weight:700;color:#222;margin:14px 0 5px;}
+.sec-s{font-size:13px;font-weight:700;color:#222;margin:10px 0 4px;}
+
+.it{border-collapse:collapse;font-size:12px;}
+.it td{padding:5px 10px;vertical-align:middle;border:1px solid #ddd;}
+.it .l{background:#f8f8f8;color:#222;width:110px;white-space:nowrap;}
+.it .v{color:#666;min-width:280px;}
+
+.bl{padding-left:18px;font-size:12px;color:#666;line-height:1.75;}
+.bl li{margin-bottom:2px;}
+
+.rb{background:#f8f8f8;border:1px solid #ddd;border-radius:4px;padding:8px 14px;font-size:12px;color:#666;}
+.rb strong{color:#222;}
+
+.ib{background:#fafafa;border-left:3px solid #333;padding:10px 14px;font-size:11.5px;color:#555;line-height:1.65;}
+.ib strong{color:#222;}
+
+.dg{background:#fafafa;border:1px solid #e0e0e0;border-radius:4px;padding:12px;overflow:hidden;}
+.dl{font-size:10px;font-weight:700;color:#999;text-align:center;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase;}
+.dr{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:5px;}
+.dc{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.db{padding:5px 12px;border:1.5px solid #ccc;border-radius:4px;font-size:10.5px;color:#444;text-align:center;background:#fff;min-width:68px;line-height:1.3;}
+.db.dk{background:#f0f0f0;border-color:#bbb;color:#333;font-weight:600;}
+.db.ac{background:#e8f0fe;border-color:#a8c7fa;color:#1a56db;}
+.db.wn{background:#fef7e0;border-color:#f0c14b;color:#8a6d3b;}
+.db.er{background:#fce8e6;border-color:#f28b82;color:#c5221f;}
+.db.ok{background:#e6f4ea;border-color:#81c995;color:#137333;}
+.ds{padding:3px 8px;font-size:9.5px;min-width:54px;}
+.da{font-size:11px;color:#999;flex-shrink:0;}
+.dd{text-align:center;color:#999;font-size:11px;margin:2px 0;}
+.dn{font-size:9.5px;color:#999;text-align:center;margin-top:4px;}
+
+.tc{display:flex;gap:28px;flex:1;}.tc>.c{flex:1;display:flex;flex-direction:column;}
+.tc>.cw{flex:1.2;display:flex;flex-direction:column;}.tc>.cn{flex:.8;display:flex;flex-direction:column;}
+
+.tl{display:flex;position:relative;gap:0;}
+.tl::before{content:'';position:absolute;top:8px;left:20px;right:20px;height:1.5px;background:#ddd;z-index:0;}
+.ti{flex:1;text-align:center;position:relative;z-index:1;padding:0 6px;}
+.td{width:8px;height:8px;border-radius:50%;background:#333;margin:4px auto 7px;border:2px solid #fff;box-shadow:0 0 0 1.5px #333;}
+.tdt{font-size:10px;font-weight:700;color:#333;}
+.tt{font-size:9.5px;color:#666;line-height:1.4;margin-top:2px;}
+
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.cc{border:1px solid #ddd;border-radius:4px;padding:10px;background:#fff;}
+.cc.bf{border-color:#f28b82;}.cc.af{border-color:#81c995;}
+.cl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+.cc.bf .cl{color:#c5221f;}.cc.af .cl{color:#137333;}
+.cc ul{padding-left:14px;font-size:10.5px;color:#666;line-height:1.5;}
+
+.ct{border-collapse:collapse;font-size:11px;width:100%;}
+.ct th{background:#f8f8f8;color:#222;padding:5px 10px;border:1px solid #ddd;font-weight:600;text-align:left;}
+.ct td{padding:5px 10px;border:1px solid #ddd;color:#666;}
+.ct .w{color:#137333;font-weight:600;}
+
+@media print{
+  body{background:#fff;}
+  .slide{padding:0;min-height:0;page-break-after:always;}
+  .slide:last-child{page-break-after:avoid;}
+  .si{box-shadow:none;width:100%;height:100vh;}
+}
+@page{size:landscape;margin:0;}
+</style>
+</head>
+<body>
+
+<!-- ===== SLIDE 1: COVER ===== -->
+<div class="slide"><div class="si" style="justify-content:center;">
+  <div class="bar" style="margin-bottom:12px;"></div>
+  <h1 style="font-size:48px;font-weight:700;">정정일</h1>
+  <div class="sub" style="margin-top:6px;">Backend Developer Portfolio</div>
+  <p style="margin-top:20px;font-size:13px;color:#888;max-width:600px;line-height:1.7;">
+    모놀리식에서 MSA로, EC2에서 Kubernetes로, 수동 운영에서 자동 감지로.<br>
+    기존 시스템의 한계를 진단하고 아키텍처 전환부터 인프라 구축까지<br>
+    End-to-End로 설계·실행합니다.
+  </p>
+  <div style="font-size:12px;color:#999;margin-top:28px;">
+    jji042842@gmail.com &nbsp;·&nbsp;
+    <a href="https://github.com/12OneTwo12">github.com/12OneTwo12</a> &nbsp;·&nbsp;
+    <a href="https://jeongil.dev">jeongil.dev</a>
+  </div>
+  <span class="pn">1</span>
+</div></div>
+
+<!-- ===== SLIDE 2: CONTENTS ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">CONTENTS</div>
+  <span class="pn">2</span>
+  <div class="body" style="justify-content:center;padding:0 20px;">
+    <div style="display:grid;grid-template-columns:32px 1fr;row-gap:6px;font-size:15px;line-height:2;">
+      <span class="bd">1.</span><span>Profile <span class="sm">— 경력, 기술 스택, 핵심 성과</span></span>
+      <span class="bd">2.</span><span>프로젝트</span>
+      <span></span><span style="padding-left:16px;color:#666;">2-1. 모놀리식 → MSA 전환 <span class="sm">— 무중단 아키텍처 전환, 부분적 빅뱅 전략</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-2. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-3. K8s 인프라 & 모니터링 구축 <span class="sm">— GKE, LGTM Stack, 아키텍처 진화</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-4. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Manticore Search + OpenAI</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-5. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-6. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
+      <span class="bd">3.</span><span>Side Project — Upvy <span class="sm">— AI 숏폼 영상 플랫폼, 1인 개발</span></span>
+      <span class="bd">4.</span><span>개발 철학 & Contact</span>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 3: PROFILE ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">PROFILE</div>
+  <span class="ss">1. Profile</span>
+  <span class="pn">3</span>
+  <div class="tc" style="margin-top:14px;flex:1;">
+    <div class="c">
+      <div style="font-size:24px;font-weight:700;">정정일</div>
+      <div style="font-size:13px;color:#666;margin:4px 0 16px;">Backend Developer &nbsp;·&nbsp; 3년차</div>
+
+      <h3>CAREER</h3>
+      <ul class="bl" style="margin:4px 0 14px;">
+        <li><strong class="bd">2025.03~현재</strong> &nbsp;부톡(주)</li>
+        <li><strong class="bd">2023.03~2025.03</strong> &nbsp;(주)헬로핀테크</li>
+      </ul>
+
+      <h3>CERTIFICATE</h3>
+      <ul class="bl" style="margin:4px 0 14px;">
+        <li><strong class="bd">CKA</strong> (2025)</li>
+        <li><strong class="bd">AWS CCP</strong> (2024)</li>
+        <li>리눅스마스터 2급 (2024)</li>
+        <li>SQLD (2022)</li>
+      </ul>
+    </div>
+
+    <div class="c">
+      <h3>SKILL</h3>
+      <div style="display:grid;grid-template-columns:100px 1fr;row-gap:6px;margin:6px 0 14px;font-size:12px;">
+        <div class="bd">Language</div><div style="color:#666;">Java, Kotlin</div>
+        <div class="bd">Backend</div><div style="color:#666;">Spring Boot, Spring Cloud, Spring Batch</div>
+        <div class="bd">Infra</div><div style="color:#666;">Kubernetes, ArgoCD, Jenkins</div>
+        <div class="bd">DB</div><div style="color:#666;">MySQL, Redis, Elasticsearch</div>
+        <div class="bd">Monitoring</div><div style="color:#666;">Grafana, Prometheus, Loki, Tempo</div>
+      </div>
+
+      <h3>KEY RESULTS</h3>
+      <ul class="bl" style="margin:4px 0 0;">
+        <li>MSA 전환 무중단 완료</li>
+        <li>장애 인지 시간 <strong class="bd">98% 단축</strong> (1시간→1분)</li>
+        <li>API 응답속도 <strong class="bd">87% 개선</strong> (10.3초→1.3초)</li>
+        <li>배치 처리시간 <strong class="bd">64% 단축</strong> (13분→5분)</li>
+      </ul>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 4: MSA 전환 (1/2) ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(1) 모놀리식 → MSA 전환 프로젝트</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">4</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c" style="flex:.9;">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.11 (8개월)</td></tr>
+        <tr><td class="l">역할</td><td class="v">부분적 빅뱅 전략 설계, 14개 서비스 중 5개 설계 및 구현 담당</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">Kotlin, Spring Cloud, Feign Client, AWS SQS, CQRS, Hexagonal</td></tr>
+        <tr><td class="l">서비스 규모</td><td class="v">14개 MSA · 3 SNS / 42 SQS · Schema-per-Service · GKE 2 Cluster</td></tr>
+      </table>
+
+      <div class="sec">배경 및 문제</div>
+      <ul class="bl">
+        <li>핵심 도메인(매물, 중개사-사용자 매칭)의 <strong class="bd">양방향 강결합</strong>으로 점진적 전환 불가</li>
+        <li>단일 코드베이스에서 하나의 도메인 변경이 전체 배포·장애 전파를 유발</li>
+        <li>공통 코드가 서비스별 개별 코드베이스에 중복 관리</li>
+      </ul>
+
+      <div class="sec">고려한 전환 전략</div>
+      <table class="ct" style="font-size:10.5px;margin-bottom:4px;">
+        <tr><th style="width:28%;">전략</th><th>장점</th><th>단점</th><th style="width:14%;">판단</th></tr>
+        <tr><td class="bd">Strangler Fig<br>(점진적)</td><td>리스크 낮음</td><td>강결합 도메인에선 불가</td><td class="er" style="color:#c5221f;font-weight:600;">❌ 탈락</td></tr>
+        <tr><td class="bd">Full 빅뱅</td><td>한 번에 완료</td><td>2~3명 팀에서 감당 불가</td><td class="er" style="color:#c5221f;font-weight:600;">❌ 탈락</td></tr>
+        <tr><td class="bd">부분적 빅뱅<br>(하이브리드)</td><td>강결합만 동시 분리,<br>나머지는 점진적</td><td>과도기 관리 필요</td><td style="color:#137333;font-weight:600;">✅ 채택</td></tr>
+      </table>
+
+      <div class="sec">해결: 부분적 빅뱅 + Dual Write</div>
+      <ul class="bl">
+        <li>강결합 도메인(아파트, 매칭, 중개사) 동시 분리 + 나머지 점진적 전환</li>
+        <li><span class="hl">Dual Write + 검증 배치</span>로 과도기 데이터 정합성 보장</li>
+        <li>헥사고날 아키텍처 + CQRS 패턴으로 기술 의존성 제거</li>
+      </ul>
+
+      <div class="sec">성과</div>
+      <ul class="bl">
+        <li><strong class="bd">무중단 MSA 전환 완료</strong> — 다운타임 0분, 데이터 유실 0건</li>
+        <li><strong class="bd">도메인 독립 배포 체계 구축</strong> → 서비스별 독립 배포·롤백, 신규 기능 개발 주기 단축</li>
+        <li>장애 격리 달성 → 단일 서비스 장애가 전체 서비스에 전파되지 않는 구조 확보</li>
+      </ul>
+    </div>
+
+    <div class="c" style="flex:1.1;">
+      <div class="dg">
+        <div class="dl">전환 전략 다이어그램</div>
+        <div style="display:flex;gap:10px;align-items:start;">
+          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE</div>
+            <div class="db er ds" style="width:100%;margin-bottom:4px;">Legacy Service (단일 WAR)</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
+              <div class="db ds">아파트</div><div class="db ds">매칭</div>
+              <div class="db ds">중개사</div><div class="db ds">채팅</div>
+              <div class="db ds">유저</div><div class="db ds">알림</div>
+            </div>
+            <div class="dd">↓</div>
+            <div class="db wn ds" style="width:100%;">단일 MySQL DB</div>
+          </div>
+          <div style="display:flex;align-items:center;padding-top:50px;font-size:18px;color:#999;">→</div>
+          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AFTER</div>
+            <div class="db ok ds" style="width:100%;margin-bottom:4px;">GKE Kubernetes Cluster</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
+              <div class="db ok ds">apart-svc</div><div class="db ok ds">match-svc</div>
+              <div class="db ok ds">agent-svc</div><div class="db ok ds">chat-svc</div>
+              <div class="db ok ds">user-svc</div><div class="db ok ds">notif-svc</div>
+            </div>
+            <div class="dd">↓</div>
+            <div style="display:flex;gap:3px;">
+              <div class="db wn ds" style="flex:1;">Schema별 분리</div>
+              <div class="db ac ds" style="flex:1;">SNS/SQS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:10px;">
+        <strong>왜 점진적 전환(Strangler Fig)이 아닌 부분적 빅뱅을 선택했는가?</strong><br>
+        아파트 도메인과 매칭 도메인이 양방향으로 강결합 — 아파트 매물 등록 시 매칭 로직이 실행되고, 매칭 결과가 아파트 상태를 변경하는 구조.
+        하나만 분리하면 나머지가 작동하지 않았습니다. 교과서적인 점진적 전환은 이 구조에서 불가능했고,
+        <strong>팀 규모(2~3명)가 감당할 수 있는 범위 내에서 최소한의 빅뱅</strong>을 설계했습니다.
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>팀 내 합의 과정:</strong>
+        CTO와 기술 논의를 거쳐 "강결합 도메인은 동시 분리, 나머지는 점진적 전환"이라는 하이브리드 전략에 합의했습니다.
+        동료 개발자들과 함께 헥사고날 아키텍처의 Port/Adapter 경계를 정의하고,
+        코드 리뷰를 통해 도메인 로직이 인프라에 의존하지 않는지 지속 검증했습니다.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 5: MSA 전환 (2/2) — 실행과 검증 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(1) MSA 전환 — 과도기 관리 & 실행 과정</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">5</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c">
+      <div class="sec-s">Dual Write + 검증 배치 — 과도기 데이터 정합성 보장</div>
+      <div class="dg">
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db dk" style="width:80%;">API 요청 진입</div>
+          <div class="dd">↓ 동시 기록</div>
+          <div style="display:flex;gap:6px;width:80%;">
+            <div class="db" style="flex:1;">Legacy DB 기록</div>
+            <div class="db ac" style="flex:1;">신규 서비스 DB 기록</div>
+          </div>
+          <div class="dd">↓ 매 시간 실행</div>
+          <div class="db dk" style="width:80%;">검증 배치: 양쪽 데이터 비교</div>
+          <div class="dd">↓ 불일치 시</div>
+          <div class="db wn" style="width:80%;">Telegram 알림 + 자동 보정</div>
+        </div>
+        <div class="dn">실제 운영 결과: 과도기 8개월간 데이터 불일치 0건</div>
+      </div>
+
+      <div class="sec-s" style="margin-top:10px;">실제 마이그레이션 타임라인</div>
+      <table class="ct" style="font-size:10px;">
+        <tr><th>시기</th><th>작업</th><th>검증</th></tr>
+        <tr><td>4~5월</td><td>헥사고날 아키텍처 설계, Port/Adapter 경계 정의</td><td>CTO 아키텍처 리뷰</td></tr>
+        <tr><td>5~7월</td><td>apart, agent, match 3개 핵심 도메인 동시 분리</td><td>Dual Write 검증 배치</td></tr>
+        <tr><td>7~9월</td><td>notification, event, community 점진적 분리</td><td>통합 테스트 + 카나리 배포</td></tr>
+        <tr><td>9~11월</td><td>레거시 트래픽 이전 + Dual Write 종료</td><td>성능 벤치마크 비교</td></tr>
+      </table>
+
+      <div class="ib" style="margin-top:10px;">
+        <strong>이 경험에서 배운 것:</strong>
+        "전환 전략보다 중요한 것은 전환이 실패했을 때의 롤백 계획이다."
+        모든 단계에서 레거시로 즉시 롤백할 수 있는 상태를 유지했고, 이 안전망이 있었기에
+        과감한 전환을 실행할 수 있었습니다.
+      </div>
+    </div>
+
+    <div class="c">
+      <div class="sec-s">이벤트 기반 비동기 통신 — SNS/SQS Fan-out</div>
+      <div class="dg">
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db ok" style="width:60%;">apart-svc (매물 등록)</div>
+          <div class="dd">↓ 이벤트 발행</div>
+          <div class="db ac" style="width:60%;">SNS Topic (btalk_common_event)</div>
+          <div class="dd">↓ Fan-out</div>
+          <div style="display:flex;gap:4px;width:85%;">
+            <div class="db ds" style="flex:1;">match-svc<br>SQS</div>
+            <div class="db ds" style="flex:1;">notification<br>SQS</div>
+            <div class="db ds" style="flex:1;">event-svc<br>SQS</div>
+            <div class="db ds" style="flex:1;">agent-svc<br>SQS</div>
+          </div>
+        </div>
+        <div class="dn">3개 SNS Topic → 42개 SQS Queue로 서비스 간 느슨한 결합 달성</div>
+      </div>
+
+      <div class="sec-s" style="margin-top:10px;">FeignClient 서비스 간 동기 의존성 맵</div>
+      <div class="dg">
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;">
+            <div class="db ok ds">apart</div>
+            <div class="da">↔</div>
+            <div class="db ok ds">agent</div>
+            <div class="da">→</div>
+            <div class="db ok ds">user</div>
+          </div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:4px;">
+            <div class="db ok ds">match</div>
+            <div class="da">→</div>
+            <div class="db ok ds">apart</div>
+            <div class="da">&nbsp;</div>
+            <div class="db wn ds">chat → legacy</div>
+            <div class="da">&nbsp;</div>
+            <div class="db wn ds">match → legacy</div>
+          </div>
+        </div>
+        <div class="dn">chat, match 서비스는 레거시에 아직 의존 — 향후 제거 대상으로 관리</div>
+      </div>
+
+      <div class="ib" style="margin-top:10px;">
+        <strong>의도적으로 남긴 기술 부채:</strong>
+        chat-svc와 match-svc의 레거시 의존성을 즉시 제거하지 않았습니다.
+        8개월 내 모든 것을 완벽히 전환하려는 욕심보다,
+        <strong>"지금 안전하게 전환할 수 있는 범위"와 "나중에 할 일"을 명확히 분리</strong>하는 것이
+        2~3명 팀에서 현실적인 전략이었습니다.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 6: 멀티모듈 전환 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(2) 16개 레포지토리를 하나로 — 멀티모듈 전환</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">6</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c" style="flex:.9;">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.05 (2개월)</td></tr>
+        <tr><td class="l">역할</td><td class="v">멀티모듈 구조 설계 및 Git Subtree 마이그레이션 주도</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">Kotlin, Gradle Multi-Module, Git Subtree</td></tr>
+      </table>
+
+      <div class="sec">배경 및 문제</div>
+      <ul class="bl">
+        <li>2~3명이 <strong class="bd">16개 개별 레포</strong> 관리 — 공통 변경 시 16개 PR 필요</li>
+        <li>서비스 간 라이브러리 버전 불일치 → 런타임 장애 반복</li>
+        <li>동일 유틸리티 코드가 16개 레포에 복사·붙여넣기</li>
+      </ul>
+
+      <div class="sec">고려한 대안 & 해결</div>
+      <ul class="bl">
+        <li><strong class="bd">레포 전략:</strong> 멀티레포 유지 vs <span class="hl">모노레포 전환</span> — 2~3명이 16개 PR 관리는 운영 오버헤드 → 빌드/PR 데이터 근거로 전환 제안</li>
+        <li><strong class="bd">히스토리:</strong> 새 레포 생성(히스토리 손실) vs <span class="hl">Git Subtree(보존)</span></li>
+        <li><strong class="bd">공통 모듈:</strong> 범용 :common vs <span class="hl">Types/Enums/Utils만 허용</span> — 비대화 방지</li>
+        <li><strong class="bd">품질 게이트:</strong> <span class="hl">Detekt + ReviewDog + JaCoCo</span> (변경분 50% 커버리지)</li>
+      </ul>
+
+      <div class="sec">성과</div>
+      <div class="cmp" style="margin-top:4px;">
+        <div class="cc bf">
+          <div class="cl">Before</div>
+          <ul>
+            <li>공통 변경 PR: 16개</li>
+            <li>공통 의존성: 개별 관리</li>
+            <li>버전 불일치 장애: 반복 발생</li>
+          </ul>
+        </div>
+        <div class="cc af">
+          <div class="cl">After</div>
+          <ul>
+            <li>공통 변경 PR: <strong>1개</strong></li>
+            <li>공통 의존성: <strong>중앙 관리</strong></li>
+            <li>버전 불일치 장애: <strong>0회</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="c" style="flex:1.1;">
+      <div class="dg">
+        <div class="dl">BEFORE → AFTER: 레포지토리 구조</div>
+        <div style="display:flex;gap:8px;align-items:start;">
+          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE: 16개 개별 레포</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
+              <div class="db er ds">agent-repo</div><div class="db er ds">apart-repo</div><div class="db er ds">ai-repo</div>
+              <div class="db er ds">match-repo</div><div class="db er ds">chat-repo</div><div class="db er ds">user-repo</div>
+              <div class="db er ds">notif-repo</div><div class="db er ds">data-repo</div><div class="db er ds">event-repo</div>
+              <div class="db er ds">commu-repo</div><div class="db er ds">price-repo</div><div class="db er ds">store-repo</div>
+            </div>
+            <div style="text-align:center;font-size:8px;color:#c5221f;margin-top:3px;">+ batch, legacy, config, common</div>
+            <div class="dd" style="font-size:8px;color:#c5221f;">각각 독립 build.gradle · 버전 개별 관리</div>
+          </div>
+          <div style="display:flex;align-items:center;padding-top:40px;font-size:16px;color:#999;">→</div>
+          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AFTER: Monorepo</div>
+            <div class="db dk ds" style="width:100%;margin-bottom:3px;">:common — Types, Enums만</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
+              <div class="db ok ds">:agent</div><div class="db ok ds">:apart</div><div class="db ok ds">:ai</div>
+              <div class="db ok ds">:match</div><div class="db ok ds">:chat</div><div class="db ok ds">:user</div>
+              <div class="db ok ds">:notif</div><div class="db ok ds">:data</div><div class="db ok ds">:event</div>
+            </div>
+            <div class="db dk ds" style="width:100%;margin-top:3px;">:batch · :legacy</div>
+            <div class="dd" style="font-size:8px;color:#137333;">Version Catalog 단일 관리 · Git Subtree 히스토리 보존</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>핵심 의사결정: MSA ≠ Multi-Repo</strong><br>
+        "MSA는 멀티레포가 기본"이라는 관행에 의문을 품었습니다. 넷플릭스처럼 수백 명이라면 합리적이지만,
+        <strong>2~3명이 16개 레포를 관리하는 것은 운영 오버헤드</strong>였습니다.
+        빌드 시간과 PR 개수 데이터를 근거로 전환을 제안하고 CTO 승인을 받았습니다.
+      </div>
+
+      <div class="ib" style="margin-top:6px;">
+        <strong>:common 모듈 설계 철학:</strong>
+        공통 모듈이 비대해지면 MSA의 독립성이 무너집니다.
+        인프라 코드(JPA Config, Security 등)는 각 모듈에서 독립 관리하고,
+        <strong>:common에는 순수 타입 정의만 허용</strong>하는 규칙을 정했습니다.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 7: K8s & 모니터링 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(3) Kubernetes 인프라 & 모니터링 시스템 구축</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">7</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.09 (6개월)</td></tr>
+        <tr><td class="l">역할</td><td class="v">인프라 아키텍처 설계 및 구축 전담 (GKE 도입 제안 → CI/CD → 모니터링 → 마이그레이션)</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">GKE, ArgoCD, GitHub Actions, Grafana, Prometheus, Loki, Tempo</td></tr>
+        <tr><td class="l">인프라 규모</td><td class="v">GKE 2 Cluster (dev/prod) · 14개 서비스 Pod · OTel Sidecar 전 서비스</td></tr>
+      </table>
+
+      <div class="sec">배경 및 문제</div>
+      <ul class="bl">
+        <li>EC2 + Docker Compose 직접 배포 → 롤백 30분+, 수평 확장 불가, SPOF</li>
+        <li>장애 인지가 사용자 CS에 100% 의존 (<strong class="bd">실제 CS 접수율 5~10%</strong>, 나머지는 조용히 이탈)</li>
+      </ul>
+
+      <div class="sec">고려한 대안 & 해결</div>
+      <ul class="bl">
+        <li><strong class="bd">인프라:</strong> Self-managed K8s vs <span class="hl">GKE(Managed)</span> — DevOps 부재 상태에서 월 $72로 컨트롤 플레인 리스크 해소</li>
+        <li><strong class="bd">CI/CD:</strong> Jenkins vs <span class="hl">GitHub Actions + ArgoCD</span> — Self-hosted macOS Runner + GitOps로 선언적 배포</li>
+        <li><strong class="bd">마이그레이션:</strong> 서비스 중단 후 이전 vs <span class="hl">DMS CDC 실시간 동기화</span> — 무중단 달성</li>
+        <li><strong class="bd">모니터링:</strong> ELK vs <span class="hl">Grafana LGTM</span> — 비용 효율적, Traces 내장</li>
+      </ul>
+
+      <div class="sec">성과</div>
+      <ul class="bl">
+        <li>장애 인지 <strong class="bd">98% 단축</strong> (1시간→1분) → CS 의존 탈피, 선제적 장애 대응 체계</li>
+        <li>롤백 <strong class="bd">83% 단축</strong> (30분→5분) → 장애 영향 범위 최소화</li>
+        <li>Grafana LGTM Stack으로 <strong class="bd">ELK 대비 비용 효율적</strong> 모니터링 체계 구축</li>
+      </ul>
+
+      <div class="ib" style="margin-top:10px;">
+        <strong>"장애는 사용자보다 먼저 감지되어야 한다"</strong><br>
+        CS로 인지되는 장애는 빙산의 일각입니다. 90% 이상의 사용자는 불편을 감수하거나 이탈합니다.
+        이 인사이트가 모니터링 시스템 구축의 출발점이었습니다.
+      </div>
+    </div>
+
+    <div class="c">
+      <div class="dg">
+        <div class="dl">CI/CD 파이프라인</div>
+        <div style="display:flex;align-items:center;gap:3px;flex-wrap:wrap;justify-content:center;">
+          <div class="db ds">GitHub Push</div><div class="da">→</div>
+          <div class="db ds">GitHub Actions<br><span style="font-size:8px;color:#999;">Self-hosted</span></div><div class="da">→</div>
+          <div class="db ds">Docker Build</div><div class="da">→</div>
+          <div class="db ds">GCP Artifact</div><div class="da">→</div>
+          <div class="db ds">ArgoCD<br><span style="font-size:8px;color:#999;">GitOps</span></div><div class="da">→</div>
+          <div class="db ok ds">GKE 배포</div>
+        </div>
+      </div>
+
+      <div class="dg" style="margin-top:8px;">
+        <div class="dl">모니터링 아키텍처: LGTM Stack</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div style="display:flex;gap:4px;">
+            <div class="db ds">agent</div><div class="db ds">apart</div>
+            <div class="db ds">ai</div><div class="db ds">...(14개)</div>
+          </div>
+          <div class="dd">↓ OTel Agent v2.20.1 (Sidecar)</div>
+          <div style="display:flex;gap:6px;">
+            <div class="db ac ds">Prometheus</div><div class="db ac ds">Loki</div><div class="db ac ds">Tempo</div>
+          </div>
+          <div class="dd">↓</div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div class="db dk ds">Grafana</div><div class="da">→</div>
+            <div class="db wn ds">Telegram Alert + Runbook</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-s" style="margin-top:10px;">비용 비교: 왜 ELK가 아닌 LGTM인가</div>
+      <table class="ct" style="font-size:10px;">
+        <tr><th></th><th>ELK Stack</th><th>Grafana LGTM</th></tr>
+        <tr><td class="bd">월 비용</td><td>$92~200 (ES만)</td><td class="w">$12~37</td></tr>
+        <tr><td class="bd">분산 트레이싱</td><td>Jaeger 별도 구성</td><td class="w">Tempo 내장</td></tr>
+        <tr><td class="bd">학습 곡선</td><td>높음 (ES 클러스터 관리)</td><td class="w">낮음 (단일 바이너리)</td></tr>
+      </table>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>GKE 선택 근거:</strong>
+        Self-managed K8s 대비 월 $72 추가 비용이지만,
+        전담 DevOps 없이 컨트롤 플레인까지 관리하는 리스크를 $72로 해소할 수 있다면 합리적인 투자입니다.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 8: 아키텍처 진화 타임라인 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(3) 아키텍처 진화 과정 — 입사 후 11개월의 기록</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">8</span>
+  <div class="body" style="margin-top:10px;">
+    <p class="bt" style="margin-bottom:10px;">
+      아래 타임라인은 실제 backend_onboarding 레포의 아키텍처 다이어그램 4개 버전(drawio)에서 추출한 것입니다.
+      단순히 기술을 추가한 것이 아니라, 각 단계마다 <strong class="bd">명확한 문제 인식과 해결 목적</strong>이 있었습니다.
+    </p>
+
+    <div class="tl">
+      <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 + Docker Compose</strong><br>단일 인스턴스, SPOF<br>CloudWatch만 사용<br>롤백 30분+</div></div>
+      <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>GKE 클러스터 도입</strong><br>K8s 전환 시작<br>NGINX Ingress 구성<br>레거시 서비스 격리</div></div>
+      <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>Full Observability</strong><br>LGTM Stack 구축<br>OTel Sidecar 전 서비스<br>실시간 Telegram 알림</div></div>
+      <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>안정화 & 자동화</strong><br>14개 MSA 안정 운영<br>3 SNS / 42 SQS<br>GitOps CI/CD 완성</div></div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <!-- BEFORE -->
+      <div class="dg" style="flex:.4;">
+        <div class="dl" style="color:#c5221f;">BEFORE (2025.03 입사 시점)</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db er ds" style="width:85%;">EC2 단일 인스턴스</div>
+          <div class="dd">↓ Docker Compose</div>
+          <div class="db er ds" style="width:85%;">Monolithic WAR</div>
+          <div class="dd">↓</div>
+          <div class="db wn ds" style="width:85%;">단일 MySQL</div>
+          <div class="dd">↓</div>
+          <div class="db ds" style="width:85%;">CloudWatch (기본)</div>
+        </div>
+        <div style="text-align:center;margin-top:6px;font-size:9px;color:#c5221f;">SPOF · 롤백 30분+ · 장애 인지 1시간</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:22px;color:#999;">→</div>
+      <!-- AFTER -->
+      <div class="dg" style="flex:.6;">
+        <div class="dl" style="color:#137333;">AFTER (2026.02 현재 운영 중)</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div style="display:flex;gap:4px;">
+            <div class="db ds" style="font-size:8px;">bootalk_app</div>
+            <div class="db ds" style="font-size:8px;">bootalk_web</div>
+            <div class="db ds" style="font-size:8px;">bootalk_admin</div>
+          </div>
+          <div class="dd">↓</div>
+          <div style="border:1.5px solid #81c995;border-radius:4px;padding:6px 8px;width:95%;position:relative;">
+            <div style="position:absolute;top:-7px;left:8px;background:#fafafa;padding:0 4px;font-size:8px;font-weight:700;color:#137333;">GKE Cluster (dev / prod)</div>
+            <div style="display:flex;gap:2px;flex-wrap:wrap;justify-content:center;margin-top:2px;">
+              <div class="db ok ds" style="font-size:7.5px;">agent</div><div class="db ok ds" style="font-size:7.5px;">apart</div><div class="db ok ds" style="font-size:7.5px;">ai</div>
+              <div class="db ok ds" style="font-size:7.5px;">notification</div><div class="db ok ds" style="font-size:7.5px;">office-store</div><div class="db ok ds" style="font-size:7.5px;">event</div>
+              <div class="db ok ds" style="font-size:7.5px;">data</div><div class="db ok ds" style="font-size:7.5px;">real-price</div><div class="db ok ds" style="font-size:7.5px;">community</div>
+              <div class="db ok ds" style="font-size:7.5px;">user</div><div class="db ok ds" style="font-size:7.5px;">chat</div><div class="db ok ds" style="font-size:7.5px;">match</div>
+              <div class="db wn ds" style="font-size:7.5px;">legacy</div><div class="db wn ds" style="font-size:7.5px;">batch</div>
+            </div>
+          </div>
+          <div class="dd">↓</div>
+          <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
+            <div style="border:1px dashed #ddd;border-radius:3px;padding:3px 6px;text-align:center;">
+              <div style="font-size:7px;color:#999;">AWS</div>
+              <div style="display:flex;gap:2px;"><div class="db ds" style="font-size:7px;min-width:40px;">SNS/SQS</div><div class="db ds" style="font-size:7px;min-width:40px;">Cognito</div><div class="db ds" style="font-size:7px;min-width:40px;">DynamoDB</div></div>
+            </div>
+            <div style="border:1px dashed #ddd;border-radius:3px;padding:3px 6px;text-align:center;">
+              <div style="font-size:7px;color:#999;">DB</div>
+              <div style="display:flex;gap:2px;"><div class="db ds" style="font-size:7px;">Cloud SQL</div><div class="db ds" style="font-size:7px;">RDS</div></div>
+            </div>
+            <div style="border:1px dashed #ddd;border-radius:3px;padding:3px 6px;text-align:center;">
+              <div style="font-size:7px;color:#999;">Monitoring</div>
+              <div style="display:flex;gap:2px;"><div class="db ds" style="font-size:7px;">Grafana</div><div class="db ds" style="font-size:7px;">Prometheus</div><div class="db ds" style="font-size:7px;">Loki</div><div class="db ds" style="font-size:7px;">Tempo</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:4px;font-size:9px;color:#137333;">14 MSA · 3 SNS/42 SQS · GitOps CI/CD · 장애 인지 1분</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:10px;">
+      <table class="ct" style="font-size:10px;flex:1;">
+        <tr><th></th><th style="color:#c5221f;">Before (2025.03)</th><th style="color:#137333;">After (2026.02)</th></tr>
+        <tr><td class="bd">인프라</td><td>EC2 단일 인스턴스 (SPOF)</td><td class="w">GKE 2 Cluster (dev/prod)</td></tr>
+        <tr><td class="bd">서비스</td><td>Monolithic WAR 1개</td><td class="w">14개 MSA (독립 배포)</td></tr>
+        <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (1시간+)</td><td class="w">실시간 알림 (1분)</td></tr>
+        <tr><td class="bd">롤백</td><td>수동 배포 (30분+)</td><td class="w">GitOps 자동 (5분)</td></tr>
+        <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack</td></tr>
+        <tr><td class="bd">배포</td><td>SSH + Docker Compose</td><td class="w">GitHub Actions + ArgoCD</td></tr>
+      </table>
+      <div class="ib" style="flex:1;">
+        <strong>11개월간의 핵심 판단:</strong><br>
+        모든 전환은 "기술을 도입하고 싶어서"가 아니라, <strong>실제 운영 장애와 비효율에 대한 근거</strong>에서 시작했습니다.<br><br>
+        EC2 SPOF → GKE, CS 의존 장애 인지 → LGTM Stack, 수동 배포 → GitOps ArgoCD.
+        각 단계마다 <strong>온프레미스 → 클라우드 무중단 마이그레이션</strong>을 실행하며 서비스 중단 없이 전환했습니다.
+      </div>
+    </div>
+  </div>
+  <span class="pn">8</span>
+</div></div>
+
+<!-- ===== SLIDE 9: 자연어 기반 매물 추천 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(4) 자연어 기반 부동산 매물 추천 기능</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">9</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.06 ~ 2025.10</td></tr>
+        <tr><td class="l">역할</td><td class="v">검색 엔진 설계 및 RAG 파이프라인 구축</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">OpenAI GPT, Manticore Search, Elasticsearch, RAG</td></tr>
+      </table>
+
+      <div class="sec">배경 및 문제</div>
+      <ul class="bl">
+        <li>기존 매물 검색은 필터 기반 — "강남역 근처 30평대 아파트"같은 <strong class="bd">자연어 검색 불가</strong></li>
+        <li>사용자가 원하는 조건을 정확한 필터로 변환하는 것 자체가 진입장벽</li>
+        <li>부동산 도메인 특화 지식(법정동, 단지명, 평형 등)이 필요한 검색</li>
+      </ul>
+
+      <div class="sec">고려한 접근법 & 해결</div>
+      <ul class="bl">
+        <li><strong class="bd">검색 엔진:</strong> ES only vs Manticore only vs <span class="hl">ES + Manticore 하이브리드</span><br>
+          <span class="sm">→ ES는 의미 유사도에 강하지만 지리 검색이 약함, Manticore는 반대 → 둘의 결합이 최적</span></li>
+        <li><strong class="bd">자연어 이해:</strong> 규칙 기반 파싱 vs <span class="hl">OpenAI GPT로 자연어→구조화 변환</span><br>
+          <span class="sm">→ "30평대 신축" 같은 모호한 표현은 규칙으로 커버 불가 → LLM 선택</span></li>
+        <li><strong class="bd">데이터 보강:</strong> 매물 이미지 <span class="hl">AI 라벨링 자동화</span> → 검색 정확도 향상</li>
+      </ul>
+
+      <div class="sec">성과</div>
+      <ul class="bl">
+        <li>자연어 매물 검색 기능 <strong class="bd">프로덕션 출시</strong></li>
+        <li>"강남역 근처 30평대 2억 이하" → 즉시 관련 매물 추천</li>
+        <li>기존 필터 검색 대비 사용자 검색 전환율 개선</li>
+      </ul>
+    </div>
+
+    <div class="c">
+      <div class="dg">
+        <div class="dl">RAG 기반 자연어 매물 추천 파이프라인</div>
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+          <div class="db dk" style="width:70%;">사용자 자연어 쿼리<br><span style="font-size:8px;color:#666;">"강남역 근처 30평대 신축 아파트"</span></div>
+          <div class="dd">↓</div>
+          <div class="db ac" style="width:70%;">OpenAI GPT<br><span style="font-size:8px;color:#666;">자연어 → 구조화된 검색 조건 변환</span></div>
+          <div class="dd">↓ 병렬 검색</div>
+          <div style="display:flex;gap:8px;width:80%;">
+            <div class="db" style="flex:1;">Manticore Search<br><span style="font-size:8px;color:#999;">자연어 지리 검색<br>한국어 형태소 분석</span></div>
+            <div class="db" style="flex:1;">Elasticsearch<br><span style="font-size:8px;color:#999;">RAG 벡터 검색<br>유사도 매칭</span></div>
+          </div>
+          <div class="dd">↓ 결과 병합 + 랭킹</div>
+          <div class="db ok" style="width:70%;">매물 추천 결과 반환</div>
+        </div>
+      </div>
+
+      <div class="dg" style="margin-top:8px;">
+        <div class="dl">데이터 준비 파이프라인</div>
+        <div style="display:flex;align-items:center;gap:3px;justify-content:center;flex-wrap:wrap;">
+          <div class="db ds">매물 데이터<br>수집</div><div class="da">→</div>
+          <div class="db ds">이미지 라벨링<br><span style="font-size:7px;">AI 자동 분석</span></div><div class="da">→</div>
+          <div class="db ds">텍스트 벡터화<br><span style="font-size:7px;">Embedding</span></div><div class="da">→</div>
+          <div class="db ac ds">ES 인덱싱<br><span style="font-size:7px;">Vector Store</span></div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:10px;">
+        <strong>왜 Elasticsearch만으로 부족했는가?</strong><br>
+        ES의 벡터 검색은 의미적 유사도에 강하지만, "강남역 반경 1km" 같은 <strong>정확한 지리 조건</strong>에는 약합니다.
+        Manticore Search의 지리 검색 + ES의 벡터 검색을 결합하여
+        <strong>"의미적 유사성 + 지리적 정확성"을 동시에 만족</strong>하는 하이브리드 검색을 구현했습니다.
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>이 프로젝트가 특별한 이유:</strong>
+        단순 CRUD가 아닌 AI + 검색 엔진 + 도메인 지식이 결합된 프로젝트입니다.
+        부동산 도메인 특유의 데이터(법정동 코드, 단지별 평형, 실거래가 이력)를
+        AI가 이해할 수 있는 형태로 가공하는 과정에서 도메인 전문성과 기술력을 동시에 성장시켰습니다.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 10: 백오피스 성능 최적화 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(5) 백오피스 서버 성능 최적화</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">10</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">(주)헬로핀테크 — P2P 금융플랫폼 (누적대출 2.5조원)</td></tr>
+        <tr><td class="l">기간</td><td class="v">2024.04 ~ 2025.03 (12개월)</td></tr>
+        <tr><td class="l">역할</td><td class="v">성능 분석 및 최적화 설계 담당</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">Java, Spring Boot, JPA, MyBatis, Redis, MySQL</td></tr>
+        <tr><td class="l">플랫폼 규모</td><td class="v">누적대출 2.5조원 · 19개 EC2 인스턴스 · 10개 노드 운영</td></tr>
+      </table>
+
+      <div class="sec">HikariCP Deadlock 해결</div>
+      <ul class="bl">
+        <li><strong class="bd">현상:</strong> 간헐적으로 전체 API 응답불가 — 모든 스레드가 커넥션 대기</li>
+        <li><strong class="bd">근본 원인:</strong> OSIV 활성화 + JPA/MyBatis 혼용 → 1요청이 2개 커넥션 동시 점유</li>
+        <li><strong class="bd">고려한 대안:</strong> ①커넥션 풀 증가(회피) ②OSIV OFF(사이드이펙트 大) ③<span class="hl">JPA 일원화(구조적 해결)</span></li>
+        <li><strong class="bd">선택 이유:</strong> 풀 증가는 트래픽 증가 시 재발, OSIV OFF는 Lazy Loading 전면 수정 필요 → JPA 일원화가 유일한 근본 해결</li>
+      </ul>
+
+      <div class="sec" style="margin-top:10px;">Redis Look-aside Cache</div>
+      <ul class="bl">
+        <li><strong class="bd">문제:</strong> 외부 API 평균 응답 5.1초 → 사용자 이탈 임계치(3초) 초과</li>
+        <li><strong class="bd">판단:</strong> 동일 아파트를 여러 사용자가 반복 조회하는 특성 → 70%+ 캐시 히트 기대</li>
+        <li><strong class="bd">해결:</strong> Redis 캐시 적용 — Cache Hit 시 5,100ms → <strong class="bd">57ms (90x 향상)</strong></li>
+      </ul>
+
+      <div class="sec" style="margin-top:10px;">DB Replication Lag 해결</div>
+      <ul class="bl">
+        <li>AbstractRoutingDataSource + AOP로 동적 Master/Slave 분리</li>
+        <li>쓰기 직후 읽기 시 Master 강제 라우팅으로 정합성 보장</li>
+      </ul>
+
+      <div class="rb" style="margin-top:10px;">
+        <strong>종합 성과:</strong> API 응답속도 <strong>87% 개선</strong> (10.3초→1.3초) → 사용자 이탈 임계치(3초) 이내 진입 · 캐시 히트 시 <strong>99% 개선</strong> · 금융 서비스 SLA 안정성 확보
+      </div>
+    </div>
+
+    <div class="c">
+      <div class="dg">
+        <div class="dl">HikariCP Deadlock 근본 원인</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db dk" style="width:78%;">HTTP Request 진입</div>
+          <div class="dd">↓ OSIV 활성화</div>
+          <div class="db ac" style="width:78%;">JPA EntityManager → <strong>Connection #1 점유</strong></div>
+          <div class="dd">↓ 같은 요청 내</div>
+          <div class="db wn" style="width:78%;">MyBatis 쿼리 → <strong>Connection #2 필요</strong></div>
+          <div class="dd">↓ Pool 고갈 시</div>
+          <div class="db er" style="width:78%;">Conn #2 대기 → #1 반환 불가 → <strong>Deadlock</strong></div>
+        </div>
+        <div class="dn">OSIV는 웹 요청 컨텍스트에서만 활성화 → 단위 테스트에서는 재현 불가</div>
+      </div>
+
+      <div class="dg" style="margin-top:8px;">
+        <div class="dl">Look-aside Cache 패턴</div>
+        <div style="display:flex;gap:16px;justify-content:center;">
+          <div class="dc">
+            <div style="font-size:9px;font-weight:700;color:#c5221f;">Cache Miss</div>
+            <div class="db ds">Request</div><div class="dd">↓</div>
+            <div class="db er ds">Redis: MISS</div><div class="dd">↓</div>
+            <div class="db wn ds">외부 API (5.1s)</div><div class="dd">↓ SET</div>
+            <div class="db ds">Redis 저장</div>
+          </div>
+          <div style="border-left:1px dashed #ddd;"></div>
+          <div class="dc">
+            <div style="font-size:9px;font-weight:700;color:#137333;">Cache Hit</div>
+            <div class="db ds">Request</div><div class="dd">↓</div>
+            <div class="db ok ds">Redis: HIT (57ms)</div><div class="dd">↓</div>
+            <div class="db ok ds">즉시 응답</div>
+            <div style="height:16px;"></div>
+            <div style="font-size:10px;color:#137333;font-weight:700;">90x 향상</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>"테스트를 통과했다 ≠ 프로덕션에서 안전하다"</strong><br>
+        OSIV는 웹 요청 컨텍스트에서만 작동합니다. 이 경험 이후 반드시 통합 테스트에서
+        실제 웹 컨텍스트를 포함한 시나리오를 검증하는 습관을 갖게 되었습니다.
+        <strong>근본 원인 분석 없이 풀 사이즈만 늘렸다면 트래픽 증가 시 재발했을 것</strong>입니다.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 11: Spring Batch ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(6) Spring Batch 성능 최적화</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">11</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">(주)헬로핀테크 — P2P 온라인투자연계 금융플랫폼</td></tr>
+        <tr><td class="l">기간</td><td class="v">2024.05 ~ 2025.03 (11개월)</td></tr>
+        <tr><td class="l">역할</td><td class="v">배치 시스템 전환 및 성능 최적화 설계 담당</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">Java 11, Spring Batch, JPA</td></tr>
+      </table>
+
+      <div class="sec">배경 및 문제</div>
+      <ul class="bl">
+        <li>Job 동시 실행 시 <strong class="bd">Metadata Table Deadlock</strong> 발생</li>
+        <li>Tasklet 방식 — 대량 데이터를 단일 스레드 메모리 로드 → 성능 저하</li>
+        <li>매일 새벽 배치 13분+ 소요 → 후속 배치와 충돌</li>
+      </ul>
+
+      <div class="sec">고려한 대안 & 해결</div>
+      <ul class="bl">
+        <li><strong class="bd">Deadlock:</strong> ①재시도 로직 추가(회피) ②Job 순차 실행(성능 포기) ③<span class="hl">Isolation Level 변경(근본 해결)</span><br>
+          <span class="sm">→ Metadata 테이블은 최종 상태만 정확하면 됨 — 강한 격리 불필요라는 판단</span></li>
+        <li><strong class="bd">성능:</strong> ①Tasklet 내 멀티스레딩(복잡) ②<span class="hl">Chunk + Partitioning(Spring Batch 네이티브)</span><br>
+          <span class="sm">→ 프레임워크가 제공하는 병렬화를 활용하는 것이 유지보수에 유리</span></li>
+        <li>Bulk INSERT로 DB I/O 최적화</li>
+      </ul>
+
+      <div class="sec">성과</div>
+      <ul class="bl">
+        <li>배치 처리 시간 <strong class="bd">64% 단축</strong> (13분 → 5분) → 후속 배치 충돌 해소, 새벽 운영 안정화</li>
+        <li>Metadata Deadlock <strong class="bd">완전 해결</strong> → Job 동시 실행 안정성 확보</li>
+      </ul>
+
+      <div class="ib" style="margin-top:12px;">
+        <strong>DevOps 공백기 인프라 전담 운영:</strong>
+        DevOps 엔지니어 퇴사 후 <strong>19개 EC2 인스턴스, 10개 노드</strong>를 백엔드 개발과 병행하며 전담 운영.
+        Redis Session Clustering 도입으로 세션 유실 해결, CloudWatch 알람 체계화.
+        이 경험이 부톡에서 K8s를 직접 설계하고 제안할 수 있는 역량의 기반이 되었습니다.
+      </div>
+    </div>
+
+    <div class="c">
+      <div class="dg">
+        <div class="dl">배치 최적화: Tasklet → Chunk + Partitioning</div>
+        <div style="display:flex;gap:10px;align-items:start;">
+          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE: Tasklet</div>
+            <div class="db er ds" style="width:100%;margin-bottom:3px;">단일 스레드</div>
+            <div class="dd" style="font-size:8px;">전체 데이터 메모리 로드</div>
+            <div class="db ds" style="width:100%;margin-bottom:3px;">순차 처리</div>
+            <div class="dd" style="font-size:8px;">한 건씩 INSERT</div>
+            <div class="db er ds" style="width:100%;">단건 쓰기</div>
+            <div style="text-align:center;margin-top:5px;font-size:13px;color:#c5221f;font-weight:700;">13분</div>
+          </div>
+          <div style="display:flex;align-items:center;padding-top:45px;font-size:16px;color:#999;">→</div>
+          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AFTER: Chunk + Partition</div>
+            <div class="db ok ds" style="width:100%;margin-bottom:3px;">Partitioner</div>
+            <div class="dd" style="font-size:8px;">데이터 분할</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
+              <div class="db ok ds">Thread 1<br><span style="font-size:7px;">Chunk R/W</span></div>
+              <div class="db ok ds">Thread 2<br><span style="font-size:7px;">Chunk R/W</span></div>
+            </div>
+            <div class="dd" style="font-size:8px;">Bulk INSERT</div>
+            <div class="db ok ds" style="width:100%;">일괄 쓰기</div>
+            <div style="text-align:center;margin-top:5px;font-size:13px;color:#137333;font-weight:700;">5분</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dg" style="margin-top:8px;">
+        <div class="dl">동적 DataSource 라우팅 (Replication Lag 해결)</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db dk" style="width:65%;">API Request</div>
+          <div class="dd">↓ AOP가 @Transactional(readOnly) 감지</div>
+          <div style="display:flex;gap:16px;">
+            <div class="dc"><div class="db ok ds">readOnly=true</div><div class="dd">↓</div><div class="db ds">Slave DB</div></div>
+            <div class="dc"><div class="db wn ds">readOnly=false<br><span style="font-size:7px;">+ 쓰기 직후 읽기</span></div><div class="dd">↓</div><div class="db ds">Master DB</div></div>
+          </div>
+        </div>
+        <div class="dn">쓰기 직후 읽기 → Master 강제 라우팅으로 Replication Lag 회피</div>
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>Isolation Level을 낮추는 것이 올바른 판단이었는가?</strong><br>
+        Spring Batch의 Metadata 테이블은 Job 실행 상태를 기록하는 용도입니다.
+        동시 Job 실행 시 같은 row를 경쟁하지만, <strong>최종 상태만 정확하면 중간 격리는 불필요</strong>합니다.
+        이 판단의 근거를 팀에 공유하고, 실제 병렬 실행 테스트로 데이터 정합성을 검증한 후 적용했습니다.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 12: Side Project - Upvy ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">Side Project — Upvy (교육용 숏폼 영상 플랫폼)</div>
+  <span class="ss">3. Side Project</span>
+  <span class="pn">12</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c">
+      <table class="it">
+        <tr><td class="l">기간</td><td class="v">2025.10 ~ 현재</td></tr>
+        <tr><td class="l">인원</td><td class="v">1인 풀스택 개발 (기획~배포~운영)</td></tr>
+        <tr><td class="l">상태</td><td class="v">App Store 출시</td></tr>
+        <tr><td class="l">테스트</td><td class="v">79% Test Coverage</td></tr>
+      </table>
+
+      <div class="sec">프로젝트 소개</div>
+      <p class="bt">긴 교육 영상에서 AI가 핵심 구간을 자동 추출하여 숏폼으로 변환하는 플랫폼.
+      기획·설계·개발·배포·운영까지 혼자 진행했습니다.</p>
+
+      <div class="sec">기술 선택 & 근거</div>
+      <ul class="bl">
+        <li><strong class="bd">Kotlin + Spring WebFlux + R2DBC</strong><br>
+          <span class="sm">영상 처리의 I/O 바운드 특성 → 비동기/논블로킹이 성능 임계점을 결정</span></li>
+        <li><strong class="bd">React Native (Expo)</strong><br>
+          <span class="sm">iOS/Android 동시 출시 + 1인 개발 → 크로스 플랫폼이 유일한 선택지</span></li>
+        <li><strong class="bd">Vertex AI Gemini + Speech-to-Text</strong><br>
+          <span class="sm">GPT-4 대비 50% 이상 저렴하면서 한국어 성능 우수</span></li>
+        <li><strong class="bd">79% Test Coverage</strong><br>
+          <span class="sm">1인 개발일수록 테스트가 중요 — 나 대신 코드를 검증해줄 동료가 없기 때문</span></li>
+      </ul>
+
+      <div class="ib" style="margin-top:10px;">
+        <strong>왜 사이드 프로젝트를 하는가:</strong>
+        회사에서는 기존 시스템의 제약 안에서 일합니다. 사이드 프로젝트는
+        <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>할 수 있는 유일한 기회입니다.
+        WebFlux와 R2DBC는 여기서 먼저 경험한 후 회사 프로젝트에 적용 여부를 판단했습니다.
+      </div>
+    </div>
+
+    <div class="c">
+      <div class="dg">
+        <div class="dl">AI 기반 영상 자동 편집 파이프라인</div>
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+          <div class="db dk" style="width:65%;">YouTube URL 입력</div>
+          <div class="dd">↓</div>
+          <div class="db" style="width:65%;">Speech-to-Text<br><span style="font-size:8px;color:#999;">음성 → 타임스탬프 포함 텍스트</span></div>
+          <div class="dd">↓</div>
+          <div class="db ac" style="width:65%;">Vertex AI Gemini<br><span style="font-size:8px;color:#999;">핵심 구간 추출 + 자막 생성</span></div>
+          <div class="dd">↓</div>
+          <div class="db" style="width:65%;">자동 영상 편집<br><span style="font-size:8px;color:#999;">구간 클리핑 + 자막 삽입</span></div>
+          <div class="dd">↓</div>
+          <div class="db ok" style="width:65%;">숏폼 영상 생성 완료</div>
+        </div>
+      </div>
+
+      <div class="sec-s" style="margin-top:12px;">AI 자동화 & 기술 탐구</div>
+      <ul class="bl" style="font-size:11px;">
+        <li><strong class="bd">에러 자동 대응 파이프라인:</strong> Loki/Tempo 에러 감지 → MCP 기반 Claude Code가 분석 → 코드 수정 → PR 자동 생성</li>
+        <li><strong class="bd">MCP(Model Context Protocol) 실무 적용:</strong> Anthropic이 제안한 AI 도구 통합 프로토콜을 분석하고 모니터링 시스템에 연동</li>
+        <li><strong class="bd">AI Coding Agent 생태계 분석:</strong> oh-my-opencode → Agent Teams 진화 과정을 블로그에 기록</li>
+      </ul>
+
+      <div class="dg" style="margin-top:8px;padding:8px 12px;">
+        <div class="dl">에러 자동 대응 파이프라인</div>
+        <div style="display:flex;align-items:center;gap:3px;justify-content:center;">
+          <div class="db er ds">에러 발생</div><div class="da">→</div>
+          <div class="db ds">Loki/Tempo</div><div class="da">→</div>
+          <div class="db ac ds">Claude Code<br><span style="font-size:7px;">원인 추론</span></div><div class="da">→</div>
+          <div class="db ds">코드 수정</div><div class="da">→</div>
+          <div class="db ok ds">PR 생성<br><span style="font-size:7px;">Human Review</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 13: 개발 철학 & Contact ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">개발 철학 & Contact</div>
+  <span class="ss">4. Contact</span>
+  <span class="pn">13</span>
+  <div class="tc" style="margin-top:16px;flex:1;">
+    <div class="cw">
+      <h3 style="margin-bottom:14px;">개발 철학</h3>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"팀 규모에 맞는 아키텍처를 선택한다."</div>
+        <p class="bt">2~3명이 16개 레포를 관리하는 것은 MSA의 이점이 아니라 운영 오버헤드였고,
+        빌드 시간과 PR 개수 데이터를 근거로 모노레포 전환을 제안했습니다.
+        GKE도 마찬가지 — Self-managed K8s의 비용 절감보다 DevOps 부재의 리스크가 더 컸기에 Managed를 선택했습니다.
+        기술 선택의 기준은 트렌드가 아니라 <strong class="bd">우리 팀이 감당할 수 있는 복잡성</strong>입니다.</p>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"증상이 아닌 근본 원인을 해결한다."</div>
+        <p class="bt">HikariCP Deadlock을 커넥션 풀 증가로 회피하지 않았습니다.
+        OSIV + ORM 혼용이라는 구조적 원인을 찾아 JPA 일원화로 해결했습니다.
+        Spring Batch Metadata Deadlock도 재시도 로직이 아닌 Isolation Level 분석으로 해결했습니다.
+        <strong class="bd">증상을 가리는 해결은 다음 장애를 예약하는 것</strong>과 같습니다.</p>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"기술적 결정은 비용과 비즈니스로 정당화한다."</div>
+        <p class="bt">ELK 대신 LGTM을 선택할 때 월 비용($92~200 vs $12~37)을 근거로 제시했고,
+        GKE 선택 시 $72 추가 비용의 리스크 대비 가치를 계산했습니다.
+        기술적으로 우월한 선택보다 <strong class="bd">비즈니스에 합리적인 선택</strong>을 합니다.</p>
+      </div>
+
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"배운 것을 기록하고 공유한다."</div>
+        <p class="bt">기술 블로그 아티클, 2년 넘게 이어온 스터디, 오픈소스 기여.
+        문제를 해결한 과정을 기록하면 <strong class="bd">같은 실수를 반복하지 않고, 동료도 성장</strong>합니다.</p>
+      </div>
+    </div>
+
+    <div class="cn">
+      <h3 style="margin-bottom:10px;">활동</h3>
+      <ul class="bl" style="margin-bottom:16px;">
+        <li>기술 블로그 <a href="https://jeongil.dev">jeongil.dev</a><br>
+          <span class="sm">50+ 아티클 — 아키텍처 의사결정, 트러블슈팅, AI 생태계</span></li>
+        <li style="margin-top:6px;">오픈소스 — Spring Security <a href="https://github.com/spring-projects/spring-security/pull/16216">PR#16216</a></li>
+        <li style="margin-top:6px;"><a href="https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c">백엔드 아티클 스터디</a><br><span class="sm">2023.08~진행중</span></li>
+        <li style="margin-top:6px;">빅데이터 기반 MLOps 과정<br><span class="sm">2022.07~12</span></li>
+      </ul>
+
+      <h3 style="margin-bottom:10px;">Contact</h3>
+      <table class="it" style="width:100%;">
+        <tr><td class="l">Email</td><td class="v">jji042842@gmail.com</td></tr>
+        <tr><td class="l">GitHub</td><td class="v"><a href="https://github.com/12OneTwo12">github.com/12OneTwo12</a></td></tr>
+        <tr><td class="l">Blog</td><td class="v"><a href="https://jeongil.dev">jeongil.dev</a></td></tr>
+      </table>
+
+      <h3 style="margin:14px 0 8px;">프로젝트 임팩트 요약</h3>
+      <table class="ct" style="font-size:9.5px;">
+        <tr><th>프로젝트</th><th>핵심 성과</th></tr>
+        <tr><td class="bd">MSA 전환</td><td>무중단 전환, 다운타임 0분</td></tr>
+        <tr><td class="bd">멀티모듈</td><td>16→1 레포, 빌드 70% 단축</td></tr>
+        <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 98%↓, 롤백 83%↓</td></tr>
+        <tr><td class="bd">매물 추천</td><td>자연어 검색 프로덕션 출시</td></tr>
+        <tr><td class="bd">백오피스</td><td>API 응답 87% 개선</td></tr>
+        <tr><td class="bd">Batch</td><td>처리 시간 64% 단축</td></tr>
+      </table>
+
+      <div style="margin-top:auto;padding-top:16px;text-align:center;">
+        <div style="font-size:13px;color:#bbb;">감사합니다.</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+</body>
+</html>
