@@ -434,4 +434,3 @@ MSA에서는 이런 것들을 신경 쓸 필요가 없었는데, 모듈러 모�
 - [16개 레포지토리를 하나로 - MSA 멀티모듈 전환기]({{< relref "/blog/architecture/msa-to-multi-module" >}})
 - [[MSA에 관한 고찰 7/7편] 우리는 정말 MSA가 필요한가?]({{< relref "/blog/architecture/msa-series-7-conclusion" >}})
 - [개발 서버도 없던 팀이 GitOps를 갖추기까지: 맨땅에서 시작한 쿠버네티스 도입기]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
-- [모듈러 모놀리식 전환 후 CI가 45분이 걸렸다 - 10분으로 줄인 이야기]({{< relref "/blog/backend/performance/ci-test-build-optimization" >}})

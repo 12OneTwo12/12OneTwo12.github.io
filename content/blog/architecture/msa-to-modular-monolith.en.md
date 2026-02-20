@@ -434,4 +434,3 @@ Thank you for reading this long article.
 - [From 16 Repositories to One - MSA Multi-Module Migration Story]({{< relref "/blog/architecture/msa-to-multi-module" >}})
 - [[MSA Deep Dive 7/7] Do We Really Need MSA?]({{< relref "/blog/architecture/msa-series-7-conclusion" >}})
 - [From No Dev Server to GitOps: Our Kubernetes Adoption Story from Scratch]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
-- [CI Took 45 Minutes After Modular Monolith Migration - How We Cut It to 10]({{< relref "/blog/backend/performance/ci-test-build-optimization" >}})
