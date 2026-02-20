@@ -181,7 +181,7 @@ a:hover{text-decoration:underline;}
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;">
         <li>무중단 MSA 전환 완료 (다운타임 0, 데이터 유실 0)</li>
         <li>장애 인지 시간 단축 (수 시간→수 분, CS 의존 탈피)</li>
-        <li>API 응답속도 75% 개선 (5,132ms→1,299ms)</li>
+        <li>API 응답속도 74.7% 개선 (5,132ms→1,299ms)</li>
         <li>배치 처리시간 64% 단축 (13.3분→4.8분)</li>
       </ul>
     </div>
@@ -199,7 +199,7 @@ a:hover{text-decoration:underline;}
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.11 (8개월)</td></tr>
-        <tr><td class="l">역할</td><td class="v">부분적 빅뱅 전략 설계, 14개 서비스 중 5개 설계 및 구현 담당</td></tr>
+        <tr><td class="l">역할</td><td class="v">부분적 빅뱅 전략 설계, 14개 서비스 중 5개(apart · agent · match 포함) 설계 및 구현 담당</td></tr>
         <tr><td class="l">기술스택</td><td class="v">Kotlin, Spring Cloud, Feign Client, AWS SQS, CQRS, Hexagonal</td></tr>
         <tr><td class="l">서비스 규모</td><td class="v">14개 MSA · 3 SNS / 42 SQS · Schema-per-Service · GKE 2 Cluster</td></tr>
       </table>
@@ -306,7 +306,7 @@ a:hover{text-decoration:underline;}
           <div class="dd">↓ 불일치 시</div>
           <div class="db wn" style="width:80%;">Telegram 알림 + 자동 보정</div>
         </div>
-        <div class="dn">실제 운영 결과: 과도기 8개월간 데이터 불일치 0건</div>
+        <div class="dn">실제 운영 결과: 검증 배치 8개월간 불일치 미검출 (매시간 자동 비교)</div>
       </div>
 
       <div class="sec-s" style="margin-top:10px;">실제 마이그레이션 타임라인</div>
@@ -491,7 +491,7 @@ a:hover{text-decoration:underline;}
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
         <li><strong class="bd">GCP 스타트업 크레딧 2026.04 만료</strong> — 만료 후 인프라 비용 2.5~3배 증가 예상</li>
-        <li>경영 악화로 인원 감축 → <strong class="bd">백엔드 1명이 13개 MSA 운영</strong> — 서비스별 최소 2 Pod = 26+ Pod 리소스 오버헤드</li>
+        <li>경영 악화로 인원 감축 → <strong class="bd">백엔드 1명이 13개 MSA 운영</strong> (legacy 제거 후 14→13개) — 서비스별 최소 2 Pod = 26+ Pod 리소스 오버헤드</li>
         <li>서비스 간 Feign Client 호출 → 네트워크 지연 + 장애 전파 리스크, .data!! 언래핑 반복</li>
       </ul>
 
@@ -739,7 +739,7 @@ a:hover{text-decoration:underline;}
             </div>
           </div>
         </div>
-        <div style="text-align:center;margin-top:4px;font-size:9px;color:#137333;">모듈러 모놀리식 · 3 SNS/42 SQS · GitOps CI/CD · 장애 인지 1분</div>
+        <div style="text-align:center;margin-top:4px;font-size:9px;color:#137333;">모듈러 모놀리식 · 3 SNS/42 SQS · GitOps CI/CD · 장애 인지 수 분 이내</div>
       </div>
     </div>
 
@@ -799,7 +799,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li>자연어 매물 검색 기능 <strong class="bd">프로덕션 출시</strong></li>
         <li>"강남역 근처 30평대 2억 이하" → 즉시 관련 매물 추천</li>
-        <li>기존 필터 검색 대비 사용자 검색 전환율 개선</li>
+        <li>Manticore Search → Elasticsearch 전환 — <strong class="bd">RAG 벡터 검색 + 지리 검색 + 형태소 분석</strong> 복합 검색 구현</li>
       </ul>
     </div>
 
@@ -1016,16 +1016,16 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="dg" style="margin-top:8px;">
-        <div class="dl">동적 DataSource 라우팅 (Replication Lag 해결)</div>
+        <div class="dl">Metadata Deadlock 해결: Isolation Level 변경</div>
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div class="db dk" style="width:65%;">API Request</div>
-          <div class="dd">↓ AOP가 @Transactional(readOnly) 감지</div>
           <div style="display:flex;gap:16px;">
-            <div class="dc"><div class="db ok ds">readOnly=true</div><div class="dd">↓</div><div class="db ds">Slave DB</div></div>
-            <div class="dc"><div class="db wn ds">readOnly=false<br><span style="font-size:7px;">+ 쓰기 직후 읽기</span></div><div class="dd">↓</div><div class="db ds">Master DB</div></div>
+            <div class="dc"><div class="db er ds">Job A 실행</div><div class="dd">↓</div><div class="db wn ds">BATCH_JOB_<br>EXECUTION 락</div></div>
+            <div class="dc"><div class="db er ds">Job B 실행</div><div class="dd">↓</div><div class="db wn ds">BATCH_STEP_<br>EXECUTION 락</div></div>
           </div>
+          <div class="dd">↓ 동시 접근 시 Deadlock 발생</div>
+          <div class="db ok ds" style="width:75%;">Isolation Level 변경<br><span style="font-size:8px;">SERIALIZABLE → READ_COMMITTED</span></div>
         </div>
-        <div class="dn">쓰기 직후 읽기 → Master 강제 라우팅으로 Replication Lag 회피</div>
+        <div class="dn">Metadata는 최종 상태만 정확하면 됨 — 강한 격리 불필요</div>
       </div>
 
       <div class="ib" style="margin-top:8px;">
