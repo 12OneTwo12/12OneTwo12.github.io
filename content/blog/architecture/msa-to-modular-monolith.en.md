@@ -31,7 +31,7 @@ Our service's architecture has been continuously evolving since before I joined 
 
 ### From Legacy to MSA
 
-I joined the team in March 2025. At that point, the team was in the middle of migrating the legacy monolithic service to MSA. There were 5 developers total, with only 2 backend engineers including myself. Over 13 services were each managed in separate Git repositories—managing 16 repos with this headcount just didn't make sense.
+I joined the team in March 2025. At that point, the team was in the middle of migrating the legacy monolithic service to MSA. There were 5 developers total, with only 2 backend engineers including myself. 16 services were each managed in separate Git repositories—managing 16 repos with this headcount just didn't make sense.
 
 ### To Multi-Module, Then to K8s
 
