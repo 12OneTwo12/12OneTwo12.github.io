@@ -504,6 +504,7 @@ a:hover{text-decoration:underline;}
         <li>장애 인지 <strong class="bd">98% 단축</strong> (1시간→1분) → CS 의존 탈피, 선제적 장애 대응 체계</li>
         <li>롤백 <strong class="bd">83% 단축</strong> (30분→5분) → 장애 영향 범위 최소화</li>
         <li>Grafana LGTM Stack으로 <strong class="bd">ELK 대비 비용 효율적</strong> 모니터링 체계 구축</li>
+        <li>JVM Cold Start <strong class="bd">85% 개선</strong> (1.3초→200ms) → startupProbe + WarmupHealthIndicator</li>
       </ul>
 
       <div class="ib" style="margin-top:10px;">
@@ -570,15 +571,16 @@ a:hover{text-decoration:underline;}
   <span class="pn">8</span>
   <div class="body" style="margin-top:10px;">
     <p class="bt" style="margin-bottom:10px;">
-      아래 타임라인은 실제 backend_onboarding 레포의 아키텍처 다이어그램 4개 버전(drawio)에서 추출한 것입니다.
+      아래 타임라인은 실제 backend_onboarding 레포의 아키텍처 다이어그램에서 추출한 것입니다.
       단순히 기술을 추가한 것이 아니라, 각 단계마다 <strong class="bd">명확한 문제 인식과 해결 목적</strong>이 있었습니다.
     </p>
 
     <div class="tl">
-      <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 + Docker Compose</strong><br>모든 컨테이너 단일 EC2<br>OOM Kill · Noisy Neighbor<br>개발서버 부재 · 롤백 30분+</div></div>
-      <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>GKE 클러스터 도입</strong><br>K8s 전환 시작<br>NGINX Ingress 구성<br>레거시 서비스 격리</div></div>
-      <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>Full Observability</strong><br>LGTM Stack 구축<br>OTel Sidecar 전 서비스<br>실시간 Telegram 알림</div></div>
-      <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>안정화 & 자동화</strong><br>14개 MSA 안정 운영<br>3 SNS / 42 SQS<br>GitOps CI/CD 완성</div></div>
+      <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 단일 서버</strong><br>Docker Compose<br>OOM Kill · SPOF<br>롤백 30분+</div></div>
+      <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>GKE 도입</strong><br>K8s 전환 시작<br>NGINX Ingress<br>레거시 격리</div></div>
+      <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>Observability</strong><br>LGTM Stack<br>OTel Sidecar<br>Telegram 알림</div></div>
+      <div class="ti"><div class="tdt">2025.11</div><div class="td"></div><div class="tt"><strong>MSA 완성</strong><br>14 MSA 안정 운영<br>3 SNS / 42 SQS<br>GitOps CI/CD</div></div>
+      <div class="ti"><div class="tdt">2025.12</div><div class="td"></div><div class="tt"><strong>모듈러 모놀리식</strong><br>12서비스→1앱 통합<br>비용 2.5~3배 ↑ 대비<br>Bean·@Tx 버그 해결</div></div>
     </div>
 
     <div style="display:flex;gap:10px;margin-top:8px;">
@@ -609,12 +611,16 @@ a:hover{text-decoration:underline;}
           <div class="dd">↓</div>
           <div style="border:1.5px solid #81c995;border-radius:4px;padding:6px 8px;width:95%;position:relative;">
             <div style="position:absolute;top:-7px;left:8px;background:#fafafa;padding:0 4px;font-size:8px;font-weight:700;color:#137333;">GKE Cluster (dev / prod)</div>
-            <div style="display:flex;gap:2px;flex-wrap:wrap;justify-content:center;margin-top:2px;">
-              <div class="db ok ds" style="font-size:7.5px;">agent</div><div class="db ok ds" style="font-size:7.5px;">apart</div><div class="db ok ds" style="font-size:7.5px;">ai</div>
-              <div class="db ok ds" style="font-size:7.5px;">notification</div><div class="db ok ds" style="font-size:7.5px;">office-store</div><div class="db ok ds" style="font-size:7.5px;">event</div>
-              <div class="db ok ds" style="font-size:7.5px;">data</div><div class="db ok ds" style="font-size:7.5px;">real-price</div><div class="db ok ds" style="font-size:7.5px;">community</div>
-              <div class="db ok ds" style="font-size:7.5px;">user</div><div class="db ok ds" style="font-size:7.5px;">chat</div><div class="db ok ds" style="font-size:7.5px;">match</div>
-              <div class="db wn ds" style="font-size:7.5px;">legacy</div><div class="db wn ds" style="font-size:7.5px;">batch</div>
+            <div style="display:flex;gap:4px;margin-top:2px;">
+              <div style="border:1px solid #81c995;border-radius:3px;padding:4px 6px;flex:3;position:relative;">
+                <div style="position:absolute;top:-6px;left:6px;background:#fafafa;padding:0 3px;font-size:6.5px;font-weight:700;color:#137333;">BtalkApplication (모듈러 모놀리식)</div>
+                <div style="display:flex;gap:2px;flex-wrap:wrap;justify-content:center;margin-top:2px;">
+                  <div class="db ok ds" style="font-size:7px;">:agent</div><div class="db ok ds" style="font-size:7px;">:apart</div><div class="db ok ds" style="font-size:7px;">:ai</div>
+                  <div class="db ok ds" style="font-size:7px;">:user</div><div class="db ok ds" style="font-size:7px;">:chat</div><div class="db ok ds" style="font-size:7px;">:match</div>
+                  <div class="db ok ds" style="font-size:7px;">:event</div><div class="db ok ds" style="font-size:7px;">:data</div><div class="db ok ds" style="font-size:7px;">...</div>
+                </div>
+              </div>
+              <div class="db wn ds" style="font-size:7px;flex:1;align-self:center;">notification<br>(별도 유지)</div>
             </div>
           </div>
           <div class="dd">↓</div>
@@ -633,7 +639,7 @@ a:hover{text-decoration:underline;}
             </div>
           </div>
         </div>
-        <div style="text-align:center;margin-top:4px;font-size:9px;color:#137333;">14 MSA · 3 SNS/42 SQS · GitOps CI/CD · 장애 인지 1분</div>
+        <div style="text-align:center;margin-top:4px;font-size:9px;color:#137333;">모듈러 모놀리식 · 3 SNS/42 SQS · GitOps CI/CD · 장애 인지 1분</div>
       </div>
     </div>
 
@@ -641,7 +647,7 @@ a:hover{text-decoration:underline;}
       <table class="ct" style="font-size:10px;flex:1;">
         <tr><th></th><th style="color:#c5221f;">Before (2025.03)</th><th style="color:#137333;">After (2026.02)</th></tr>
         <tr><td class="bd">인프라</td><td>EC2 단일 인스턴스 (SPOF)</td><td class="w">GKE 2 Cluster (dev/prod)</td></tr>
-        <tr><td class="bd">서비스</td><td>MSA 전환 중 (단일 EC2 집중)</td><td class="w">14개 MSA (독립 배포)</td></tr>
+        <tr><td class="bd">서비스</td><td>MSA 전환 중 (단일 EC2 집중)</td><td class="w">모듈러 모놀리식 (12→1앱 통합)</td></tr>
         <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (1시간+)</td><td class="w">실시간 알림 (1분)</td></tr>
         <tr><td class="bd">롤백</td><td>수동 배포 (30분+)</td><td class="w">GitOps 자동 (5분)</td></tr>
         <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack</td></tr>
@@ -649,9 +655,9 @@ a:hover{text-decoration:underline;}
       </table>
       <div class="ib" style="flex:1;">
         <strong>11개월간의 핵심 판단:</strong><br>
-        모든 전환은 "기술을 도입하고 싶어서"가 아니라, <strong>실제 운영 장애와 비효율에 대한 근거</strong>에서 시작했습니다.<br><br>
-        EC2 SPOF → GKE, CS 의존 장애 인지 → LGTM Stack, 수동 배포 → GitOps ArgoCD.
-        각 단계마다 <strong>온프레미스 → 클라우드 무중단 마이그레이션</strong>을 실행하며 서비스 중단 없이 전환했습니다.
+        모든 전환은 "기술 도입"이 아니라 <strong>운영 문제와 비용 현실</strong>에서 시작했습니다.<br><br>
+        EC2 SPOF → GKE, CS 장애 인지 → LGTM, 수동 배포 → GitOps,
+        그리고 <strong>2명이 13 MSA 운영하는 현실</strong> → 모듈러 모놀리식. 아키텍처는 정답이 아니라 <strong>트레이드오프</strong>입니다.
       </div>
     </div>
   </div>
@@ -736,10 +742,10 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>이 프로젝트가 특별한 이유:</strong>
-        단순 CRUD가 아닌 AI + 검색 엔진 + 도메인 지식이 결합된 프로젝트입니다.
-        부동산 도메인 특유의 데이터(법정동 코드, 단지별 평형, 실거래가 이력)를
-        AI가 이해할 수 있는 형태로 가공하는 과정에서 도메인 전문성과 기술력을 동시에 성장시켰습니다.
+        <strong>도메인 지식이 기술 설계를 결정한 사례:</strong>
+        부동산 데이터(법정동 코드, 단지별 평형, 실거래가 이력)를
+        AI가 이해할 수 있는 형태로 가공하는 과정에서, 검색 엔진 선택부터 임베딩 전략까지
+        <strong>도메인 특성이 기술 의사결정을 주도</strong>했습니다.
       </div>
     </div>
   </div>
@@ -1096,7 +1102,7 @@ a:hover{text-decoration:underline;}
       <h3 style="margin:14px 0 8px;">프로젝트 임팩트 요약</h3>
       <table class="ct" style="font-size:9.5px;">
         <tr><th>프로젝트</th><th>핵심 성과</th></tr>
-        <tr><td class="bd">MSA 전환</td><td>무중단 전환, 다운타임 0분</td></tr>
+        <tr><td class="bd">MSA→모듈러 모놀리식</td><td>무중단 전환, 12→1앱 비용 최적화</td></tr>
         <tr><td class="bd">멀티모듈</td><td>16→1 레포, 빌드 70% 단축</td></tr>
         <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 98%↓, 롤백 83%↓</td></tr>
         <tr><td class="bd">매물 추천</td><td>자연어 검색 프로덕션 출시</td></tr>
