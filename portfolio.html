@@ -126,10 +126,11 @@ a:hover{text-decoration:underline;}
       <span class="bd">2.</span><span>프로젝트</span>
       <span></span><span style="padding-left:16px;color:#666;">2-1. 모놀리식 → MSA 전환 <span class="sm">— 무중단 아키텍처 전환, 부분적 빅뱅 전략</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-2. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-3. K8s 인프라 & 모니터링 구축 <span class="sm">— GKE, LGTM Stack, 아키텍처 진화</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-4. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Elasticsearch + OpenAI</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-5. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-6. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-3. MSA → 모듈러 모놀리식 전환 <span class="sm">— 12서비스→1앱, 비용 최적화</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-4. K8s 인프라 & 모니터링 구축 <span class="sm">— GKE, LGTM Stack, 아키텍처 진화</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-5. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Elasticsearch + OpenAI</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-6. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-7. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
       <span class="bd">3.</span><span>Side Project — Upvy <span class="sm">— AI 숏폼 영상 플랫폼, 1인 개발</span></span>
       <span class="bd">4.</span><span>개발 철학 & Contact</span>
     </div>
@@ -468,12 +469,107 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 7: K8s & 모니터링 ===== -->
+<!-- ===== SLIDE 7: MSA → 모듈러 모놀리식 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(3) Kubernetes 인프라 & 모니터링 시스템 구축</div>
+  <div class="st">(3) MSA → 모듈러 모놀리식 전환</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">7</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c" style="flex:.9;">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
+        <tr><td class="l">기간</td><td class="v">2026.01 ~ 2026.02 (2개월)</td></tr>
+        <tr><td class="l">역할</td><td class="v">아키텍처 재설계 제안 및 전환 전담</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">Kotlin, Spring Boot, Gradle 멀티모듈</td></tr>
+      </table>
+
+      <div class="sec">배경 및 문제</div>
+      <ul class="bl">
+        <li><strong class="bd">GCP 스타트업 크레딧 2026.04 만료</strong> — 만료 후 인프라 비용 2.5~3배 증가 예상</li>
+        <li>2명이 13개 MSA 서비스 운영 — <strong class="bd">서비스당 Pod 리소스 오버헤드</strong>가 비용의 주요 원인</li>
+        <li>서비스 간 Feign Client 호출 → 네트워크 지연 + 장애 전파 리스크</li>
+      </ul>
+
+      <div class="rb" style="margin-top:6px;">
+        <strong>판단:</strong> MSA 유지(Pod 오버헤드 해결 불가) · 완전 모놀리식 회귀(모듈 경계 상실) 검토 →
+        <strong>비용 절감 + 모듈 경계 유지</strong>를 모두 확보하는 <span class="hl">모듈러 모놀리식</span> 채택
+      </div>
+
+      <div class="sec">전환 과정의 3가지 기술 함정</div>
+      <ul class="bl">
+        <li><strong class="bd">① Bean 이름 충돌</strong> (ConflictingBeanDefinitionException)<br>
+          <span class="sm">원인: 12개 서비스에 각각 SecurityConfig, WebConfig 등 동명 클래스 존재 → Spring의 flat bean registry는 패키지 무관, 클래스명으로 등록 → 단일 ApplicationContext에서 충돌</span><br>
+          <span class="sm">해결: <span class="hl">26개 파일에 @Component(name="module-xxx") 명시적 이름 지정</span></span></li>
+        <li><strong class="bd">② 순환 의존성 폭발</strong><br>
+          <span class="sm">원인: FeignClient는 HTTP 호출이라 A↔B 순환 호출이 런타임에 가능 → ModuleApi(메서드 호출)로 전환하면 <strong>컴파일 타임 순환 참조</strong>로 변환 → Spring 컨텍스트 기동 실패</span><br>
+          <span class="sm">해결: <span class="hl">@Lazy 프록시로 지연 초기화 50곳 적용</span> — 장기적으로 의존 방향 정리 예정</span></li>
+        <li><strong class="bd">③ @Transactional 사일런트 버그</strong><br>
+          <span class="sm">원인: Schema-per-Service로 서비스별 TM 존재 → 앱 통합 시 @Primary TM이 모든 bare @Transactional 흡수 → agent의 트랜잭션이 apart의 TM으로 실행</span><br>
+          <span class="sm">위험: <strong>테스트 통과, 프로덕션 데이터 정합성 깨짐</strong> — <span class="hl">121개 @Transactional에 명시적 TM 지정</span></span></li>
+      </ul>
+    </div>
+
+    <div class="c" style="flex:1.1;">
+      <div class="dg">
+        <div class="dl">BEFORE → AFTER: 아키텍처</div>
+        <div style="display:flex;gap:8px;align-items:start;">
+          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE: 12개 MSA Pods</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
+              <div class="db er ds">agent</div><div class="db er ds">apart</div><div class="db er ds">ai</div>
+              <div class="db er ds">match</div><div class="db er ds">chat</div><div class="db er ds">user</div>
+              <div class="db er ds">event</div><div class="db er ds">data</div><div class="db er ds">commu</div>
+              <div class="db er ds">price</div><div class="db er ds">store</div><div class="db er ds">batch</div>
+            </div>
+            <div class="dd" style="font-size:8px;color:#c5221f;">각 Pod마다 JVM + 리소스 할당</div>
+          </div>
+          <div style="display:flex;align-items:center;padding-top:40px;font-size:16px;color:#999;">→</div>
+          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AFTER: 모듈러 모놀리식</div>
+            <div style="border:1px solid #81c995;border-radius:3px;padding:6px;position:relative;">
+              <div style="position:absolute;top:-6px;left:6px;background:#fff;padding:0 3px;font-size:7px;font-weight:700;color:#137333;">BtalkApplication</div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">
+                <div class="db ok ds">:agent</div><div class="db ok ds">:apart</div><div class="db ok ds">:ai</div>
+                <div class="db ok ds">:match</div><div class="db ok ds">:chat</div><div class="db ok ds">:user</div>
+              </div>
+            </div>
+            <div class="db wn ds" style="width:100%;margin-top:3px;">notification (별도 유지)</div>
+            <div class="dd" style="font-size:8px;color:#137333;">1 JVM · 모듈 경계 유지 · Feign→메서드 호출</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">성과</div>
+      <ul class="bl">
+        <li>12개 Pod(JVM 12개) → <strong class="bd">1개 앱</strong> + notification — JVM 오버헤드 대폭 절감</li>
+        <li>Feign Client 네트워크 호출 → <strong class="bd">모듈 간 메서드 호출</strong> — 지연·장애 전파 제거</li>
+        <li>모듈 경계·Schema-per-Service 유지 — 필요 시 다시 MSA로 분리 가능</li>
+      </ul>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>왜 ③이 가장 위험한가:</strong><br>
+        각 서비스는 자기 Schema 전용 TransactionManager를 갖고 있었습니다.
+        앱 통합 후 @Primary로 지정된 하나의 TM이 <strong>명시적 TM이 없는 모든 @Transactional을 가져갑니다.</strong>
+        결과: agent 도메인의 쿼리가 apart의 DB 커넥션으로 실행 → <strong>커밋/롤백 범위가 달라져 데이터 정합성이 깨짐.</strong>
+        단위 테스트에서는 단일 TM 환경이라 재현 불가 — 통합 테스트 + 실제 다중 DataSource 환경에서만 발견 가능.
+      </div>
+
+      <div class="ib" style="margin-top:6px;">
+        <strong>MSA에서 되돌아가는 것이 아니다:</strong>
+        모듈 경계와 Schema-per-Service는 그대로 유지. 배포 단위만 통합하여
+        <strong>2명이 운영 가능한 현실적 아키텍처</strong>로 전환. 필요 시 다시 분리 가능.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 8: K8s & 모니터링 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(4) Kubernetes 인프라 & 모니터링 시스템 구축</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">8</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -563,12 +659,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 8: 아키텍처 진화 타임라인 ===== -->
+<!-- ===== SLIDE 9: 아키텍처 진화 타임라인 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(3) 아키텍처 진화 과정 — 입사 후 11개월의 기록</div>
+  <div class="st">(4) 아키텍처 진화 과정 — 입사 후 11개월의 기록</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">8</span>
+  <span class="pn">9</span>
   <div class="body" style="margin-top:10px;">
     <p class="bt" style="margin-bottom:10px;">
       아래 타임라인은 실제 backend_onboarding 레포의 아키텍처 다이어그램에서 추출한 것입니다.
@@ -580,7 +676,7 @@ a:hover{text-decoration:underline;}
       <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>GKE 도입</strong><br>K8s 전환 시작<br>NGINX Ingress<br>레거시 격리</div></div>
       <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>Observability</strong><br>LGTM Stack<br>OTel Sidecar<br>Telegram 알림</div></div>
       <div class="ti"><div class="tdt">2025.11</div><div class="td"></div><div class="tt"><strong>MSA 완성</strong><br>14 MSA 안정 운영<br>3 SNS / 42 SQS<br>GitOps CI/CD</div></div>
-      <div class="ti"><div class="tdt">2025.12</div><div class="td"></div><div class="tt"><strong>모듈러 모놀리식</strong><br>12서비스→1앱 통합<br>비용 2.5~3배 ↑ 대비<br>Bean·@Tx 버그 해결</div></div>
+      <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>모듈러 모놀리식</strong><br>12서비스→1앱 통합<br>비용 2.5~3배 ↑ 대비<br>Bean·@Tx 버그 해결</div></div>
     </div>
 
     <div style="display:flex;gap:10px;margin-top:8px;">
@@ -661,15 +757,15 @@ a:hover{text-decoration:underline;}
       </div>
     </div>
   </div>
-  <span class="pn">8</span>
+  <span class="pn">9</span>
 </div></div>
 
-<!-- ===== SLIDE 9: 자연어 기반 매물 추천 ===== -->
+<!-- ===== SLIDE 10: 자연어 기반 매물 추천 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(4) 자연어 기반 부동산 매물 추천 기능</div>
+  <div class="st">(5) 자연어 기반 부동산 매물 추천 기능</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">9</span>
+  <span class="pn">10</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -751,12 +847,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 10: 백오피스 성능 최적화 ===== -->
+<!-- ===== SLIDE 11: 백오피스 성능 최적화 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(5) 백오피스 서버 성능 최적화</div>
+  <div class="st">(6) 백오피스 서버 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">10</span>
+  <span class="pn">11</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -840,12 +936,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 11: Spring Batch ===== -->
+<!-- ===== SLIDE 12: Spring Batch ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(6) Spring Batch 성능 최적화</div>
+  <div class="st">(7) Spring Batch 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">11</span>
+  <span class="pn">12</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -941,12 +1037,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 12: Side Project - Upvy ===== -->
+<!-- ===== SLIDE 13: Side Project - Upvy ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">Side Project — Upvy (교육용 숏폼 영상 플랫폼)</div>
   <span class="ss">3. Side Project</span>
-  <span class="pn">12</span>
+  <span class="pn">13</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1028,12 +1124,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 13: 개발 철학 & Contact ===== -->
+<!-- ===== SLIDE 14: 개발 철학 & Contact ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
-  <span class="pn">13</span>
+  <span class="pn">14</span>
   <div class="tc" style="margin-top:16px;flex:1;">
     <div class="cw">
       <h3 style="margin-bottom:14px;">개발 철학</h3>
@@ -1102,8 +1198,9 @@ a:hover{text-decoration:underline;}
       <h3 style="margin:14px 0 8px;">프로젝트 임팩트 요약</h3>
       <table class="ct" style="font-size:9.5px;">
         <tr><th>프로젝트</th><th>핵심 성과</th></tr>
-        <tr><td class="bd">MSA→모듈러 모놀리식</td><td>무중단 전환, 12→1앱 비용 최적화</td></tr>
+        <tr><td class="bd">MSA 전환</td><td>무중단 전환, 14개 서비스 독립 배포</td></tr>
         <tr><td class="bd">멀티모듈</td><td>16→1 레포, 빌드 70% 단축</td></tr>
+        <tr><td class="bd">모듈러 모놀리식</td><td>12→1앱 통합, 비용 최적화</td></tr>
         <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 98%↓, 롤백 83%↓</td></tr>
         <tr><td class="bd">매물 추천</td><td>자연어 검색 프로덕션 출시</td></tr>
         <tr><td class="bd">백오피스</td><td>API 응답 75% 개선</td></tr>
