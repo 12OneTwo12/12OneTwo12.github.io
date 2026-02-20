@@ -46,7 +46,7 @@ graph LR
     C -->|"Infra Migration"| D["K8s Adoption"]
 ```
 
-Over time, we merged some MSA services along Bounded Context lines and also migrated additional legacy services into MSA, ultimately bringing the total number of services down to 13.
+Over time, we merged some MSA services along Bounded Context lines and also [migrated tightly coupled legacy services into MSA]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}}), ultimately bringing the total number of services down to 13.
 
 ### And Then to Modular Monolith
 
@@ -431,6 +431,7 @@ Thank you for reading this long article.
 ## References
 
 ### Related Posts
+- [Is Gradual MSA Transition an Illusion? - Battling Tightly Coupled Legacy Services]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
 - [From 16 Repositories to One - MSA Multi-Module Migration Story]({{< relref "/blog/architecture/msa-to-multi-module" >}})
 - [[MSA Deep Dive 7/7] Do We Really Need MSA?]({{< relref "/blog/architecture/msa-series-7-conclusion" >}})
 - [From No Dev Server to GitOps: Our Kubernetes Adoption Story from Scratch]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
