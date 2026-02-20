@@ -64,7 +64,7 @@ When I joined, there were 5 developers with 2 backend engineers including myself
 
 When I wrote about it, I put it mildly: "For small teams, a monolith might be more appropriate." But what I was actually experiencing was closer to a conviction: "This absolutely needs to change."
 
-Running over 13 services solo while also developing new features was harder than you'd think. Understanding inter-service call relationships, tracing the origin of failures, managing 13 deployment pipelines—it all piled up.
+Running over 13 services solo while also developing new features was harder than you'd think. Understanding inter-service call relationships, tracing the origin of failures, managing 13 deployment pipelines—it all piled up. On top of that, shared infrastructure services like Config Server, Elasticsearch, and Redis also needed to be maintained separately.
 
 ### Cost: No Longer Deferrable
 
@@ -74,7 +74,7 @@ As I briefly mentioned, we had been receiving credits through the GCP Startup Pr
 
 We're a startup. Naturally, we don't have much financial room, and since adopting K8s and adding a dev environment, our infrastructure costs had increased roughly 2.5 to 3 times.
 
-In a typical K8s + MSA setup, you run at least 2 pods per service for high availability. With 13 services, that's a minimum of 26 pods. Add shared infrastructure services like Config Server and Elasticsearch, and the resource footprint grows even more.
+In a typical K8s + MSA setup, you run at least 2 pods per service for high availability. With 13 services, that's a minimum of 26 pods. Add the shared infrastructure services mentioned above, and the resource footprint grows even more.
 
 Running this way was only possible because of credits. Without them, maintaining this structure would have been realistically unaffordable.
 
