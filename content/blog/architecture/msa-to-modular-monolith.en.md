@@ -9,8 +9,6 @@ tags:
 date: '2026-02-20'
 ---
 
-## Introduction
-
 Hello.
 
 I'm Jeongil Jeong, a backend developer working at a proptech platform.
