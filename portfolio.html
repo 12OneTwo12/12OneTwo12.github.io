@@ -109,7 +109,7 @@ a:hover{text-decoration:underline;}
   <h1 style="font-size:56px;font-weight:700;">정정일</h1>
   <div class="sub" style="margin-top:8px;font-size:20px;">Backend Developer Portfolio</div>
   <div style="font-size:13px;color:#888;margin-top:16px;line-height:1.6;">
-    EC2 단일 서버에서 MSA, 그리고 모듈러 모놀리식까지<br>
+    EC2 단일 서버에서 MSA, 그리고 다시 모듈러 모놀리식까지<br>
     2~3명 팀에서 아키텍처·인프라·성능을 직접 설계하고 운영한 기록
   </div>
   <div style="font-size:12px;color:#999;margin-top:28px;">
@@ -548,6 +548,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li>12개 Pod(JVM 12개) → <strong class="bd">1개 앱</strong> + notification — Pod 수 1/5 이하로 절감</li>
         <li>FeignClient → <strong class="bd">ModuleApi 9개 인터페이스</strong> 설계 — 네트워크 호출 제거, .data!! 언래핑 일괄 제거</li>
+        <li>전환 후 CI 테스트 빌드 <strong class="bd">77% 단축</strong> (45분→10분) — JUnit5 스레드 병렬 전환, Context 캐시 최적화, 64개 파일 수정</li>
         <li>모듈 경계·Schema-per-Service 유지 — 필요 시 다시 MSA로 분리 가능</li>
       </ul>
 
@@ -1205,7 +1206,7 @@ a:hover{text-decoration:underline;}
         <tr><th>프로젝트</th><th>핵심 성과</th></tr>
         <tr><td class="bd">MSA 전환</td><td>무중단 전환, 14개 서비스 독립 배포</td></tr>
         <tr><td class="bd">멀티모듈</td><td>16→1 레포, 빌드 70% 단축</td></tr>
-        <tr><td class="bd">모듈러 모놀리식</td><td>12→1앱 통합, 비용 최적화</td></tr>
+        <tr><td class="bd">모듈러 모놀리식</td><td>12→1앱 통합, CI 77% 단축 (45분→10분)</td></tr>
         <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 수시간→수분, GitOps 롤백</td></tr>
         <tr><td class="bd">매물 추천</td><td>자연어 검색 프로덕션 출시</td></tr>
         <tr><td class="bd">백오피스</td><td>API 응답 74.7% 개선 (5.1초→1.3초)</td></tr>
