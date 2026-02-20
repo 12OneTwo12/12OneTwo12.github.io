@@ -46,6 +46,8 @@ graph LR
     C -->|"Infra Migration"| D["K8s Adoption"]
 ```
 
+Over time, we merged some MSA services along Bounded Context lines and also migrated additional legacy services into MSA, ultimately bringing the total number of services down to 13.
+
 ### And Then to Modular Monolith
 
 Looking back, I think I kept asking the same question at every transition: **"Is this structure really the right fit for our team right now?"**
