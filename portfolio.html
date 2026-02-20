@@ -127,7 +127,7 @@ a:hover{text-decoration:underline;}
       <span></span><span style="padding-left:16px;color:#666;">2-1. 모놀리식 → MSA 전환 <span class="sm">— 무중단 아키텍처 전환, 부분적 빅뱅 전략</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-2. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-3. K8s 인프라 & 모니터링 구축 <span class="sm">— GKE, LGTM Stack, 아키텍처 진화</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-4. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Manticore Search + OpenAI</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-4. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Elasticsearch + OpenAI</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-5. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-6. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
       <span class="bd">3.</span><span>Side Project — Upvy <span class="sm">— AI 숏폼 영상 플랫폼, 1인 개발</span></span>
@@ -176,7 +176,7 @@ a:hover{text-decoration:underline;}
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;">
         <li>MSA 전환 무중단 완료</li>
         <li>장애 인지 시간 98% 단축 (1시간→1분)</li>
-        <li>API 응답속도 87% 개선 (10.3초→1.3초)</li>
+        <li>API 응답속도 75% 개선 (5.1초→1.3초)</li>
         <li>배치 처리시간 64% 단축 (13분→5분)</li>
       </ul>
     </div>
@@ -201,8 +201,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>핵심 도메인(매물, 중개사-사용자 매칭)의 <strong class="bd">양방향 강결합</strong>으로 점진적 전환 불가</li>
-        <li>단일 코드베이스에서 하나의 도메인 변경이 전체 배포·장애 전파를 유발</li>
+        <li>일부 서비스는 이미 MSA로 분리되어 있었으나, <strong class="bd">핵심 도메인(매물, 매칭, 중개사)은 레거시에 강결합</strong></li>
+        <li>레거시 서비스 내 하나의 도메인 변경이 전체 배포·장애 전파를 유발</li>
         <li>공통 코드가 서비스별 개별 코드베이스에 중복 관리</li>
       </ul>
 
@@ -234,15 +234,15 @@ a:hover{text-decoration:underline;}
         <div class="dl">전환 전략 다이어그램</div>
         <div style="display:flex;gap:10px;align-items:start;">
           <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
-            <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE</div>
-            <div class="db er ds" style="width:100%;margin-bottom:4px;">Legacy Service (단일 WAR)</div>
+            <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE (단일 EC2 · Docker Compose)</div>
+            <div class="db er ds" style="width:100%;margin-bottom:4px;">레거시 서비스 (핵심 도메인 강결합)</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
-              <div class="db ds">아파트</div><div class="db ds">매칭</div>
-              <div class="db ds">중개사</div><div class="db ds">채팅</div>
-              <div class="db ds">유저</div><div class="db ds">알림</div>
+              <div class="db er ds">아파트</div><div class="db er ds">매칭</div>
+              <div class="db er ds">중개사</div>
+              <div class="db ds" style="border-style:dashed;">기존 MSA 서비스들</div>
             </div>
             <div class="dd">↓</div>
-            <div class="db wn ds" style="width:100%;">단일 MySQL DB</div>
+            <div class="db wn ds" style="width:100%;">도메인 간 DB 테이블 공유</div>
           </div>
           <div style="display:flex;align-items:center;padding-top:50px;font-size:18px;color:#999;">→</div>
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
@@ -339,27 +339,14 @@ a:hover{text-decoration:underline;}
         <div class="dn">3개 SNS Topic → 42개 SQS Queue로 서비스 간 느슨한 결합 달성</div>
       </div>
 
-      <div class="sec-s" style="margin-top:10px;">FeignClient 서비스 간 동기 의존성 맵</div>
+      <div class="sec-s" style="margin-top:10px;">서비스 간 통신 전략 — 동기 vs 비동기</div>
       <div class="dg">
-        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;">
-            <div class="db ok ds">apart</div>
-            <div class="da">↔</div>
-            <div class="db ok ds">agent</div>
-            <div class="da">→</div>
-            <div class="db ok ds">user</div>
-          </div>
-          <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:4px;">
-            <div class="db ok ds">match</div>
-            <div class="da">→</div>
-            <div class="db ok ds">apart</div>
-            <div class="da">&nbsp;</div>
-            <div class="db wn ds">chat → legacy</div>
-            <div class="da">&nbsp;</div>
-            <div class="db wn ds">match → legacy</div>
-          </div>
-        </div>
-        <div class="dn">chat, match 서비스는 레거시에 아직 의존 — 향후 제거 대상으로 관리</div>
+        <table class="ct" style="font-size:10px;margin:0;">
+          <tr><th style="width:28%;">통신 방식</th><th>사용 구간</th><th style="width:22%;">선택 이유</th></tr>
+          <tr><td class="bd">Feign (동기)</td><td>apart↔agent, match→apart, agent→user</td><td>즉시 응답 필요</td></tr>
+          <tr><td class="bd">SQS (비동기)</td><td>매물등록→매칭, 알림, 이벤트 기록</td><td>결과 대기 불필요</td></tr>
+          <tr><td class="bd" style="color:#8a6d3b;">Legacy 의존</td><td>chat→legacy, match→legacy</td><td style="color:#8a6d3b;">향후 제거 대상</td></tr>
+        </table>
       </div>
 
       <div class="ib" style="margin-top:10px;">
@@ -499,7 +486,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>EC2 + Docker Compose 직접 배포 → 롤백 30분+, 수평 확장 불가, SPOF</li>
+        <li>모든 MSA 서비스 + 레거시가 <strong class="bd">단일 대형 EC2에 Docker Compose로 집중</strong> → OOM Kill, Noisy Neighbor, SPOF</li>
+        <li>개발 서버 부재 → 로컬 또는 <strong class="bd">운영 환경에서 직접 테스트</strong></li>
         <li>장애 인지가 사용자 CS에 100% 의존 (<strong class="bd">실제 CS 접수율 5~10%</strong>, 나머지는 조용히 이탈)</li>
       </ul>
 
@@ -587,7 +575,7 @@ a:hover{text-decoration:underline;}
     </p>
 
     <div class="tl">
-      <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 + Docker Compose</strong><br>단일 인스턴스, SPOF<br>CloudWatch만 사용<br>롤백 30분+</div></div>
+      <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 + Docker Compose</strong><br>모든 컨테이너 단일 EC2<br>OOM Kill · Noisy Neighbor<br>개발서버 부재 · 롤백 30분+</div></div>
       <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>GKE 클러스터 도입</strong><br>K8s 전환 시작<br>NGINX Ingress 구성<br>레거시 서비스 격리</div></div>
       <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>Full Observability</strong><br>LGTM Stack 구축<br>OTel Sidecar 전 서비스<br>실시간 Telegram 알림</div></div>
       <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>안정화 & 자동화</strong><br>14개 MSA 안정 운영<br>3 SNS / 42 SQS<br>GitOps CI/CD 완성</div></div>
@@ -598,15 +586,15 @@ a:hover{text-decoration:underline;}
       <div class="dg" style="flex:.4;">
         <div class="dl" style="color:#c5221f;">BEFORE (2025.03 입사 시점)</div>
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div class="db er ds" style="width:85%;">EC2 단일 인스턴스</div>
-          <div class="dd">↓ Docker Compose</div>
-          <div class="db er ds" style="width:85%;">Monolithic WAR</div>
+          <div class="db er ds" style="width:85%;">EC2 단일 대형 인스턴스</div>
+          <div class="dd">↓ Docker Compose + Shell Script</div>
+          <div class="db er ds" style="width:85%;">MSA 서비스 + 레거시<br><span style="font-size:7px;">모든 컨테이너가 단일 EC2에 집중</span></div>
           <div class="dd">↓</div>
-          <div class="db wn ds" style="width:85%;">단일 MySQL</div>
+          <div class="db wn ds" style="width:85%;">도메인 간 DB 공유</div>
           <div class="dd">↓</div>
-          <div class="db ds" style="width:85%;">CloudWatch (기본)</div>
+          <div class="db ds" style="width:85%;">모니터링 부재 · 개발서버 없음</div>
         </div>
-        <div style="text-align:center;margin-top:6px;font-size:9px;color:#c5221f;">SPOF · 롤백 30분+ · 장애 인지 1시간</div>
+        <div style="text-align:center;margin-top:6px;font-size:9px;color:#c5221f;">SPOF · OOM Kill · Noisy Neighbor · 롤백 30분+</div>
       </div>
       <div style="display:flex;align-items:center;font-size:22px;color:#999;">→</div>
       <!-- AFTER -->
@@ -653,7 +641,7 @@ a:hover{text-decoration:underline;}
       <table class="ct" style="font-size:10px;flex:1;">
         <tr><th></th><th style="color:#c5221f;">Before (2025.03)</th><th style="color:#137333;">After (2026.02)</th></tr>
         <tr><td class="bd">인프라</td><td>EC2 단일 인스턴스 (SPOF)</td><td class="w">GKE 2 Cluster (dev/prod)</td></tr>
-        <tr><td class="bd">서비스</td><td>Monolithic WAR 1개</td><td class="w">14개 MSA (독립 배포)</td></tr>
+        <tr><td class="bd">서비스</td><td>MSA 전환 중 (단일 EC2 집중)</td><td class="w">14개 MSA (독립 배포)</td></tr>
         <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (1시간+)</td><td class="w">실시간 알림 (1분)</td></tr>
         <tr><td class="bd">롤백</td><td>수동 배포 (30분+)</td><td class="w">GitOps 자동 (5분)</td></tr>
         <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack</td></tr>
@@ -682,7 +670,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.06 ~ 2025.10</td></tr>
         <tr><td class="l">역할</td><td class="v">검색 엔진 설계 및 RAG 파이프라인 구축</td></tr>
-        <tr><td class="l">기술스택</td><td class="v">OpenAI GPT, Manticore Search, Elasticsearch, RAG</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">OpenAI GPT, Elasticsearch, RAG</td></tr>
       </table>
 
       <div class="sec">배경 및 문제</div>
@@ -694,8 +682,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">고려한 접근법 & 해결</div>
       <ul class="bl">
-        <li><strong class="bd">검색 엔진:</strong> ES only vs Manticore only vs <span class="hl">ES + Manticore 하이브리드</span><br>
-          <span class="sm">→ ES는 의미 유사도에 강하지만 지리 검색이 약함, Manticore는 반대 → 둘의 결합이 최적</span></li>
+        <li><strong class="bd">검색 엔진:</strong> Manticore Search(초기) → <span class="hl">Elasticsearch(최종 선택)</span><br>
+          <span class="sm">→ 초기: 비용 효율적인 Manticore 도입 (메모리 200배 절약) → RAG 구축 시 벡터 검색·생태계 확장성 요구로 ES 전환</span></li>
         <li><strong class="bd">자연어 이해:</strong> 규칙 기반 파싱 vs <span class="hl">OpenAI GPT로 자연어→구조화 변환</span><br>
           <span class="sm">→ "30평대 신축" 같은 모호한 표현은 규칙으로 커버 불가 → LLM 선택</span></li>
         <li><strong class="bd">데이터 보강:</strong> 매물 이미지 <span class="hl">AI 라벨링 자동화</span> → 검색 정확도 향상</li>
@@ -716,12 +704,16 @@ a:hover{text-decoration:underline;}
           <div class="db dk" style="width:70%;">사용자 자연어 쿼리<br><span style="font-size:8px;color:#666;">"강남역 근처 30평대 신축 아파트"</span></div>
           <div class="dd">↓</div>
           <div class="db ac" style="width:70%;">OpenAI GPT<br><span style="font-size:8px;color:#666;">자연어 → 구조화된 검색 조건 변환</span></div>
-          <div class="dd">↓ 병렬 검색</div>
-          <div style="display:flex;gap:8px;width:80%;">
-            <div class="db" style="flex:1;">Manticore Search<br><span style="font-size:8px;color:#999;">자연어 지리 검색<br>한국어 형태소 분석</span></div>
-            <div class="db" style="flex:1;">Elasticsearch<br><span style="font-size:8px;color:#999;">RAG 벡터 검색<br>유사도 매칭</span></div>
+          <div class="dd">↓ 복합 검색</div>
+          <div class="db" style="width:80%;padding:8px 12px;">
+            <div style="font-weight:600;text-align:center;margin-bottom:4px;">Elasticsearch</div>
+            <div style="display:flex;gap:4px;">
+              <div style="flex:1;font-size:8px;color:#999;text-align:center;border-right:1px dashed #ddd;padding-right:4px;">벡터 검색<br>(RAG 유사도)</div>
+              <div style="flex:1;font-size:8px;color:#999;text-align:center;border-right:1px dashed #ddd;padding-right:4px;">지리 검색<br>(위치 기반)</div>
+              <div style="flex:1;font-size:8px;color:#999;text-align:center;">키워드 검색<br>(형태소 분석)</div>
+            </div>
           </div>
-          <div class="dd">↓ 결과 병합 + 랭킹</div>
+          <div class="dd">↓ 결과 랭킹</div>
           <div class="db ok" style="width:70%;">매물 추천 결과 반환</div>
         </div>
       </div>
@@ -737,10 +729,10 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>왜 Elasticsearch만으로 부족했는가?</strong><br>
-        ES의 벡터 검색은 의미적 유사도에 강하지만, "강남역 반경 1km" 같은 <strong>정확한 지리 조건</strong>에는 약합니다.
-        Manticore Search의 지리 검색 + ES의 벡터 검색을 결합하여
-        <strong>"의미적 유사성 + 지리적 정확성"을 동시에 만족</strong>하는 하이브리드 검색을 구현했습니다.
+        <strong>왜 Manticore에서 Elasticsearch로 전환했는가?</strong><br>
+        초기에는 비용 효율적인 Manticore Search를 선택했습니다 (ES 대비 메모리 사용량 200배 차이).
+        그러나 RAG 시스템 구축 과정에서 <strong>임베딩 벡터 검색과 생태계 확장성</strong>이 필요해졌고,
+        기술 선택은 고정이 아니라 <strong>요구사항 변화에 따라 재평가</strong>되어야 한다는 것을 확인했습니다.
       </div>
 
       <div class="ib" style="margin-top:8px;">
@@ -791,7 +783,7 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="rb" style="margin-top:10px;">
-        <strong>종합 성과:</strong> API 응답속도 <strong>87% 개선</strong> (10.3초→1.3초) → 사용자 이탈 임계치(3초) 이내 진입 · 캐시 히트 시 <strong>99% 개선</strong> · 금융 서비스 SLA 안정성 확보
+        <strong>종합 성과:</strong> API 응답속도 <strong>75% 개선</strong> (5.1초→1.3초) → 사용자 이탈 임계치(3초) 이내 진입 · 캐시 히트 시 <strong>99% 개선</strong> · 금융 서비스 SLA 안정성 확보
       </div>
     </div>
 
@@ -934,6 +926,10 @@ a:hover{text-decoration:underline;}
         Spring Batch의 Metadata 테이블은 Job 실행 상태를 기록하는 용도입니다.
         동시 Job 실행 시 같은 row를 경쟁하지만, <strong>최종 상태만 정확하면 중간 격리는 불필요</strong>합니다.
         이 판단의 근거를 팀에 공유하고, 실제 병렬 실행 테스트로 데이터 정합성을 검증한 후 적용했습니다.
+      </div>
+
+      <div class="rb" style="margin-top:8px;">
+        <strong>종합 성과:</strong> 배치 처리 <strong>64% 단축</strong> (13분→5분) · Metadata Deadlock <strong>완전 해결</strong> · 금융 서비스 새벽 배치 안정성 확보 · Job 동시 실행 체계 구축
       </div>
     </div>
   </div>
@@ -1104,7 +1100,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">멀티모듈</td><td>16→1 레포, 빌드 70% 단축</td></tr>
         <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 98%↓, 롤백 83%↓</td></tr>
         <tr><td class="bd">매물 추천</td><td>자연어 검색 프로덕션 출시</td></tr>
-        <tr><td class="bd">백오피스</td><td>API 응답 87% 개선</td></tr>
+        <tr><td class="bd">백오피스</td><td>API 응답 75% 개선</td></tr>
         <tr><td class="bd">Batch</td><td>처리 시간 64% 단축</td></tr>
       </table>
 
