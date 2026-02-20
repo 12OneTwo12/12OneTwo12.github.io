@@ -108,7 +108,11 @@ a:hover{text-decoration:underline;}
   <div class="bar" style="margin-bottom:12px;"></div>
   <h1 style="font-size:56px;font-weight:700;">정정일</h1>
   <div class="sub" style="margin-top:8px;font-size:20px;">Backend Developer Portfolio</div>
-  <div style="font-size:12px;color:#999;margin-top:40px;">
+  <div style="font-size:13px;color:#888;margin-top:16px;line-height:1.6;">
+    EC2 단일 서버에서 MSA, 그리고 모듈러 모놀리식까지<br>
+    2~3명 팀에서 아키텍처·인프라·성능을 직접 설계하고 운영한 기록
+  </div>
+  <div style="font-size:12px;color:#999;margin-top:28px;">
     jji042842@gmail.com &nbsp;·&nbsp;
     <a href="https://github.com/12OneTwo12">github.com/12OneTwo12</a> &nbsp;·&nbsp;
     <a href="https://jeongil.dev/ko/blog">jeongil.dev/ko/blog</a>
@@ -175,10 +179,10 @@ a:hover{text-decoration:underline;}
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">KEY RESULTS</div>
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;">
-        <li>MSA 전환 무중단 완료</li>
-        <li>장애 인지 시간 98% 단축 (1시간→1분)</li>
-        <li>API 응답속도 75% 개선 (5.1초→1.3초)</li>
-        <li>배치 처리시간 64% 단축 (13분→5분)</li>
+        <li>무중단 MSA 전환 완료 (다운타임 0, 데이터 유실 0)</li>
+        <li>장애 인지 시간 단축 (수 시간→수 분, CS 의존 탈피)</li>
+        <li>API 응답속도 75% 개선 (5,132ms→1,299ms)</li>
+        <li>배치 처리시간 64% 단축 (13.3분→4.8분)</li>
       </ul>
     </div>
   </div>
@@ -487,8 +491,8 @@ a:hover{text-decoration:underline;}
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
         <li><strong class="bd">GCP 스타트업 크레딧 2026.04 만료</strong> — 만료 후 인프라 비용 2.5~3배 증가 예상</li>
-        <li>2명이 13개 MSA 서비스 운영 — <strong class="bd">서비스당 Pod 리소스 오버헤드</strong>가 비용의 주요 원인</li>
-        <li>서비스 간 Feign Client 호출 → 네트워크 지연 + 장애 전파 리스크</li>
+        <li>경영 악화로 인원 감축 → <strong class="bd">백엔드 1명이 13개 MSA 운영</strong> — 서비스별 최소 2 Pod = 26+ Pod 리소스 오버헤드</li>
+        <li>서비스 간 Feign Client 호출 → 네트워크 지연 + 장애 전파 리스크, .data!! 언래핑 반복</li>
       </ul>
 
       <div class="rb" style="margin-top:6px;">
@@ -542,8 +546,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>12개 Pod(JVM 12개) → <strong class="bd">1개 앱</strong> + notification — JVM 오버헤드 대폭 절감</li>
-        <li>Feign Client 네트워크 호출 → <strong class="bd">모듈 간 메서드 호출</strong> — 지연·장애 전파 제거</li>
+        <li>12개 Pod(JVM 12개) → <strong class="bd">1개 앱</strong> + notification — Pod 수 1/5 이하로 절감</li>
+        <li>FeignClient → <strong class="bd">ModuleApi 9개 인터페이스</strong> 설계 — 네트워크 호출 제거, .data!! 언래핑 일괄 제거</li>
         <li>모듈 경계·Schema-per-Service 유지 — 필요 시 다시 MSA로 분리 가능</li>
       </ul>
 
@@ -597,16 +601,16 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>장애 인지 <strong class="bd">98% 단축</strong> (1시간→1분) → CS 의존 탈피, 선제적 장애 대응 체계</li>
-        <li>롤백 <strong class="bd">83% 단축</strong> (30분→5분) → 장애 영향 범위 최소화</li>
+        <li>장애 인지 시간 <strong class="bd">대폭 단축</strong> (수 시간→수 분) → CS 의존 탈피, 선제적 장애 대응 체계</li>
+        <li>롤백 시간 <strong class="bd">대폭 단축</strong> → GitOps 기반 선언적 롤백으로 장애 영향 범위 최소화</li>
         <li>Grafana LGTM Stack으로 <strong class="bd">ELK 대비 비용 효율적</strong> 모니터링 체계 구축</li>
-        <li>JVM Cold Start <strong class="bd">85% 개선</strong> (1.3초→200ms) → startupProbe + WarmupHealthIndicator</li>
+        <li>JVM Cold Start <strong class="bd">85% 개선</strong> (1.2~1.4초→150~230ms) → startupProbe + WarmupHealthIndicator</li>
       </ul>
 
       <div class="ib" style="margin-top:10px;">
         <strong>"장애는 사용자보다 먼저 감지되어야 한다"</strong><br>
-        CS로 인지되는 장애는 빙산의 일각입니다. 90% 이상의 사용자는 불편을 감수하거나 이탈합니다.
-        이 인사이트가 모니터링 시스템 구축의 출발점이었습니다.
+        CS로 인지되는 장애는 빙산의 일각입니다. 실제 CS 유입 확률은 5~10% 수준이며 나머지는 이탈합니다.
+        이 인사이트가 Grafana LGTM 모니터링 시스템 구축의 출발점이었습니다.
       </div>
     </div>
 
@@ -744,8 +748,8 @@ a:hover{text-decoration:underline;}
         <tr><th></th><th style="color:#c5221f;">Before (2025.03)</th><th style="color:#137333;">After (2026.02)</th></tr>
         <tr><td class="bd">인프라</td><td>EC2 단일 인스턴스 (SPOF)</td><td class="w">GKE 2 Cluster (dev/prod)</td></tr>
         <tr><td class="bd">서비스</td><td>MSA 전환 중 (단일 EC2 집중)</td><td class="w">모듈러 모놀리식 (12→1앱 통합)</td></tr>
-        <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (1시간+)</td><td class="w">실시간 알림 (1분)</td></tr>
-        <tr><td class="bd">롤백</td><td>수동 배포 (30분+)</td><td class="w">GitOps 자동 (5분)</td></tr>
+        <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (수 시간)</td><td class="w">실시간 알림 (수 분 이내)</td></tr>
+        <tr><td class="bd">롤백</td><td>수동 배포 (SSH + 재빌드)</td><td class="w">GitOps 선언적 롤백</td></tr>
         <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack</td></tr>
         <tr><td class="bd">배포</td><td>SSH + Docker Compose</td><td class="w">GitHub Actions + ArgoCD</td></tr>
       </table>
@@ -753,7 +757,7 @@ a:hover{text-decoration:underline;}
         <strong>11개월간의 핵심 판단:</strong><br>
         모든 전환은 "기술 도입"이 아니라 <strong>운영 문제와 비용 현실</strong>에서 시작했습니다.<br><br>
         EC2 SPOF → GKE, CS 장애 인지 → LGTM, 수동 배포 → GitOps,
-        그리고 <strong>2명이 13 MSA 운영하는 현실</strong> → 모듈러 모놀리식. 아키텍처는 정답이 아니라 <strong>트레이드오프</strong>입니다.
+        그리고 <strong>1명이 13개 MSA를 운영하는 현실</strong> → 모듈러 모놀리식. 아키텍처는 정답이 아니라 <strong>트레이드오프</strong>입니다.
       </div>
     </div>
   </div>
@@ -770,7 +774,7 @@ a:hover{text-decoration:underline;}
     <div class="c">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
-        <tr><td class="l">기간</td><td class="v">2025.06 ~ 2025.10</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.08 ~ 2025.11</td></tr>
         <tr><td class="l">역할</td><td class="v">검색 엔진 설계 및 RAG 파이프라인 구축</td></tr>
         <tr><td class="l">기술스택</td><td class="v">OpenAI GPT, Elasticsearch, RAG</td></tr>
       </table>
@@ -873,9 +877,9 @@ a:hover{text-decoration:underline;}
 
       <div class="sec" style="margin-top:10px;">Redis Look-aside Cache</div>
       <ul class="bl">
-        <li><strong class="bd">문제:</strong> 외부 API 평균 응답 5.1초 → 사용자 이탈 임계치(3초) 초과</li>
-        <li><strong class="bd">판단:</strong> 동일 아파트를 여러 사용자가 반복 조회하는 특성 → 70%+ 캐시 히트 기대</li>
-        <li><strong class="bd">해결:</strong> Redis 캐시 적용 — Cache Hit 시 5,100ms → <strong class="bd">57ms (90x 향상)</strong></li>
+        <li><strong class="bd">문제:</strong> 외부 API 평균 응답 5,132ms (최저 3,006ms ~ 최대 9,412ms) → 사용자 이탈 임계치(3초) 초과</li>
+        <li><strong class="bd">판단:</strong> 대출 신청 임시저장 시 동일 주소 반복 조회 → 높은 캐시 히트율 기대</li>
+        <li><strong class="bd">해결:</strong> Redis Look-aside 캐시 적용 — Cache Hit 시 <strong class="bd">57ms (90x 향상)</strong>, API 호출 <strong class="bd">76% 감소</strong></li>
       </ul>
 
       <div class="sec" style="margin-top:10px;">DB Replication Lag 해결</div>
@@ -885,7 +889,7 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="rb" style="margin-top:10px;">
-        <strong>종합 성과:</strong> API 응답속도 <strong>75% 개선</strong> (5.1초→1.3초) → 사용자 이탈 임계치(3초) 이내 진입 · 캐시 히트 시 <strong>99% 개선</strong> · 금융 서비스 SLA 안정성 확보
+        <strong>종합 성과:</strong> API 평균 응답 <strong>74.7% 개선</strong> (5,132ms→1,299ms) → 사용자 이탈 임계치(3초) 이내 진입 · 캐시 히트 시 <strong>57ms (99% 개선)</strong> · 외부 API 호출 횟수 <strong>76% 감소</strong>
       </div>
     </div>
 
@@ -969,7 +973,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>배치 처리 시간 <strong class="bd">64% 단축</strong> (13분 → 5분) → 후속 배치 충돌 해소, 새벽 운영 안정화</li>
+        <li>배치 처리 시간 <strong class="bd">64% 단축</strong> (13.3분 → 4.8분) → 후속 배치 충돌 해소, 새벽 운영 안정화</li>
+        <li>Row당 처리 시간 <strong class="bd">80% 단축</strong> (3.74초 → 0.72초) · 트랜잭션 락 점유 <strong class="bd">22분 → 0.01초</strong></li>
         <li>Metadata Deadlock <strong class="bd">완전 해결</strong> → Job 동시 실행 안정성 확보</li>
       </ul>
 
@@ -1031,7 +1036,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="rb" style="margin-top:8px;">
-        <strong>종합 성과:</strong> 배치 처리 <strong>64% 단축</strong> (13분→5분) · Metadata Deadlock <strong>완전 해결</strong> · 금융 서비스 새벽 배치 안정성 확보 · Job 동시 실행 체계 구축
+        <strong>종합 성과:</strong> 배치 처리 <strong>64% 단축</strong> (13.3분→4.8분) · Row당 <strong>80% 단축</strong> · 락 점유 <strong>22분→0.01초</strong> · Metadata Deadlock <strong>완전 해결</strong> · 금융 서비스 새벽 배치 안정성 확보
       </div>
     </div>
   </div>
@@ -1201,10 +1206,10 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">MSA 전환</td><td>무중단 전환, 14개 서비스 독립 배포</td></tr>
         <tr><td class="bd">멀티모듈</td><td>16→1 레포, 빌드 70% 단축</td></tr>
         <tr><td class="bd">모듈러 모놀리식</td><td>12→1앱 통합, 비용 최적화</td></tr>
-        <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 98%↓, 롤백 83%↓</td></tr>
+        <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 수시간→수분, GitOps 롤백</td></tr>
         <tr><td class="bd">매물 추천</td><td>자연어 검색 프로덕션 출시</td></tr>
-        <tr><td class="bd">백오피스</td><td>API 응답 75% 개선</td></tr>
-        <tr><td class="bd">Batch</td><td>처리 시간 64% 단축</td></tr>
+        <tr><td class="bd">백오피스</td><td>API 응답 74.7% 개선 (5.1초→1.3초)</td></tr>
+        <tr><td class="bd">Batch</td><td>처리 64% 단축, Row당 80% 단축</td></tr>
       </table>
 
       <div style="margin-top:auto;padding-top:16px;text-align:center;">
