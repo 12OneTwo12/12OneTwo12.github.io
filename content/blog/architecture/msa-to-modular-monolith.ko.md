@@ -46,7 +46,7 @@ graph LR
     C -->|"인프라 전환"| D["K8s 도입"]
 ```
 
-이후 MSA 서비스를 Bounded Context에 따라 합치기도 하고, 또 레거시 서비스에서 MSA로 마이그레이션 하기도 하면서 최종적으로 서비스 수가 13개로 줄어들게 됐습니다.
+이후 MSA 서비스를 Bounded Context에 따라 합치기도 하고, 또 [강결합된 레거시 서비스를 MSA로 마이그레이션]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}}) 하기도 하면서 최종적으로 서비스 수가 13개로 줄어들게 됐습니다.
 
 ### 그리고 모듈러 모놀리식으로
 
@@ -431,6 +431,7 @@ MSA에서는 이런 것들을 신경 쓸 필요가 없었는데, 모듈러 모�
 ## 참고 자료
 
 ### 관련 글
+- [점진적 MSA 전환은 환상일까? - 사내 강결합 레거시 서비스와의 사투기]({{< relref "/blog/architecture/is-gradual-msa-transition-an-illusion" >}})
 - [16개 레포지토리를 하나로 - MSA 멀티모듈 전환기]({{< relref "/blog/architecture/msa-to-multi-module" >}})
 - [[MSA에 관한 고찰 7/7편] 우리는 정말 MSA가 필요한가?]({{< relref "/blog/architecture/msa-series-7-conclusion" >}})
 - [개발 서버도 없던 팀이 GitOps를 갖추기까지: 맨땅에서 시작한 쿠버네티스 도입기]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}})
