@@ -132,7 +132,8 @@ a:hover{text-decoration:underline;}
       <span></span><span style="padding-left:16px;color:#666;">2-1. 모놀리식 → MSA 전환 <span class="sm">— 무중단 아키텍처 전환, 부분적 빅뱅 전략</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-2. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-3. MSA → 모듈러 모놀리식 전환 <span class="sm">— 12서비스→1앱, 비용 최적화</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-4. K8s 인프라 & 모니터링 구축 <span class="sm">— GKE, LGTM Stack, 아키텍처 진화</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-4. K8s 인프라 & CI/CD 구축 <span class="sm">— GKE, Jenkins on K8s, JVM 최적화</span></span>
+      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 모니터링 시스템 구축 <span class="sm">— LGTM Stack, OTel Sidecar, 비용 최적화</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 온프레미스 → AWS 무중단 마이그레이션 <span class="sm">— 200GB CDC, Terraform IaC</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-5. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Elasticsearch + OpenAI</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-6. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
@@ -256,7 +257,7 @@ a:hover{text-decoration:underline;}
       </ul>
     </div>
 
-    <div class="c" style="flex:1.1;justify-content:space-between;">
+    <div class="c" style="flex:1.1;">
       <div class="dg">
         <div class="dl">전환 전략 다이어그램</div>
         <div style="display:flex;gap:10px;align-items:start;">
@@ -275,37 +276,48 @@ a:hover{text-decoration:underline;}
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:4px;">AFTER (14개 MSA · GKE)</div>
             <div style="border:1px solid #81c995;border-radius:3px;padding:4px;position:relative;margin-bottom:3px;">
-              <div style="position:absolute;top:-6px;left:4px;background:#fff;padding:0 2px;font-size:6.5px;font-weight:700;color:#137333;">GKE Cluster (dev/prod)</div>
+              <div style="position:absolute;top:-6px;left:4px;background:#fff;padding:0 2px;font-size:8px;font-weight:700;color:#137333;">GKE Cluster (dev/prod)</div>
               <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2px;">
-                <div class="db ok ds" style="font-size:7.5px;">agent</div><div class="db ok ds" style="font-size:7.5px;">apart</div>
-                <div class="db ok ds" style="font-size:7.5px;">match</div><div class="db ok ds" style="font-size:7.5px;">ai</div>
-                <div class="db ok ds" style="font-size:7.5px;">chat</div><div class="db ok ds" style="font-size:7.5px;">user</div>
-                <div class="db ok ds" style="font-size:7.5px;">notif</div><div class="db ok ds" style="font-size:7.5px;">event</div>
-                <div class="db ok ds" style="font-size:7.5px;">data</div><div class="db ok ds" style="font-size:7.5px;">commu</div>
-                <div class="db ok ds" style="font-size:7.5px;">price</div><div class="db ok ds" style="font-size:7.5px;">store</div>
-                <div class="db ok ds" style="font-size:7.5px;">batch</div><div class="db ds" style="font-size:7.5px;border-style:dashed;">legacy</div>
+                <div class="db ok ds" style="font-size:8px;">agent</div><div class="db ok ds" style="font-size:8px;">apart</div>
+                <div class="db ok ds" style="font-size:8px;">match</div><div class="db ok ds" style="font-size:8px;">ai</div>
+                <div class="db ok ds" style="font-size:8px;">chat</div><div class="db ok ds" style="font-size:8px;">user</div>
+                <div class="db ok ds" style="font-size:8px;">notif</div><div class="db ok ds" style="font-size:8px;">event</div>
+                <div class="db ok ds" style="font-size:8px;">data</div><div class="db ok ds" style="font-size:8px;">commu</div>
+                <div class="db ok ds" style="font-size:8px;">price</div><div class="db ok ds" style="font-size:8px;">store</div>
+                <div class="db ok ds" style="font-size:8px;">batch</div><div class="db ds" style="font-size:8px;border-style:dashed;">legacy</div>
               </div>
             </div>
             <div style="display:flex;gap:2px;">
-              <div class="db wn ds" style="flex:1;font-size:7.5px;">Schema별 DB 분리</div>
-              <div class="db ac ds" style="flex:1;font-size:7.5px;">3 SNS / 42 SQS</div>
+              <div class="db wn ds" style="flex:1;font-size:8px;">Schema별 DB 분리</div>
+              <div class="db ac ds" style="flex:1;font-size:8px;">3 SNS / 42 SQS</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="ib" style="margin-top:10px;">
-        <strong>왜 점진적 전환(Strangler Fig)이 아닌 부분적 빅뱅을 선택했는가?</strong><br>
-        아파트 도메인과 매칭 도메인이 양방향으로 강결합 — 아파트 매물 등록 시 매칭 로직이 실행되고, 매칭 결과가 아파트 상태를 변경하는 구조.
-        하나만 분리하면 나머지가 작동하지 않았습니다. 교과서적인 점진적 전환은 이 구조에서 불가능했고,
-        <strong>팀 규모(2~3명)가 감당할 수 있는 범위 내에서 최소한의 빅뱅</strong>을 설계했습니다.
+      <div class="dg" style="margin-top:10px;">
+        <div class="dl">강결합 구조 — Strangler Fig 불가 원인</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0;font-size:8px;text-align:center;">
+          <div class="db er ds" style="padding:8px 10px;font-weight:700;">아파트<br><span style="font-weight:400;font-size:8px;">매물 등록</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;color:#c5221f;font-size:8px;">
+            <span>매칭 로직 실행 →</span>
+            <span>← 상태 변경</span>
+          </div>
+          <div class="db er ds" style="padding:8px 10px;font-weight:700;">매칭<br><span style="font-weight:400;font-size:8px;">결과 반영</span></div>
+          <div style="color:#999;font-size:14px;">⇄</div>
+          <div class="db er ds" style="padding:8px 10px;font-weight:700;">중개사<br><span style="font-weight:400;font-size:8px;">매물 관리</span></div>
+        </div>
+        <div style="text-align:center;font-size:8px;color:#c5221f;font-weight:600;margin-top:2px;">↑ 양방향 순환 의존 — 하나만 분리 시 나머지 작동 불가</div>
       </div>
 
-      <div class="ib" style="margin-top:8px;">
-        <strong>팀 내 합의 과정:</strong>
-        CTO와 기술 논의를 거쳐 "강결합 도메인은 동시 분리, 나머지는 점진적 전환"이라는 하이브리드 전략에 합의했습니다.
-        동료 개발자들과 함께 헥사고날 아키텍처의 Port/Adapter 경계를 정의하고,
-        코드 리뷰를 통해 도메인 로직이 인프라에 의존하지 않는지 지속 검증했습니다.
+      <div class="ib" style="margin-top:10px;">
+        <strong>의사결정 과정</strong>
+        <ul style="margin:4px 0 0;padding-left:14px;line-height:1.65;">
+          <li>합류 시 느슨한 서비스(알림·이벤트)는 이미 분리 완료 — <strong>핵심 도메인은 미착수</strong></li>
+          <li>아파트 분리 착수 → 레거시 분석 중 매칭과의 양방향 강결합 발견 → <strong>팀 회의에서 문제 공유</strong></li>
+          <li>헥사고날·SQS 등 기술 기반 마련했으나 <strong>강결합은 기술이 아닌 전략의 문제</strong>라고 판단</li>
+          <li>합의: 강결합 도메인은 동시 분리(빅뱅) + 나머지 점진적 + <strong>케이스별 전략 선택</strong></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -394,7 +406,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="rb" style="margin-top:8px;">
-        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.9)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
+        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.10)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
       </div>
     </div>
   </div>
@@ -411,7 +423,7 @@ a:hover{text-decoration:underline;}
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.05 (2개월)</td></tr>
-        <tr><td class="l">역할</td><td class="v">멀티모듈 구조 설계 및 Git Subtree 마이그레이션 주도</td></tr>
+        <tr><td class="l">역할</td><td class="v">멀티모듈 구조 설계 및 전환 담당</td></tr>
         <tr><td class="l">기술스택</td><td class="v">Kotlin, Gradle Multi-Module, Git Subtree</td></tr>
       </table>
 
@@ -477,7 +489,10 @@ a:hover{text-decoration:underline;}
               <div class="db ok ds">:match</div><div class="db ok ds">:chat</div><div class="db ok ds">:user</div>
               <div class="db ok ds">:notif</div><div class="db ok ds">:data</div><div class="db ok ds">:event</div>
             </div>
-            <div class="db dk ds" style="width:100%;margin-top:3px;">:batch · :legacy</div>
+            <div style="display:flex;gap:2px;margin-top:3px;">
+              <div class="db dk ds" style="flex:1;">:batch</div>
+              <div class="db ds" style="flex:1;border-style:dashed;color:#8a6d3b;">legacy (별도 레포)</div>
+            </div>
             <div class="dd" style="font-size:8px;color:#137333;">Version Catalog 단일 관리 · Git Subtree 히스토리 보존</div>
           </div>
         </div>
@@ -563,18 +578,18 @@ a:hover{text-decoration:underline;}
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:4px;">AFTER: 모듈러 모놀리식</div>
             <div style="border:1px solid #81c995;border-radius:3px;padding:5px;position:relative;">
-              <div style="position:absolute;top:-6px;left:6px;background:#fff;padding:0 3px;font-size:6.5px;font-weight:700;color:#137333;">BtalkApplication (1 JVM)</div>
+              <div style="position:absolute;top:-6px;left:6px;background:#fff;padding:0 3px;font-size:8px;font-weight:700;color:#137333;">BtalkApplication (1 JVM)</div>
               <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2px;">
-                <div class="db ok ds" style="font-size:7.5px;">:agent</div><div class="db ok ds" style="font-size:7.5px;">:apart</div>
-                <div class="db ok ds" style="font-size:7.5px;">:ai</div><div class="db ok ds" style="font-size:7.5px;">:match</div>
-                <div class="db ok ds" style="font-size:7.5px;">:chat</div><div class="db ok ds" style="font-size:7.5px;">:user</div>
-                <div class="db ok ds" style="font-size:7.5px;">:event</div><div class="db ok ds" style="font-size:7.5px;">:data</div>
-                <div class="db ok ds" style="font-size:7.5px;">:commu</div><div class="db ok ds" style="font-size:7.5px;">:price</div>
-                <div class="db ok ds" style="font-size:7.5px;">:store</div><div class="db ok ds" style="font-size:7.5px;">:batch</div>
+                <div class="db ok ds" style="font-size:8px;">:agent</div><div class="db ok ds" style="font-size:8px;">:apart</div>
+                <div class="db ok ds" style="font-size:8px;">:ai</div><div class="db ok ds" style="font-size:8px;">:match</div>
+                <div class="db ok ds" style="font-size:8px;">:chat</div><div class="db ok ds" style="font-size:8px;">:user</div>
+                <div class="db ok ds" style="font-size:8px;">:event</div><div class="db ok ds" style="font-size:8px;">:data</div>
+                <div class="db ok ds" style="font-size:8px;">:commu</div><div class="db ok ds" style="font-size:8px;">:price</div>
+                <div class="db ok ds" style="font-size:8px;">:store</div><div class="db ok ds" style="font-size:8px;">:batch</div>
               </div>
-              <div style="text-align:center;font-size:7px;color:#137333;margin-top:2px;">ModuleApi 인터페이스 · 11 Schema · 11 TM</div>
+              <div style="text-align:center;font-size:8px;color:#137333;margin-top:2px;">ModuleApi 인터페이스 · 11 Schema · 11 TM</div>
             </div>
-            <div class="db wn ds" style="width:100%;margin-top:3px;font-size:7.5px;">notification (별도 Pod 유지)</div>
+            <div class="db wn ds" style="width:100%;margin-top:3px;font-size:8px;">notification (별도 Pod 유지)</div>
             <div class="dd" style="font-size:8px;color:#137333;">Feign→메서드 호출 · 모듈 경계 유지 · 재분리 가능</div>
           </div>
         </div>
@@ -597,18 +612,21 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>MSA에서 되돌아가는 것이 아니다:</strong>
-        모듈 경계와 Schema-per-Service는 그대로 유지. 배포 단위만 통합하여
-        <strong>2명이 운영 가능한 현실적 아키텍처</strong>로 전환. 필요 시 다시 분리 가능.
+        <strong>돌아보면 — 이 팀에 MSA는 과했다:</strong>
+        입사 시점에 MSA 전환은 이미 진행 중이었고, 합류하여 완수했습니다.
+        하지만 전환 과정에서 <strong>2~3명 팀에 14개 MSA는 과한 복잡도</strong>라는 확신이 생겼습니다.
+        이미 진행 중인 전환을 중단하는 것이 더 큰 혼란이었기에 완료한 뒤,
+        비용 위기를 계기로 <strong>모듈러 모놀리식을 직접 제안하고 전환을 주도</strong>했습니다.
+        MSA를 처음부터 끝까지 경험했기에, "언제 채택하고 언제 되돌려야 하는가"를 판단할 수 있게 되었습니다.
       </div>
     </div>
   </div>
 </div></div>
 
-<!-- ===== SLIDE 8: K8s & 모니터링 ===== -->
+<!-- ===== SLIDE 8: K8s 인프라 & CI/CD ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(4) Kubernetes 인프라 & 모니터링 시스템 구축</div>
+  <div class="st">(4) Kubernetes 인프라 & CI/CD 구축</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">8</span>
   <div class="tc" style="margin-top:10px;flex:1;">
@@ -617,15 +635,14 @@ a:hover{text-decoration:underline;}
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.09 (6개월)</td></tr>
         <tr><td class="l">역할</td><td class="v">인프라 아키텍처 설계 및 구축 전담 (GKE 도입 제안 → CI/CD → 모니터링 → 마이그레이션)</td></tr>
-        <tr><td class="l">기술스택</td><td class="v">GKE, ArgoCD, GitHub Actions, Grafana, Prometheus, Loki, Tempo</td></tr>
-        <tr><td class="l">인프라 규모</td><td class="v">GKE 2 Cluster (dev/prod) · 14개 서비스 Pod · OTel Sidecar 전 서비스</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">GKE, ArgoCD, GitHub Actions → Jenkins, Terraform</td></tr>
+        <tr><td class="l">인프라 규모</td><td class="v">GKE 2 Cluster (dev/prod) · 14개 서비스 Pod</td></tr>
       </table>
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
         <li>모든 MSA 서비스 + 레거시가 <strong class="bd">단일 대형 EC2에 Docker Compose로 집중</strong> → OOM Kill, Noisy Neighbor, SPOF</li>
         <li>개발 서버 부재 → 로컬 또는 <strong class="bd">운영 환경에서 직접 테스트</strong></li>
-        <li>장애 인지가 사용자 CS에 100% 의존 (<strong class="bd">실제 CS 접수율 5~10%</strong>, 나머지는 조용히 이탈)</li>
       </ul>
 
       <div class="sec">고려한 대안 & 해결</div>
@@ -633,21 +650,24 @@ a:hover{text-decoration:underline;}
         <li><strong class="bd">인프라:</strong> Self-managed K8s vs <span class="hl">GKE(Managed)</span> — DevOps 부재 상태에서 월 $72로 컨트롤 플레인 리스크 해소</li>
         <li><strong class="bd">CI/CD:</strong> <span class="hl">GitHub Actions(초기) → Jenkins on K8s(전환)</span> — Self-hosted Runner 빌드 부하 심화로 Jenkins 전환, ArgoCD GitOps 선언적 배포</li>
         <li><strong class="bd">마이그레이션:</strong> 서비스 중단 후 이전 vs <span class="hl">DMS CDC 실시간 동기화</span> — 200GB DB 무중단 달성, Terraform IaC</li>
-        <li><strong class="bd">모니터링:</strong> ELK vs <span class="hl">Grafana LGTM</span> — 비용 효율적, Traces 내장</li>
       </ul>
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>장애 인지 시간 <strong class="bd">98% 단축</strong> (1시간→1분) → CS 의존 탈피, 선제적 장애 대응 체계</li>
         <li>롤백 <strong class="bd">83% 단축</strong> (12분→2분), 배포 <strong class="bd">67% 단축</strong> (15분→5분) → GitOps 기반 선언적 배포·롤백</li>
-        <li>Grafana LGTM Stack으로 <strong class="bd">ELK 대비 월 $92~200→$12~37</strong> 비용 절감 모니터링 체계 구축</li>
         <li>JVM Cold Start <strong class="bd">85% 개선</strong> (1.2~1.4초→150~230ms) → startupProbe + WarmupHealthIndicator</li>
       </ul>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>"장애는 사용자보다 먼저 감지되어야 한다"</strong><br>
-        CS로 인지되는 장애는 빙산의 일각입니다. 실제 CS 유입 확률은 5~10% 수준이며 나머지는 이탈합니다.
-        이 인사이트가 Grafana LGTM 모니터링 시스템 구축의 출발점이었습니다.
+        <strong>GKE 선택 근거:</strong>
+        Self-managed K8s 대비 월 $72 추가 비용이지만,
+        전담 DevOps 없이 컨트롤 플레인까지 관리하는 리스크를 $72로 해소할 수 있다면 합리적인 투자입니다.
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>개발 서버 도입 중 발견한 기술부채:</strong>
+        SQS URL 하드코딩, 미문서화 방화벽 규칙 등 <strong>환경 분리 없이 운영</strong>된 흔적을 발견.
+        환경변수 분리 + Cloud NAT 도입으로 해결하고, 이후 dev/prod 독립 환경 체계를 확보했습니다.
       </div>
     </div>
 
@@ -665,7 +685,76 @@ a:hover{text-decoration:underline;}
         <div class="dn">초기 GitHub Actions Self-hosted Runner(개인 PC) → MSA 빌드 증가로 부하 심화 → Jenkins on K8s 전환</div>
       </div>
 
-      <div class="dg" style="margin-top:8px;">
+      <div class="dg" style="margin-top:10px;">
+        <div class="dl">GitHub Actions → Jenkins 전환 근거</div>
+        <table class="ct" style="font-size:10px;margin:0;">
+          <tr><th></th><th>Self-hosted Runner</th><th>Jenkins on K8s</th></tr>
+          <tr><td class="bd">3서비스 배포</td><td>15분 (순차)</td><td class="w">5분 (병렬)</td></tr>
+          <tr><td class="bd">개발자 영향</td><td>MacBook 과열 · 빌드 중 업무 불가</td><td class="w">영향 없음</td></tr>
+          <tr><td class="bd">동시 실행</td><td>1 Job</td><td class="w">무제한 (동적 Pod)</td></tr>
+          <tr><td class="bd">비용</td><td>무료 (생산성 비용)</td><td class="w">무료 (기존 GKE 활용)</td></tr>
+        </table>
+      </div>
+
+      <div class="ib" style="margin-top:10px;">
+        <strong>JVM Cold Start 해결:</strong>
+        K8s 배포 후 첫 API 응답이 7~14배 느린 문제 — startupProbe 기간 동안
+        <strong>WarmupHealthIndicator로 주요 API를 사전 호출</strong>하여
+        JIT 컴파일 + 커넥션 풀 워밍업을 완료한 후 트래픽 수신. <strong>85% 개선.</strong>
+      </div>
+
+      <div class="rb" style="margin-top:8px;">
+        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.10)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 8-2: 모니터링 시스템 구축 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(4-1) 모니터링 시스템 구축 — Observability</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">9</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.09 (K8s 인프라 구축과 병행)</td></tr>
+        <tr><td class="l">역할</td><td class="v">모니터링 아키텍처 설계, OTel 계측, 알림 체계 구축</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">Grafana, Prometheus, Loki, Tempo, OTel Sidecar</td></tr>
+      </table>
+
+      <div class="sec">배경 및 문제</div>
+      <ul class="bl">
+        <li>장애 인지가 사용자 CS에 100% 의존 (<strong class="bd">실제 CS 접수율 5~10%</strong>, 나머지는 조용히 이탈)</li>
+        <li>CloudWatch 기본 모니터링만 운영 — 애플리케이션 레벨 로그·트레이스 수집 부재</li>
+        <li>장애 발생 후 원인 추적 수단 없음 → SSH 접속 후 수동 로그 확인</li>
+      </ul>
+
+      <div class="sec">고려한 대안 & 해결</div>
+      <ul class="bl">
+        <li><strong class="bd">ELK Stack</strong>: 월 $92~200 (ES 인스턴스만), Jaeger 별도 구성 필요, 클러스터 관리 부담</li>
+        <li><span class="hl">Grafana LGTM Stack</span>: 월 $12~37, Tempo 내장 트레이싱, 단일 바이너리 운영 가능 → <strong class="bd">채택</strong></li>
+        <li><strong class="bd">계측:</strong> OTel Agent v2.20.1을 <span class="hl">Sidecar 패턴</span>으로 전 서비스 자동 계측 — 앱 코드 수정 없이 로그·메트릭·트레이스 수집</li>
+      </ul>
+
+      <div class="sec">성과</div>
+      <ul class="bl">
+        <li>장애 인지 시간 <strong class="bd">98% 단축</strong> (1시간→1분) → CS 의존 탈피, 선제적 장애 대응 체계</li>
+        <li>Grafana LGTM Stack으로 <strong class="bd">ELK 대비 월 $92~200→$12~37</strong> 비용 절감</li>
+        <li>Telegram 알림 + Runbook 연동 → 장애 유형별 <strong class="bd">표준 대응 절차</strong> 확보</li>
+      </ul>
+
+      <div class="ib" style="margin-top:10px;">
+        <strong>"장애는 사용자보다 먼저 감지되어야 한다"</strong><br>
+        CS로 인지되는 장애는 빙산의 일각입니다. 실제 CS 유입 확률은 5~10% 수준이며 나머지는 이탈합니다.
+        이 인사이트가 Grafana LGTM 모니터링 시스템 구축의 출발점이었습니다.
+      </div>
+    </div>
+
+    <div class="c">
+      <div class="dg">
         <div class="dl">모니터링 아키텍처: LGTM Stack</div>
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
           <div style="display:flex;gap:4px;">
@@ -674,11 +763,13 @@ a:hover{text-decoration:underline;}
           </div>
           <div class="dd">↓ OTel Agent v2.20.1 (Sidecar)</div>
           <div style="display:flex;gap:6px;">
-            <div class="db ac ds">Prometheus</div><div class="db ac ds">Loki</div><div class="db ac ds">Tempo</div>
+            <div class="db ac ds">Prometheus<br><span style="font-size:8px;color:#666;">메트릭</span></div>
+            <div class="db ac ds">Loki<br><span style="font-size:8px;color:#666;">로그</span></div>
+            <div class="db ac ds">Tempo<br><span style="font-size:8px;color:#666;">트레이스</span></div>
           </div>
           <div class="dd">↓</div>
           <div style="display:flex;gap:6px;align-items:center;">
-            <div class="db dk ds">Grafana</div><div class="da">→</div>
+            <div class="db dk ds">Grafana 대시보드</div><div class="da">→</div>
             <div class="db wn ds">Telegram Alert + Runbook</div>
           </div>
         </div>
@@ -690,18 +781,22 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">월 비용</td><td>$92~200 (ES만)</td><td class="w">$12~37</td></tr>
         <tr><td class="bd">분산 트레이싱</td><td>Jaeger 별도 구성</td><td class="w">Tempo 내장</td></tr>
         <tr><td class="bd">학습 곡선</td><td>높음 (ES 클러스터 관리)</td><td class="w">낮음 (단일 바이너리)</td></tr>
+        <tr><td class="bd">앱 코드 수정</td><td>로깅 라이브러리 변경 필요</td><td class="w">OTel Sidecar로 무변경</td></tr>
       </table>
 
-      <div class="ib" style="margin-top:8px;">
-        <strong>GKE 선택 근거:</strong>
-        Self-managed K8s 대비 월 $72 추가 비용이지만,
-        전담 DevOps 없이 컨트롤 플레인까지 관리하는 리스크를 $72로 해소할 수 있다면 합리적인 투자입니다.
+      <div class="ib" style="margin-top:10px;">
+        <strong>OTel Sidecar 패턴 선택 이유:</strong>
+        Agent 방식(DaemonSet)은 노드 단위 수집으로 설정이 간단하지만,
+        <strong>서비스별 독립적 계측 설정이 필요</strong>했습니다.
+        Sidecar 패턴은 서비스별 환경변수로 세밀한 제어가 가능하고,
+        서비스 추가 시 Helm 차트에 자동 포함되어 운영 오버헤드가 없습니다.
       </div>
 
-      <div class="ib" style="margin-top:6px;">
-        <strong>개발 서버 도입 중 발견한 기술부채:</strong>
-        SQS URL 하드코딩, 미문서화 방화벽 규칙 등 <strong>환경 분리 없이 운영</strong>된 흔적을 발견.
-        환경변수 분리 + Cloud NAT 도입으로 해결하고, 이후 dev/prod 독립 환경 체계를 확보했습니다.
+      <div class="ib" style="margin-top:8px;">
+        <strong>알림 설계 원칙 — 알림 피로 방지:</strong>
+        모든 에러를 알림하면 무시하게 됩니다.
+        <strong>서비스 가용성에 영향을 주는 이벤트만 Telegram 알림</strong>으로 제한하고,
+        나머지는 Grafana 대시보드에서 확인하는 2단계 구조를 설계했습니다.
       </div>
     </div>
   </div>
@@ -710,9 +805,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 9: 온프레미스 → AWS 무중단 마이그레이션 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(4-1) 온프레미스 → AWS 무중단 마이그레이션</div>
+  <div class="st">(4-2) 온프레미스 → AWS 무중단 마이그레이션</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">9</span>
+  <span class="pn">10</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -763,7 +858,7 @@ a:hover{text-decoration:underline;}
             <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">IDC (기존 환경)</div>
             <div class="db er ds" style="width:100%;margin-bottom:3px;">물리서버 (레거시 서비스 + DB)</div>
             <div class="dd">↓</div>
-            <div class="db er ds" style="width:100%;">MariaDB 200GB<br><span style="font-size:7.5px;">Source of Truth</span></div>
+            <div class="db er ds" style="width:100%;">MariaDB 200GB<br><span style="font-size:8px;">Source of Truth</span></div>
           </div>
           <!-- Arrow with CDC -->
           <div style="display:flex;flex-direction:column;align-items:center;padding-top:28px;gap:2px;">
@@ -776,7 +871,7 @@ a:hover{text-decoration:underline;}
             <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AWS Cloud (Terraform)</div>
             <div class="db ok ds" style="width:100%;margin-bottom:3px;">EC2 (레거시 서비스 이전)</div>
             <div class="dd">↓</div>
-            <div class="db ok ds" style="width:100%;">RDS MariaDB 10.6<br><span style="font-size:7.5px;">200GB · gp3 · 자동 백업 7일</span></div>
+            <div class="db ok ds" style="width:100%;">RDS MariaDB 10.6<br><span style="font-size:8px;">200GB · gp3 · 자동 백업 7일</span></div>
           </div>
         </div>
       </div>
@@ -785,15 +880,15 @@ a:hover{text-decoration:underline;}
         <div class="dl">DNS 전환 타임라인 (무중단 핵심)</div>
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
           <div style="display:flex;gap:4px;width:90%;">
-            <div class="db dk ds" style="flex:1;">① 사전 준비<br><span style="font-size:7.5px;">Terraform · CDC 테스트 · 롤백 검증</span></div>
-            <div class="db ac ds" style="flex:1;">② CDC 활성화<br><span style="font-size:7.5px;">IDC→RDS 실시간 동기화 시작</span></div>
+            <div class="db dk ds" style="flex:1;">① 사전 준비<br><span style="font-size:8px;">Terraform · CDC 테스트 · 롤백 검증</span></div>
+            <div class="db ac ds" style="flex:1;">② CDC 활성화<br><span style="font-size:8px;">IDC→RDS 실시간 동기화 시작</span></div>
           </div>
           <div class="dd">↓</div>
-          <div class="db wn ds" style="width:90%;">③ DNS 전환 (새벽 저트래픽 시간)<br><span style="font-size:7.5px;">DNS 캐시에 따라 사용자가 IDC 또는 AWS로 자연스럽게 분산 → 양쪽 모두 IDC DB를 Source of Truth로 사용</span></div>
+          <div class="db wn ds" style="width:90%;">③ DNS 전환 (새벽 저트래픽 시간)<br><span style="font-size:8px;">DNS 캐시에 따라 사용자가 IDC 또는 AWS로 자연스럽게 분산 → 양쪽 모두 IDC DB를 Source of Truth로 사용</span></div>
           <div class="dd">↓ DNS 전파 완료 확인</div>
           <div style="display:flex;gap:4px;width:90%;">
-            <div class="db ok ds" style="flex:1;">④ DB 참조 전환<br><span style="font-size:7.5px;">앱 → RDS 직접 연결</span></div>
-            <div class="db ok ds" style="flex:1;">⑤ CDC 종료 · IDC 중단<br><span style="font-size:7.5px;">마이그레이션 완료</span></div>
+            <div class="db ok ds" style="flex:1;">④ DB 참조 전환<br><span style="font-size:8px;">앱 → RDS 직접 연결</span></div>
+            <div class="db ok ds" style="flex:1;">⑤ CDC 종료 · IDC 중단<br><span style="font-size:8px;">마이그레이션 완료</span></div>
           </div>
         </div>
       </div>
@@ -823,7 +918,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4) 아키텍처 진화 과정 — 입사 후 11개월의 기록</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">10</span>
+  <span class="pn">11</span>
   <div class="body" style="margin-top:10px;">
     <p class="bt" style="margin-bottom:10px;">
       아래 타임라인은 실제 backend_onboarding 레포의 아키텍처 다이어그램에서 추출한 것입니다.
@@ -846,7 +941,7 @@ a:hover{text-decoration:underline;}
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
           <div class="db er ds" style="width:85%;">EC2 단일 대형 인스턴스</div>
           <div class="dd">↓ Docker Compose + Shell Script</div>
-          <div class="db er ds" style="width:85%;">MSA 서비스 + 레거시<br><span style="font-size:7px;">모든 컨테이너가 단일 EC2에 집중</span></div>
+          <div class="db er ds" style="width:85%;">MSA 서비스 + 레거시<br><span style="font-size:8px;">모든 컨테이너가 단일 EC2에 집중</span></div>
           <div class="dd">↓</div>
           <div class="db wn ds" style="width:85%;">도메인 간 DB 공유</div>
           <div class="dd">↓</div>
@@ -861,29 +956,29 @@ a:hover{text-decoration:underline;}
         <div style="display:flex;flex-direction:column;gap:2px;align-items:center;">
           <!-- Clients -->
           <div style="display:flex;gap:3px;">
-            <div class="db ds" style="font-size:7.5px;">bootalk_app<br><span style="font-size:6.5px;color:#999;">Expo+RN</span></div>
-            <div class="db ds" style="font-size:7.5px;">bootalk_web<br><span style="font-size:6.5px;color:#999;">Next.js</span></div>
-            <div class="db ds" style="font-size:7.5px;">bootalk_admin<br><span style="font-size:6.5px;color:#999;">Next.js</span></div>
+            <div class="db ds" style="font-size:8px;">bootalk_app<br><span style="font-size:8px;color:#999;">Expo+RN</span></div>
+            <div class="db ds" style="font-size:8px;">bootalk_web<br><span style="font-size:8px;color:#999;">Next.js</span></div>
+            <div class="db ds" style="font-size:8px;">bootalk_admin<br><span style="font-size:8px;color:#999;">Next.js</span></div>
           </div>
           <div class="dd" style="margin:1px 0;">↓ NGINX Ingress</div>
           <!-- GKE Cluster -->
           <div style="border:1.5px solid #81c995;border-radius:4px;padding:5px 6px;width:98%;position:relative;">
-            <div style="position:absolute;top:-7px;left:8px;background:#fafafa;padding:0 4px;font-size:7.5px;font-weight:700;color:#137333;">GKE Cluster (dev / prod)</div>
+            <div style="position:absolute;top:-7px;left:8px;background:#fafafa;padding:0 4px;font-size:8px;font-weight:700;color:#137333;">GKE Cluster (dev / prod)</div>
             <div style="display:flex;gap:3px;margin-top:2px;">
               <div style="border:1px solid #81c995;border-radius:3px;padding:4px 5px;flex:3;position:relative;">
-                <div style="position:absolute;top:-6px;left:4px;background:#fafafa;padding:0 2px;font-size:6px;font-weight:700;color:#137333;">BtalkApplication (모듈러 모놀리식 · 1 JVM)</div>
+                <div style="position:absolute;top:-6px;left:4px;background:#fafafa;padding:0 2px;font-size:8px;font-weight:700;color:#137333;">BtalkApplication (모듈러 모놀리식 · 1 JVM)</div>
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2px;">
-                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:agent</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:apart</div>
-                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:ai</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:match</div>
-                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:chat</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:user</div>
-                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:event</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:data</div>
-                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:commu</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:price</div>
-                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:store</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:batch</div>
+                  <div class="db ok ds" style="font-size:8px;padding:2px 3px;">:agent</div><div class="db ok ds" style="font-size:8px;padding:2px 3px;">:apart</div>
+                  <div class="db ok ds" style="font-size:8px;padding:2px 3px;">:ai</div><div class="db ok ds" style="font-size:8px;padding:2px 3px;">:match</div>
+                  <div class="db ok ds" style="font-size:8px;padding:2px 3px;">:chat</div><div class="db ok ds" style="font-size:8px;padding:2px 3px;">:user</div>
+                  <div class="db ok ds" style="font-size:8px;padding:2px 3px;">:event</div><div class="db ok ds" style="font-size:8px;padding:2px 3px;">:data</div>
+                  <div class="db ok ds" style="font-size:8px;padding:2px 3px;">:commu</div><div class="db ok ds" style="font-size:8px;padding:2px 3px;">:price</div>
+                  <div class="db ok ds" style="font-size:8px;padding:2px 3px;">:store</div><div class="db ok ds" style="font-size:8px;padding:2px 3px;">:batch</div>
                 </div>
               </div>
               <div style="display:flex;flex-direction:column;gap:2px;flex:1;">
-                <div class="db wn ds" style="font-size:6.5px;padding:2px 3px;">notification<br>(별도 Pod)</div>
-                <div class="db ds" style="font-size:6.5px;padding:2px 3px;border-style:dashed;">Jenkins<br>ArgoCD</div>
+                <div class="db wn ds" style="font-size:8px;padding:2px 3px;">notification<br>(별도 Pod)</div>
+                <div class="db ds" style="font-size:8px;padding:2px 3px;border-style:dashed;">Jenkins<br>ArgoCD</div>
               </div>
             </div>
           </div>
@@ -891,16 +986,16 @@ a:hover{text-decoration:underline;}
           <!-- Infrastructure Layer -->
           <div style="display:flex;gap:3px;justify-content:center;width:98%;">
             <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:1;">
-              <div style="font-size:6.5px;color:#999;font-weight:600;">AWS</div>
-              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:6.5px;padding:1px 3px;">SNS/SQS</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Cognito</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">DynamoDB</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">RDS</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">S3/CF</div></div>
+              <div style="font-size:8px;color:#999;font-weight:600;">AWS</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:8px;padding:1px 3px;">SNS/SQS</div><div class="db ds" style="font-size:8px;padding:1px 3px;">Cognito</div><div class="db ds" style="font-size:8px;padding:1px 3px;">DynamoDB</div><div class="db ds" style="font-size:8px;padding:1px 3px;">RDS</div><div class="db ds" style="font-size:8px;padding:1px 3px;">S3/CF</div></div>
             </div>
             <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:.6;">
-              <div style="font-size:6.5px;color:#999;font-weight:600;">GCP</div>
-              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Cloud SQL</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Redis</div></div>
+              <div style="font-size:8px;color:#999;font-weight:600;">GCP</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:8px;padding:1px 3px;">Cloud SQL</div><div class="db ds" style="font-size:8px;padding:1px 3px;">Redis</div></div>
             </div>
             <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:.7;">
-              <div style="font-size:6.5px;color:#999;font-weight:600;">Monitoring</div>
-              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Grafana</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Prom</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Loki</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Tempo</div></div>
+              <div style="font-size:8px;color:#999;font-weight:600;">Monitoring</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:8px;padding:1px 3px;">Grafana</div><div class="db ds" style="font-size:8px;padding:1px 3px;">Prom</div><div class="db ds" style="font-size:8px;padding:1px 3px;">Loki</div><div class="db ds" style="font-size:8px;padding:1px 3px;">Tempo</div></div>
             </div>
           </div>
         </div>
@@ -936,7 +1031,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(5) 자연어 기반 부동산 매물 추천 기능</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">11</span>
+  <span class="pn">12</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -996,9 +1091,9 @@ a:hover{text-decoration:underline;}
         <div class="dl">데이터 준비 파이프라인</div>
         <div style="display:flex;align-items:center;gap:3px;justify-content:center;flex-wrap:wrap;">
           <div class="db ds">매물 데이터<br>수집</div><div class="da">→</div>
-          <div class="db ds">이미지 라벨링<br><span style="font-size:7px;">AI 자동 분석</span></div><div class="da">→</div>
-          <div class="db ds">텍스트 벡터화<br><span style="font-size:7px;">Embedding</span></div><div class="da">→</div>
-          <div class="db ac ds">ES 인덱싱<br><span style="font-size:7px;">Vector Store</span></div>
+          <div class="db ds">이미지 라벨링<br><span style="font-size:8px;">AI 자동 분석</span></div><div class="da">→</div>
+          <div class="db ds">텍스트 벡터화<br><span style="font-size:8px;">Embedding</span></div><div class="da">→</div>
+          <div class="db ac ds">ES 인덱싱<br><span style="font-size:8px;">Vector Store</span></div>
         </div>
       </div>
 
@@ -1024,7 +1119,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(6) 백오피스 서버 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">12</span>
+  <span class="pn">13</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1120,7 +1215,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(7) Spring Batch 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">13</span>
+  <span class="pn">14</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1180,8 +1275,8 @@ a:hover{text-decoration:underline;}
             <div class="db ok ds" style="width:100%;margin-bottom:3px;">Partitioner</div>
             <div class="dd" style="font-size:8px;">데이터 분할</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
-              <div class="db ok ds">Thread 1<br><span style="font-size:7px;">Chunk R/W</span></div>
-              <div class="db ok ds">Thread 2<br><span style="font-size:7px;">Chunk R/W</span></div>
+              <div class="db ok ds">Thread 1<br><span style="font-size:8px;">Chunk R/W</span></div>
+              <div class="db ok ds">Thread 2<br><span style="font-size:8px;">Chunk R/W</span></div>
             </div>
             <div class="dd" style="font-size:8px;">Bulk INSERT</div>
             <div class="db ok ds" style="width:100%;">일괄 쓰기</div>
@@ -1228,7 +1323,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">Side Project — Upvy (교육용 숏폼 영상 플랫폼)</div>
   <span class="ss">3. Side Project</span>
-  <span class="pn">14</span>
+  <span class="pn">15</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1301,9 +1396,9 @@ a:hover{text-decoration:underline;}
         <div style="display:flex;align-items:center;gap:3px;justify-content:center;">
           <div class="db er ds">에러 발생</div><div class="da">→</div>
           <div class="db ds">Loki/Tempo</div><div class="da">→</div>
-          <div class="db ac ds">Claude Code<br><span style="font-size:7px;">원인 추론</span></div><div class="da">→</div>
+          <div class="db ac ds">Claude Code<br><span style="font-size:8px;">원인 추론</span></div><div class="da">→</div>
           <div class="db ds">코드 수정</div><div class="da">→</div>
-          <div class="db ok ds">PR 생성<br><span style="font-size:7px;">Human Review</span></div>
+          <div class="db ok ds">PR 생성<br><span style="font-size:8px;">Human Review</span></div>
         </div>
       </div>
 
@@ -1322,7 +1417,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
-  <span class="pn">15</span>
+  <span class="pn">16</span>
   <div class="tc" style="margin-top:16px;flex:1;">
     <div class="cw">
       <h3 style="margin-bottom:14px;">개발 철학</h3>
