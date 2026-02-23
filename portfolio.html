@@ -110,7 +110,7 @@ a:hover{text-decoration:underline;}
   <div class="sub" style="margin-top:8px;font-size:20px;">Backend Developer Portfolio</div>
   <div style="font-size:13px;color:#888;margin-top:16px;line-height:1.6;">
     EC2 단일 서버에서 MSA, 그리고 다시 모듈러 모놀리식까지<br>
-    14개 MSA 무중단 전환 · API 응답 87% 개선 · 장애 인지 98% 단축 · CKA<br>
+    14개 MSA 무중단 전환 · 캐시 히트 57ms(90배↑) · JVM Cold Start 85%↓ · 배치 64%↓ · 장애 인지 98%↓ · CKA<br>
     2~3명 팀에서 아키텍처·인프라·성능을 직접 설계하고 운영한 기록
   </div>
   <div style="font-size:12px;color:#999;margin-top:28px;">
@@ -195,10 +195,10 @@ a:hover{text-decoration:underline;}
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">KEY RESULTS</div>
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;margin:0 0 36px;">
-        <li>무중단 MSA 전환 완료 (다운타임 0, 데이터 유실 0)</li>
+        <li>무중단 MSA 전환 완료 (다운타임 0분, 데이터 유실 0건)</li>
         <li>장애 인지 시간 98% 단축 (1시간→1분, CS 의존 탈피)</li>
-        <li>API 응답속도 87% 개선 (10.3초→1.3초, HikariCP+Cache+Repl.Lag 복합)</li>
-        <li>배치 처리시간 64% 단축 (13.3분→4.8분)</li>
+        <li>외부 API 캐시 히트 57ms (기존 5,132ms 대비 90배↑, 호출 76%↓)</li>
+        <li>JVM Cold Start 85% 개선 (1.2초→150ms) · 배치 64% 단축 (13분→4.8분)</li>
       </ul>
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">ACTIVITY</div>
@@ -311,12 +311,12 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>의사결정 과정</strong>
+        <strong>의사결정 과정 — "왜 점진적 전환이 불가능했는가"</strong>
         <ul style="margin:4px 0 0;padding-left:14px;line-height:1.65;">
           <li>합류 시 느슨한 서비스(알림·이벤트)는 이미 분리 완료 — <strong>핵심 도메인은 미착수</strong></li>
-          <li>아파트 분리 착수 → 레거시 분석 중 매칭과의 양방향 강결합 발견 → <strong>팀 회의에서 문제 공유</strong></li>
-          <li>헥사고날·SQS 등 기술 기반 마련했으나 <strong>강결합은 기술이 아닌 전략의 문제</strong>라고 판단</li>
-          <li>합의: 강결합 도메인은 동시 분리(빅뱅) + 나머지 점진적 + <strong>케이스별 전략 선택</strong></li>
+          <li>아파트 분리 착수 → 레거시 코드 분석 중 <strong>매칭 로직이 아파트 테이블을 직접 JOIN하는 양방향 강결합</strong> 발견</li>
+          <li>gRPC·Zero-Payload·CQRS 등 기술적 해결을 검토했으나 <strong>"기술이 아닌 전략의 문제"</strong>라고 팀 회의에서 결론</li>
+          <li>합의: 강결합 도메인은 동시 분리(부분적 빅뱅) + 나머지 점진적 + <strong>Dual Write로 과도기 데이터 정합성 보장</strong></li>
         </ul>
       </div>
     </div>
@@ -351,7 +351,7 @@ a:hover{text-decoration:underline;}
       <div class="sec-s" style="margin-top:10px;">실제 마이그레이션 타임라인</div>
       <table class="ct" style="font-size:10px;">
         <tr><th>시기</th><th>작업</th><th>검증</th></tr>
-        <tr><td>4~5월</td><td>헥사고날 아키텍처 설계, Port/Adapter 경계 정의</td><td>CTO 아키텍처 리뷰</td></tr>
+        <tr><td>4~5월</td><td>헥사고날 아키텍처 설계, Port/Adapter 경계 정의</td><td>CTO님 아키텍처 리뷰</td></tr>
         <tr><td>5~7월</td><td>apart, agent, match 3개 핵심 도메인 동시 분리</td><td>Dual Write 검증 배치</td></tr>
         <tr><td>7~9월</td><td>notification, event, community 점진적 분리</td><td>통합 테스트 + 카나리 배포</td></tr>
         <tr><td>9~11월</td><td>레거시 트래픽 이전 + Dual Write 종료</td><td>성능 벤치마크 비교</td></tr>
@@ -359,9 +359,10 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:10px;">
         <strong>이 경험에서 배운 것:</strong>
-        "전환 전략보다 중요한 것은 전환이 실패했을 때의 롤백 계획이다."
+        "전환 전략보다 중요한 것은 <strong>전환이 실패했을 때의 롤백 계획</strong>이다."
         모든 단계에서 레거시로 즉시 롤백할 수 있는 상태를 유지했고, 이 안전망이 있었기에
         과감한 전환을 실행할 수 있었습니다.
+        MSA는 은탄환이 아닙니다 — <strong>복잡한 문제를 해결하기 위해 서비스의 복잡성을 감수하는 트레이드오프</strong>에 가깝습니다.
       </div>
     </div>
 
@@ -394,11 +395,11 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>의도적으로 남긴 기술 부채:</strong>
+        <strong>의도적으로 남긴 기술 부채 — "완벽보다 현실":</strong>
         chat-svc와 match-svc의 레거시 의존성을 즉시 제거하지 않았습니다.
         8개월 내 모든 것을 완벽히 전환하려는 욕심보다,
         <strong>"지금 안전하게 전환할 수 있는 범위"와 "나중에 할 일"을 명확히 분리</strong>하는 것이
-        2~3명 팀에서 현실적인 전략이었습니다.
+        2~3명 팀에서 현실적인 전략이었습니다. 이후 모듈러 모놀리식 전환(p.7)에서 이 부채를 해소했습니다.
       </div>
 
       <div class="rb" style="margin-top:8px;">
@@ -436,9 +437,9 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
-        <li><strong class="bd">레포 전략:</strong> 멀티레포 유지 vs <span class="hl">모노레포 전환</span> — 2~3명이 16개 PR 관리는 운영 오버헤드 → 빌드/PR 데이터 근거로 전환 제안 (<strong>230,909줄 통합 PR</strong>)</li>
-        <li><strong class="bd">히스토리:</strong> 새 레포 생성(히스토리 손실) vs <span class="hl">Git Subtree(보존)</span> — 전체 커밋 히스토리 보존</li>
-        <li><strong class="bd">공통 모듈:</strong> 범용 :common vs <span class="hl">Types/Enums/Utils만 허용</span> — 비대화 방지</li>
+        <li><strong class="bd">레포 전략:</strong> 멀티레포 유지 vs <span class="hl">모노레포 전환</span> — 공통 Exception 수정에 16개 PR이 필요한 현실을 빌드/PR 데이터로 CTO께 제안, 입사 1개월 만에 승인 (<strong>230,909줄 통합 PR</strong>)</li>
+        <li><strong class="bd">히스토리:</strong> 새 레포 생성(히스토리 손실) vs <span class="hl">Git Subtree(보존)</span> — git blame 추적 가능, 이후 버그 원인 파악에 결정적 역할</li>
+        <li><strong class="bd">공통 모듈 실패 → 재설계:</strong> 초기에 인프라 코드(JPA Config, Security)까지 :common에 포함했으나 <strong>비대화 확인 후 작업 폐기</strong> → <span class="hl">순수 Types/Enums/Utils만 허용</span>하는 규칙으로 재설계 (우아한형제들 기술블로그 참고)</li>
         <li><strong class="bd">품질 게이트:</strong> <span class="hl">Detekt + ReviewDog + JaCoCo</span> — PR 단위 변경분 50% 커버리지 기준, 정적 분석 자동 리뷰 코멘트</li>
       </ul>
 
@@ -502,14 +503,13 @@ a:hover{text-decoration:underline;}
         <strong>핵심 의사결정: MSA ≠ Multi-Repo</strong><br>
         "MSA는 멀티레포가 기본"이라는 관행에 의문을 품었습니다. 넷플릭스처럼 수백 명이라면 합리적이지만,
         <strong>2~3명이 16개 레포를 관리하는 것은 운영 오버헤드</strong>였습니다.
-        빌드 시간과 PR 개수 데이터를 근거로 전환을 제안하고 CTO 승인을 받았습니다.
+        빌드 시간과 PR 개수 데이터를 근거로 전환을 제안하고 CTO님 승인을 받았습니다.
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>:common 모듈 설계 철학:</strong>
-        공통 모듈이 비대해지면 MSA의 독립성이 무너집니다.
-        인프라 코드(JPA Config, Security 등)는 각 모듈에서 독립 관리하고,
-        <strong>:common에는 순수 타입 정의만 허용</strong>하는 규칙을 정했습니다.
+        <strong>가장 고통스러웠던 버전 통합:</strong>
+        16개 레포의 Spring Boot 2.7→3.1, Kotlin 1.7→1.8, <strong>javax→jakarta 패키지 전면 교체</strong>, QueryDSL 버전 충돌 해결.
+        이 경험이 <strong>Version Catalog 도입</strong>의 직접적 계기가 되었습니다 — 두 번 다시 겪지 않기 위해.
       </div>
 
       <div class="rb" style="margin-top:6px;">
@@ -599,7 +599,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><strong class="bd">Pod 75% 감소</strong> (26+개→5~7개) — 12 JVM → 1 JVM + notification 별도, 인프라 비용 대폭 절감</li>
         <li>FeignClient → <strong class="bd">ModuleApi 9개 인터페이스</strong> 설계 — 네트워크 호출 제거, .data!! 언래핑 일괄 제거</li>
-        <li>CI/CD <strong class="bd">77% 단축</strong> (45분→10분), 파이프라인 <strong class="bd">13→3개</strong> — JUnit5 병렬 전환, Context 캐시 최적화</li>
+        <li>CI/CD <strong class="bd">77% 단축</strong> (45분→10분) — 핵심: <strong>maxParallelForks가 테스트에서는 독</strong>이었음. 프로세스 병렬→JUnit5 스레드 병렬로 전환하여 Spring Context 캐시 공유 복원</li>
         <li>11개 Schema·EntityManager·TM 분리 유지 — 필요 시 다시 MSA로 분리 가능</li>
       </ul>
 
@@ -612,11 +612,11 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>돌아보면 — 이 팀에 MSA는 과했다:</strong>
+        <strong>돌아보면 — 다시 한다면 다르게 할 것:</strong>
         입사 시점에 MSA 전환은 이미 진행 중이었고, 합류하여 완수했습니다.
-        하지만 전환 과정에서 <strong>2~3명 팀에 14개 MSA는 과한 복잡도</strong>라는 확신이 생겼습니다.
-        이미 진행 중인 전환을 중단하는 것이 더 큰 혼란이었기에 완료한 뒤,
+        하지만 <strong>2~3명 팀에 14개 MSA는 과한 복잡도</strong>라는 확신이 전환 과정에서 생겼고,
         비용 위기를 계기로 <strong>모듈러 모놀리식을 직접 제안하고 전환을 주도</strong>했습니다.
+        다시 시작한다면 <strong>모듈러 모놀리식 단계를 더 오래 유지하고, 모니터링을 전환 초기부터 구축</strong>했을 것입니다.
         MSA를 처음부터 끝까지 경험했기에, "언제 채택하고 언제 되돌려야 하는가"를 판단할 수 있게 되었습니다.
       </div>
     </div>
@@ -647,9 +647,10 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
-        <li><strong class="bd">인프라:</strong> Self-managed K8s vs <span class="hl">GKE(Managed)</span> — DevOps 부재 상태에서 월 $72로 컨트롤 플레인 리스크 해소</li>
-        <li><strong class="bd">CI/CD:</strong> <span class="hl">GitHub Actions(초기) → Jenkins on K8s(전환)</span> — Self-hosted Runner 빌드 부하 심화로 Jenkins 전환, ArgoCD GitOps 선언적 배포</li>
-        <li><strong class="bd">마이그레이션:</strong> 서비스 중단 후 이전 vs <span class="hl">DMS CDC 실시간 동기화</span> — 200GB DB 무중단 달성, Terraform IaC</li>
+        <li><strong class="bd">인프라:</strong> Self-managed K8s vs <span class="hl">GKE(Managed)</span> — DevOps 부재 상태에서 월 $72로 컨트롤 플레인 리스크 해소 (K8s 사용 기업 73%가 매니지드 선택)</li>
+        <li><strong class="bd">CI/CD 3단계 진화:</strong> <span class="hl">GitHub Actions → Self-hosted Runner → Jenkins on K8s</span><br>
+          <span class="sm">무료 2,000분/월 한계 (~45회 배포) → Self-hosted Runner <strong>MacBook 과열로 개발 불가</strong> → Jenkins 전환</span></li>
+        <li><strong class="bd">마이그레이션:</strong> 5가지 비교(Replication·Dual Write·MQ·ETL·<span class="hl">CDC</span>) 후 CDC 선택 — 앱 코드 수정 없이 실시간 동기화</li>
       </ul>
 
       <div class="sec">성과</div>
@@ -665,9 +666,9 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>개발 서버 도입 중 발견한 기술부채:</strong>
-        SQS URL 하드코딩, 미문서화 방화벽 규칙 등 <strong>환경 분리 없이 운영</strong>된 흔적을 발견.
-        환경변수 분리 + Cloud NAT 도입으로 해결하고, 이후 dev/prod 독립 환경 체계를 확보했습니다.
+        <strong>개발 서버 도입 중 발견한 장애 2건:</strong>
+        <strong>①</strong> dev 환경이 <strong>운영 SQS 이벤트를 소비</strong>하여 운영 통계 데이터 오염 — 원인: SQS URL이 Java 코드에 하드코딩. 긴급 중단 후 환경변수 분리로 해결.
+        <strong>②</strong> 모든 외부 API 타임아웃 — 원인: 파트너사가 기존 IDC IP만 방화벽 허용, <strong>문서화 부재</strong>로 아무도 몰랐음. Cloud NAT로 고정 IP 확보하여 해결.
       </div>
     </div>
 
@@ -686,21 +687,21 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="dg" style="margin-top:10px;">
-        <div class="dl">GitHub Actions → Jenkins 전환 근거</div>
+        <div class="dl">CI/CD 3단계 진화 — 왜 Jenkins까지 갔는가</div>
         <table class="ct" style="font-size:10px;margin:0;">
-          <tr><th></th><th>Self-hosted Runner</th><th>Jenkins on K8s</th></tr>
-          <tr><td class="bd">3서비스 배포</td><td>15분 (순차)</td><td class="w">5분 (병렬)</td></tr>
-          <tr><td class="bd">개발자 영향</td><td>MacBook 과열 · 빌드 중 업무 불가</td><td class="w">영향 없음</td></tr>
-          <tr><td class="bd">동시 실행</td><td>1 Job</td><td class="w">무제한 (동적 Pod)</td></tr>
-          <tr><td class="bd">비용</td><td>무료 (생산성 비용)</td><td class="w">무료 (기존 GKE 활용)</td></tr>
+          <tr><th></th><th>GitHub Actions</th><th>Self-hosted Runner</th><th>Jenkins on K8s</th></tr>
+          <tr><td class="bd">한계점</td><td>2,000분/월<br>(~45회 배포)</td><td>MacBook 과열<br>업무 불가</td><td class="w">Cold Start 30~60초</td></tr>
+          <tr><td class="bd">3서비스</td><td>18분</td><td>15분 (순차)</td><td class="w">5분 (병렬)</td></tr>
+          <tr><td class="bd">동시 실행</td><td>제한적</td><td>1 Job</td><td class="w">무제한 (동적 Pod)</td></tr>
+          <tr><td class="bd">전환 계기</td><td>MSA 서비스 증가</td><td>팀원 Slack: "빌드 중<br>너무 느려요"</td><td class="w">K8s 클러스터 확보</td></tr>
         </table>
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>JVM Cold Start 해결:</strong>
-        K8s 배포 후 첫 API 응답이 7~14배 느린 문제 — startupProbe 기간 동안
-        <strong>WarmupHealthIndicator로 주요 API를 사전 호출</strong>하여
-        JIT 컴파일 + 커넥션 풀 워밍업을 완료한 후 트래픽 수신. <strong>85% 개선.</strong>
+        <strong>JVM Cold Start 해결 — 핵심은 CPU 리소스:</strong>
+        K8s 배포 후 첫 API 응답이 1,190~1,390ms (7~14배↑). BlaBlaCar 사례를 참고하여
+        <strong>WarmupHealthIndicator로 주요 API를 10회씩 사전 호출</strong>. 초기 CPU limit 1000m에서는 효과 미미 →
+        <strong>JIT 컴파일에 ~3배 CPU가 필요</strong>하다는 사실 발견 후 limit을 1800m으로 상향하여 <strong>150~230ms (85% 개선)</strong>.
       </div>
 
       <div class="rb" style="margin-top:8px;">
@@ -727,16 +728,16 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>장애 인지가 사용자 CS에 100% 의존 (<strong class="bd">실제 CS 접수율 5~10%</strong>, 나머지는 조용히 이탈)</li>
-        <li>CloudWatch 기본 모니터링만 운영 — 애플리케이션 레벨 로그·트레이스 수집 부재</li>
+        <li>장애 인지가 사용자 CS에 100% 의존 — Qualtrics 조사에 따르면 <strong class="bd">불만 고객의 96%는 불만을 표현하지 않고 이탈</strong>, 실제 CS 접수율 5~10%</li>
+        <li>CloudWatch 기본 모니터링만 운영 — 비용 증가, 복잡한 검색, 통합 옵저빌리티 불가</li>
         <li>장애 발생 후 원인 추적 수단 없음 → SSH 접속 후 수동 로그 확인</li>
       </ul>
 
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
-        <li><strong class="bd">ELK Stack</strong>: 월 $92~200 (ES 인스턴스만), Jaeger 별도 구성 필요, 클러스터 관리 부담</li>
-        <li><span class="hl">Grafana LGTM Stack</span>: 월 $12~37, Tempo 내장 트레이싱, 단일 바이너리 운영 가능 → <strong class="bd">채택</strong></li>
-        <li><strong class="bd">계측:</strong> OTel Agent v2.20.1을 <span class="hl">Sidecar 패턴</span>으로 전 서비스 자동 계측 — 앱 코드 수정 없이 로그·메트릭·트레이스 수집</li>
+        <li><strong class="bd">ELK Stack</strong>: 월 $92~200 (ES 인스턴스만, 최소 8GB RAM), Jaeger 별도 구성, 클러스터 관리 부담</li>
+        <li><span class="hl">Grafana LGTM Stack</span>: 월 $12~37 (1~4GB RAM 충분), Tempo 내장 트레이싱 → <strong class="bd">채택. 솔직히 가장 큰 이유는 비용</strong>이었습니다. 사이드 프로젝트에서 t3a.small로 검증한 경험이 판단 근거</li>
+        <li><strong class="bd">계측 2단계 진화:</strong> EC2 시절 서비스별 OTel 직접 설정(Phase 1) → K8s 전환 후 <span class="hl">Sidecar 패턴</span>으로 중앙 관리(Phase 2) — 서비스 추가 시 Helm 차트에 자동 포함</li>
       </ul>
 
       <div class="sec">성과</div>
@@ -747,9 +748,9 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>"장애는 사용자보다 먼저 감지되어야 한다"</strong><br>
-        CS로 인지되는 장애는 빙산의 일각입니다. 실제 CS 유입 확률은 5~10% 수준이며 나머지는 이탈합니다.
-        이 인사이트가 Grafana LGTM 모니터링 시스템 구축의 출발점이었습니다.
+        <strong>모니터링이 발견한 버그 — CS 접수 0건:</strong>
+        월세 검색 기능에서 서비스 A가 'monthly'(7자)로 전달하는데, DB 프로시저의 VARCHAR(5) 필드에서 잘려 검색 실패.
+        <strong>사용량이 적은 기능이라 오랜 기간 아무도 몰랐던 버그</strong>를 모니터링 시스템이 발견 — CS 접수 0건인 장애의 전형적 사례.
       </div>
     </div>
 
@@ -785,11 +786,11 @@ a:hover{text-decoration:underline;}
       </table>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>OTel Sidecar 패턴 선택 이유:</strong>
-        Agent 방식(DaemonSet)은 노드 단위 수집으로 설정이 간단하지만,
-        <strong>서비스별 독립적 계측 설정이 필요</strong>했습니다.
-        Sidecar 패턴은 서비스별 환경변수로 세밀한 제어가 가능하고,
-        서비스 추가 시 Helm 차트에 자동 포함되어 운영 오버헤드가 없습니다.
+        <strong>OTel Sidecar vs DaemonSet — 왜 Sidecar인가:</strong>
+        DaemonSet(노드 단위)은 설정이 간단하지만, <strong>서비스별 독립적 계측 설정이 불가</strong>.
+        Sidecar는 리소스 오버헤드(Pod당 50m CPU/64Mi)가 있지만,
+        서비스별 환경변수로 세밀한 제어가 가능하고 Helm 차트에 자동 포함.
+        <strong>"처음부터 완벽한 시스템을 만들려 하지 않고, 빠르게 시작하여 점진적으로 개선"</strong>하는 전략이 핵심.
       </div>
 
       <div class="ib" style="margin-top:8px;">
@@ -894,16 +895,15 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>왜 CDC인가?</strong>
-        Dual Write는 앱에 이중 기록 로직 삽입이 필요하여 정합성 리스크가 높습니다.
-        CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하므로 앱 코드 수정 없이 동기화 가능.
-        AWS DMS는 RDS와의 호환성이 가장 높아 선택했습니다.
+        <strong>왜 CDC인가? — 5가지 방식 비교의 결론:</strong>
+        DB Replication(스키마 변경 어려움), Dual Write(앱 코드 복잡도↑, 정합성 리스크), MQ 기반(메시지 유실·순서 보장 어려움), ETL 배치(실시간 불가).
+        CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하므로 앱 코드 수정 없이 실시간 동기화 가능. AWS DMS는 RDS 호환성이 가장 높아 선택.
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>DNS 전환 구간의 정합성:</strong>
-        전파 기간 동안 <strong>양쪽 서버 모두 IDC DB를 Source of Truth로 사용</strong>하여
-        데이터 정합성 보장. 전파 완료 확인 후에야 DB 참조를 RDS로 전환했습니다.
+        <strong>DNS 전환 구간의 정합성 — 가장 위험한 구간:</strong>
+        DNS 전파 기간 동안 사용자가 IDC 또는 AWS로 자연스럽게 분산. <strong>양쪽 모두 IDC DB를 Source of Truth로 사용</strong>하여
+        정합성 보장. 전파 완료를 확인한 후에야 DB 참조를 RDS로 전환 — <strong>팀과의 사전 계획 수립이 가장 중요</strong>했습니다.
       </div>
 
       <div class="rb" style="margin-top:6px;">
@@ -1020,7 +1020,8 @@ a:hover{text-decoration:underline;}
         <strong>11개월간의 핵심 판단:</strong><br>
         모든 전환은 "기술 도입"이 아니라 <strong>운영 문제와 비용 현실</strong>에서 시작했습니다.<br><br>
         EC2 SPOF → GKE, CS 장애 인지 → LGTM, 수동 배포 → GitOps,
-        그리고 <strong>1명이 13개 MSA를 운영하는 현실</strong> → 모듈러 모놀리식. 아키텍처는 정답이 아니라 <strong>트레이드오프</strong>입니다.
+        <strong>1명이 13개 MSA를 운영하는 현실</strong> → 모듈러 모놀리식.<br><br>
+        <strong>다시 한다면:</strong> 모니터링을 전환 초기부터 구축, 모듈러 모놀리식 단계를 더 오래 유지, DMS CDC 대신 Debezium 검토(비용).
       </div>
     </div>
   </div>
@@ -1098,17 +1099,16 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>왜 Manticore에서 Elasticsearch로 전환했는가?</strong><br>
-        초기에는 비용 효율적인 Manticore Search를 선택했습니다 (ES 대비 메모리 사용량 200배 차이).
-        그러나 RAG 시스템 구축 과정에서 <strong>임베딩 벡터 검색과 생태계 확장성</strong>이 필요해졌고,
-        기술 선택은 고정이 아니라 <strong>요구사항 변화에 따라 재평가</strong>되어야 한다는 것을 확인했습니다.
+        <strong>왜 Manticore에서 Elasticsearch로 전환했는가? — 기술 선택은 고정이 아니다:</strong><br>
+        초기에는 Manticore Search를 선택했습니다 (ES 대비 메모리 200배 절약, RSS ~40MB, Pull 모델로 앱 코드 변경 없음).
+        그러나 RAG 구축 과정에서 <strong>임베딩 벡터 검색이 필수</strong>가 되었고, Manticore의 생태계로는 불가능했습니다.
+        <strong>요구사항이 변하면 기술 선택도 재평가</strong>되어야 합니다 — 매몰 비용에 집착하지 않는 것이 중요했습니다.
       </div>
 
       <div class="ib" style="margin-top:8px;">
         <strong>도메인 지식이 기술 설계를 결정한 사례:</strong>
-        부동산 데이터(법정동 코드, 단지별 평형, 실거래가 이력)를
-        AI가 이해할 수 있는 형태로 가공하는 과정에서, 검색 엔진 선택부터 임베딩 전략까지
-        <strong>도메인 특성이 기술 의사결정을 주도</strong>했습니다.
+        한국어 검색을 위한 ngram_len 설정에서, 공식 문서는 1을 권장했지만 부동산 검색어("강남", "서초") 분석 결과 <strong>2글자가 더 자연스럽고 정확</strong>하다고 판단하여 ngram_len=2로 설정.
+        <strong>도메인 데이터를 먼저 분석</strong>하고, 그 위에 기술 결정을 세웠습니다.
       </div>
     </div>
   </div>
@@ -1130,32 +1130,30 @@ a:hover{text-decoration:underline;}
         <tr><td class="l">플랫폼 규모</td><td class="v">누적대출 2.5조원 · 19개 EC2 인스턴스 · 10개 노드 운영</td></tr>
       </table>
 
-      <div class="sec">HikariCP Deadlock 해결</div>
+      <div class="sec">HikariCP Deadlock 해결 — 3번의 오진 끝에 찾은 근본 원인</div>
       <ul class="bl">
-        <li><strong class="bd">현상:</strong> 간헐적으로 전체 API 응답불가 — 커넥션 풀 40/40 포화, 46 스레드 대기, Pod 5→2 축소 후 표면화</li>
-        <li><strong class="bd">근본 원인:</strong> OSIV 활성화 + JPA/MyBatis 혼용 → 1요청이 2개 커넥션 동시 점유</li>
-        <li><strong class="bd">고려한 대안:</strong> ①커넥션 풀 증가(회피) ②OSIV OFF(사이드이펙트 大) ③<span class="hl">JPA 일원화(구조적 해결)</span></li>
-        <li><strong class="bd">선택 이유:</strong> 풀 증가는 트래픽 증가 시 재발, OSIV OFF는 Lazy Loading 전면 수정 필요 → JPA 일원화가 유일한 근본 해결</li>
+        <li><strong class="bd">현상:</strong> 풀 40/40 포화, 46 스레드 대기. <strong>Pod 5→2 축소(비용 절감)로 잠재 버그 표면화</strong></li>
+        <li><strong class="bd">오진:</strong> ①DB 데드락→로그 없음 ②Conn Leak→fetchOne() 분석 후 배제 ③QueryDSL→JPQL 재현 성공, 배제</li>
+        <li><strong class="bd">근본 원인:</strong> OSIV + JPA/MyBatis 혼용 → 1요청이 2커넥션 동시 점유 → Pool 고갈 시 <span class="hl">HikariCP Deadlock</span></li>
+        <li><strong class="bd">해결:</strong> ①풀 증가(재발) ②OSIV OFF(Lazy Loading 전면 수정) ③<span class="hl">JPA/MyBatis 트랜잭션 혼용 제거</span> — ③ 채택</li>
       </ul>
 
-      <div class="sec" style="margin-top:10px;">Redis Look-aside Cache</div>
+      <div class="sec" style="margin-top:8px;">Redis Look-aside Cache — 왜 이 패턴인가</div>
       <ul class="bl">
-        <li><strong class="bd">문제:</strong> 외부 API 평균 응답 5,132ms (최저 3,006ms ~ 최대 9,412ms) → 사용자 이탈 임계치(3초) 초과</li>
-        <li><strong class="bd">판단:</strong> 대출 신청 임시저장 시 동일 주소 반복 조회 → 높은 캐시 히트율 기대</li>
-        <li><strong class="bd">해결:</strong> Redis Look-aside 캐시 적용 — Cache Hit 시 <strong class="bd">57ms (90x 향상)</strong>, API 호출 <strong class="bd">76% 감소</strong></li>
-        <li><strong class="bd">TTL 전략:</strong> 외부 API 데이터 갱신 주기(목요일 23:30)에 동기화한 <strong class="bd">동적 TTL</strong> 설계</li>
+        <li><strong class="bd">문제:</strong> 외부 API 평균 5,132ms (최대 9,412ms) → 사용자 이탈 임계치(3초) 초과</li>
+        <li><strong class="bd">판단:</strong> 사용자 주소 예측 불가→Warm-up 불가 → <span class="hl">Look-aside</span> 선택. 임시저장 시 동일 주소 반복 조회→높은 히트율 기대</li>
+        <li><strong class="bd">성과:</strong> Cache Hit <strong class="bd">57ms (90배↑)</strong>, API 호출 <strong class="bd">76%↓</strong>. 동적 TTL: 외부 API 갱신(목요일 23:30)까지 남은 초 계산. Admin은 <strong>noCache</strong>로 우회</li>
       </ul>
 
-      <div class="sec" style="margin-top:10px;">DB Replication Lag 해결</div>
+      <div class="sec" style="margin-top:8px;">DB Replication Lag — 일관성 vs 성능</div>
       <ul class="bl">
-        <li>3단계 접근: ①@Transactional 라우팅 → ②커스텀 <strong class="bd">@UseMasterDB</strong> + AOP → ③핵심 서비스 Master 직접 연결</li>
-        <li>4가지 패턴(Read-Your-Own-Write, Monotonic Reads 등) 비교 후 <strong class="bd">AbstractRoutingDataSource</strong> 채택</li>
+        <li><strong class="bd">현상:</strong> INSERT 직후 SELECT→Slave에서 "데이터 없음". 4패턴 비교(RYOW/Monotonic/Txn/Routing) 후 <span class="hl">AbstractRoutingDataSource</span></li>
+        <li><strong class="bd">3단계:</strong> ①@Transactional Master 라우팅 → ②<strong class="bd">@UseMasterDB</strong>+AOP → ③핵심 서비스 Master 직접 연결 (네이버페이 DAN24 참고)</li>
       </ul>
 
-      <div class="sec" style="margin-top:10px;">팀 개발 문화 개선</div>
+      <div class="sec" style="margin-top:8px;">팀 개발 문화</div>
       <ul class="bl">
-        <li><strong class="bd">Git Flow 도입 제안:</strong> Cherry-pick 충돌 사례를 시각화하여 팀 설득, 브랜치 전략 정립</li>
-        <li><strong class="bd">Pn룰 코드리뷰 도입:</strong> 리뷰 기준 명확화로 코드 품질 및 팀 협업 효율 향상</li>
+        <li><strong class="bd">Git Flow 도입 제안</strong>(Cherry-pick 충돌 시각화로 팀 합의 도출) · <strong class="bd">Pn룰 코드리뷰</strong>(리뷰 기준 명확화)</li>
       </ul>
 
     </div>
@@ -1198,15 +1196,14 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>"테스트를 통과했다 ≠ 프로덕션에서 안전하다"</strong><br>
-        OSIV는 웹 요청 컨텍스트에서만 작동합니다. 이 경험 이후 반드시 통합 테스트에서
-        실제 웹 컨텍스트를 포함한 시나리오를 검증하는 습관을 갖게 되었습니다.
-        <strong>근본 원인 분석 없이 풀 사이즈만 늘렸다면 트래픽 증가 시 재발했을 것</strong>입니다.
+        <strong>"인프라 변경이 잠재 버그를 깨운다":</strong>
+        Pod 5→2 축소가 수개월간 잠재된 Deadlock을 표면화. <strong>pool-size=1로 로컬 재현</strong>하여 DefaultJpaDialect 소스까지 추적.
+        OSIV는 웹 컨텍스트에서만 활성화 — <strong>단위 테스트에서는 재현 불가</strong>, 통합 테스트 필수.
       </div>
     </div>
   </div>
   <div class="rb" style="margin-top:8px;">
-    <strong>종합 성과:</strong> HikariCP + Replication Lag + Cache 복합 최적화로 전체 API 응답 <strong>87% 개선</strong> (10.3초→1.3초) · 캐시 단독 74.7% (5,132ms→1,299ms) · 캐시 히트 시 <strong>57ms (90x)</strong> · 외부 API 호출 <strong>76% 감소</strong>
+    <strong>종합 성과 (개별 검증 가능):</strong> ① HikariCP Deadlock 해결 → Pool 40/40 포화 제거 · ② Cache Hit <strong>57ms</strong> (5,132ms 대비 90배↑), 평균 응답 <strong>74.7%↓</strong> (5,132→1,299ms), 호출 <strong>76%↓</strong> · ③ Replication Lag → 핵심 서비스 정합성 확보. 3가지 복합 적용 후 전체 API 응답 <strong>10.3초→1.3초</strong>
   </div>
 </div></div>
 
@@ -1228,17 +1225,16 @@ a:hover{text-decoration:underline;}
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
         <li><strong class="bd">신한은행 에스크로 계좌</strong> 잔고 정합성 검증 배치 — 금융 데이터 무결성 필수</li>
-        <li>Job 동시 실행 시 <strong class="bd">Metadata Table Deadlock</strong> 발생 (10년된 Spring Batch 버그, Issue #1448)</li>
-        <li>Tasklet 방식 — 22분 트랜잭션 점유, MVCC 스냅샷으로 <strong class="bd">입금 데이터 누락</strong> 위험 (발생확률 1/132,000이지만 금융 데이터에서는 불허)</li>
+        <li><strong class="bd">Metadata Deadlock:</strong> Job 동시 실행 시 BATCH_JOB_INSTANCE 테이블 Deadlock (Spring Batch Issue #1448, 2013년부터 10년간 미해결 버그). SELECT → INSERT 패턴에서 shared lock 경합</li>
+        <li><strong class="bd">MVCC 데이터 누락:</strong> Tasklet이 22분간 단일 트랜잭션 → MySQL REPEATABLE READ 스냅샷이 <strong class="bd">배치 실행 중 입금된 데이터를 누락</strong>. 발생확률 1/132,000이지만 금융에서는 불허 → 관리자 오탐 알림 반복</li>
       </ul>
 
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
-        <li><strong class="bd">Deadlock:</strong> ①재시도 로직 추가(회피) ②Job 순차 실행(성능 포기) ③<span class="hl">Isolation Level 변경(근본 해결)</span><br>
-          <span class="sm">→ Metadata 테이블은 최종 상태만 정확하면 됨 — 강한 격리 불필요라는 판단</span></li>
-        <li><strong class="bd">성능:</strong> ①Tasklet 내 멀티스레딩(복잡) ②<span class="hl">Chunk + Partitioning(Spring Batch 네이티브)</span><br>
-          <span class="sm">→ 프레임워크가 제공하는 병렬화를 활용하는 것이 유지보수에 유리</span></li>
-        <li>Bulk INSERT로 DB I/O 최적화</li>
+        <li><strong class="bd">Deadlock 3가지 선택지:</strong> ①재시도 로직(회피) ②Job 순차 실행(성능 포기) ③<span class="hl">Isolation Level READ_COMMITTED로 변경</span><br>
+          <span class="sm">→ Spring Batch 5에서 수정되었으나, Boot 2.7→3.x + Java 11→17 동시 업그레이드는 과도한 리스크. Metadata는 <strong>최종 상태만 정확하면 됨</strong> → 격리 수준 완화가 합리적</span></li>
+        <li><strong class="bd">성능 2가지 선택지:</strong> ①Tasklet 내 멀티스레딩(상태 관리 복잡) ②<span class="hl">Chunk + Partitioning(프레임워크 네이티브)</span><br>
+          <span class="sm">→ 데이터 정합성 근거(MVCC 해소)로 팀 리더께 근거를 공유하여 리팩터링 승인 획득. 투자자 데이터 간 독립성이 있어 Partitioning 적합</span></li>
       </ul>
 
       <div class="sec">성과</div>
@@ -1248,11 +1244,10 @@ a:hover{text-decoration:underline;}
         <li>Metadata Deadlock <strong class="bd">완전 해결</strong> → Job 동시 실행 안정성 확보</li>
       </ul>
 
-      <div class="ib" style="margin-top:12px;">
-        <strong>DevOps 공백기 인프라 전담 운영:</strong>
-        DevOps 엔지니어 퇴사 후 <strong>19개 EC2 인스턴스, 10개 노드</strong>를 백엔드 개발과 병행하며 전담 운영.
-        Redis Session Clustering 도입으로 세션 유실 해결, CloudWatch 알람 체계화.
-        이 경험이 부톡에서 K8s를 직접 설계하고 제안할 수 있는 역량의 기반이 되었습니다.
+      <div class="ib" style="margin-top:10px;">
+        <strong>DevOps 공백기 — "무모했지만 인생에서 가장 큰 행운":</strong>
+        DevOps 퇴사 후 자원, <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD) 수료 → <strong>19개 EC2·10개 노드를 7개월간 단독 운영</strong>.
+        이 경험이 부톡에서 K8s를 <strong>직접 설계하고 CTO께 제안</strong>할 수 있는 역량의 기반.
       </div>
     </div>
 
@@ -1299,16 +1294,14 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>Isolation Level을 낮추는 것이 올바른 판단이었는가?</strong><br>
-        Spring Batch의 Metadata 테이블은 Job 실행 상태를 기록하는 용도입니다.
-        동시 Job 실행 시 같은 row를 경쟁하지만, <strong>최종 상태만 정확하면 중간 격리는 불필요</strong>합니다.
-        이 판단의 근거를 팀에 공유하고, 실제 병렬 실행 테스트로 데이터 정합성을 검증한 후 적용했습니다.
+        <strong>Isolation Level 완화 — 판단의 근거:</strong>
+        Metadata는 최종 상태만 정확하면 됨 → <strong>SERIALIZABLE→READ_COMMITTED</strong>. Spring Batch 5에서 동일 방식으로 수정된 것을 확인하여 정당성 확보. 팀에 근거 공유 후 병렬 테스트로 검증.
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>Tasklet→Chunk 전환의 숨은 이유: MVCC 데이터 누락</strong><br>
-        Tasklet 방식은 전체 작업이 하나의 트랜잭션 — <strong>MVCC 스냅샷으로 배치 실행 중 입금된 데이터가 누락</strong>되는 문제 발견.
-        Chunk 방식으로 전환하여 커밋 단위를 분리하고, 최신 데이터를 안정적으로 처리할 수 있게 개선했습니다.
+        <strong>개발 중 함정 — EntityManager 커밋 순서:</strong>
+        Chunk 전환 중 EntityManager를 커밋 전에 close하여 <strong>Connection Leak 발생</strong> — "close가 commit을 포함한다"는 오해.
+        R/P/W 트랜잭션을 개별 분리, <strong>ConcurrentLinkedQueue</strong>로 Step 간 스레드 안전 데이터 전달 구조 설계.
       </div>
 
       <div class="rb" style="margin-top:8px;">
@@ -1424,26 +1417,25 @@ a:hover{text-decoration:underline;}
 
       <div style="margin-bottom:14px;">
         <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"팀 규모에 맞는 아키텍처를 선택한다."</div>
-        <p class="bt">기술 선택의 기준은 트렌드가 아니라 <strong class="bd">우리 팀이 감당할 수 있는 복잡성</strong>입니다.
-        2~3명이 16개 레포를 관리하는 것은 운영 오버헤드 — 데이터를 근거로 모노레포 전환을 제안했습니다.</p>
+        <p class="bt">14개 MSA를 2~3명이 운영하는 것이 과하다고 판단하여 모듈러 모놀리식을 제안했습니다.
+        16개 멀티레포도 빌드/PR 데이터를 근거로 모노레포 전환을 제안. <strong class="bd">기술 트렌드가 아니라 팀이 감당할 수 있는 복잡성이 기준</strong>입니다.</p>
       </div>
 
       <div style="margin-bottom:14px;">
-        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"증상이 아닌 근본 원인을 해결한다."</div>
-        <p class="bt">HikariCP Deadlock을 풀 증가로 회피하지 않고 OSIV+ORM 혼용이라는 구조적 원인을 해결했습니다.
-        <strong class="bd">증상을 가리는 해결은 다음 장애를 예약하는 것</strong>과 같습니다.</p>
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"3번 오진하더라도 근본 원인을 찾는다."</div>
+        <p class="bt">HikariCP Deadlock에서 DB데드락→Connection Leak→QueryDSL 순으로 3번 오진한 뒤 OSIV+ORM 혼용이라는 구조적 원인을 발견했습니다.
+        <strong class="bd">증상을 가리는 해결(풀 사이즈 증가)은 다음 장애를 예약하는 것</strong>과 같습니다.</p>
       </div>
 
       <div style="margin-bottom:14px;">
         <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"기술적 결정은 비용과 비즈니스로 정당화한다."</div>
-        <p class="bt">ELK vs LGTM($92~200 vs $12~37/월), GKE vs Self-managed($72 추가 비용의 리스크 대비 가치).
-        기술적으로 우월한 선택보다 <strong class="bd">비즈니스에 합리적인 선택</strong>을 합니다.</p>
+        <p class="bt">ELK vs LGTM($92~200 vs $12~37/월)의 결정적 이유는 솔직히 비용이었습니다. GKE $72 추가 비용은 DevOps 부재 리스크 대비 합리적 투자.
+        기술적으로 우월한 선택보다 <strong class="bd">우리 상황에서 합리적인 선택</strong>을 합니다.</p>
       </div>
 
       <div style="margin-bottom:14px;">
-        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"배운 것을 기록하고 공유한다."</div>
-        <p class="bt">기술 블로그 운영, 2년+ 스터디, Spring Security 오픈소스 기여.
-        기록은 <strong class="bd">같은 실수를 반복하지 않고, 동료도 성장</strong>시키는 가장 효율적인 방법입니다.</p>
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"실패를 기록하고, 재평가할 줄 안다."</div>
+        <p class="bt">:common 모듈 비대화 → 작업 폐기 후 재설계. Manticore Search → RAG 요구 변화로 ES 전환. 기술 블로그에 과정을 기록하고, 2년+ 스터디와 Spring Security PR로 환원합니다.</p>
       </div>
 
       <div style="margin-bottom:14px;">
@@ -1479,15 +1471,15 @@ a:hover{text-decoration:underline;}
 
       <h3 style="margin:14px 0 8px;">프로젝트 임팩트 요약</h3>
       <table class="ct" style="font-size:9.5px;">
-        <tr><th>프로젝트</th><th>핵심 성과</th></tr>
-        <tr><td class="bd">MSA 전환</td><td>무중단 전환, 14개 서비스 독립 배포</td></tr>
-        <tr><td class="bd">멀티모듈</td><td>16→1 레포, 빌드 70% 단축</td></tr>
-        <tr><td class="bd">모듈러 모놀리식</td><td>12→1앱 통합, CI 77% 단축 (45분→10분)</td></tr>
-        <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 98% 단축(1시간→1분), GitOps 롤백</td></tr>
-        <tr><td class="bd">DB 마이그레이션</td><td>200GB 무중단 이전, CDC, Terraform IaC</td></tr>
-        <tr><td class="bd">매물 추천</td><td>자연어 검색 프로덕션 출시</td></tr>
-        <tr><td class="bd">백오피스</td><td>API 응답 87% 개선 (10.3초→1.3초)</td></tr>
-        <tr><td class="bd">Batch</td><td>처리 64% 단축, Row당 80% 단축</td></tr>
+        <tr><th>프로젝트</th><th>핵심 판단 & 성과</th></tr>
+        <tr><td class="bd">MSA 전환</td><td>강결합→부분적 빅뱅 전략 선택, 무중단 전환</td></tr>
+        <tr><td class="bd">멀티모듈</td><td>:common 비대화 실패→재설계, 16→1 레포</td></tr>
+        <tr><td class="bd">모듈러 모놀리식</td><td>"MSA는 과했다" 판단, CI 77%↓ (45분→10분)</td></tr>
+        <tr><td class="bd">K8s & 모니터링</td><td>LGTM 비용 87%↓, SQS 하드코딩 장애 발견</td></tr>
+        <tr><td class="bd">DB 마이그레이션</td><td>5가지 방식 비교→CDC 선택, 무중단 200GB</td></tr>
+        <tr><td class="bd">매물 추천</td><td>Manticore→ES 재평가, 자연어 검색 출시</td></tr>
+        <tr><td class="bd">백오피스</td><td>3번 오진 끝 근본 원인, 캐시 히트 57ms(90배↑)</td></tr>
+        <tr><td class="bd">Batch</td><td>MVCC 누락 발견→Chunk 전환, 64%↓</td></tr>
       </table>
 
       <div style="margin-top:auto;padding-top:16px;text-align:center;">
