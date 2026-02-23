@@ -74,7 +74,7 @@ a:hover{text-decoration:underline;}
 .tc>.cw{flex:1.2;display:flex;flex-direction:column;}.tc>.cn{flex:.8;display:flex;flex-direction:column;}
 
 .tl{display:flex;position:relative;gap:0;}
-.tl::before{content:'';position:absolute;top:8px;left:20px;right:20px;height:1.5px;background:#ddd;z-index:0;}
+.tl::before{content:'';position:absolute;top:22px;left:20px;right:20px;height:1.5px;background:#ddd;z-index:0;}
 .ti{flex:1;text-align:center;position:relative;z-index:1;padding:0 6px;}
 .td{width:8px;height:8px;border-radius:50%;background:#333;margin:4px auto 7px;border:2px solid #fff;box-shadow:0 0 0 1.5px #333;}
 .tdt{font-size:10px;font-weight:700;color:#333;}
@@ -110,7 +110,7 @@ a:hover{text-decoration:underline;}
   <div class="sub" style="margin-top:8px;font-size:20px;">Backend Developer Portfolio</div>
   <div style="font-size:13px;color:#888;margin-top:16px;line-height:1.6;">
     EC2 단일 서버에서 MSA, 그리고 다시 모듈러 모놀리식까지<br>
-    14개 MSA 무중단 전환 · API 응답 74.7% 개선 · 장애 인지 98% 단축 · CKA<br>
+    14개 MSA 무중단 전환 · API 응답 87% 개선 · 장애 인지 98% 단축 · CKA<br>
     2~3명 팀에서 아키텍처·인프라·성능을 직접 설계하고 운영한 기록
   </div>
   <div style="font-size:12px;color:#999;margin-top:28px;">
@@ -150,8 +150,15 @@ a:hover{text-decoration:underline;}
   <span class="pn">3</span>
   <div class="tc" style="margin-top:40px;flex:1;gap:60px;">
     <div class="c">
-      <div style="font-size:38px;font-weight:700;letter-spacing:-0.5px;">정정일</div>
-      <div style="font-size:16px;color:#666;margin:10px 0 16px;">Backend Developer &nbsp;·&nbsp; 3년차</div>
+      <div style="display:flex;align-items:center;gap:20px;">
+        <img src="https://www.dropbox.com/scl/fi/ft5m9tb4bl5bfpxhjodls/.jpg?rlkey=owi43diyw6r3g21c4ibn2jyma&st=qhqml83o&raw=1"
+             alt="정정일" style="width:140px;height:140px;border-radius:50%;object-fit:cover;border:2px solid #e0e0e0;flex-shrink:0;">
+        <div>
+          <div style="font-size:38px;font-weight:700;letter-spacing:-0.5px;">정정일</div>
+          <div style="font-size:16px;color:#666;margin-top:6px;">Backend Developer &nbsp;·&nbsp; 3년차</div>
+        </div>
+      </div>
+      <div style="height:16px;"></div>
       <div style="font-size:13px;color:#555;line-height:1.7;margin-bottom:28px;border-left:3px solid #333;padding-left:12px;">
         <strong style="color:#222;">"지금 우리 서비스에 가장 필요한 개선이 무엇인가?"</strong>를 고민합니다.<br>
         API 성능 최적화부터 MSA 전환, K8s 인프라 구축, 팀 개발문화 개선까지<br>
@@ -172,11 +179,6 @@ a:hover{text-decoration:underline;}
         <li>SQLD (2022)</li>
       </ul>
 
-      <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">EDUCATION</div>
-      <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;">
-        <li>한국방송통신대학교 컴퓨터과학과 <span style="color:#999;">재학중 (2025~)</span></li>
-        <li>학점은행제 컴퓨터공학 <span style="color:#999;">학점 취득 (2022~2024)</span></li>
-      </ul>
     </div>
 
     <div class="c">
@@ -193,15 +195,15 @@ a:hover{text-decoration:underline;}
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;margin:0 0 36px;">
         <li>무중단 MSA 전환 완료 (다운타임 0, 데이터 유실 0)</li>
         <li>장애 인지 시간 98% 단축 (1시간→1분, CS 의존 탈피)</li>
-        <li>API 응답속도 74.7% 개선 (5,132ms→1,299ms)</li>
+        <li>API 응답속도 87% 개선 (10.3초→1.3초, HikariCP+Cache+Repl.Lag 복합)</li>
         <li>배치 처리시간 64% 단축 (13.3분→4.8분)</li>
       </ul>
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">ACTIVITY</div>
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;">
-        <li>기술 블로그 <a href="https://jeongil.dev" style="color:#1a73e8;">jeongil.dev</a> — 50+ 아티클</li>
+        <li>기술 블로그 <a href="https://jeongil.dev" style="color:#1a73e8;">jeongil.dev</a></li>
         <li>Spring Security 오픈소스 기여 (<a href="https://github.com/spring-projects/spring-security/pull/16216" style="color:#1a73e8;">PR#16216</a>)</li>
-        <li>백엔드 아티클 스터디 (2023.08~진행중, 주 1~2회)</li>
+        <li>백엔드 스터디 (2023.08~진행중, 주 1~2회)</li>
       </ul>
     </div>
   </div>
@@ -216,7 +218,7 @@ a:hover{text-decoration:underline;}
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
-        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
+        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼 (누적 회원 21만+, 중개 매칭 5만+)</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.11 (8개월)</td></tr>
         <tr><td class="l">역할</td><td class="v">부분적 빅뱅 전략 설계, 14개 서비스 중 5개(apart · agent · match 포함) 설계 및 구현 담당</td></tr>
         <tr><td class="l">기술스택</td><td class="v">Kotlin, Spring Cloud, Feign Client, AWS SQS, CQRS, Hexagonal</td></tr>
@@ -384,6 +386,13 @@ a:hover{text-decoration:underline;}
       <div class="rb" style="margin-top:8px;">
         <strong>과도기 안전장치 종합:</strong> Dual Write 검증 배치 (매시간 실행) · Telegram 자동 알림 · 레거시 즉시 롤백 가능 상태 상시 유지 · 카나리 배포로 트래픽 단계적 전환
       </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>온프레미스 → AWS 무중단 마이그레이션:</strong>
+        200GB MariaDB를 <strong>AWS DMS CDC</strong>로 실시간 동기화하며 무중단 이전.
+        5가지 마이그레이션 방식(DB Replication, Dual Write, MQ 기반, ETL, CDC)을 비교 후 CDC 선택.
+        <strong>Terraform IaC</strong>로 인프라를 코드화하여 재현성 확보. DNS 전환 시 양방향 트래픽 유입 구간에서도 데이터 정합성 유지.
+      </div>
     </div>
   </div>
 </div></div>
@@ -412,8 +421,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
-        <li><strong class="bd">레포 전략:</strong> 멀티레포 유지 vs <span class="hl">모노레포 전환</span> — 2~3명이 16개 PR 관리는 운영 오버헤드 → 빌드/PR 데이터 근거로 전환 제안</li>
-        <li><strong class="bd">히스토리:</strong> 새 레포 생성(히스토리 손실) vs <span class="hl">Git Subtree(보존)</span></li>
+        <li><strong class="bd">레포 전략:</strong> 멀티레포 유지 vs <span class="hl">모노레포 전환</span> — 2~3명이 16개 PR 관리는 운영 오버헤드 → 빌드/PR 데이터 근거로 전환 제안 (<strong>230,909줄 통합 PR</strong>)</li>
+        <li><strong class="bd">히스토리:</strong> 새 레포 생성(히스토리 손실) vs <span class="hl">Git Subtree(보존)</span> — 전체 커밋 히스토리 보존</li>
         <li><strong class="bd">공통 모듈:</strong> 범용 :common vs <span class="hl">Types/Enums/Utils만 허용</span> — 비대화 방지</li>
         <li><strong class="bd">품질 게이트:</strong> <span class="hl">Detekt + ReviewDog + JaCoCo</span> — PR 단위 변경분 50% 커버리지 기준, 정적 분석 자동 리뷰 코멘트</li>
       </ul>
@@ -435,7 +444,7 @@ a:hover{text-decoration:underline;}
             <li>공통 변경 PR: <strong>1개</strong></li>
             <li>공통 의존성: <strong>중앙 관리</strong></li>
             <li>버전 불일치 장애: <strong>0회</strong></li>
-            <li>CI 빌드 시간: <strong>70% 단축</strong></li>
+            <li>CI 빌드 시간: <strong>70% 단축 (27분→8분)</strong></li>
           </ul>
         </div>
       </div>
@@ -510,7 +519,7 @@ a:hover{text-decoration:underline;}
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
         <li><strong class="bd">GCP 스타트업 크레딧 2026.04 만료</strong> — 만료 후 인프라 비용 2.5~3배 증가 예상</li>
-        <li>경영 악화로 인원 감축 → <strong class="bd">백엔드 1명이 13개 MSA 운영</strong> (legacy 제거 후 14→13개) — 서비스별 최소 2 Pod = 26+ Pod 리소스 오버헤드</li>
+        <li>경영 악화로 <strong class="bd">팀 5→2명 감축 (백엔드 1명)</strong>이 13개 MSA 운영 (legacy 제거 후 14→13개) — 서비스별 최소 2 Pod = 26+ Pod 리소스 오버헤드</li>
         <li>서비스 간 Feign Client 호출 → 네트워크 지연 + 장애 전파 리스크, .data!! 언래핑 반복</li>
       </ul>
 
@@ -565,10 +574,10 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>12개 Pod(JVM 12개) → <strong class="bd">1개 앱</strong> + notification — Pod 수 1/5 이하로 절감</li>
+        <li><strong class="bd">Pod 75% 감소</strong> (26+개→5~7개) — 12 JVM → 1 JVM + notification 별도, 인프라 비용 대폭 절감</li>
         <li>FeignClient → <strong class="bd">ModuleApi 9개 인터페이스</strong> 설계 — 네트워크 호출 제거, .data!! 언래핑 일괄 제거</li>
-        <li>전환 후 CI 테스트 빌드 <strong class="bd">77% 단축</strong> (45분→10분) — JUnit5 스레드 병렬 전환, Context 캐시 최적화, 64개 파일 수정</li>
-        <li>모듈 경계·Schema-per-Service 유지 — 필요 시 다시 MSA로 분리 가능</li>
+        <li>CI/CD <strong class="bd">77% 단축</strong> (45분→10분), 파이프라인 <strong class="bd">13→3개</strong> — JUnit5 병렬 전환, Context 캐시 최적화</li>
+        <li>11개 Schema·EntityManager·TM 분리 유지 — 필요 시 다시 MSA로 분리 가능</li>
       </ul>
 
       <div class="ib" style="margin-top:8px;">
@@ -615,7 +624,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><strong class="bd">인프라:</strong> Self-managed K8s vs <span class="hl">GKE(Managed)</span> — DevOps 부재 상태에서 월 $72로 컨트롤 플레인 리스크 해소</li>
         <li><strong class="bd">CI/CD:</strong> <span class="hl">GitHub Actions(초기) → Jenkins on K8s(전환)</span> — Self-hosted Runner 빌드 부하 심화로 Jenkins 전환, ArgoCD GitOps 선언적 배포</li>
-        <li><strong class="bd">마이그레이션:</strong> 서비스 중단 후 이전 vs <span class="hl">DMS CDC 실시간 동기화</span> — 무중단 달성</li>
+        <li><strong class="bd">마이그레이션:</strong> 서비스 중단 후 이전 vs <span class="hl">DMS CDC 실시간 동기화</span> — 200GB DB 무중단 달성, Terraform IaC</li>
         <li><strong class="bd">모니터링:</strong> ELK vs <span class="hl">Grafana LGTM</span> — 비용 효율적, Traces 내장</li>
       </ul>
 
@@ -705,9 +714,9 @@ a:hover{text-decoration:underline;}
     <div class="tl">
       <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 단일 서버</strong><br>Docker Compose<br>OOM Kill · SPOF<br>롤백 30분+</div></div>
       <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>GKE 도입</strong><br>K8s 전환 시작<br>NGINX Ingress<br>레거시 격리</div></div>
-      <div class="ti"><div class="tdt">2025.06</div><div class="td"></div><div class="tt"><strong>CI/CD & Migration</strong><br>Jenkins on K8s 전환<br>온프레미스→AWS<br>DMS CDC 무중단</div></div>
+      <div class="ti"><div class="tdt">2025.06</div><div class="td"></div><div class="tt"><strong>Migration & IaC</strong><br>200GB DB 무중단 이전<br>AWS DMS CDC<br>Terraform 도입</div></div>
       <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>Observability</strong><br>LGTM Stack<br>OTel Sidecar<br>Telegram 알림</div></div>
-      <div class="ti"><div class="tdt">2025.11</div><div class="td"></div><div class="tt"><strong>MSA 완성</strong><br>14 MSA 안정 운영<br>3 SNS / 42 SQS<br>GitOps CI/CD</div></div>
+      <div class="ti"><div class="tdt">2025.11</div><div class="td"></div><div class="tt"><strong>MSA 완성</strong><br>Jenkins on K8s 전환<br>14 MSA 안정 운영<br>GitOps CI/CD</div></div>
       <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>모듈러 모놀리식</strong><br>12서비스→1앱 통합<br>비용 2.5~3배 ↑ 대비<br>Bean·@Tx 버그 해결</div></div>
     </div>
 
@@ -780,7 +789,8 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">롤백</td><td>수동 배포 12분 (SSH + 재빌드)</td><td class="w">GitOps 선언적 롤백 2분 (83% 단축)</td></tr>
         <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack ($12~37/월)</td></tr>
         <tr><td class="bd">배포</td><td>SSH + Docker Compose (15분)</td><td class="w">Jenkins + ArgoCD (5분, 67% 단축)</td></tr>
-        <tr><td class="bd">마이그레이션</td><td>온프레미스 서버</td><td class="w">AWS DMS CDC 무중단 이전</td></tr>
+        <tr><td class="bd">마이그레이션</td><td>온프레미스 서버</td><td class="w">200GB DB, AWS DMS CDC 무중단 이전</td></tr>
+        <tr><td class="bd">IaC</td><td>수동 콘솔 설정</td><td class="w">Terraform 코드화, 재현성 확보</td></tr>
       </table>
       <div class="ib" style="flex:1;">
         <strong>11개월간의 핵심 판단:</strong><br>
@@ -898,7 +908,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">HikariCP Deadlock 해결</div>
       <ul class="bl">
-        <li><strong class="bd">현상:</strong> 간헐적으로 전체 API 응답불가 — 모든 스레드가 커넥션 대기</li>
+        <li><strong class="bd">현상:</strong> 간헐적으로 전체 API 응답불가 — 커넥션 풀 40/40 포화, 46 스레드 대기, Pod 5→2 축소 후 표면화</li>
         <li><strong class="bd">근본 원인:</strong> OSIV 활성화 + JPA/MyBatis 혼용 → 1요청이 2개 커넥션 동시 점유</li>
         <li><strong class="bd">고려한 대안:</strong> ①커넥션 풀 증가(회피) ②OSIV OFF(사이드이펙트 大) ③<span class="hl">JPA 일원화(구조적 해결)</span></li>
         <li><strong class="bd">선택 이유:</strong> 풀 증가는 트래픽 증가 시 재발, OSIV OFF는 Lazy Loading 전면 수정 필요 → JPA 일원화가 유일한 근본 해결</li>
@@ -909,12 +919,13 @@ a:hover{text-decoration:underline;}
         <li><strong class="bd">문제:</strong> 외부 API 평균 응답 5,132ms (최저 3,006ms ~ 최대 9,412ms) → 사용자 이탈 임계치(3초) 초과</li>
         <li><strong class="bd">판단:</strong> 대출 신청 임시저장 시 동일 주소 반복 조회 → 높은 캐시 히트율 기대</li>
         <li><strong class="bd">해결:</strong> Redis Look-aside 캐시 적용 — Cache Hit 시 <strong class="bd">57ms (90x 향상)</strong>, API 호출 <strong class="bd">76% 감소</strong></li>
+        <li><strong class="bd">TTL 전략:</strong> 외부 API 데이터 갱신 주기(목요일 23:30)에 동기화한 <strong class="bd">동적 TTL</strong> 설계</li>
       </ul>
 
       <div class="sec" style="margin-top:10px;">DB Replication Lag 해결</div>
       <ul class="bl">
-        <li>AbstractRoutingDataSource + AOP로 동적 Master/Slave 분리</li>
-        <li>쓰기 직후 읽기 시 Master 강제 라우팅으로 정합성 보장</li>
+        <li>3단계 접근: ①@Transactional 라우팅 → ②커스텀 <strong class="bd">@UseMasterDB</strong> + AOP → ③핵심 서비스 Master 직접 연결</li>
+        <li>4가지 패턴(Read-Your-Own-Write, Monotonic Reads 등) 비교 후 <strong class="bd">AbstractRoutingDataSource</strong> 채택</li>
       </ul>
 
       <div class="sec" style="margin-top:10px;">팀 개발 문화 개선</div>
@@ -923,9 +934,6 @@ a:hover{text-decoration:underline;}
         <li><strong class="bd">Pn룰 코드리뷰 도입:</strong> 리뷰 기준 명확화로 코드 품질 및 팀 협업 효율 향상</li>
       </ul>
 
-      <div class="rb" style="margin-top:10px;">
-        <strong>종합 성과:</strong> API 평균 응답 <strong>74.7% 개선</strong> (5,132ms→1,299ms) → 사용자 이탈 임계치(3초) 이내 진입 · 캐시 히트 시 <strong>57ms (99% 개선)</strong> · 외부 API 호출 횟수 <strong>76% 감소</strong>
-      </div>
     </div>
 
     <div class="c">
@@ -973,6 +981,9 @@ a:hover{text-decoration:underline;}
       </div>
     </div>
   </div>
+  <div class="rb" style="margin-top:8px;">
+    <strong>종합 성과:</strong> HikariCP + Replication Lag + Cache 복합 최적화로 전체 API 응답 <strong>87% 개선</strong> (10.3초→1.3초) · 캐시 단독 74.7% (5,132ms→1,299ms) · 캐시 히트 시 <strong>57ms (90x)</strong> · 외부 API 호출 <strong>76% 감소</strong>
+  </div>
 </div></div>
 
 <!-- ===== SLIDE 12: Spring Batch ===== -->
@@ -992,9 +1003,9 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>Job 동시 실행 시 <strong class="bd">Metadata Table Deadlock</strong> 발생</li>
-        <li>Tasklet 방식 — 대량 데이터를 단일 스레드 메모리 로드 → 성능 저하</li>
-        <li>매일 새벽 배치 13분+ 소요 → 후속 배치와 충돌</li>
+        <li><strong class="bd">신한은행 에스크로 계좌</strong> 잔고 정합성 검증 배치 — 금융 데이터 무결성 필수</li>
+        <li>Job 동시 실행 시 <strong class="bd">Metadata Table Deadlock</strong> 발생 (10년된 Spring Batch 버그, Issue #1448)</li>
+        <li>Tasklet 방식 — 22분 트랜잭션 점유, MVCC 스냅샷으로 <strong class="bd">입금 데이터 누락</strong> 위험</li>
       </ul>
 
       <div class="sec">고려한 대안 & 해결</div>
@@ -1207,7 +1218,7 @@ a:hover{text-decoration:underline;}
 
       <div style="margin-bottom:14px;">
         <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"배운 것을 기록하고 공유한다."</div>
-        <p class="bt">50+ 기술 블로그 아티클, 2년+ 스터디, Spring Security 오픈소스 기여.
+        <p class="bt">기술 블로그 운영, 2년+ 스터디, Spring Security 오픈소스 기여.
         기록은 <strong class="bd">같은 실수를 반복하지 않고, 동료도 성장</strong>시키는 가장 효율적인 방법입니다.</p>
       </div>
 
@@ -1229,7 +1240,7 @@ a:hover{text-decoration:underline;}
       <h3 style="margin-bottom:10px;">활동</h3>
       <ul class="bl" style="margin-bottom:16px;">
         <li>기술 블로그 <a href="https://jeongil.dev">jeongil.dev</a><br>
-          <span class="sm">50+ 아티클 — 아키텍처 의사결정, 트러블슈팅, AI 생태계</span></li>
+          <span class="sm">아키텍처 의사결정, 트러블슈팅, AI 생태계</span></li>
         <li style="margin-top:6px;">오픈소스 — Spring Security <a href="https://github.com/spring-projects/spring-security/pull/16216">PR#16216</a></li>
         <li style="margin-top:6px;"><a href="https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c">백엔드 아티클 스터디</a><br><span class="sm">2023.08~진행중</span></li>
         <li style="margin-top:6px;">빅데이터 기반 MLOps 과정<br><span class="sm">2022.07~12</span></li>
@@ -1250,7 +1261,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">모듈러 모놀리식</td><td>12→1앱 통합, CI 77% 단축 (45분→10분)</td></tr>
         <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 98% 단축(1시간→1분), GitOps 롤백</td></tr>
         <tr><td class="bd">매물 추천</td><td>자연어 검색 프로덕션 출시</td></tr>
-        <tr><td class="bd">백오피스</td><td>API 응답 74.7% 개선 (5.1초→1.3초)</td></tr>
+        <tr><td class="bd">백오피스</td><td>API 응답 87% 개선 (10.3초→1.3초)</td></tr>
         <tr><td class="bd">Batch</td><td>처리 64% 단축, Row당 80% 단축</td></tr>
       </table>
 
