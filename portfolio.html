@@ -133,6 +133,7 @@ a:hover{text-decoration:underline;}
       <span></span><span style="padding-left:16px;color:#666;">2-2. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-3. MSA → 모듈러 모놀리식 전환 <span class="sm">— 12서비스→1앱, 비용 최적화</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-4. K8s 인프라 & 모니터링 구축 <span class="sm">— GKE, LGTM Stack, 아키텍처 진화</span></span>
+      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 온프레미스 → AWS 무중단 마이그레이션 <span class="sm">— 200GB CDC, Terraform IaC</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-5. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Elasticsearch + OpenAI</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-6. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-7. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
@@ -167,8 +168,8 @@ a:hover{text-decoration:underline;}
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">CAREER</div>
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;margin:0 0 36px;">
-        <li>2025.03~현재 &nbsp;부톡(주)</li>
-        <li>2023.03~2025.03 &nbsp;(주)헬로핀테크</li>
+        <li>2025.03~현재 &nbsp;부톡(주) — AI 기반 부동산 중개 플랫폼</li>
+        <li>2023.03~2025.03 &nbsp;(주)헬로핀테크 — P2P 온라인투자연계 금융플랫폼</li>
       </ul>
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">CERTIFICATE</div>
@@ -186,7 +187,7 @@ a:hover{text-decoration:underline;}
       <div style="font-size:14px;margin:0 0 36px;">
         <div style="display:flex;padding:10px 0;"><span style="width:120px;flex-shrink:0;color:#222;">Language</span><span style="color:#555;">Java, Kotlin</span></div>
         <div style="display:flex;padding:10px 0;"><span style="width:120px;flex-shrink:0;color:#222;">Backend</span><span style="color:#555;">Spring Boot, Spring Cloud, Spring Batch</span></div>
-        <div style="display:flex;padding:10px 0;"><span style="width:120px;flex-shrink:0;color:#222;">Infra</span><span style="color:#555;">Kubernetes, ArgoCD, Jenkins</span></div>
+        <div style="display:flex;padding:10px 0;"><span style="width:120px;flex-shrink:0;color:#222;">Infra</span><span style="color:#555;">Kubernetes, Docker, ArgoCD, Jenkins</span></div>
         <div style="display:flex;padding:10px 0;"><span style="width:120px;flex-shrink:0;color:#222;">DB</span><span style="color:#555;">MySQL, Redis, Elasticsearch</span></div>
         <div style="display:flex;padding:10px 0;"><span style="width:120px;flex-shrink:0;color:#222;">Monitoring</span><span style="color:#555;">Grafana, Prometheus, Loki, Tempo</span></div>
       </div>
@@ -272,17 +273,22 @@ a:hover{text-decoration:underline;}
           </div>
           <div style="display:flex;align-items:center;padding-top:50px;font-size:18px;color:#999;">→</div>
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
-            <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AFTER</div>
-            <div class="db ok ds" style="width:100%;margin-bottom:4px;">GKE Kubernetes Cluster</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
-              <div class="db ok ds">apart-svc</div><div class="db ok ds">match-svc</div>
-              <div class="db ok ds">agent-svc</div><div class="db ok ds">chat-svc</div>
-              <div class="db ok ds">user-svc</div><div class="db ok ds">notif-svc</div>
+            <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:4px;">AFTER (14개 MSA · GKE)</div>
+            <div style="border:1px solid #81c995;border-radius:3px;padding:4px;position:relative;margin-bottom:3px;">
+              <div style="position:absolute;top:-6px;left:4px;background:#fff;padding:0 2px;font-size:6.5px;font-weight:700;color:#137333;">GKE Cluster (dev/prod)</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2px;">
+                <div class="db ok ds" style="font-size:7.5px;">agent</div><div class="db ok ds" style="font-size:7.5px;">apart</div>
+                <div class="db ok ds" style="font-size:7.5px;">match</div><div class="db ok ds" style="font-size:7.5px;">ai</div>
+                <div class="db ok ds" style="font-size:7.5px;">chat</div><div class="db ok ds" style="font-size:7.5px;">user</div>
+                <div class="db ok ds" style="font-size:7.5px;">notif</div><div class="db ok ds" style="font-size:7.5px;">event</div>
+                <div class="db ok ds" style="font-size:7.5px;">data</div><div class="db ok ds" style="font-size:7.5px;">commu</div>
+                <div class="db ok ds" style="font-size:7.5px;">price</div><div class="db ok ds" style="font-size:7.5px;">store</div>
+                <div class="db ok ds" style="font-size:7.5px;">batch</div><div class="db ds" style="font-size:7.5px;border-style:dashed;">legacy</div>
+              </div>
             </div>
-            <div class="dd">↓</div>
-            <div style="display:flex;gap:3px;">
-              <div class="db wn ds" style="flex:1;">Schema별 분리</div>
-              <div class="db ac ds" style="flex:1;">SNS/SQS</div>
+            <div style="display:flex;gap:2px;">
+              <div class="db wn ds" style="flex:1;font-size:7.5px;">Schema별 DB 분리</div>
+              <div class="db ac ds" style="flex:1;font-size:7.5px;">3 SNS / 42 SQS</div>
             </div>
           </div>
         </div>
@@ -387,11 +393,8 @@ a:hover{text-decoration:underline;}
         <strong>과도기 안전장치 종합:</strong> Dual Write 검증 배치 (매시간 실행) · Telegram 자동 알림 · 레거시 즉시 롤백 가능 상태 상시 유지 · 카나리 배포로 트래픽 단계적 전환
       </div>
 
-      <div class="ib" style="margin-top:8px;">
-        <strong>온프레미스 → AWS 무중단 마이그레이션:</strong>
-        200GB MariaDB를 <strong>AWS DMS CDC</strong>로 실시간 동기화하며 무중단 이전.
-        5가지 마이그레이션 방식(DB Replication, Dual Write, MQ 기반, ETL, CDC)을 비교 후 CDC 선택.
-        <strong>Terraform IaC</strong>로 인프라를 코드화하여 재현성 확보. DNS 전환 시 양방향 트래픽 유입 구간에서도 데이터 정합성 유지.
+      <div class="rb" style="margin-top:8px;">
+        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.9)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
       </div>
     </div>
   </div>
@@ -529,16 +532,16 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="sec">전환 과정의 3가지 기술 함정</div>
-      <ul class="bl">
+      <ul class="bl" style="font-size:11.5px;">
         <li><strong class="bd">① Bean 이름 충돌</strong> (ConflictingBeanDefinitionException)<br>
-          <span class="sm">원인: 12개 서비스에 각각 SecurityConfig, WebConfig 등 동명 클래스 존재 → Spring의 flat bean registry는 패키지 무관, 클래스명으로 등록 → 단일 ApplicationContext에서 충돌</span><br>
-          <span class="sm">해결: <span class="hl">26개 파일에 @Component(name="module-xxx") 명시적 이름 지정</span></span></li>
+          <span style="font-size:11px;color:#555;">원인: 12개 서비스에 각각 SecurityConfig, WebConfig 등 동명 클래스 → flat bean registry에서 충돌</span><br>
+          <span style="font-size:11px;color:#555;">해결: <span class="hl">26개 파일에 @Component(name="module-xxx") 명시적 이름 지정</span></span></li>
         <li><strong class="bd">② 순환 의존성 폭발</strong><br>
-          <span class="sm">원인: FeignClient는 HTTP 호출이라 A↔B 순환 호출이 런타임에 가능 → ModuleApi(메서드 호출)로 전환하면 <strong>컴파일 타임 순환 참조</strong>로 변환 → Spring 컨텍스트 기동 실패</span><br>
-          <span class="sm">해결: <span class="hl">@Lazy 프록시로 지연 초기화 50곳 적용</span> — 장기적으로 의존 방향 정리 예정</span></li>
-        <li><strong class="bd">③ @Transactional 사일런트 버그</strong><br>
-          <span class="sm">원인: Schema-per-Service로 서비스별 TM 존재 → 앱 통합 시 @Primary TM이 모든 bare @Transactional 흡수 → agent의 트랜잭션이 apart의 TM으로 실행</span><br>
-          <span class="sm">위험: <strong>테스트 통과, 프로덕션 데이터 정합성 깨짐</strong> — <span class="hl">121개 @Transactional에 명시적 TM 지정</span></span></li>
+          <span style="font-size:11px;color:#555;">원인: FeignClient(HTTP)는 런타임 순환 가능 → ModuleApi(메서드 호출)로 전환 시 <strong>컴파일 타임 순환 참조</strong> 표면화</span><br>
+          <span style="font-size:11px;color:#555;">해결: <span class="hl">@Lazy 프록시 50곳 적용</span> — 장기적으로 의존 방향 정리 예정</span></li>
+        <li><strong class="bd">③ @Transactional 사일런트 버그</strong> <span style="font-size:10px;color:#c5221f;font-weight:600;">← 가장 위험</span><br>
+          <span style="font-size:11px;color:#555;">원인: Schema별 TM 존재 → @Primary TM이 모든 bare @Transactional 흡수 → 다른 Schema의 커넥션으로 실행</span><br>
+          <span style="font-size:11px;color:#555;">위험: <strong>테스트 통과, 프로덕션 정합성 깨짐</strong> — <span class="hl">121개 @Transactional에 명시적 TM 지정</span></span></li>
       </ul>
     </div>
 
@@ -558,16 +561,21 @@ a:hover{text-decoration:underline;}
           </div>
           <div style="display:flex;align-items:center;padding-top:40px;font-size:16px;color:#999;">→</div>
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
-            <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AFTER: 모듈러 모놀리식</div>
-            <div style="border:1px solid #81c995;border-radius:3px;padding:6px;position:relative;">
-              <div style="position:absolute;top:-6px;left:6px;background:#fff;padding:0 3px;font-size:7px;font-weight:700;color:#137333;">BtalkApplication</div>
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">
-                <div class="db ok ds">:agent</div><div class="db ok ds">:apart</div><div class="db ok ds">:ai</div>
-                <div class="db ok ds">:match</div><div class="db ok ds">:chat</div><div class="db ok ds">:user</div>
+            <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:4px;">AFTER: 모듈러 모놀리식</div>
+            <div style="border:1px solid #81c995;border-radius:3px;padding:5px;position:relative;">
+              <div style="position:absolute;top:-6px;left:6px;background:#fff;padding:0 3px;font-size:6.5px;font-weight:700;color:#137333;">BtalkApplication (1 JVM)</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2px;">
+                <div class="db ok ds" style="font-size:7.5px;">:agent</div><div class="db ok ds" style="font-size:7.5px;">:apart</div>
+                <div class="db ok ds" style="font-size:7.5px;">:ai</div><div class="db ok ds" style="font-size:7.5px;">:match</div>
+                <div class="db ok ds" style="font-size:7.5px;">:chat</div><div class="db ok ds" style="font-size:7.5px;">:user</div>
+                <div class="db ok ds" style="font-size:7.5px;">:event</div><div class="db ok ds" style="font-size:7.5px;">:data</div>
+                <div class="db ok ds" style="font-size:7.5px;">:commu</div><div class="db ok ds" style="font-size:7.5px;">:price</div>
+                <div class="db ok ds" style="font-size:7.5px;">:store</div><div class="db ok ds" style="font-size:7.5px;">:batch</div>
               </div>
+              <div style="text-align:center;font-size:7px;color:#137333;margin-top:2px;">ModuleApi 인터페이스 · 11 Schema · 11 TM</div>
             </div>
-            <div class="db wn ds" style="width:100%;margin-top:3px;">notification (별도 유지)</div>
-            <div class="dd" style="font-size:8px;color:#137333;">1 JVM · 모듈 경계 유지 · Feign→메서드 호출</div>
+            <div class="db wn ds" style="width:100%;margin-top:3px;font-size:7.5px;">notification (별도 Pod 유지)</div>
+            <div class="dd" style="font-size:8px;color:#137333;">Feign→메서드 호출 · 모듈 경계 유지 · 재분리 가능</div>
           </div>
         </div>
       </div>
@@ -699,12 +707,126 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 9: 아키텍처 진화 타임라인 ===== -->
+<!-- ===== SLIDE 9: 온프레미스 → AWS 무중단 마이그레이션 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(4-1) 온프레미스 → AWS 무중단 마이그레이션</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">9</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c" style="flex:.9;">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.06 (GKE 도입 직후)</td></tr>
+        <tr><td class="l">역할</td><td class="v">마이그레이션 전략 설계 · Terraform IaC · DMS CDC 구성 · DNS 전환 실행</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">AWS DMS CDC, Terraform, RDS MariaDB 10.6, Route53</td></tr>
+        <tr><td class="l">데이터 규모</td><td class="v">200GB MariaDB · IDC 물리서버 → AWS RDS</td></tr>
+      </table>
+
+      <div class="sec">배경 및 문제</div>
+      <ul class="bl">
+        <li>IDC 물리서버에 애플리케이션 + DB가 <strong class="bd">동일 서버에 공존</strong> — 하드웨어 접촉 불량으로 서비스 장애 반복</li>
+        <li>GKE로 컨테이너 인프라를 전환했으나, <strong class="bd">200GB DB는 여전히 IDC에 잔류</strong></li>
+        <li>스케일링 불가 · 백업 수동 관리 · 단일 장애점(SPOF) 지속</li>
+      </ul>
+
+      <div class="sec">5가지 마이그레이션 방식 비교</div>
+      <table class="ct" style="font-size:9.5px;margin-bottom:4px;">
+        <tr><th style="width:22%;">방식</th><th>장점</th><th>단점</th><th style="width:12%;">판단</th></tr>
+        <tr><td class="bd">DB Replication</td><td>네이티브 지원, 간단</td><td>실시간성 한계, 스키마 변경 어려움</td><td style="color:#c5221f;font-weight:600;">❌</td></tr>
+        <tr><td class="bd">Dual Write</td><td>직접 제어 가능</td><td>정합성 리스크, 코드 복잡도 ↑</td><td style="color:#c5221f;font-weight:600;">❌</td></tr>
+        <tr><td class="bd">MQ 기반</td><td>비동기, 느슨한 결합</td><td>메시지 유실·순서 보장 어려움</td><td style="color:#c5221f;font-weight:600;">❌</td></tr>
+        <tr><td class="bd">ETL 배치</td><td>구현 단순</td><td>실시간 불가, 배치 간격 데이터 갭</td><td style="color:#c5221f;font-weight:600;">❌</td></tr>
+        <tr><td class="bd">CDC</td><td>실시간 동기화, 앱 코드 변경 無</td><td>인프라 복잡도</td><td style="color:#137333;font-weight:600;">✅ 채택</td></tr>
+      </table>
+
+      <div class="sec">해결: AWS DMS CDC + Terraform IaC</div>
+      <ul class="bl">
+        <li><span class="hl">AWS DMS CDC</span>로 IDC MariaDB → RDS 실시간 단방향 동기화</li>
+        <li>AWS 환경 전체를 <span class="hl">Terraform</span>으로 코드화 — VPC, EC2, RDS, Security Group, IAM 등</li>
+        <li><strong class="bd">DNS 전환 전략:</strong> 새벽 시간대 DNS 변경 → 전파 기간 동안 양방향 트래픽 허용 → IDC DB를 Source of Truth로 유지</li>
+        <li>DNS 전파 완료 확인 후 → 앱 DB 참조를 RDS로 전환 → CDC 종료 → IDC 서버 중단</li>
+      </ul>
+
+      <div class="sec">성과</div>
+      <ul class="bl">
+        <li><strong class="bd">무중단 마이그레이션 달성</strong> — 다운타임 0분, 데이터 유실 0건</li>
+        <li>Terraform IaC로 <strong class="bd">인프라 재현성 확보</strong> — 동일 환경 즉시 재생성 가능</li>
+        <li>IDC SPOF 탈피 → AWS RDS <strong class="bd">자동 백업(7일 보존) + 스케일링</strong> 확보</li>
+      </ul>
+    </div>
+
+    <div class="c" style="flex:1.1;">
+      <div class="dg">
+        <div class="dl">CDC 기반 무중단 마이그레이션 아키텍처</div>
+        <div style="display:flex;gap:8px;align-items:start;">
+          <!-- IDC -->
+          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">IDC (기존 환경)</div>
+            <div class="db er ds" style="width:100%;margin-bottom:3px;">물리서버 (App + DB 공존)</div>
+            <div class="dd">↓</div>
+            <div class="db er ds" style="width:100%;">MariaDB 200GB<br><span style="font-size:7.5px;">Source of Truth</span></div>
+          </div>
+          <!-- Arrow with CDC -->
+          <div style="display:flex;flex-direction:column;align-items:center;padding-top:28px;gap:2px;">
+            <div style="font-size:8px;font-weight:700;color:#1a56db;">AWS DMS</div>
+            <div style="font-size:16px;color:#1a56db;">→</div>
+            <div style="font-size:8px;color:#1a56db;">CDC 실시간</div>
+          </div>
+          <!-- AWS -->
+          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AWS Cloud (Terraform)</div>
+            <div class="db ok ds" style="width:100%;margin-bottom:3px;">EC2 + GKE 서비스</div>
+            <div class="dd">↓</div>
+            <div class="db ok ds" style="width:100%;">RDS MariaDB 10.6<br><span style="font-size:7.5px;">200GB · gp3 · 자동 백업 7일</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dg" style="margin-top:8px;">
+        <div class="dl">DNS 전환 타임라인 (무중단 핵심)</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div style="display:flex;gap:4px;width:90%;">
+            <div class="db dk ds" style="flex:1;">① 사전 준비<br><span style="font-size:7.5px;">Terraform · CDC 테스트 · 롤백 검증</span></div>
+            <div class="db ac ds" style="flex:1;">② CDC 활성화<br><span style="font-size:7.5px;">IDC→RDS 실시간 동기화 시작</span></div>
+          </div>
+          <div class="dd">↓</div>
+          <div class="db wn ds" style="width:90%;">③ DNS 전환 (새벽 저트래픽 시간)<br><span style="font-size:7.5px;">DNS 캐시에 따라 사용자가 IDC 또는 AWS로 자연스럽게 분산 → 양쪽 모두 IDC DB를 Source of Truth로 사용</span></div>
+          <div class="dd">↓ DNS 전파 완료 확인</div>
+          <div style="display:flex;gap:4px;width:90%;">
+            <div class="db ok ds" style="flex:1;">④ DB 참조 전환<br><span style="font-size:7.5px;">앱 → RDS 직접 연결</span></div>
+            <div class="db ok ds" style="flex:1;">⑤ CDC 종료 · IDC 중단<br><span style="font-size:7.5px;">마이그레이션 완료</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>왜 CDC인가? — "앱 코드 변경 없이 실시간 동기화"</strong><br>
+        Dual Write는 애플리케이션에 이중 기록 로직을 삽입해야 하므로 정합성 리스크가 높습니다.
+        CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하기 때문에 앱 코드 수정 없이 동기화가 가능하고,
+        AWS DMS는 RDS와의 호환성이 가장 높아 선택했습니다.
+      </div>
+
+      <div class="ib" style="margin-top:6px;">
+        <strong>DNS 전환 구간의 정합성 보장:</strong>
+        DNS 전파 기간 동안 사용자 트래픽이 IDC와 AWS에 분산됩니다.
+        이 구간에서 <strong>양쪽 서버 모두 IDC DB를 Source of Truth로 사용</strong>하여
+        데이터 정합성을 보장했고, 전파 완료 후에야 DB 참조를 RDS로 전환했습니다.
+      </div>
+
+      <div class="rb" style="margin-top:6px;">
+        <strong>Terraform IaC 범위:</strong> VPC · Subnet · Security Group · EC2 · RDS · IAM · Key Pair — 인프라 전체를 코드로 관리하여 <strong>동일 환경 즉시 재현 가능</strong>, 수동 콘솔 설정의 휴먼 에러 원천 차단
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 10: 아키텍처 진화 타임라인 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(4) 아키텍처 진화 과정 — 입사 후 11개월의 기록</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">9</span>
+  <span class="pn">10</span>
   <div class="body" style="margin-top:10px;">
     <p class="bt" style="margin-bottom:10px;">
       아래 타임라인은 실제 backend_onboarding 레포의 아키텍처 다이어그램에서 추출한 것입니다.
@@ -739,44 +861,53 @@ a:hover{text-decoration:underline;}
       <!-- AFTER -->
       <div class="dg" style="flex:.6;">
         <div class="dl" style="color:#137333;">AFTER (2026.02 현재 운영 중)</div>
-        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div style="display:flex;gap:4px;">
-            <div class="db ds" style="font-size:8px;">bootalk_app</div>
-            <div class="db ds" style="font-size:8px;">bootalk_web</div>
-            <div class="db ds" style="font-size:8px;">bootalk_admin</div>
+        <div style="display:flex;flex-direction:column;gap:2px;align-items:center;">
+          <!-- Clients -->
+          <div style="display:flex;gap:3px;">
+            <div class="db ds" style="font-size:7.5px;">bootalk_app<br><span style="font-size:6.5px;color:#999;">Expo+RN</span></div>
+            <div class="db ds" style="font-size:7.5px;">bootalk_web<br><span style="font-size:6.5px;color:#999;">Next.js</span></div>
+            <div class="db ds" style="font-size:7.5px;">bootalk_admin<br><span style="font-size:6.5px;color:#999;">Next.js</span></div>
           </div>
-          <div class="dd">↓</div>
-          <div style="border:1.5px solid #81c995;border-radius:4px;padding:6px 8px;width:95%;position:relative;">
-            <div style="position:absolute;top:-7px;left:8px;background:#fafafa;padding:0 4px;font-size:8px;font-weight:700;color:#137333;">GKE Cluster (dev / prod)</div>
-            <div style="display:flex;gap:4px;margin-top:2px;">
-              <div style="border:1px solid #81c995;border-radius:3px;padding:4px 6px;flex:3;position:relative;">
-                <div style="position:absolute;top:-6px;left:6px;background:#fafafa;padding:0 3px;font-size:6.5px;font-weight:700;color:#137333;">BtalkApplication (모듈러 모놀리식)</div>
-                <div style="display:flex;gap:2px;flex-wrap:wrap;justify-content:center;margin-top:2px;">
-                  <div class="db ok ds" style="font-size:7px;">:agent</div><div class="db ok ds" style="font-size:7px;">:apart</div><div class="db ok ds" style="font-size:7px;">:ai</div>
-                  <div class="db ok ds" style="font-size:7px;">:user</div><div class="db ok ds" style="font-size:7px;">:chat</div><div class="db ok ds" style="font-size:7px;">:match</div>
-                  <div class="db ok ds" style="font-size:7px;">:event</div><div class="db ok ds" style="font-size:7px;">:data</div><div class="db ok ds" style="font-size:7px;">...</div>
+          <div class="dd" style="margin:1px 0;">↓ NGINX Ingress</div>
+          <!-- GKE Cluster -->
+          <div style="border:1.5px solid #81c995;border-radius:4px;padding:5px 6px;width:98%;position:relative;">
+            <div style="position:absolute;top:-7px;left:8px;background:#fafafa;padding:0 4px;font-size:7.5px;font-weight:700;color:#137333;">GKE Cluster (dev / prod)</div>
+            <div style="display:flex;gap:3px;margin-top:2px;">
+              <div style="border:1px solid #81c995;border-radius:3px;padding:4px 5px;flex:3;position:relative;">
+                <div style="position:absolute;top:-6px;left:4px;background:#fafafa;padding:0 2px;font-size:6px;font-weight:700;color:#137333;">BtalkApplication (모듈러 모놀리식 · 1 JVM)</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2px;">
+                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:agent</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:apart</div>
+                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:ai</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:match</div>
+                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:chat</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:user</div>
+                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:event</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:data</div>
+                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:commu</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:price</div>
+                  <div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:store</div><div class="db ok ds" style="font-size:6.5px;padding:2px 3px;">:batch</div>
                 </div>
               </div>
-              <div class="db wn ds" style="font-size:7px;flex:1;align-self:center;">notification<br>(별도 유지)</div>
+              <div style="display:flex;flex-direction:column;gap:2px;flex:1;">
+                <div class="db wn ds" style="font-size:6.5px;padding:2px 3px;">notification<br>(별도 Pod)</div>
+                <div class="db ds" style="font-size:6.5px;padding:2px 3px;border-style:dashed;">Jenkins<br>ArgoCD</div>
+              </div>
             </div>
           </div>
-          <div class="dd">↓</div>
-          <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
-            <div style="border:1px dashed #ddd;border-radius:3px;padding:3px 6px;text-align:center;">
-              <div style="font-size:7px;color:#999;">AWS</div>
-              <div style="display:flex;gap:2px;"><div class="db ds" style="font-size:7px;min-width:40px;">SNS/SQS</div><div class="db ds" style="font-size:7px;min-width:40px;">Cognito</div><div class="db ds" style="font-size:7px;min-width:40px;">DynamoDB</div></div>
+          <div class="dd" style="margin:1px 0;">↓</div>
+          <!-- Infrastructure Layer -->
+          <div style="display:flex;gap:3px;justify-content:center;width:98%;">
+            <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:1;">
+              <div style="font-size:6.5px;color:#999;font-weight:600;">AWS</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:6.5px;padding:1px 3px;">SNS/SQS</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Cognito</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">DynamoDB</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">RDS</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">S3/CF</div></div>
             </div>
-            <div style="border:1px dashed #ddd;border-radius:3px;padding:3px 6px;text-align:center;">
-              <div style="font-size:7px;color:#999;">DB</div>
-              <div style="display:flex;gap:2px;"><div class="db ds" style="font-size:7px;">Cloud SQL</div><div class="db ds" style="font-size:7px;">RDS</div></div>
+            <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:.6;">
+              <div style="font-size:6.5px;color:#999;font-weight:600;">GCP</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Cloud SQL</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Redis</div></div>
             </div>
-            <div style="border:1px dashed #ddd;border-radius:3px;padding:3px 6px;text-align:center;">
-              <div style="font-size:7px;color:#999;">Monitoring</div>
-              <div style="display:flex;gap:2px;"><div class="db ds" style="font-size:7px;">Grafana</div><div class="db ds" style="font-size:7px;">Prometheus</div><div class="db ds" style="font-size:7px;">Loki</div><div class="db ds" style="font-size:7px;">Tempo</div></div>
+            <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:.7;">
+              <div style="font-size:6.5px;color:#999;font-weight:600;">Monitoring</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Grafana</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Prom</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Loki</div><div class="db ds" style="font-size:6.5px;padding:1px 3px;">Tempo</div></div>
             </div>
           </div>
         </div>
-        <div style="text-align:center;margin-top:4px;font-size:9px;color:#137333;">모듈러 모놀리식 · 3 SNS/42 SQS · GitOps CI/CD · 장애 인지 1분 이내 (98% 단축)</div>
+        <div style="text-align:center;margin-top:3px;font-size:8.5px;color:#137333;">모듈러 모놀리식 · 11 Schema 분리 · 3 SNS/42 SQS · GCP+AWS 하이브리드 · 장애 인지 1분 이내</div>
       </div>
     </div>
 
@@ -791,6 +922,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">배포</td><td>SSH + Docker Compose (15분)</td><td class="w">Jenkins + ArgoCD (5분, 67% 단축)</td></tr>
         <tr><td class="bd">마이그레이션</td><td>온프레미스 서버</td><td class="w">200GB DB, AWS DMS CDC 무중단 이전</td></tr>
         <tr><td class="bd">IaC</td><td>수동 콘솔 설정</td><td class="w">Terraform 코드화, 재현성 확보</td></tr>
+        <tr><td class="bd">인프라 비용</td><td>GCP 스타트업 크레딧</td><td style="color:#8a6d3b;font-weight:600;">크레딧 만료 후 2.5~3배 ↑ → 모듈러 모놀리식으로 대응</td></tr>
       </table>
       <div class="ib" style="flex:1;">
         <strong>11개월간의 핵심 판단:</strong><br>
@@ -800,15 +932,14 @@ a:hover{text-decoration:underline;}
       </div>
     </div>
   </div>
-  <span class="pn">9</span>
 </div></div>
 
-<!-- ===== SLIDE 10: 자연어 기반 매물 추천 ===== -->
+<!-- ===== SLIDE 11: 자연어 기반 매물 추천 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(5) 자연어 기반 부동산 매물 추천 기능</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">10</span>
+  <span class="pn">11</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -836,9 +967,10 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>자연어 매물 검색 기능 <strong class="bd">프로덕션 출시</strong></li>
-        <li>"강남역 근처 30평대 2억 이하" → 즉시 관련 매물 추천</li>
-        <li>Manticore Search → Elasticsearch 전환 — <strong class="bd">RAG 벡터 검색 + 지리 검색 + 형태소 분석</strong> 복합 검색 구현</li>
+        <li>자연어 매물 검색 기능 <strong class="bd"><a href="https://bootalk.co.kr/ai/chat">프로덕션 출시 및 운영중</a></strong></li>
+        <li>"강남역 도보 10분 이내 15억 정도 신혼부부가 살만한 아파트" 같은 <strong class="bd">복합 조건 자연어 검색</strong> 지원</li>
+        <li>Spring Batch 일배치로 매물 POI 데이터 <strong class="bd">Elasticsearch 자동 인덱싱</strong> 파이프라인 구축</li>
+        <li>Manticore Search → Elasticsearch 전환 — <strong class="bd">RAG 벡터 검색 + geo_distance 지리 검색 + 형태소 분석</strong> 복합 검색 구현</li>
       </ul>
     </div>
 
@@ -890,12 +1022,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 11: 백오피스 성능 최적화 ===== -->
+<!-- ===== SLIDE 12: 백오피스 성능 최적화 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(6) 백오피스 서버 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">11</span>
+  <span class="pn">12</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -986,12 +1118,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 12: Spring Batch ===== -->
+<!-- ===== SLIDE 13: Spring Batch ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(7) Spring Batch 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">12</span>
+  <span class="pn">13</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1005,7 +1137,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><strong class="bd">신한은행 에스크로 계좌</strong> 잔고 정합성 검증 배치 — 금융 데이터 무결성 필수</li>
         <li>Job 동시 실행 시 <strong class="bd">Metadata Table Deadlock</strong> 발생 (10년된 Spring Batch 버그, Issue #1448)</li>
-        <li>Tasklet 방식 — 22분 트랜잭션 점유, MVCC 스냅샷으로 <strong class="bd">입금 데이터 누락</strong> 위험</li>
+        <li>Tasklet 방식 — 22분 트랜잭션 점유, MVCC 스냅샷으로 <strong class="bd">입금 데이터 누락</strong> 위험 (발생확률 1/132,000이지만 금융 데이터에서는 불허)</li>
       </ul>
 
       <div class="sec">고려한 대안 & 해결</div>
@@ -1094,12 +1226,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 13: Side Project - Upvy ===== -->
+<!-- ===== SLIDE 14: Side Project - Upvy ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">Side Project — Upvy (교육용 숏폼 영상 플랫폼)</div>
   <span class="ss">3. Side Project</span>
-  <span class="pn">13</span>
+  <span class="pn">14</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1188,12 +1320,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 14: 개발 철학 & Contact ===== -->
+<!-- ===== SLIDE 15: 개발 철학 & Contact ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
-  <span class="pn">14</span>
+  <span class="pn">15</span>
   <div class="tc" style="margin-top:16px;flex:1;">
     <div class="cw">
       <h3 style="margin-bottom:14px;">개발 철학</h3>
@@ -1260,6 +1392,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">멀티모듈</td><td>16→1 레포, 빌드 70% 단축</td></tr>
         <tr><td class="bd">모듈러 모놀리식</td><td>12→1앱 통합, CI 77% 단축 (45분→10분)</td></tr>
         <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 98% 단축(1시간→1분), GitOps 롤백</td></tr>
+        <tr><td class="bd">DB 마이그레이션</td><td>200GB 무중단 이전, CDC, Terraform IaC</td></tr>
         <tr><td class="bd">매물 추천</td><td>자연어 검색 프로덕션 출시</td></tr>
         <tr><td class="bd">백오피스</td><td>API 응답 87% 개선 (10.3초→1.3초)</td></tr>
         <tr><td class="bd">Batch</td><td>처리 64% 단축, Row당 80% 단축</td></tr>
