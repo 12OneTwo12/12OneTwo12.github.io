@@ -280,14 +280,15 @@
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li>초기 점진적 전환 시도 실패 후 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion" target="_blank">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리, 과도기 Dual Write + 검증 배치</li>
-                            <li><a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module" target="_blank">멀티모듈 전환</a>(16레포→모노레포, 공통 코드 Common 모듈 중앙화), 빌드 배포 파이프라인 분리로 멀티모듈 MSA 구축</li>
-                            <li>비용·운영 최적화를 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith" target="_blank">모듈러 모놀리식 재전환</a> — Pod 1/5 절감</li>
+                            <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module" target="_blank">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li>
+                            <li><strong>Jacoco + Detekt + Reviewdog</strong> 도입 제안·적용 — PR 단위 테스트 커버리지·정적 분석 자동 리뷰 파이프라인 구축</li>
+                            <li>인프라 비용 부담 + 팀 3→1명 감축 — 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith" target="_blank">모듈러 모놀리식 재전환</a>, Pod 1/5 절감</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li><strong>무중단</strong> MSA 전환 완료, 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
-                            <li>모듈러 전환으로 <strong>비용 (몇프로)% 절감</strong>, CI <strong>77% 단축</strong>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
+                            <li>모듈러 모놀리식 전환으로 <strong>비용 (몇프로)% 절감</strong>, CI <strong>77% 단축</strong>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
                         </ul>
 
                         <div class="tech-line"><strong>기술:</strong> Kotlin, Spring Cloud, Feign Client, CQRS, Hexagonal Architecture, AWS SQS</div>
@@ -310,10 +311,10 @@
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s" target="_blank">GKE 도입 제안 및 구축</a> – 전문 DevOps 부재 상황에서 <strong>운영 부담 최소화</strong> 위해 Managed K8s 선택</li>
+                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s" target="_blank">GKE 도입 제안 및 구축</a> – 자체 구축(kubeadm)·EKS·GKE 비교 후, DevOps 부재·4인 팀 상황에서 운영 부담 최소화 가능한 Managed K8s 선택</li>
                             <li>마이그레이션 중 SQS URL 하드코딩, 미문서화 방화벽 등 <strong>레거시 숨은 설정 발견 → 환경변수 분리, Cloud NAT 도입</strong></li>
-                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system" target="_blank">Grafana LGTM Stack 선택</a> – ELK($92~200/월) 대비 <strong>비용 효율적</strong>($12~37/월) 대안 도입</li>
-                            <li>GitHub Actions + ArgoCD CI/CD 구축 → Self-hosted Runner 한계로 <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins" target="_blank">Jenkins on K8s 전환</a></li>
+                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system" target="_blank">Grafana LGTM Stack 선택</a> – ELK·Datadog·LGTM 비교 후 소규모 팀 자체 운영 가능성과 비용($92~200 vs <strong>$12~37/월</strong>)을 기준으로 선택</li>
+                            <li>GitHub Actions CI/CD 구축 → 빌드 증가로 Self-hosted Runner(개인 PC) 부하 심화, <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins" target="_blank">Jenkins on K8s 전환</a></li>
                             <li>일부 서비스 <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" target="_blank">온프레미스 → AWS 무중단 마이그레이션</a> (이중 쓰기/배치 동기화 대비 <strong>실시간 동기화 위해 AWS DMS CDC</strong> 선택)</li>
                         </ul>
 
@@ -388,8 +389,8 @@
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" target="_blank">HikariCP Deadlock 해결</a> – 원인 분석 후 JPA 일원화로 Connection 순차 사용 유도</li>
-                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag" target="_blank">Replication 지연 해결</a> – 단계적 접근: @Transactional → AbstractRoutingDataSource + AOP로 <strong>일관성/성능 트레이드오프</strong> 조절</li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" target="_blank">HikariCP Deadlock 해결</a> – OSIV 환경에서 JPA+MyBatis가 2 Connection 점유하는 원인 파악, 영향 범위 최소화 위해 MyBatis 제거 대신 JPA 일원화 선택</li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag" target="_blank">Replication 지연 해결</a> – 전체 Master 조회는 Slave 분산 목적을 훼손하므로, 쓰기 직후 조회만 Master로 라우팅하는 AOP 방식으로 <strong>일관성/성능 균형</strong> 조절</li>
                             <li><a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf" target="_blank">외부 API Redis 캐싱</a> – 기존 인프라 활용, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
                             <li><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction" target="_blank">Git Flow 도입 제안</a> – Cherry-pick 충돌 사례 시각화로 팀 설득, Pn룰 코드리뷰 도입</li>
                         </ul>
@@ -451,7 +452,7 @@
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock" target="_blank">Deadlock 해결</a> – 4가지 방법(동시 실행 금지, Isolation 변경, DAO Override, 5.0 업그레이드) 비교 후 <strong>Bean 설정으로 Isolation Level 변경</strong></li>
-                            <li>데이터 누락 원인 파악 및 <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Chunk + Partitioning 병렬 처리 제안·설계</a></li>
+                            <li>데이터 누락 원인 파악 후 Chunk 전환, 추가 성능 개선 위해 <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Partitioning 병렬 처리 설계</a></li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
