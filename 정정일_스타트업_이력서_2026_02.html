@@ -444,7 +444,7 @@
     <!-- Page 1 -->
     <div class="page">
         <!-- Header -->
-        <header class="header">
+        <header class="header" style="margin-bottom: 7px;">
             <div class="header-left">
                 <h1 class="name">정정일</h1>
                 <div class="title">Backend Developer</div>
@@ -459,7 +459,7 @@
         </header>
 
         <!-- Profile -->
-        <section class="section">
+        <section class="section" style="margin-bottom: 10px;">
             <h2 class="section-title">Profile</h2>
             <p class="profile-text">
                 <strong>-- 3~4줄 정도로 회사 채용공고 자격 요건을 적절히 잘 녹여서 시작하것, 작성할것 약간의 자격요건 녹여서  --</strong><br>
@@ -470,7 +470,7 @@
         </section>
 
         <!-- Skills -->
-        <section class="section">
+        <section class="section" style="margin-bottom: 7px;">
             <h2 class="section-title table-section">Technical Skills</h2>
             <table class="skills-table">
                 <tr>
@@ -504,26 +504,27 @@
                 <!-- 프로젝트 1: MSA 전환 -->
                 <div class="project">
                     <div class="project-header">
-                        <span class="project-title">모놀리식 → MSA 전환 아키텍처 설계 및 구현</span>
-                        <span class="project-period">2025.04 – 2025.11 · 3명 팀</span>
+                        <span class="project-title">모놀리식 → MSA → 멀티모듈 MSA → 모듈러 모놀리식 전환</span>
+                        <span class="project-period">2025.04 – 2026.02 · 3→1명</span>
                     </div>
-                    <div class="project-summary"><span>Java Servlet 기반 모놀리식을 Kotlin/Spring Cloud MSA로 무중단 전환</span><span class="project-role">총 18개 서비스 중 5개 설계 및 구현 담당</span></div>
+                    <div class="project-summary"><span>모놀리식→MSA 무중단 전환, 이후 비용·운영 최적화를 위해 모듈러 모놀리식 재전환</span><span class="project-role">MSA 14개 서비스 중 5개 설계, 멀티모듈, 모듈러 모놀리식 전환 전담</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
                             <li>핵심 도메인(매물, 중개사-사용자 매칭)의 <strong>강결합</strong>으로 점진적 전환 전략 적용 불가</li>
                             <li>공통 코드가 16개 레포에 분산 → <strong>동일 수정에 16개 PR 필요</strong>, 버전 불일치</li>
+                            <li>MSA 전환 이후 회사 경영 악화로 <strong>운영 인원 감축</strong> 및 <strong>비용 부담 문제 발생</strong></li>
                         </ul>
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li>초기 점진적 전환 시도 실패 후 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리</li>
-                            <li>과도기 <strong>데이터 정합성</strong>을 위한 Dual Write + 검증 배치 설계</li>
-                            <li><a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 구조 설계</a> – Type/Enum/Util만 공통화, 인프라 코드는 별도 모듈 분리</li>
+                            <li>초기 점진적 전환 시도 실패 후 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리, 과도기 Dual Write + 검증 배치</li>
+                            <li><a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 전환</a>(16레포→모노레포, 공통 코드 Common 모듈 중앙화), 빌드 배포 파이프라인 분리로 멀티모듈 MSA 구축</li>
+                            <li>비용·운영 최적화를 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a> — Pod 1/5 절감</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li><strong>무중단</strong> MSA 전환 완료, 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
-                            <li>공통 로직 수정: 16개 PR → <strong>1개 PR</strong>, 빌드 시간: 27분 → <strong>8분</strong></li>
+                            <li>모듈러 전환으로 <strong>비용 (몇프로)% 절감</strong>, CI <strong>77% 단축</strong>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -538,21 +539,21 @@
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
-                            <li>단일 인스턴스 + Shell Script 배포 → <strong>SPOF</strong>, 장애 복구 시 개발자 수동 개입 필수</li>
+                            <li>단일 인스턴스 + Shell Script 배포 → <strong>SPOF</strong>, 장애 복구 시 개발자 수동 개입 필수. 개발서버 부재로 테스트의 어려움 존재</li>
                             <li>모니터링 부재로 장애 인식을 CS에만 의존 (평균 1시간) → <strong>사용자 서비스 이탈 위험</strong></li>
                         </ul>
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s">GKE 도입</a> – DevOps 부재 상황에서 운영 부담 최소화 위해 Managed K8s 선택</li>
-                            <li>마이그레이션 중 SQS URL 하드코딩, 미문서화 방화벽 등 <strong>레거시 숨은 설정 발견 → 환경변수 분리, Cloud NAT 도입</strong></li>
-                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system">Grafana LGTM Stack</a> – ELK($92~200/월) 대비 <strong>비용 80% 절감</strong>($12~37/월)</li>
+                            <li>개발 서버 도입 중 SQS URL 하드코딩, 미문서화 방화벽 등 <strong>기술부채 발견 → 환경변수 분리, Cloud NAT 도입</strong></li>
+                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system">Grafana LGTM Stack 선택</a> – 운영 비용 ELK($92~200/월) 대비 <strong>비용 80% 절감</strong>($12~37/월)</li>
                             <li>GitHub Actions + ArgoCD CI/CD 구축 → Self-hosted Runner 한계로 <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins">Jenkins on K8s 전환</a></li>
                             <li>일부 서비스 <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story">온프레미스 → AWS 무중단 마이그레이션</a> (실시간 동기화 위해 <strong>AWS DMS CDC</strong> 선택)</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li><strong>장애 인지 시간 98% 단축</strong>(1시간→1분), 롤백 83% 단축(12분→2분), 배포 67% 단축(15분→5분)</li>
-                            <li><strong>무중단 배포</strong> 체계 및 <strong>자동 스케일링, 회복 탄력성</strong> 확보</li>
+                            <li><strong>무중단 배포</strong> 체계 및 <strong>자동 스케일링, 회복 탄력성</strong> 확보, <strong>독립된 환경에서의 테스트 Flow 도입</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -665,7 +666,7 @@
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock">Deadlock 해결</a> – 4가지 방법 비교 후 Bean 설정으로 Isolation Level 변경</li>
-                            <li><a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Chunk + 10개 파티션 병렬 처리</a> – 스레드 풀 크기 테스트 후 최적값 적용, 사내 문서화</li>
+                            <li>데이터 누락 원인 파악 및 <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Chunk + Partitioning 병렬 처리 제안·설계</a></li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
