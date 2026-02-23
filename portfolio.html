@@ -256,7 +256,7 @@ a:hover{text-decoration:underline;}
       </ul>
     </div>
 
-    <div class="c" style="flex:1.1;">
+    <div class="c" style="flex:1.1;justify-content:space-between;">
       <div class="dg">
         <div class="dl">전환 전략 다이어그램</div>
         <div style="display:flex;gap:10px;align-items:start;">
@@ -717,7 +717,7 @@ a:hover{text-decoration:underline;}
     <div class="c" style="flex:.9;">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
-        <tr><td class="l">기간</td><td class="v">2025.06 (GKE 도입 직후)</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.06</td></tr>
         <tr><td class="l">역할</td><td class="v">마이그레이션 전략 설계 · Terraform IaC · DMS CDC 구성 · DNS 전환 실행</td></tr>
         <tr><td class="l">기술스택</td><td class="v">AWS DMS CDC, Terraform, RDS MariaDB 10.6, Route53</td></tr>
         <tr><td class="l">데이터 규모</td><td class="v">200GB MariaDB · IDC 물리서버 → AWS RDS</td></tr>
@@ -725,9 +725,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>IDC 물리서버에 애플리케이션 + DB가 <strong class="bd">동일 서버에 공존</strong> — 하드웨어 접촉 불량으로 서비스 장애 반복</li>
-        <li>GKE로 컨테이너 인프라를 전환했으나, <strong class="bd">200GB DB는 여전히 IDC에 잔류</strong></li>
-        <li>스케일링 불가 · 백업 수동 관리 · 단일 장애점(SPOF) 지속</li>
+        <li>IDC 물리서버에 <strong class="bd">레거시 서비스 + 200GB DB가 공존</strong> — 하드웨어 접촉 불량으로 장애 반복, SPOF</li>
+        <li>스케일링 불가 · 백업 수동 관리 · 서버 장애 시 레거시 의존 서비스 전체 영향</li>
       </ul>
 
       <div class="sec">5가지 마이그레이션 방식 비교</div>
@@ -743,9 +742,8 @@ a:hover{text-decoration:underline;}
       <div class="sec">해결: AWS DMS CDC + Terraform IaC</div>
       <ul class="bl">
         <li><span class="hl">AWS DMS CDC</span>로 IDC MariaDB → RDS 실시간 단방향 동기화</li>
-        <li>AWS 환경 전체를 <span class="hl">Terraform</span>으로 코드화 — VPC, EC2, RDS, Security Group, IAM 등</li>
-        <li><strong class="bd">DNS 전환 전략:</strong> 새벽 시간대 DNS 변경 → 전파 기간 동안 양방향 트래픽 허용 → IDC DB를 Source of Truth로 유지</li>
-        <li>DNS 전파 완료 확인 후 → 앱 DB 참조를 RDS로 전환 → CDC 종료 → IDC 서버 중단</li>
+        <li>AWS 환경 전체를 <span class="hl">Terraform</span>으로 코드화 (VPC, EC2, RDS, SG, IAM)</li>
+        <li><strong class="bd">DNS 전환:</strong> 새벽 저트래픽 시간 DNS 변경 → 전파 기간 중 IDC DB를 Source of Truth로 유지 → 전파 완료 후 RDS 전환 → CDC 종료</li>
       </ul>
 
       <div class="sec">성과</div>
@@ -763,7 +761,7 @@ a:hover{text-decoration:underline;}
           <!-- IDC -->
           <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">IDC (기존 환경)</div>
-            <div class="db er ds" style="width:100%;margin-bottom:3px;">물리서버 (App + DB 공존)</div>
+            <div class="db er ds" style="width:100%;margin-bottom:3px;">물리서버 (레거시 서비스 + DB)</div>
             <div class="dd">↓</div>
             <div class="db er ds" style="width:100%;">MariaDB 200GB<br><span style="font-size:7.5px;">Source of Truth</span></div>
           </div>
@@ -776,7 +774,7 @@ a:hover{text-decoration:underline;}
           <!-- AWS -->
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AWS Cloud (Terraform)</div>
-            <div class="db ok ds" style="width:100%;margin-bottom:3px;">EC2 + GKE 서비스</div>
+            <div class="db ok ds" style="width:100%;margin-bottom:3px;">EC2 (레거시 서비스 이전)</div>
             <div class="dd">↓</div>
             <div class="db ok ds" style="width:100%;">RDS MariaDB 10.6<br><span style="font-size:7.5px;">200GB · gp3 · 자동 백업 7일</span></div>
           </div>
@@ -801,21 +799,20 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>왜 CDC인가? — "앱 코드 변경 없이 실시간 동기화"</strong><br>
-        Dual Write는 애플리케이션에 이중 기록 로직을 삽입해야 하므로 정합성 리스크가 높습니다.
-        CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하기 때문에 앱 코드 수정 없이 동기화가 가능하고,
+        <strong>왜 CDC인가?</strong>
+        Dual Write는 앱에 이중 기록 로직 삽입이 필요하여 정합성 리스크가 높습니다.
+        CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하므로 앱 코드 수정 없이 동기화 가능.
         AWS DMS는 RDS와의 호환성이 가장 높아 선택했습니다.
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>DNS 전환 구간의 정합성 보장:</strong>
-        DNS 전파 기간 동안 사용자 트래픽이 IDC와 AWS에 분산됩니다.
-        이 구간에서 <strong>양쪽 서버 모두 IDC DB를 Source of Truth로 사용</strong>하여
-        데이터 정합성을 보장했고, 전파 완료 후에야 DB 참조를 RDS로 전환했습니다.
+        <strong>DNS 전환 구간의 정합성:</strong>
+        전파 기간 동안 <strong>양쪽 서버 모두 IDC DB를 Source of Truth로 사용</strong>하여
+        데이터 정합성 보장. 전파 완료 확인 후에야 DB 참조를 RDS로 전환했습니다.
       </div>
 
       <div class="rb" style="margin-top:6px;">
-        <strong>Terraform IaC 범위:</strong> VPC · Subnet · Security Group · EC2 · RDS · IAM · Key Pair — 인프라 전체를 코드로 관리하여 <strong>동일 환경 즉시 재현 가능</strong>, 수동 콘솔 설정의 휴먼 에러 원천 차단
+        <strong>Terraform IaC:</strong> VPC · EC2 · RDS · Security Group · IAM 등 인프라 전체 코드화 — <strong>동일 환경 즉시 재현 가능</strong>
       </div>
     </div>
   </div>
