@@ -18,7 +18,7 @@ body{
   scroll-snap-align:start;padding:12px 0;
 }
 .si{
-  width:1280px;height:720px;background:#fff;
+  width:297mm;height:210mm;background:#fff;
   position:relative;padding:30px 48px 24px;
   box-shadow:0 2px 12px rgba(0,0,0,.1);overflow:hidden;
   display:flex;flex-direction:column;
@@ -96,9 +96,9 @@ a:hover{text-decoration:underline;}
   body{background:#fff;}
   .slide{padding:0;min-height:0;page-break-after:always;}
   .slide:last-child{page-break-after:avoid;}
-  .si{box-shadow:none;width:100%;height:100vh;}
+  .si{box-shadow:none;width:297mm;height:210mm;}
 }
-@page{size:landscape;margin:0;}
+@page{size:A4 landscape;margin:0;}
 </style>
 </head>
 <body>
@@ -110,7 +110,7 @@ a:hover{text-decoration:underline;}
   <div class="sub" style="margin-top:8px;font-size:20px;">Backend Developer Portfolio</div>
   <div style="font-size:13px;color:#888;margin-top:16px;line-height:1.6;">
     EC2 단일 서버에서 MSA, 그리고 다시 모듈러 모놀리식까지<br>
-    14개 MSA 설계 · API 응답 74.7% 개선 · 인프라 비용 최적화 · CKA<br>
+    14개 MSA 무중단 전환 · API 응답 74.7% 개선 · 장애 인지 98% 단축 · CKA<br>
     2~3명 팀에서 아키텍처·인프라·성능을 직접 설계하고 운영한 기록
   </div>
   <div style="font-size:12px;color:#999;margin-top:28px;">
@@ -151,7 +151,12 @@ a:hover{text-decoration:underline;}
   <div class="tc" style="margin-top:40px;flex:1;gap:60px;">
     <div class="c">
       <div style="font-size:38px;font-weight:700;letter-spacing:-0.5px;">정정일</div>
-      <div style="font-size:16px;color:#666;margin:10px 0 36px;">Backend Developer &nbsp;·&nbsp; 3년차</div>
+      <div style="font-size:16px;color:#666;margin:10px 0 16px;">Backend Developer &nbsp;·&nbsp; 3년차</div>
+      <div style="font-size:13px;color:#555;line-height:1.7;margin-bottom:28px;border-left:3px solid #333;padding-left:12px;">
+        <strong style="color:#222;">"지금 우리 서비스에 가장 필요한 개선이 무엇인가?"</strong>를 고민합니다.<br>
+        API 성능 최적화부터 MSA 전환, K8s 인프라 구축, 팀 개발문화 개선까지<br>
+        필요하다면 제안하고, 협의하여 팀과 함께 만들어왔습니다.
+      </div>
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">CAREER</div>
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;margin:0 0 36px;">
@@ -160,11 +165,17 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">CERTIFICATE</div>
-      <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;">
+      <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;margin:0 0 36px;">
         <li>CKA (2025)</li>
         <li>AWS CCP (2024)</li>
         <li>리눅스마스터 2급 (2024)</li>
         <li>SQLD (2022)</li>
+      </ul>
+
+      <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">EDUCATION</div>
+      <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;">
+        <li>한국방송통신대학교 컴퓨터과학과 <span style="color:#999;">재학중 (2025~)</span></li>
+        <li>학점은행제 컴퓨터공학 <span style="color:#999;">학점 취득 (2022~2024)</span></li>
       </ul>
     </div>
 
@@ -179,11 +190,18 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">KEY RESULTS</div>
-      <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;">
+      <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;margin:0 0 36px;">
         <li>무중단 MSA 전환 완료 (다운타임 0, 데이터 유실 0)</li>
-        <li>장애 인지 시간 단축 (수 시간→수 분, CS 의존 탈피)</li>
+        <li>장애 인지 시간 98% 단축 (1시간→1분, CS 의존 탈피)</li>
         <li>API 응답속도 74.7% 개선 (5,132ms→1,299ms)</li>
         <li>배치 처리시간 64% 단축 (13.3분→4.8분)</li>
+      </ul>
+
+      <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">ACTIVITY</div>
+      <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;">
+        <li>기술 블로그 <a href="https://jeongil.dev" style="color:#1a73e8;">jeongil.dev</a> — 50+ 아티클</li>
+        <li>Spring Security 오픈소스 기여 (<a href="https://github.com/spring-projects/spring-security/pull/16216" style="color:#1a73e8;">PR#16216</a>)</li>
+        <li>백엔드 아티클 스터디 (2023.08~진행중, 주 1~2회)</li>
       </ul>
     </div>
   </div>
@@ -397,7 +415,7 @@ a:hover{text-decoration:underline;}
         <li><strong class="bd">레포 전략:</strong> 멀티레포 유지 vs <span class="hl">모노레포 전환</span> — 2~3명이 16개 PR 관리는 운영 오버헤드 → 빌드/PR 데이터 근거로 전환 제안</li>
         <li><strong class="bd">히스토리:</strong> 새 레포 생성(히스토리 손실) vs <span class="hl">Git Subtree(보존)</span></li>
         <li><strong class="bd">공통 모듈:</strong> 범용 :common vs <span class="hl">Types/Enums/Utils만 허용</span> — 비대화 방지</li>
-        <li><strong class="bd">품질 게이트:</strong> <span class="hl">Detekt + ReviewDog + JaCoCo</span> (변경분 50% 커버리지)</li>
+        <li><strong class="bd">품질 게이트:</strong> <span class="hl">Detekt + ReviewDog + JaCoCo</span> — PR 단위 변경분 50% 커버리지 기준, 정적 분석 자동 리뷰 코멘트</li>
       </ul>
 
       <div class="sec">성과</div>
@@ -596,16 +614,16 @@ a:hover{text-decoration:underline;}
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
         <li><strong class="bd">인프라:</strong> Self-managed K8s vs <span class="hl">GKE(Managed)</span> — DevOps 부재 상태에서 월 $72로 컨트롤 플레인 리스크 해소</li>
-        <li><strong class="bd">CI/CD:</strong> Jenkins vs <span class="hl">GitHub Actions + ArgoCD</span> — Self-hosted macOS Runner + GitOps로 선언적 배포</li>
+        <li><strong class="bd">CI/CD:</strong> <span class="hl">GitHub Actions(초기) → Jenkins on K8s(전환)</span> — Self-hosted Runner 빌드 부하 심화로 Jenkins 전환, ArgoCD GitOps 선언적 배포</li>
         <li><strong class="bd">마이그레이션:</strong> 서비스 중단 후 이전 vs <span class="hl">DMS CDC 실시간 동기화</span> — 무중단 달성</li>
         <li><strong class="bd">모니터링:</strong> ELK vs <span class="hl">Grafana LGTM</span> — 비용 효율적, Traces 내장</li>
       </ul>
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>장애 인지 시간 <strong class="bd">대폭 단축</strong> (수 시간→수 분) → CS 의존 탈피, 선제적 장애 대응 체계</li>
-        <li>롤백 시간 <strong class="bd">대폭 단축</strong> → GitOps 기반 선언적 롤백으로 장애 영향 범위 최소화</li>
-        <li>Grafana LGTM Stack으로 <strong class="bd">ELK 대비 비용 효율적</strong> 모니터링 체계 구축</li>
+        <li>장애 인지 시간 <strong class="bd">98% 단축</strong> (1시간→1분) → CS 의존 탈피, 선제적 장애 대응 체계</li>
+        <li>롤백 <strong class="bd">83% 단축</strong> (12분→2분), 배포 <strong class="bd">67% 단축</strong> (15분→5분) → GitOps 기반 선언적 배포·롤백</li>
+        <li>Grafana LGTM Stack으로 <strong class="bd">ELK 대비 월 $92~200→$12~37</strong> 비용 절감 모니터링 체계 구축</li>
         <li>JVM Cold Start <strong class="bd">85% 개선</strong> (1.2~1.4초→150~230ms) → startupProbe + WarmupHealthIndicator</li>
       </ul>
 
@@ -618,15 +636,16 @@ a:hover{text-decoration:underline;}
 
     <div class="c">
       <div class="dg">
-        <div class="dl">CI/CD 파이프라인</div>
+        <div class="dl">CI/CD 파이프라인 (GitHub Actions → Jenkins 전환)</div>
         <div style="display:flex;align-items:center;gap:3px;flex-wrap:wrap;justify-content:center;">
           <div class="db ds">GitHub Push</div><div class="da">→</div>
-          <div class="db ds">GitHub Actions<br><span style="font-size:8px;color:#999;">Self-hosted</span></div><div class="da">→</div>
+          <div class="db ds">Jenkins<br><span style="font-size:8px;color:#999;">on K8s</span></div><div class="da">→</div>
           <div class="db ds">Docker Build</div><div class="da">→</div>
           <div class="db ds">GCP Artifact</div><div class="da">→</div>
           <div class="db ds">ArgoCD<br><span style="font-size:8px;color:#999;">GitOps</span></div><div class="da">→</div>
           <div class="db ok ds">GKE 배포</div>
         </div>
+        <div class="dn">초기 GitHub Actions Self-hosted Runner(개인 PC) → MSA 빌드 증가로 부하 심화 → Jenkins on K8s 전환</div>
       </div>
 
       <div class="dg" style="margin-top:8px;">
@@ -661,6 +680,12 @@ a:hover{text-decoration:underline;}
         Self-managed K8s 대비 월 $72 추가 비용이지만,
         전담 DevOps 없이 컨트롤 플레인까지 관리하는 리스크를 $72로 해소할 수 있다면 합리적인 투자입니다.
       </div>
+
+      <div class="ib" style="margin-top:6px;">
+        <strong>개발 서버 도입 중 발견한 기술부채:</strong>
+        SQS URL 하드코딩, 미문서화 방화벽 규칙 등 <strong>환경 분리 없이 운영</strong>된 흔적을 발견.
+        환경변수 분리 + Cloud NAT 도입으로 해결하고, 이후 dev/prod 독립 환경 체계를 확보했습니다.
+      </div>
     </div>
   </div>
 </div></div>
@@ -680,6 +705,7 @@ a:hover{text-decoration:underline;}
     <div class="tl">
       <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 단일 서버</strong><br>Docker Compose<br>OOM Kill · SPOF<br>롤백 30분+</div></div>
       <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>GKE 도입</strong><br>K8s 전환 시작<br>NGINX Ingress<br>레거시 격리</div></div>
+      <div class="ti"><div class="tdt">2025.06</div><div class="td"></div><div class="tt"><strong>CI/CD & Migration</strong><br>Jenkins on K8s 전환<br>온프레미스→AWS<br>DMS CDC 무중단</div></div>
       <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>Observability</strong><br>LGTM Stack<br>OTel Sidecar<br>Telegram 알림</div></div>
       <div class="ti"><div class="tdt">2025.11</div><div class="td"></div><div class="tt"><strong>MSA 완성</strong><br>14 MSA 안정 운영<br>3 SNS / 42 SQS<br>GitOps CI/CD</div></div>
       <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>모듈러 모놀리식</strong><br>12서비스→1앱 통합<br>비용 2.5~3배 ↑ 대비<br>Bean·@Tx 버그 해결</div></div>
@@ -741,7 +767,7 @@ a:hover{text-decoration:underline;}
             </div>
           </div>
         </div>
-        <div style="text-align:center;margin-top:4px;font-size:9px;color:#137333;">모듈러 모놀리식 · 3 SNS/42 SQS · GitOps CI/CD · 장애 인지 수 분 이내</div>
+        <div style="text-align:center;margin-top:4px;font-size:9px;color:#137333;">모듈러 모놀리식 · 3 SNS/42 SQS · GitOps CI/CD · 장애 인지 1분 이내 (98% 단축)</div>
       </div>
     </div>
 
@@ -750,10 +776,11 @@ a:hover{text-decoration:underline;}
         <tr><th></th><th style="color:#c5221f;">Before (2025.03)</th><th style="color:#137333;">After (2026.02)</th></tr>
         <tr><td class="bd">인프라</td><td>EC2 단일 인스턴스 (SPOF)</td><td class="w">GKE 2 Cluster (dev/prod)</td></tr>
         <tr><td class="bd">서비스</td><td>MSA 전환 중 (단일 EC2 집중)</td><td class="w">모듈러 모놀리식 (12→1앱 통합)</td></tr>
-        <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (수 시간)</td><td class="w">실시간 알림 (수 분 이내)</td></tr>
-        <tr><td class="bd">롤백</td><td>수동 배포 (SSH + 재빌드)</td><td class="w">GitOps 선언적 롤백</td></tr>
-        <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack</td></tr>
-        <tr><td class="bd">배포</td><td>SSH + Docker Compose</td><td class="w">GitHub Actions + ArgoCD</td></tr>
+        <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (1시간+)</td><td class="w">실시간 알림 (1분 이내, 98% 단축)</td></tr>
+        <tr><td class="bd">롤백</td><td>수동 배포 12분 (SSH + 재빌드)</td><td class="w">GitOps 선언적 롤백 2분 (83% 단축)</td></tr>
+        <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack ($12~37/월)</td></tr>
+        <tr><td class="bd">배포</td><td>SSH + Docker Compose (15분)</td><td class="w">Jenkins + ArgoCD (5분, 67% 단축)</td></tr>
+        <tr><td class="bd">마이그레이션</td><td>온프레미스 서버</td><td class="w">AWS DMS CDC 무중단 이전</td></tr>
       </table>
       <div class="ib" style="flex:1;">
         <strong>11개월간의 핵심 판단:</strong><br>
@@ -888,6 +915,12 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li>AbstractRoutingDataSource + AOP로 동적 Master/Slave 분리</li>
         <li>쓰기 직후 읽기 시 Master 강제 라우팅으로 정합성 보장</li>
+      </ul>
+
+      <div class="sec" style="margin-top:10px;">팀 개발 문화 개선</div>
+      <ul class="bl">
+        <li><strong class="bd">Git Flow 도입 제안:</strong> Cherry-pick 충돌 사례를 시각화하여 팀 설득, 브랜치 전략 정립</li>
+        <li><strong class="bd">Pn룰 코드리뷰 도입:</strong> 리뷰 기준 명확화로 코드 품질 및 팀 협업 효율 향상</li>
       </ul>
 
       <div class="rb" style="margin-top:10px;">
@@ -1037,6 +1070,12 @@ a:hover{text-decoration:underline;}
         이 판단의 근거를 팀에 공유하고, 실제 병렬 실행 테스트로 데이터 정합성을 검증한 후 적용했습니다.
       </div>
 
+      <div class="ib" style="margin-top:8px;">
+        <strong>Tasklet→Chunk 전환의 숨은 이유: MVCC 데이터 누락</strong><br>
+        Tasklet 방식은 전체 작업이 하나의 트랜잭션 — <strong>MVCC 스냅샷으로 배치 실행 중 입금된 데이터가 누락</strong>되는 문제 발견.
+        Chunk 방식으로 전환하여 커밋 단위를 분리하고, 최신 데이터를 안정적으로 처리할 수 있게 개선했습니다.
+      </div>
+
       <div class="rb" style="margin-top:8px;">
         <strong>종합 성과:</strong> 배치 처리 <strong>64% 단축</strong> (13.3분→4.8분) · Row당 <strong>80% 단축</strong> · 락 점유 <strong>22분→0.01초</strong> · Metadata Deadlock <strong>완전 해결</strong> · 금융 서비스 새벽 배치 안정성 확보
       </div>
@@ -1055,7 +1094,7 @@ a:hover{text-decoration:underline;}
       <table class="it">
         <tr><td class="l">기간</td><td class="v">2025.10 ~ 현재</td></tr>
         <tr><td class="l">인원</td><td class="v">1인 풀스택 개발 (기획~배포~운영)</td></tr>
-        <tr><td class="l">상태</td><td class="v">App Store 출시</td></tr>
+        <tr><td class="l">상태</td><td class="v"><a href="https://apps.apple.com/app/upvy/id6756291696">App Store</a> / <a href="https://play.google.com/store/apps/details?id=com.upvy.app">Play Store</a> 출시 및 운영중</td></tr>
         <tr><td class="l">테스트</td><td class="v">79% Test Coverage</td></tr>
       </table>
 
@@ -1127,6 +1166,13 @@ a:hover{text-decoration:underline;}
           <div class="db ok ds">PR 생성<br><span style="font-size:7px;">Human Review</span></div>
         </div>
       </div>
+
+      <div class="ib" style="margin-top:10px;">
+        <strong>사이드 프로젝트가 업무 역량에 미친 영향:</strong>
+        WebFlux + R2DBC의 비동기 패턴, Coroutines 기반 동시성 처리, React Native 크로스 플랫폼 경험은
+        모두 여기서 먼저 검증한 후 회사 프로젝트에 적용 여부를 판단했습니다.
+        또한 <strong>1인 개발의 테스트 문화(79% 커버리지)</strong>는 팀 프로젝트에서의 품질 기준을 세우는 데 직접적 영향을 주었습니다.
+      </div>
     </div>
   </div>
 </div></div>
@@ -1141,40 +1187,34 @@ a:hover{text-decoration:underline;}
     <div class="cw">
       <h3 style="margin-bottom:14px;">개발 철학</h3>
 
-      <div style="margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"팀 규모에 맞는 아키텍처를 선택한다."</div>
-        <p class="bt">2~3명이 16개 레포를 관리하는 것은 MSA의 이점이 아니라 운영 오버헤드였고,
-        빌드 시간과 PR 개수 데이터를 근거로 모노레포 전환을 제안했습니다.
-        GKE도 마찬가지 — Self-managed K8s의 비용 절감보다 DevOps 부재의 리스크가 더 컸기에 Managed를 선택했습니다.
-        기술 선택의 기준은 트렌드가 아니라 <strong class="bd">우리 팀이 감당할 수 있는 복잡성</strong>입니다.</p>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"팀 규모에 맞는 아키텍처를 선택한다."</div>
+        <p class="bt">기술 선택의 기준은 트렌드가 아니라 <strong class="bd">우리 팀이 감당할 수 있는 복잡성</strong>입니다.
+        2~3명이 16개 레포를 관리하는 것은 운영 오버헤드 — 데이터를 근거로 모노레포 전환을 제안했습니다.</p>
       </div>
 
-      <div style="margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"증상이 아닌 근본 원인을 해결한다."</div>
-        <p class="bt">HikariCP Deadlock을 커넥션 풀 증가로 회피하지 않았습니다.
-        OSIV + ORM 혼용이라는 구조적 원인을 찾아 JPA 일원화로 해결했습니다.
-        Spring Batch Metadata Deadlock도 재시도 로직이 아닌 Isolation Level 분석으로 해결했습니다.
+      <div style="margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"증상이 아닌 근본 원인을 해결한다."</div>
+        <p class="bt">HikariCP Deadlock을 풀 증가로 회피하지 않고 OSIV+ORM 혼용이라는 구조적 원인을 해결했습니다.
         <strong class="bd">증상을 가리는 해결은 다음 장애를 예약하는 것</strong>과 같습니다.</p>
       </div>
 
-      <div style="margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"기술적 결정은 비용과 비즈니스로 정당화한다."</div>
-        <p class="bt">ELK 대신 LGTM을 선택할 때 월 비용($92~200 vs $12~37)을 근거로 제시했고,
-        GKE 선택 시 $72 추가 비용의 리스크 대비 가치를 계산했습니다.
+      <div style="margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"기술적 결정은 비용과 비즈니스로 정당화한다."</div>
+        <p class="bt">ELK vs LGTM($92~200 vs $12~37/월), GKE vs Self-managed($72 추가 비용의 리스크 대비 가치).
         기술적으로 우월한 선택보다 <strong class="bd">비즈니스에 합리적인 선택</strong>을 합니다.</p>
       </div>
 
-      <div style="margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"배운 것을 기록하고 공유한다."</div>
-        <p class="bt">기술 블로그 아티클, 2년 넘게 이어온 스터디, 오픈소스 기여.
-        문제를 해결한 과정을 기록하면 <strong class="bd">같은 실수를 반복하지 않고, 동료도 성장</strong>합니다.</p>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"배운 것을 기록하고 공유한다."</div>
+        <p class="bt">50+ 기술 블로그 아티클, 2년+ 스터디, Spring Security 오픈소스 기여.
+        기록은 <strong class="bd">같은 실수를 반복하지 않고, 동료도 성장</strong>시키는 가장 효율적인 방법입니다.</p>
       </div>
 
-      <div style="margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px;">"AI를 도구로 활용하되, 대체 불가능한 역량에 집중한다."</div>
-        <p class="bt">MCP 프로토콜을 모니터링 시스템에 연동하고, AI Coding Agent로 에러 대응을 자동화했습니다.
-        동시에 <strong class="bd">아키텍처 설계, 장애 근본 원인 분석, 비용 기반 기술 판단</strong>처럼
-        AI가 대체할 수 없는 엔지니어링 역량을 키우는 데 집중합니다.</p>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:3px;">"AI를 도구로 활용하되, 대체 불가능한 역량에 집중한다."</div>
+        <p class="bt">MCP 연동 에러 자동 대응 파이프라인을 구축하면서, 동시에 <strong class="bd">아키텍처 설계와 근본 원인 분석</strong>처럼
+        AI가 대체할 수 없는 역량을 키웁니다.</p>
       </div>
 
       <div class="rb" style="margin-top:auto;padding:12px 16px;text-align:center;">
@@ -1208,7 +1248,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">MSA 전환</td><td>무중단 전환, 14개 서비스 독립 배포</td></tr>
         <tr><td class="bd">멀티모듈</td><td>16→1 레포, 빌드 70% 단축</td></tr>
         <tr><td class="bd">모듈러 모놀리식</td><td>12→1앱 통합, CI 77% 단축 (45분→10분)</td></tr>
-        <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 수시간→수분, GitOps 롤백</td></tr>
+        <tr><td class="bd">K8s & 모니터링</td><td>장애 인지 98% 단축(1시간→1분), GitOps 롤백</td></tr>
         <tr><td class="bd">매물 추천</td><td>자연어 검색 프로덕션 출시</td></tr>
         <tr><td class="bd">백오피스</td><td>API 응답 74.7% 개선 (5.1초→1.3초)</td></tr>
         <tr><td class="bd">Batch</td><td>처리 64% 단축, Row당 80% 단축</td></tr>

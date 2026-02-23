@@ -43,7 +43,7 @@
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 10px;
-            padding-bottom: 14px;
+            padding-bottom: 8px;
             border-bottom: 2px solid #222;
         }
 
@@ -92,8 +92,8 @@
         }
 
         .photo-area {
-            width: 85px;
-            height: 110px;
+            width: 95px;
+            height: 120px;
             background: #f5f5f5;
             border: 1px solid #ddd;
             display: flex;
@@ -455,14 +455,13 @@
                     <a href="https://github.com/12OneTwo12">github.com/12OneTwo12</a> · <a href="https://jeongil.dev/ko/blog">jeongil.dev/ko/blog</a>
                 </div>
             </div>
-            <div class="photo-area">증명사진</div>
+            <div class="photo-area" style="background: none; border: none; overflow: hidden;"><img src="https://www.dropbox.com/scl/fi/ft5m9tb4bl5bfpxhjodls/.jpg?rlkey=owi43diyw6r3g21c4ibn2jyma&st=qhqml83o&raw=1" alt="정정일 프로필 사진" style="width: 95px; height: 120px; object-fit: cover; object-position: center 30%; transform: scale(1.1); transform-origin: center 30%;"></div>
         </header>
 
         <!-- Profile -->
         <section class="section" style="margin-bottom: 8px;">
-            <h2 class="section-title">Profile</h2>
+            <h2 class="section-title">Profile -- 3줄 정도로 회사 채용공고 자격 요건을 적절히 잘 녹여서 작성할것  --</strong></h2>
             <p class="profile-text">
-                <strong>-- 3~4줄 정도로 회사 채용공고 자격 요건을 적절히 잘 녹여서 시작하것, 작성할것 약간의 자격요건 녹여서  --</strong><br>
                 <strong>"지금 우리 서비스에 가장 필요한 개선이 무엇인가?"</strong>를 고민하는 3년차 백엔드 개발자입니다.<br>
                 API 성능 최적화부터 MSA 전환, K8s 인프라 구축, 팀 개발문화 개선까지 <strong>필요하다면 제안하고, 협의하여 팀과 함께 만들어왔습니다.</strong><br>
                 MSA 전환을 서비스 중단 없이 완료했고, <strong>API 응답속도 87% 개선</strong>(10.3초→1.3초), <strong>장애 인지 시간 98% 단축</strong>(1시간→1분)을 달성했습니다.<br>
@@ -518,13 +517,14 @@
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li>초기 점진적 전환 시도 실패 후 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리, 과도기 Dual Write + 검증 배치</li>
-                            <li><a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 전환</a>(16레포→모노레포, 공통 코드 Common 모듈 중앙화), 빌드 배포 파이프라인 분리로 멀티모듈 MSA 구축</li>
-                            <li>비용·운영 최적화를 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a> — Pod 1/5 절감</li>
+                            <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li>
+                            <li><strong>Jacoco + Detekt + Reviewdog</strong> 도입 제안·적용 — PR 단위 테스트 커버리지·정적 분석 자동 리뷰 파이프라인 구축</li>
+                            <li>인프라 비용 부담 + 팀 3→1명 감축 — 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a>, Pod 1/5 절감</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li><strong>무중단</strong> MSA 전환 완료, 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
-                            <li>모듈러 전환으로 <strong>비용 (몇프로)% 절감</strong>, CI <strong>77% 단축</strong>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
+                            <li>모듈러 모놀리식 전환으로 <strong>비용 (몇프로)% 절감</strong>, CI <strong>77% 단축</strong>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -544,10 +544,10 @@
                         </ul>
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s">GKE 도입</a> – DevOps 부재 상황에서 운영 부담 최소화 위해 Managed K8s 선택</li>
+                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s">GKE 도입</a> – 자체 구축(kubeadm)·EKS·GKE 비교 후, DevOps 부재·4인 팀 상황에서 운영 부담 최소화 가능한 Managed K8s 선택</li>
                             <li>개발 서버 도입 중 SQS URL 하드코딩, 미문서화 방화벽 등 <strong>기술부채 발견 → 환경변수 분리, Cloud NAT 도입</strong></li>
-                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system">Grafana LGTM Stack 선택</a> – 운영 비용 ELK($92~200/월) 대비 <strong>비용 80% 절감</strong>($12~37/월)</li>
-                            <li>GitHub Actions + ArgoCD CI/CD 구축 → Self-hosted Runner 한계로 <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins">Jenkins on K8s 전환</a></li>
+                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system">Grafana LGTM Stack 선택</a> – ELK·Datadog·LGTM 비교 후 소규모 팀 자체 운영 가능성과 비용($92~200 vs <strong>$12~37/월</strong>)을 기준으로 선택</li>
+                            <li>GitHub Actions CI/CD 구축 → 빌드 증가로 Self-hosted Runner(개인 PC) 부하 심화, <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins">Jenkins on K8s 전환</a></li>
                             <li>일부 서비스 <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story">온프레미스 → AWS 무중단 마이그레이션</a> (실시간 동기화 위해 <strong>AWS DMS CDC</strong> 선택)</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
@@ -577,7 +577,7 @@
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li>자연어 위치 검색 기반 <strong>AI 매물 추천</strong> 기능 런칭 ("강남역 도보 10분 이내 15억정도 하는 신혼부부가 살만한 아파트 추천해줘" 같은 <strong>복합 조건 검색</strong> 지원)
+                            <li>자연어 위치 검색 기반 <strong>AI 매물 추천</strong> 기능 런칭 ("강남역 도보 10분 이내 15억정도 하는 신혼부부가 살만한 아파트 추천해줘" 같은 <strong>복합 조건 검색</strong> 지원)</li>
                         </ul>
                     </div>
                 </div>
@@ -612,8 +612,8 @@
                         </ul>
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis">HikariCP Deadlock 해결</a> – 원인 분석 후 JPA 일원화로 Connection 순차 사용 유도</li>
-                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag">Replication 지연 해결</a> – 단계적 접근: @Transactional → AbstractRoutingDataSource + AOP로 <strong>일관성/성능 트레이드오프</strong> 조절</li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis">HikariCP Deadlock 해결</a> – OSIV 환경에서 JPA+MyBatis가 2 Connection 점유하는 원인 파악, 영향 범위 최소화 위해 MyBatis 제거 대신 JPA 일원화 선택</li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag">Replication 지연 해결</a> – 전체 Master 조회는 Slave 분산 목적을 훼손하므로, 쓰기 직후 조회만 Master로 라우팅하는 AOP 방식으로 <strong>일관성/성능 균형</strong> 조절</li>
                             <li><a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf">외부 API Redis 캐싱</a> – 기존 인프라 활용, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
                             <li><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction">Git Flow 도입 제안</a> – Cherry-pick 충돌 사례 시각화로 팀 설득, Pn룰 코드리뷰 도입</li>
                         </ul>
@@ -666,7 +666,7 @@
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock">Deadlock 해결</a> – 4가지 방법 비교 후 Bean 설정으로 Isolation Level 변경</li>
-                            <li>데이터 누락 원인 파악 및 <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Chunk + Partitioning 병렬 처리 제안·설계</a></li>
+                            <li>데이터 누락 원인 파악 후 Chunk 전환, 추가 성능 개선 위해 <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Partitioning 병렬 처리 설계</a></li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
@@ -686,7 +686,7 @@
                     <span class="exp-period">2025.10 – 현재</span>
                 </div>
                 <ul class="exp-list">
-                    <li>Spring WebFlux + R2DBC 비동기 백엔드, <strong>LLM + BTT</strong> 기반 YouTube <strong>영상 자동 편집 파이프라인 구축</strong></li>
+                    <li>Spring WebFlux + R2DBC 비동기 백엔드, <strong>LLM + BTT</strong> 기반 YouTube <strong>영상 자동 편집 파이프라인 구축</strong>, <strong>79% test coverage</strong> 달성</li>
                 </ul>
             </div>
         </section>
