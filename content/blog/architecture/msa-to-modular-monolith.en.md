@@ -255,6 +255,87 @@ To be honest, I'm aware that `@Lazy` is more of a workaround than a fundamental 
 
 However, realistically speaking, bidirectional calls between services already existed in the MSA, and redesigning all dependency directions during the transition would have blown up the scope. For now, we chose to stabilize the transition with `@Lazy` and incrementally restructure inter-module dependency directions going forward—a pragmatic choice.
 
+#### The Problem @Lazy Hid
+
+The risk of `@Lazy` I mentioned above actually caused a real issue.
+
+After deploying to the dev server and testing, we discovered that SQS event processing was failing 100%. Tracing the logs revealed that the `NotificationModuleApi` bean didn't exist, causing a `NoSuchBeanDefinitionException` at runtime.
+
+Here's what happened. Since notification-service was kept as a separately deployed service, there was no notification-module in the modular monolith app. Instead, we had placed a Feign-based fallback implementation called `NotificationModuleApiFeignImpl` in the `common` module, annotated with `@Service` + `@ConditionalOnMissingBean` so it would auto-register when no notification-module was present.
+
+```kotlin
+@Service
+@ConditionalOnMissingBean(NotificationModuleApi::class)
+class NotificationModuleApiFeignImpl(
+    private val notificationFeignClient: NotificationFeignClient,
+) : NotificationModuleApi { ... }
+```
+
+But it wasn't working. When we removed `@Lazy` and started the app locally, the cause was immediately clear:
+
+```
+@ConditionalOnMissingBean found beans of type 'NotificationModuleApi' notificationModuleApiFeignImpl
+```
+
+`@ConditionalOnMissingBean` was **detecting itself**. In the modular monolith, multiple modules were component-scanning the same root package, so the bean scanned earlier was recognized as "already existing," causing it to skip registration. Switching to `@Configuration` + `@Bean` method resolves this because `@ConditionalOnMissingBean` is evaluated at a different phase.
+
+```kotlin
+// Changed from @Service to @Configuration + @Bean
+@Configuration
+class NotificationModuleApiConfig {
+
+    @Bean
+    @ConditionalOnMissingBean(NotificationModuleApi::class)
+    fun notificationModuleApi(feignClient: NotificationFeignClient): NotificationModuleApi {
+        return NotificationModuleApiFeignImpl(feignClient)
+    }
+}
+```
+
+After this fix, the bean registered correctly. But the more important question was **why wasn't this caught at deployment time?**
+
+If `@Lazy` hadn't been there, `NoSuchBeanDefinitionException` would have been thrown at startup, failing the deployment itself. We would have caught and fixed the issue right at the deployment stage. But because `@Lazy` deferred bean resolution to runtime, the app started up fine, and the error only surfaced when the API was actually called. We were lucky to catch it on the dev server—if it had hit production, it would have been an outage.
+
+`@Lazy` solved the circular dependency, but it had the **side effect of hiding bean-missing issues until runtime**. Just like the `@Transactional` mismatch I'll discuss later, problems that don't surface at startup are the scariest.
+
+#### Startup Validation with SmartInitializingSingleton
+
+After experiencing this issue, we explored ways to catch missing beans at startup while keeping `@Lazy`. The solution was introducing startup validation using `SmartInitializingSingleton`.
+
+Looking at Spring's bean lifecycle, `SmartInitializingSingleton.afterSingletonsInstantiated()` is called **after all singleton beans have been created**. At this point, circular references are already resolved, so force-resolving `@Lazy` proxies won't trigger circular dependency issues.
+
+```kotlin
+@Component
+@ConditionalOnProperty(name = ["app.module-api.startup-validation"], havingValue = "true")
+class ModuleApiStartupValidator(
+    private val applicationContext: ApplicationContext,
+) : SmartInitializingSingleton {
+
+    override fun afterSingletonsInstantiated() {
+        val moduleApiTypes = listOf(
+            AgentModuleApi::class, AiModuleApi::class, ApartModuleApi::class,
+            // ... 9 ModuleApi types total
+        )
+
+        val missing = moduleApiTypes.filter { type ->
+            applicationContext.getBeanNamesForType(type.java).isEmpty()
+        }
+
+        if (missing.isNotEmpty()) {
+            throw IllegalStateException("Missing ModuleApi beans: $missing")
+        }
+    }
+}
+```
+
+Here's how it works:
+
+1. Bean creation phase: `@Lazy` injects proxies to prevent circular dependencies (same as before)
+2. After all beans are created: `SmartInitializingSingleton` runs and validates all ModuleApi beans exist
+3. If any are missing, the app fails to start → caught immediately at deployment
+
+We keep `@Lazy` for circular dependency resolution, but catch bean-missing issues at startup rather than runtime. Since introducing this, any ModuleApi bean configuration issues are caught immediately at deployment.
+
 ### Multi-DataSource Configuration
 
 As I mentioned earlier, we decided not to consolidate the databases. I believe that decision was correct, but it meant we had to independently connect each schema—giving us the challenge of connecting 11 databases simultaneously from a single application.

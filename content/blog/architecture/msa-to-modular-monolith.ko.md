@@ -255,6 +255,87 @@ class ContractService(
 
 다만 현실적으로 기존 MSA에서 서비스 간 양방향 호출이 이미 존재하는 상태에서, 전환 과정에서 의존 방향까지 전부 재설계하는 건 스코프가 너무 커진다고 판단했습니다. 지금은 `@Lazy`로 전환을 안정적으로 마무리하고, 이후 점진적으로 모듈 간 의존 방향을 정리해나가는 게 현실적인 선택이라고 생각했습니다.
 
+#### @Lazy가 숨긴 문제
+
+그런데 위에서 언급한 `@Lazy`의 리스크가 실제로 문제를 일으켰습니다.
+
+전환 후 개발 서버에 배포하고 테스트하는 과정에서 SQS 이벤트 처리가 100% 실패하는 현상이 발생했습니다. 로그를 추적해보니 `NotificationModuleApi` 빈이 존재하지 않아서 런타임에 `NoSuchBeanDefinitionException`이 터지고 있었습니다.
+
+원인은 이랬습니다. notification-service는 독립 배포 서비스로 유지하기로 했기 때문에 모듈러 모놀리식 앱에는 notification-module이 없었습니다. 대신 `common` 모듈에 `NotificationModuleApiFeignImpl`이라는 Feign 기반 폴백 구현체를 두고, notification-module이 없을 때 자동으로 등록되도록 `@Service` + `@ConditionalOnMissingBean`을 붙여놨었거든요.
+
+```kotlin
+@Service
+@ConditionalOnMissingBean(NotificationModuleApi::class)
+class NotificationModuleApiFeignImpl(
+    private val notificationFeignClient: NotificationFeignClient,
+) : NotificationModuleApi { ... }
+```
+
+그런데 이게 동작하지 않았습니다. 로컬에서 `@Lazy`를 제거하고 앱을 띄워보니 바로 원인이 나왔습니다.
+
+```
+@ConditionalOnMissingBean found beans of type 'NotificationModuleApi' notificationModuleApiFeignImpl
+```
+
+`@ConditionalOnMissingBean`이 **자기 자신을 감지**하고 있었습니다. 모듈러 모놀리식에서는 루트 패키지를 여러 모듈이 중복으로 component scan하면서, 먼저 scan된 자기 자신을 "이미 있는 빈"으로 인식해서 등록을 건너뛰어 버린 거였습니다. `@Configuration` + `@Bean` 메서드로 변경하면 `@ConditionalOnMissingBean`의 평가 시점이 달라지기 때문에 이 문제가 해결됩니다.
+
+```kotlin
+// @Service가 아닌 @Configuration + @Bean으로 변경
+@Configuration
+class NotificationModuleApiConfig {
+
+    @Bean
+    @ConditionalOnMissingBean(NotificationModuleApi::class)
+    fun notificationModuleApi(feignClient: NotificationFeignClient): NotificationModuleApi {
+        return NotificationModuleApiFeignImpl(feignClient)
+    }
+}
+```
+
+이렇게 고치고 나니 빈이 정상 등록됐습니다. 하지만 더 중요한 건 **이 문제가 왜 배포 시점에 발견되지 않았는가**였습니다.
+
+만약 `@Lazy`가 없었다면 앱 기동 시점에 `NoSuchBeanDefinitionException`이 터지면서 배포 자체가 실패했을 겁니다. 즉, 배포 단계에서 바로 문제를 발견하고 고칠 수 있었을 거예요. 그런데 `@Lazy`가 빈 해석을 런타임으로 미뤄버렸기 때문에 앱은 정상 기동되고, 실제로 해당 API가 호출되는 시점에서야 에러가 발생한 겁니다. 개발 서버에서 발견해서 다행이지, 운영에서 터졌으면 장애로 이어졌을 거예요.
+
+`@Lazy`가 순환 참조는 해결해줬지만, **빈 누락 문제를 런타임으로 숨겨버리는 부작용**이 있었던 거죠. 앞서 이야기한 `@Transactional` 불일치처럼, 기동 시점에 안 터지는 문제가 가장 무섭다는 걸 다시 한번 느꼈습니다.
+
+#### SmartInitializingSingleton으로 startup 검증
+
+이 장애를 겪고 나서 `@Lazy`를 유지하면서도 빈 누락을 기동 시점에 잡을 수 있는 방법을 고민했습니다. 결론적으로 `SmartInitializingSingleton`을 활용한 startup 검증을 도입했습니다.
+
+Spring의 빈 생명주기를 보면, `SmartInitializingSingleton.afterSingletonsInstantiated()`는 **모든 singleton 빈 생성이 완료된 후**에 호출됩니다. 이 시점에서는 순환 참조도 이미 해소된 상태이기 때문에, `@Lazy` 프록시를 강제로 resolve해도 순환 참조 문제가 발생하지 않습니다.
+
+```kotlin
+@Component
+@ConditionalOnProperty(name = ["app.module-api.startup-validation"], havingValue = "true")
+class ModuleApiStartupValidator(
+    private val applicationContext: ApplicationContext,
+) : SmartInitializingSingleton {
+
+    override fun afterSingletonsInstantiated() {
+        val moduleApiTypes = listOf(
+            AgentModuleApi::class, AiModuleApi::class, ApartModuleApi::class,
+            // ... 총 9개 ModuleApi
+        )
+
+        val missing = moduleApiTypes.filter { type ->
+            applicationContext.getBeanNamesForType(type.java).isEmpty()
+        }
+
+        if (missing.isNotEmpty()) {
+            throw IllegalStateException("ModuleApi bean 누락: $missing")
+        }
+    }
+}
+```
+
+동작 원리를 정리하면 이렇습니다.
+
+1. 빈 생성 단계: `@Lazy`가 프록시를 주입해서 순환 참조를 방지 (기존과 동일)
+2. 모든 빈 생성 완료 후: `SmartInitializingSingleton`이 실행되어 모든 ModuleApi 빈 존재를 검증
+3. 빈이 없으면 앱 기동 실패 → 배포 단계에서 즉시 발견
+
+`@Lazy`로 순환 참조를 해결하되, 빈 누락 문제는 런타임이 아닌 기동 시점에 잡는 거죠. 이걸 도입한 뒤로는 ModuleApi 빈 설정에 문제가 있으면 배포 단계에서 바로 실패하게 됐습니다.
+
 ### 멀티 DataSource 설정
 
 앞서 DB를 통합하지 않기로 했다고 말씀드렸습니다. 그 결정 자체는 맞았다고 생각하는데, 대신 각 스키마를 독립적으로 연결해줘야했기 때문에 11개 DB를 하나의 애플리케이션에서 동시에 연결해야 하는 것과 같은 과제가 생겼습니다.
