@@ -375,7 +375,7 @@ a:hover{text-decoration:underline;}
         "전환 전략보다 <strong>실패했을 때의 롤백 계획</strong>이 더 중요하다는 걸 느꼈습니다."
         모든 단계에서 레거시로 즉시 롤백할 수 있는 상태를 유지했고, 이 안전망이 있었기에
         과감한 전환을 실행할 수 있었습니다.
-        MSA를 처음부터 끝까지 직접 겪어보니, <strong>복잡한 문제를 해결하기 위해 서비스의 복잡성을 감수하는 트레이드오프</strong>라는 걸 몸으로 느꼈습니다.
+        MSA를 처음부터 끝까지 직접 겪어보니, <strong>문제를 해결하려면 그만큼의 운영 복잡성을 감수해야 하는 트레이드오프</strong>라는 걸 몸으로 느꼈습니다.
       </div>
     </div>
 
@@ -408,7 +408,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>의도적으로 남긴 기술 부채 — "완벽보다 현실":</strong>
+        <strong>의도적으로 남긴 기술 부채:</strong>
         chat-svc와 match-svc의 레거시 의존성을 즉시 제거하지 않았습니다.
         8개월 내 모든 것을 완벽히 전환하려는 욕심보다,
         <strong>"지금 안전하게 전환할 수 있는 범위"와 "나중에 할 일"을 명확히 분리</strong>하는 것이
@@ -637,7 +637,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>돌아보면 — 다시 한다면 다르게 할 것:</strong>
+        <strong>돌아보면:</strong>
         입사 시점에 MSA 전환은 이미 진행 중이었고, 합류하여 완수했습니다.
         하지만 <strong>2~3명 팀에 14개 MSA는 과한 복잡도</strong>라는 확신이 전환 과정에서 생겼고,
         비용 위기를 계기로 <strong>모듈러 모놀리식을 직접 제안하고 전환을 주도</strong>했습니다.
@@ -723,7 +723,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>JVM Cold Start 해결 — 삽질 끝에 찾은 원인은 CPU 리소스:</strong>
+        <strong>JVM Cold Start 해결 — 원인은 CPU 리소스:</strong>
         K8s 배포 후 첫 API 응답이 1,190~1,390ms (7~14배↑). BlaBlaCar 사례를 참고하여
         <strong>WarmupHealthIndicator로 주요 API를 10회씩 사전 호출</strong>. 초기 CPU limit 1000m에서는 효과 미미 →
         <strong>JIT 컴파일에 ~3배 CPU가 필요</strong>하다는 사실 발견 후 limit을 1800m으로 상향하여 <strong>150~230ms (85% 개선)</strong>.
@@ -921,13 +921,13 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>왜 CDC인가? — 5가지 방식 비교의 결론:</strong>
+        <strong>왜 CDC인가:</strong>
         DB Replication(스키마 변경 어려움), Dual Write(앱 코드 복잡도↑, 정합성 리스크), MQ 기반(메시지 유실·순서 보장 어려움), ETL 배치(실시간 불가).
         CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하므로 앱 코드 수정 없이 실시간 동기화 가능. AWS DMS는 RDS 호환성이 가장 높아 선택.
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>DNS 전환 구간의 정합성 — 가장 위험한 구간:</strong>
+        <strong>DNS 전환의 정합성 — 가장 위험한 구간:</strong>
         DNS 전파 기간 동안 사용자가 IDC 또는 AWS로 자연스럽게 분산. <strong>양쪽 모두 IDC DB를 Source of Truth로 사용</strong>하여
         정합성 보장. 전파 완료를 확인한 후에야 DB 참조를 RDS로 전환 — 돌이켜보면 <strong>팀과의 사전 계획 수립</strong>이 이 과정에서 가장 신경 쓰였던 부분이었습니다.
       </div>
@@ -1125,7 +1125,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>왜 Manticore에서 Elasticsearch로 전환했는가? — 기술 선택은 고정이 아니다:</strong><br>
+        <strong>왜 Manticore에서 Elasticsearch로 전환했는가:</strong><br>
         초기에는 Manticore Search를 선택했습니다 (ES 대비 메모리 200배 절약, RSS ~40MB, Pull 모델로 앱 코드 변경 없음).
         그러나 RAG 구축 과정에서 <strong>임베딩 벡터 검색이 필수</strong>가 되었고, Manticore의 생태계로는 불가능했습니다.
         <strong>요구사항이 변하면 기술 선택도 재평가해야 한다</strong>는 걸 이때 배웠습니다 — 매몰 비용에 집착하지 않으려고 노력했습니다.
@@ -1271,8 +1271,8 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>DevOps 공백기 — "무모했지만 인생에서 가장 큰 행운":</strong>
-        DevOps 퇴사 후 자원, <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD) 수료 → <strong>19개 EC2·10개 노드를 7개월간 단독 운영</strong>.
+        <strong>DevOps 공백기 — 무모했지만 가장 많이 성장한 시기:</strong>
+        DevOps 퇴사 후 자원해서 <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD) 수료 → <strong>19개 EC2·10개 노드를 7개월간 단독 운영</strong>.
         이때의 경험 덕분에 부톡에서 K8s를 <strong>직접 설계하고 CTO께 제안</strong>할 수 있었습니다.
       </div>
     </div>
