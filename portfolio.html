@@ -1400,42 +1400,43 @@ a:hover{text-decoration:underline;}
     <div class="c">
       <div class="dg">
         <div class="dl">AI 기반 영상 자동 편집 파이프라인</div>
-        <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
-          <div class="db dk" style="width:65%;">YouTube URL 입력</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db ac" style="width:65%;">Gemini 검색어 생성<br><span style="font-size:9.5px;color:#999;">AI가 주제별 검색 쿼리 추론</span></div>
           <div class="dd">↓</div>
-          <div class="db" style="width:65%;">Speech-to-Text<br><span style="font-size:9.5px;color:#999;">음성 → 타임스탬프 포함 텍스트</span></div>
+          <div class="db dk" style="width:65%;">YouTube API 검색<br><span style="font-size:9.5px;color:#999;">CC 라이선스만 + yt-dlp 다운로드</span></div>
           <div class="dd">↓</div>
-          <div class="db ac" style="width:65%;">Vertex AI Gemini<br><span style="font-size:9.5px;color:#999;">핵심 구간 추출 + 자막 생성</span></div>
+          <div class="db" style="width:65%;">Google STT<br><span style="font-size:9.5px;color:#999;">음성 → 타임스탬프 포함 텍스트</span></div>
           <div class="dd">↓</div>
-          <div class="db" style="width:65%;">자동 영상 편집<br><span style="font-size:9.5px;color:#999;">구간 클리핑 + 자막 삽입</span></div>
+          <div class="db ac" style="width:65%;">Gemini 분석<br><span style="font-size:9.5px;color:#999;">핵심 구간 추출 + 적합성 평가</span></div>
           <div class="dd">↓</div>
-          <div class="db ok" style="width:65%;">숏폼 영상 생성 완료</div>
+          <div class="db" style="width:65%;">FFmpeg 편집<br><span style="font-size:9.5px;color:#999;">클리핑 + 세로 포맷 변환</span></div>
+          <div class="dd">↓</div>
+          <div class="db ok" style="width:65%;">품질 검수<br><span style="font-size:9.5px;color:#999;">70점+ → 관리자 승인 대기</span></div>
         </div>
       </div>
 
-      <div class="sec-s" style="margin-top:12px;">AI 자동화 & 기술 탐구</div>
+      <div class="sec-s" style="margin-top:12px;">AI 활용</div>
       <ul class="bl" style="font-size:11px;">
-        <li><strong class="bd">에러 자동 대응 파이프라인:</strong> Loki/Tempo 에러 감지 → MCP 기반 Claude Code가 분석 → 코드 수정 → PR 자동 생성</li>
-        <li><strong class="bd">MCP(Model Context Protocol) 실무 적용:</strong> Anthropic이 제안한 AI 도구 통합 프로토콜을 분석하고 모니터링 시스템에 연동</li>
-        <li><strong class="bd">AI Coding Agent 생태계 분석:</strong> oh-my-opencode → Agent Teams 진화 과정을 블로그에 기록</li>
+        <li><strong class="bd"><a href="https://jeongil.dev/trends/ai-agent-co-work/">AI 협업 방법론</a>:</strong> Skills 분리(토큰 50~92%↓), TDD로 AI 출력 검증 구조 정립</li>
+        <li><strong class="bd">AI 코드 검증 자동화:</strong> Jacoco·Detekt·ArchUnit CI 자동 검증 + Gemini PR 리뷰로 교차 검증, 검증 부담 분산</li>
+        <li><strong class="bd"><a href="https://jeongil.dev/trends/openclaw-error-autopilot/">OpenClaw</a> — 에러 자동 대응:</strong> Loki/Tempo Cron 폴링 + 텔레그램 Forward 하이브리드, AI가 분석→PR까지 자동 처리</li>
       </ul>
 
       <div class="dg" style="margin-top:8px;padding:8px 12px;">
-        <div class="dl">에러 자동 대응 파이프라인</div>
+        <div class="dl">OpenClaw — 에러 자동 대응 파이프라인</div>
         <div style="display:flex;align-items:center;gap:3px;justify-content:center;">
           <div class="db er ds">에러 발생</div><div class="da">→</div>
           <div class="db ds">Loki/Tempo</div><div class="da">→</div>
-          <div class="db ac ds">Claude Code<br><span style="font-size:9.5px;">원인 추론</span></div><div class="da">→</div>
+          <div class="db ac ds">OpenClaw<br><span style="font-size:9.5px;">원인 분석</span></div><div class="da">→</div>
           <div class="db ds">코드 수정</div><div class="da">→</div>
           <div class="db ok ds">PR 생성<br><span style="font-size:9.5px;">Human Review</span></div>
         </div>
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>사이드 프로젝트가 업무 역량에 미친 영향:</strong>
-        WebFlux + R2DBC의 비동기 패턴, Coroutines 기반 동시성 처리, React Native 크로스 플랫폼 경험은
-        모두 여기서 먼저 검증한 후 회사 프로젝트에 적용 여부를 판단했습니다.
-        또한 <strong>1인 개발의 테스트 문화(79% 커버리지)</strong>는 팀 프로젝트에서의 품질 기준을 세우는 데 직접적 영향을 주었습니다.
+        어떻게 하면 AI를 더 잘 활용할 수 있을지 꾸준히 고민하고 있습니다.
+        무조건 수락하면 제게 남는 게 없다고 느꼈기에,
+        <strong>AI의 제안에 항상 질문하고 반박하며, 더 좋은 결과물을 만들고 성장하기 위해 노력하려 합니다.</strong>
       </div>
     </div>
   </div>
