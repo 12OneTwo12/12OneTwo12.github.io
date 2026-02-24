@@ -78,7 +78,7 @@ a:hover{text-decoration:underline;}
 .ti{flex:1;text-align:center;position:relative;z-index:1;padding:0 6px;}
 .td{width:8px;height:8px;border-radius:50%;background:#333;margin:4px auto 7px;border:2px solid #fff;box-shadow:0 0 0 1.5px #333;}
 .tdt{font-size:10px;font-weight:700;color:#333;}
-.tt{font-size:9.5px;color:#666;line-height:1.4;margin-top:2px;}
+.tt{font-size:10.5px;color:#666;line-height:1.4;margin-top:2px;}
 
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .cc{border:1px solid #ddd;border-radius:4px;padding:10px;background:#fff;}
@@ -125,7 +125,7 @@ a:hover{text-decoration:underline;}
   <div class="sub" style="margin-top:8px;font-size:20px;">Backend Developer Portfolio</div>
   <div style="font-size:13px;color:#888;margin-top:16px;line-height:1.6;">
     EC2 단일 서버에서 MSA, 그리고 다시 모듈러 모놀리식까지<br>
-    14개 MSA 무중단 전환 · 캐시 히트 57ms(90배↑) · JVM Cold Start 85%↓ · 배치 64%↓ · 장애 인지 98%↓ · CKA<br>
+    14개 MSA 무중단 전환 · API 평균 74.7%↓(Hit 57ms) · JVM Cold Start 85%↓ · 배치 64%↓ · 장애 인지 98%↓ · CKA<br>
     2~3명 팀에서 아키텍처·인프라·성능을 직접 설계하고 운영한 기록
   </div>
   <div style="font-size:12px;color:#999;margin-top:28px;">
@@ -212,8 +212,9 @@ a:hover{text-decoration:underline;}
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;margin:0 0 36px;">
         <li>무중단 MSA 전환 완료 (다운타임 0분, 데이터 유실 0건)</li>
         <li>장애 인지 시간 98% 단축 (1시간→1분, CS 의존 탈피)</li>
-        <li>외부 API 캐시 히트 57ms (기존 5,132ms 대비 90배↑, 호출 76%↓)</li>
+        <li>외부 API 평균 응답 74.7%↓ (5,132→1,299ms, Cache Hit 57ms), 호출 76%↓</li>
         <li>JVM Cold Start 85% 개선 (1.2초→150ms) · 배치 64% 단축 (13분→4.8분)</li>
+        <li>품질 게이트 도입 — Detekt + JaCoCo(PR 변경분 50%↑) + ReviewDog 자동 리뷰</li>
       </ul>
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">ACTIVITY</div>
@@ -289,20 +290,20 @@ a:hover{text-decoration:underline;}
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:4px;">AFTER (14개 MSA · GKE)</div>
             <div style="border:1px solid #81c995;border-radius:3px;padding:4px;position:relative;margin-bottom:3px;">
-              <div style="position:absolute;top:-6px;left:4px;background:#fff;padding:0 2px;font-size:9.5px;font-weight:700;color:#137333;">GKE Cluster (dev/prod)</div>
+              <div style="position:absolute;top:-6px;left:4px;background:#fff;padding:0 2px;font-size:10.5px;font-weight:700;color:#137333;">GKE Cluster (dev/prod)</div>
               <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2px;">
-                <div class="db ok ds" style="font-size:9.5px;">agent</div><div class="db ok ds" style="font-size:9.5px;">apart</div>
-                <div class="db ok ds" style="font-size:9.5px;">match</div><div class="db ok ds" style="font-size:9.5px;">ai</div>
-                <div class="db ok ds" style="font-size:9.5px;">chat</div><div class="db ok ds" style="font-size:9.5px;">user</div>
-                <div class="db ok ds" style="font-size:9.5px;">notif</div><div class="db ok ds" style="font-size:9.5px;">event</div>
-                <div class="db ok ds" style="font-size:9.5px;">data</div><div class="db ok ds" style="font-size:9.5px;">commu</div>
-                <div class="db ok ds" style="font-size:9.5px;">price</div><div class="db ok ds" style="font-size:9.5px;">store</div>
-                <div class="db ok ds" style="font-size:9.5px;">batch</div><div class="db ds" style="font-size:9.5px;border-style:dashed;">legacy</div>
+                <div class="db ok ds" style="font-size:10.5px;">agent</div><div class="db ok ds" style="font-size:10.5px;">apart</div>
+                <div class="db ok ds" style="font-size:10.5px;">match</div><div class="db ok ds" style="font-size:10.5px;">ai</div>
+                <div class="db ok ds" style="font-size:10.5px;">chat</div><div class="db ok ds" style="font-size:10.5px;">user</div>
+                <div class="db ok ds" style="font-size:10.5px;">notif</div><div class="db ok ds" style="font-size:10.5px;">event</div>
+                <div class="db ok ds" style="font-size:10.5px;">data</div><div class="db ok ds" style="font-size:10.5px;">commu</div>
+                <div class="db ok ds" style="font-size:10.5px;">price</div><div class="db ok ds" style="font-size:10.5px;">store</div>
+                <div class="db ok ds" style="font-size:10.5px;">batch</div><div class="db ds" style="font-size:10.5px;border-style:dashed;">legacy</div>
               </div>
             </div>
             <div style="display:flex;gap:2px;">
-              <div class="db wn ds" style="flex:1;font-size:9.5px;">Schema별 DB 분리</div>
-              <div class="db ac ds" style="flex:1;font-size:9.5px;">3 SNS / 42 SQS</div>
+              <div class="db wn ds" style="flex:1;font-size:10.5px;">Schema별 DB 분리</div>
+              <div class="db ac ds" style="flex:1;font-size:10.5px;">3 SNS / 42 SQS</div>
             </div>
           </div>
         </div>
@@ -310,17 +311,17 @@ a:hover{text-decoration:underline;}
 
       <div class="dg" style="margin-top:8px;">
         <div class="dl">강결합 구조 — Strangler Fig 불가 원인</div>
-        <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0;font-size:9.5px;text-align:center;">
-          <div class="db er ds" style="padding:8px 10px;font-weight:700;">아파트<br><span style="font-weight:400;font-size:9.5px;">매물 등록</span></div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;color:#c5221f;font-size:9.5px;">
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0;font-size:10.5px;text-align:center;">
+          <div class="db er ds" style="padding:8px 10px;font-weight:700;">아파트<br><span style="font-weight:400;font-size:10.5px;">매물 등록</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;color:#c5221f;font-size:10.5px;">
             <span>매칭 로직 실행 →</span>
             <span>← 상태 변경</span>
           </div>
-          <div class="db er ds" style="padding:8px 10px;font-weight:700;">매칭<br><span style="font-weight:400;font-size:9.5px;">결과 반영</span></div>
+          <div class="db er ds" style="padding:8px 10px;font-weight:700;">매칭<br><span style="font-weight:400;font-size:10.5px;">결과 반영</span></div>
           <div style="color:#999;font-size:14px;">⇄</div>
-          <div class="db er ds" style="padding:8px 10px;font-weight:700;">중개사<br><span style="font-weight:400;font-size:9.5px;">매물 관리</span></div>
+          <div class="db er ds" style="padding:8px 10px;font-weight:700;">중개사<br><span style="font-weight:400;font-size:10.5px;">매물 관리</span></div>
         </div>
-        <div style="text-align:center;font-size:9.5px;color:#c5221f;font-weight:600;margin-top:2px;">↑ 양방향 순환 의존 — 하나만 분리 시 나머지 작동 불가</div>
+        <div style="text-align:center;font-size:10.5px;color:#c5221f;font-weight:600;margin-top:2px;">↑ 양방향 순환 의존 — 하나만 분리 시 나머지 작동 불가</div>
       </div>
 
       <div class="ib" style="margin-top:6px;">
@@ -491,8 +492,8 @@ a:hover{text-decoration:underline;}
               <div class="db er ds">notif-repo</div><div class="db er ds">data-repo</div><div class="db er ds">event-repo</div>
               <div class="db er ds">commu-repo</div><div class="db er ds">price-repo</div><div class="db er ds">store-repo</div>
             </div>
-            <div style="text-align:center;font-size:9.5px;color:#c5221f;margin-top:3px;">+ batch, legacy, config, common</div>
-            <div class="dd" style="font-size:9.5px;color:#c5221f;">각각 독립 build.gradle · 버전 개별 관리</div>
+            <div style="text-align:center;font-size:10.5px;color:#c5221f;margin-top:3px;">+ batch, legacy, config, common</div>
+            <div class="dd" style="font-size:10.5px;color:#c5221f;">각각 독립 build.gradle · 버전 개별 관리</div>
           </div>
           <div style="display:flex;align-items:center;padding-top:40px;font-size:16px;color:#999;">→</div>
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
@@ -507,7 +508,7 @@ a:hover{text-decoration:underline;}
               <div class="db dk ds" style="flex:1;">:batch</div>
               <div class="db ds" style="flex:1;border-style:dashed;color:#8a6d3b;">legacy (별도 레포)</div>
             </div>
-            <div class="dd" style="font-size:9.5px;color:#137333;">Version Catalog 단일 관리 · Git Subtree 히스토리 보존</div>
+            <div class="dd" style="font-size:10.5px;color:#137333;">Version Catalog 단일 관리 · Git Subtree 히스토리 보존</div>
           </div>
         </div>
       </div>
@@ -597,25 +598,25 @@ a:hover{text-decoration:underline;}
               <div class="db er ds">event</div><div class="db er ds">data</div><div class="db er ds">commu</div>
               <div class="db er ds">price</div><div class="db er ds">store</div><div class="db er ds">batch</div>
             </div>
-            <div class="dd" style="font-size:9.5px;color:#c5221f;">각 Pod마다 JVM + 리소스 할당</div>
+            <div class="dd" style="font-size:10.5px;color:#c5221f;">각 Pod마다 JVM + 리소스 할당</div>
           </div>
           <div style="display:flex;align-items:center;padding-top:40px;font-size:16px;color:#999;">→</div>
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:4px;">AFTER: 모듈러 모놀리식</div>
             <div style="border:1px solid #81c995;border-radius:3px;padding:5px;position:relative;">
-              <div style="position:absolute;top:-6px;left:6px;background:#fff;padding:0 3px;font-size:9.5px;font-weight:700;color:#137333;">BtalkApplication (1 JVM)</div>
+              <div style="position:absolute;top:-6px;left:6px;background:#fff;padding:0 3px;font-size:10.5px;font-weight:700;color:#137333;">BtalkApplication (1 JVM)</div>
               <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2px;">
-                <div class="db ok ds" style="font-size:9.5px;">:agent</div><div class="db ok ds" style="font-size:9.5px;">:apart</div>
-                <div class="db ok ds" style="font-size:9.5px;">:ai</div><div class="db ok ds" style="font-size:9.5px;">:match</div>
-                <div class="db ok ds" style="font-size:9.5px;">:chat</div><div class="db ok ds" style="font-size:9.5px;">:user</div>
-                <div class="db ok ds" style="font-size:9.5px;">:event</div><div class="db ok ds" style="font-size:9.5px;">:data</div>
-                <div class="db ok ds" style="font-size:9.5px;">:commu</div><div class="db ok ds" style="font-size:9.5px;">:price</div>
-                <div class="db ok ds" style="font-size:9.5px;">:store</div><div class="db ok ds" style="font-size:9.5px;">:batch</div>
+                <div class="db ok ds" style="font-size:10.5px;">:agent</div><div class="db ok ds" style="font-size:10.5px;">:apart</div>
+                <div class="db ok ds" style="font-size:10.5px;">:ai</div><div class="db ok ds" style="font-size:10.5px;">:match</div>
+                <div class="db ok ds" style="font-size:10.5px;">:chat</div><div class="db ok ds" style="font-size:10.5px;">:user</div>
+                <div class="db ok ds" style="font-size:10.5px;">:event</div><div class="db ok ds" style="font-size:10.5px;">:data</div>
+                <div class="db ok ds" style="font-size:10.5px;">:commu</div><div class="db ok ds" style="font-size:10.5px;">:price</div>
+                <div class="db ok ds" style="font-size:10.5px;">:store</div><div class="db ok ds" style="font-size:10.5px;">:batch</div>
               </div>
-              <div style="text-align:center;font-size:9.5px;color:#137333;margin-top:2px;">ModuleApi 인터페이스 · 11 Schema · 11 TM</div>
+              <div style="text-align:center;font-size:10.5px;color:#137333;margin-top:2px;">ModuleApi 인터페이스 · 11 Schema · 11 TM</div>
             </div>
-            <div class="db wn ds" style="width:100%;margin-top:3px;font-size:9.5px;">notification (별도 Pod 유지)</div>
-            <div class="dd" style="font-size:9.5px;color:#137333;">Feign→메서드 호출 · 모듈 경계 유지 · 재분리 가능</div>
+            <div class="db wn ds" style="width:100%;margin-top:3px;font-size:10.5px;">notification (별도 Pod 유지)</div>
+            <div class="dd" style="font-size:10.5px;color:#137333;">Feign→메서드 호출 · 모듈 경계 유지 · 재분리 가능</div>
           </div>
         </div>
       </div>
@@ -702,10 +703,10 @@ a:hover{text-decoration:underline;}
         <div class="dl">CI/CD 파이프라인 (GitHub Actions → Jenkins 전환)</div>
         <div style="display:flex;align-items:center;gap:3px;flex-wrap:wrap;justify-content:center;">
           <div class="db ds">GitHub Push</div><div class="da">→</div>
-          <div class="db ds">Jenkins<br><span style="font-size:9.5px;color:#999;">on K8s</span></div><div class="da">→</div>
+          <div class="db ds">Jenkins<br><span style="font-size:10.5px;color:#999;">on K8s</span></div><div class="da">→</div>
           <div class="db ds">Docker Build</div><div class="da">→</div>
           <div class="db ds">GCP Artifact</div><div class="da">→</div>
-          <div class="db ds">ArgoCD<br><span style="font-size:9.5px;color:#999;">GitOps</span></div><div class="da">→</div>
+          <div class="db ds">ArgoCD<br><span style="font-size:10.5px;color:#999;">GitOps</span></div><div class="da">→</div>
           <div class="db ok ds">GKE 배포</div>
         </div>
         <div class="dn">초기 GitHub Actions Self-hosted Runner(개인 PC) → MSA 빌드 증가로 부하 심화 → Jenkins on K8s 전환</div>
@@ -790,9 +791,9 @@ a:hover{text-decoration:underline;}
           </div>
           <div class="dd">↓ OTel Agent v2.20.1 (Sidecar)</div>
           <div style="display:flex;gap:6px;">
-            <div class="db ac ds">Prometheus<br><span style="font-size:9.5px;color:#666;">메트릭</span></div>
-            <div class="db ac ds">Loki<br><span style="font-size:9.5px;color:#666;">로그</span></div>
-            <div class="db ac ds">Tempo<br><span style="font-size:9.5px;color:#666;">트레이스</span></div>
+            <div class="db ac ds">Prometheus<br><span style="font-size:10.5px;color:#666;">메트릭</span></div>
+            <div class="db ac ds">Loki<br><span style="font-size:10.5px;color:#666;">로그</span></div>
+            <div class="db ac ds">Tempo<br><span style="font-size:10.5px;color:#666;">트레이스</span></div>
           </div>
           <div class="dd">↓</div>
           <div style="display:flex;gap:6px;align-items:center;">
@@ -852,7 +853,7 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="sec">5가지 마이그레이션 방식 비교</div>
-      <table class="ct" style="font-size:9.5px;margin-bottom:4px;">
+      <table class="ct" style="font-size:10.5px;margin-bottom:4px;">
         <tr><th style="width:22%;">방식</th><th>장점</th><th>단점</th><th style="width:12%;">판단</th></tr>
         <tr><td class="bd">DB Replication</td><td>네이티브 지원, 간단</td><td>실시간성 한계, 스키마 변경 어려움</td><td style="color:#c5221f;font-weight:600;">❌</td></tr>
         <tr><td class="bd">Dual Write</td><td>직접 제어 가능</td><td>정합성 리스크, 코드 복잡도 ↑</td><td style="color:#c5221f;font-weight:600;">❌</td></tr>
@@ -885,20 +886,20 @@ a:hover{text-decoration:underline;}
             <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">IDC (기존 환경)</div>
             <div class="db er ds" style="width:100%;margin-bottom:3px;">물리서버 (레거시 서비스 + DB)</div>
             <div class="dd">↓</div>
-            <div class="db er ds" style="width:100%;">MariaDB 200GB<br><span style="font-size:9.5px;">Source of Truth</span></div>
+            <div class="db er ds" style="width:100%;">MariaDB 200GB<br><span style="font-size:10.5px;">Source of Truth</span></div>
           </div>
           <!-- Arrow with CDC -->
           <div style="display:flex;flex-direction:column;align-items:center;padding-top:28px;gap:2px;">
-            <div style="font-size:9.5px;font-weight:700;color:#1a56db;">AWS DMS</div>
+            <div style="font-size:10.5px;font-weight:700;color:#1a56db;">AWS DMS</div>
             <div style="font-size:16px;color:#1a56db;">→</div>
-            <div style="font-size:9.5px;color:#1a56db;">CDC 실시간</div>
+            <div style="font-size:10.5px;color:#1a56db;">CDC 실시간</div>
           </div>
           <!-- AWS -->
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AWS Cloud (Terraform)</div>
             <div class="db ok ds" style="width:100%;margin-bottom:3px;">EC2 (레거시 서비스 이전)</div>
             <div class="dd">↓</div>
-            <div class="db ok ds" style="width:100%;">RDS MariaDB 10.6<br><span style="font-size:9.5px;">200GB · gp3 · 자동 백업 7일</span></div>
+            <div class="db ok ds" style="width:100%;">RDS MariaDB 10.6<br><span style="font-size:10.5px;">200GB · gp3 · 자동 백업 7일</span></div>
           </div>
         </div>
       </div>
@@ -907,15 +908,15 @@ a:hover{text-decoration:underline;}
         <div class="dl">DNS 전환 타임라인 (무중단 핵심)</div>
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
           <div style="display:flex;gap:4px;width:90%;">
-            <div class="db dk ds" style="flex:1;">① 사전 준비<br><span style="font-size:9.5px;">Terraform · CDC 테스트 · 롤백 검증</span></div>
-            <div class="db ac ds" style="flex:1;">② CDC 활성화<br><span style="font-size:9.5px;">IDC→RDS 실시간 동기화 시작</span></div>
+            <div class="db dk ds" style="flex:1;">① 사전 준비<br><span style="font-size:10.5px;">Terraform · CDC 테스트 · 롤백 검증</span></div>
+            <div class="db ac ds" style="flex:1;">② CDC 활성화<br><span style="font-size:10.5px;">IDC→RDS 실시간 동기화 시작</span></div>
           </div>
           <div class="dd">↓</div>
-          <div class="db wn ds" style="width:90%;">③ DNS 전환 (새벽 저트래픽 시간)<br><span style="font-size:9.5px;">DNS 캐시에 따라 사용자가 IDC 또는 AWS로 자연스럽게 분산 → 양쪽 모두 IDC DB를 Source of Truth로 사용</span></div>
+          <div class="db wn ds" style="width:90%;">③ DNS 전환 (새벽 저트래픽 시간)<br><span style="font-size:10.5px;">DNS 캐시에 따라 사용자가 IDC 또는 AWS로 자연스럽게 분산 → 양쪽 모두 IDC DB를 Source of Truth로 사용</span></div>
           <div class="dd">↓ DNS 전파 완료 확인</div>
           <div style="display:flex;gap:4px;width:90%;">
-            <div class="db ok ds" style="flex:1;">④ DB 참조 전환<br><span style="font-size:9.5px;">앱 → RDS 직접 연결</span></div>
-            <div class="db ok ds" style="flex:1;">⑤ CDC 종료 · IDC 중단<br><span style="font-size:9.5px;">마이그레이션 완료</span></div>
+            <div class="db ok ds" style="flex:1;">④ DB 참조 전환<br><span style="font-size:10.5px;">앱 → RDS 직접 연결</span></div>
+            <div class="db ok ds" style="flex:1;">⑤ CDC 종료 · IDC 중단<br><span style="font-size:10.5px;">마이그레이션 완료</span></div>
           </div>
         </div>
       </div>
@@ -967,7 +968,7 @@ a:hover{text-decoration:underline;}
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
           <div class="db er ds" style="width:85%;">EC2 단일 대형 인스턴스</div>
           <div class="dd">↓ Docker Compose + Shell Script</div>
-          <div class="db er ds" style="width:85%;">MSA 서비스 + 레거시<br><span style="font-size:9.5px;">모든 컨테이너가 단일 EC2에 집중</span></div>
+          <div class="db er ds" style="width:85%;">MSA 서비스 + 레거시<br><span style="font-size:10.5px;">모든 컨테이너가 단일 EC2에 집중</span></div>
           <div class="dd">↓</div>
           <div class="db wn ds" style="width:85%;">도메인 간 DB 공유</div>
           <div class="dd">↓</div>
@@ -982,29 +983,29 @@ a:hover{text-decoration:underline;}
         <div style="display:flex;flex-direction:column;gap:2px;align-items:center;">
           <!-- Clients -->
           <div style="display:flex;gap:3px;">
-            <div class="db ds" style="font-size:9.5px;">bootalk_app<br><span style="font-size:9.5px;color:#999;">Expo+RN</span></div>
-            <div class="db ds" style="font-size:9.5px;">bootalk_web<br><span style="font-size:9.5px;color:#999;">Next.js</span></div>
-            <div class="db ds" style="font-size:9.5px;">bootalk_admin<br><span style="font-size:9.5px;color:#999;">Next.js</span></div>
+            <div class="db ds" style="font-size:10.5px;">bootalk_app<br><span style="font-size:10.5px;color:#999;">Expo+RN</span></div>
+            <div class="db ds" style="font-size:10.5px;">bootalk_web<br><span style="font-size:10.5px;color:#999;">Next.js</span></div>
+            <div class="db ds" style="font-size:10.5px;">bootalk_admin<br><span style="font-size:10.5px;color:#999;">Next.js</span></div>
           </div>
           <div class="dd" style="margin:1px 0;">↓ NGINX Ingress</div>
           <!-- GKE Cluster -->
           <div style="border:1.5px solid #81c995;border-radius:4px;padding:5px 6px;width:98%;position:relative;">
-            <div style="position:absolute;top:-7px;left:8px;background:#fafafa;padding:0 4px;font-size:9.5px;font-weight:700;color:#137333;">GKE Cluster (dev / prod)</div>
+            <div style="position:absolute;top:-7px;left:8px;background:#fafafa;padding:0 4px;font-size:10.5px;font-weight:700;color:#137333;">GKE Cluster (dev / prod)</div>
             <div style="display:flex;gap:3px;margin-top:2px;">
               <div style="border:1px solid #81c995;border-radius:3px;padding:4px 5px;flex:3;position:relative;">
-                <div style="position:absolute;top:-6px;left:4px;background:#fafafa;padding:0 2px;font-size:9.5px;font-weight:700;color:#137333;">BtalkApplication (모듈러 모놀리식 · 1 JVM)</div>
+                <div style="position:absolute;top:-6px;left:4px;background:#fafafa;padding:0 2px;font-size:10.5px;font-weight:700;color:#137333;">BtalkApplication (모듈러 모놀리식 · 1 JVM)</div>
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2px;">
-                  <div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:agent</div><div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:apart</div>
-                  <div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:ai</div><div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:match</div>
-                  <div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:chat</div><div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:user</div>
-                  <div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:event</div><div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:data</div>
-                  <div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:commu</div><div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:price</div>
-                  <div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:store</div><div class="db ok ds" style="font-size:9.5px;padding:2px 3px;">:batch</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:agent</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:apart</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:ai</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:match</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:chat</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:user</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:event</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:data</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:commu</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:price</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:store</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:batch</div>
                 </div>
               </div>
               <div style="display:flex;flex-direction:column;gap:2px;flex:1;">
-                <div class="db wn ds" style="font-size:9.5px;padding:2px 3px;">notification<br>(별도 Pod)</div>
-                <div class="db ds" style="font-size:9.5px;padding:2px 3px;border-style:dashed;">Jenkins<br>ArgoCD</div>
+                <div class="db wn ds" style="font-size:10.5px;padding:2px 3px;">notification<br>(별도 Pod)</div>
+                <div class="db ds" style="font-size:10.5px;padding:2px 3px;border-style:dashed;">Jenkins<br>ArgoCD</div>
               </div>
             </div>
           </div>
@@ -1012,20 +1013,20 @@ a:hover{text-decoration:underline;}
           <!-- Infrastructure Layer -->
           <div style="display:flex;gap:3px;justify-content:center;width:98%;">
             <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:1;">
-              <div style="font-size:9.5px;color:#999;font-weight:600;">AWS</div>
-              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:9.5px;padding:1px 3px;">SNS/SQS</div><div class="db ds" style="font-size:9.5px;padding:1px 3px;">Cognito</div><div class="db ds" style="font-size:9.5px;padding:1px 3px;">DynamoDB</div><div class="db ds" style="font-size:9.5px;padding:1px 3px;">RDS</div><div class="db ds" style="font-size:9.5px;padding:1px 3px;">S3/CF</div></div>
+              <div style="font-size:10.5px;color:#999;font-weight:600;">AWS</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:10.5px;padding:1px 3px;">SNS/SQS</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Cognito</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">DynamoDB</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">RDS</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">S3/CF</div></div>
             </div>
             <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:.6;">
-              <div style="font-size:9.5px;color:#999;font-weight:600;">GCP</div>
-              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:9.5px;padding:1px 3px;">Cloud SQL</div><div class="db ds" style="font-size:9.5px;padding:1px 3px;">Redis</div></div>
+              <div style="font-size:10.5px;color:#999;font-weight:600;">GCP</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Cloud SQL</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Redis</div></div>
             </div>
             <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:.7;">
-              <div style="font-size:9.5px;color:#999;font-weight:600;">Monitoring</div>
-              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:9.5px;padding:1px 3px;">Grafana</div><div class="db ds" style="font-size:9.5px;padding:1px 3px;">Prom</div><div class="db ds" style="font-size:9.5px;padding:1px 3px;">Loki</div><div class="db ds" style="font-size:9.5px;padding:1px 3px;">Tempo</div></div>
+              <div style="font-size:10.5px;color:#999;font-weight:600;">Monitoring</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Grafana</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Prom</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Loki</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Tempo</div></div>
             </div>
           </div>
         </div>
-        <div style="text-align:center;margin-top:3px;font-size:9.5px;color:#137333;">모듈러 모놀리식 · 11 Schema 분리 · 3 SNS/42 SQS · GCP+AWS 하이브리드 · 장애 인지 1분 이내</div>
+        <div style="text-align:center;margin-top:3px;font-size:10.5px;color:#137333;">모듈러 모놀리식 · 11 Schema 분리 · 3 SNS/42 SQS · GCP+AWS 하이브리드 · 장애 인지 1분 이내</div>
       </div>
     </div>
 
@@ -1097,16 +1098,16 @@ a:hover{text-decoration:underline;}
       <div class="dg">
         <div class="dl">RAG 기반 자연어 매물 추천 파이프라인</div>
         <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
-          <div class="db dk" style="width:70%;">사용자 자연어 쿼리<br><span style="font-size:9.5px;color:#666;">"강남역 근처 30평대 신축 아파트"</span></div>
+          <div class="db dk" style="width:70%;">사용자 자연어 쿼리<br><span style="font-size:10.5px;color:#666;">"강남역 근처 30평대 신축 아파트"</span></div>
           <div class="dd">↓</div>
-          <div class="db ac" style="width:70%;">OpenAI GPT<br><span style="font-size:9.5px;color:#666;">자연어 → 구조화된 검색 조건 변환</span></div>
+          <div class="db ac" style="width:70%;">OpenAI GPT<br><span style="font-size:10.5px;color:#666;">자연어 → 구조화된 검색 조건 변환</span></div>
           <div class="dd">↓ 복합 검색</div>
           <div class="db" style="width:80%;padding:8px 12px;">
             <div style="font-weight:600;text-align:center;margin-bottom:4px;">Elasticsearch</div>
             <div style="display:flex;gap:4px;">
-              <div style="flex:1;font-size:9.5px;color:#999;text-align:center;border-right:1px dashed #ddd;padding-right:4px;">벡터 검색<br>(RAG 유사도)</div>
-              <div style="flex:1;font-size:9.5px;color:#999;text-align:center;border-right:1px dashed #ddd;padding-right:4px;">지리 검색<br>(위치 기반)</div>
-              <div style="flex:1;font-size:9.5px;color:#999;text-align:center;">키워드 검색<br>(형태소 분석)</div>
+              <div style="flex:1;font-size:10.5px;color:#999;text-align:center;border-right:1px dashed #ddd;padding-right:4px;">벡터 검색<br>(RAG 유사도)</div>
+              <div style="flex:1;font-size:10.5px;color:#999;text-align:center;border-right:1px dashed #ddd;padding-right:4px;">지리 검색<br>(위치 기반)</div>
+              <div style="flex:1;font-size:10.5px;color:#999;text-align:center;">키워드 검색<br>(형태소 분석)</div>
             </div>
           </div>
           <div class="dd">↓ 결과 랭킹</div>
@@ -1118,9 +1119,9 @@ a:hover{text-decoration:underline;}
         <div class="dl">데이터 준비 파이프라인</div>
         <div style="display:flex;align-items:center;gap:3px;justify-content:center;flex-wrap:wrap;">
           <div class="db ds">매물 데이터<br>수집</div><div class="da">→</div>
-          <div class="db ds">이미지 라벨링<br><span style="font-size:9.5px;">AI 자동 분석</span></div><div class="da">→</div>
-          <div class="db ds">텍스트 벡터화<br><span style="font-size:9.5px;">Embedding</span></div><div class="da">→</div>
-          <div class="db ac ds">ES 인덱싱<br><span style="font-size:9.5px;">Vector Store</span></div>
+          <div class="db ds">이미지 라벨링<br><span style="font-size:10.5px;">AI 자동 분석</span></div><div class="da">→</div>
+          <div class="db ds">텍스트 벡터화<br><span style="font-size:10.5px;">Embedding</span></div><div class="da">→</div>
+          <div class="db ac ds">ES 인덱싱<br><span style="font-size:10.5px;">Vector Store</span></div>
         </div>
       </div>
 
@@ -1168,7 +1169,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><strong class="bd">문제:</strong> 외부 API 평균 5,132ms (최대 9,412ms) → 사용자 이탈 임계치(3초) 초과</li>
         <li><strong class="bd">판단:</strong> 사용자 주소 예측 불가→Warm-up 불가 → <span class="hl">Look-aside</span> 선택. 임시저장 시 동일 주소 반복 조회→높은 히트율 기대</li>
-        <li><strong class="bd">성과:</strong> Cache Hit <strong class="bd">57ms (90배↑)</strong>, API 호출 <strong class="bd">76%↓</strong>. 동적 TTL: 외부 API 갱신(목요일 23:30)까지 남은 초 계산. Admin은 <strong>noCache</strong>로 우회</li>
+        <li><strong class="bd">성과:</strong> 평균 응답 <strong class="bd">74.7%↓</strong> (5,132→1,299ms, Cache Hit 57ms), API 호출 <strong class="bd">76%↓</strong>. 동적 TTL: 외부 API 갱신(목요일 23:30)까지 남은 초 계산. Admin은 <strong>noCache</strong>로 우회</li>
       </ul>
 
       <div class="sec" style="margin-top:4px;">DB Replication Lag — 일관성 vs 성능</div>
@@ -1216,7 +1217,7 @@ a:hover{text-decoration:underline;}
             <div class="db ok ds">Redis: HIT (57ms)</div><div class="dd">↓</div>
             <div class="db ok ds">즉시 응답</div>
             <div style="height:16px;"></div>
-            <div style="font-size:10px;color:#137333;font-weight:700;">90x 향상</div>
+            <div style="font-size:10px;color:#137333;font-weight:700;">Cache Hit 90x</div>
           </div>
         </div>
       </div>
@@ -1229,7 +1230,7 @@ a:hover{text-decoration:underline;}
     </div>
   </div>
   <div class="rb" style="margin-top:8px;">
-    <strong>종합 성과 (개별 검증 가능):</strong> ① HikariCP Deadlock 해결 → Pool 40/40 포화 제거 · ② Cache Hit <strong>57ms</strong> (5,132ms 대비 90배↑), 평균 응답 <strong>74.7%↓</strong> (5,132→1,299ms), 호출 <strong>76%↓</strong> · ③ Replication Lag → 핵심 서비스 정합성 확보. 3가지 복합 적용 후 전체 API 응답 <strong>10.3초→1.3초</strong>
+    <strong>종합 성과 (개별 검증 가능):</strong> ① HikariCP Deadlock 해결 → Pool 40/40 포화 제거 · ② 평균 응답 <strong>74.7%↓</strong> (5,132→1,299ms, Cache Hit 시 57ms), 호출 <strong>76%↓</strong> · ③ Replication Lag → 핵심 서비스 정합성 확보. 3가지 복합 적용 후 전체 API 응답 <strong>10.3초→1.3초</strong>
   </div>
 </div></div>
 
@@ -1284,9 +1285,9 @@ a:hover{text-decoration:underline;}
           <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE: Tasklet</div>
             <div class="db er ds" style="width:100%;margin-bottom:3px;">단일 스레드</div>
-            <div class="dd" style="font-size:9.5px;">전체 데이터 메모리 로드</div>
+            <div class="dd" style="font-size:10.5px;">전체 데이터 메모리 로드</div>
             <div class="db ds" style="width:100%;margin-bottom:3px;">순차 처리</div>
-            <div class="dd" style="font-size:9.5px;">한 건씩 INSERT</div>
+            <div class="dd" style="font-size:10.5px;">한 건씩 INSERT</div>
             <div class="db er ds" style="width:100%;">단건 쓰기</div>
             <div style="text-align:center;margin-top:5px;font-size:13px;color:#c5221f;font-weight:700;">13분</div>
           </div>
@@ -1294,12 +1295,12 @@ a:hover{text-decoration:underline;}
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AFTER: Chunk + Partition</div>
             <div class="db ok ds" style="width:100%;margin-bottom:3px;">Partitioner</div>
-            <div class="dd" style="font-size:9.5px;">데이터 분할</div>
+            <div class="dd" style="font-size:10.5px;">데이터 분할</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
-              <div class="db ok ds">Thread 1<br><span style="font-size:9.5px;">Chunk R/W</span></div>
-              <div class="db ok ds">Thread 2<br><span style="font-size:9.5px;">Chunk R/W</span></div>
+              <div class="db ok ds">Thread 1<br><span style="font-size:10.5px;">Chunk R/W</span></div>
+              <div class="db ok ds">Thread 2<br><span style="font-size:10.5px;">Chunk R/W</span></div>
             </div>
-            <div class="dd" style="font-size:9.5px;">Bulk INSERT</div>
+            <div class="dd" style="font-size:10.5px;">Bulk INSERT</div>
             <div class="db ok ds" style="width:100%;">일괄 쓰기</div>
             <div style="text-align:center;margin-top:5px;font-size:13px;color:#137333;font-weight:700;">5분</div>
           </div>
@@ -1315,7 +1316,7 @@ a:hover{text-decoration:underline;}
               <div class="dd">↓ SELECT</div>
               <div class="db wn ds">BATCH_JOB_<br>EXECUTION <strong>S-Lock</strong></div>
               <div class="dd" style="color:#c5221f;">↓ INSERT 시도</div>
-              <div class="db er ds" style="font-size:9.5px;">B의 락 대기 ⏳</div>
+              <div class="db er ds" style="font-size:10.5px;">B의 락 대기 ⏳</div>
             </div>
             <div style="display:flex;flex-direction:column;align-items:center;padding-top:42px;gap:2px;">
               <span style="font-size:16px;color:#c5221f;">⇄</span>
@@ -1326,7 +1327,7 @@ a:hover{text-decoration:underline;}
               <div class="dd">↓ SELECT</div>
               <div class="db wn ds">BATCH_STEP_<br>EXECUTION <strong>S-Lock</strong></div>
               <div class="dd" style="color:#c5221f;">↓ INSERT 시도</div>
-              <div class="db er ds" style="font-size:9.5px;">A의 락 대기 ⏳</div>
+              <div class="db er ds" style="font-size:10.5px;">A의 락 대기 ⏳</div>
             </div>
           </div>
           <div class="dd" style="color:#137333;">↓ 해결</div>
@@ -1401,17 +1402,17 @@ a:hover{text-decoration:underline;}
       <div class="dg">
         <div class="dl">AI 기반 영상 자동 편집 파이프라인</div>
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div class="db ac" style="width:65%;">Gemini 검색어 생성<br><span style="font-size:9.5px;color:#999;">AI가 주제별 검색 쿼리 추론</span></div>
+          <div class="db ac" style="width:65%;">Gemini 검색어 생성<br><span style="font-size:10.5px;color:#999;">AI가 주제별 검색 쿼리 추론</span></div>
           <div class="dd">↓</div>
-          <div class="db dk" style="width:65%;">YouTube API 검색<br><span style="font-size:9.5px;color:#999;">CC 라이선스만 + yt-dlp 다운로드</span></div>
+          <div class="db dk" style="width:65%;">YouTube API 검색<br><span style="font-size:10.5px;color:#999;">CC 라이선스만 + yt-dlp 다운로드</span></div>
           <div class="dd">↓</div>
-          <div class="db" style="width:65%;">Google STT<br><span style="font-size:9.5px;color:#999;">음성 → 타임스탬프 포함 텍스트</span></div>
+          <div class="db" style="width:65%;">Google STT<br><span style="font-size:10.5px;color:#999;">음성 → 타임스탬프 포함 텍스트</span></div>
           <div class="dd">↓</div>
-          <div class="db ac" style="width:65%;">Gemini 분석<br><span style="font-size:9.5px;color:#999;">핵심 구간 추출 + 적합성 평가</span></div>
+          <div class="db ac" style="width:65%;">Gemini 분석<br><span style="font-size:10.5px;color:#999;">핵심 구간 추출 + 적합성 평가</span></div>
           <div class="dd">↓</div>
-          <div class="db" style="width:65%;">FFmpeg 편집<br><span style="font-size:9.5px;color:#999;">클리핑 + 세로 포맷 변환</span></div>
+          <div class="db" style="width:65%;">FFmpeg 편집<br><span style="font-size:10.5px;color:#999;">클리핑 + 세로 포맷 변환</span></div>
           <div class="dd">↓</div>
-          <div class="db ok" style="width:65%;">품질 검수<br><span style="font-size:9.5px;color:#999;">70점+ → 관리자 승인 대기</span></div>
+          <div class="db ok" style="width:65%;">품질 검수<br><span style="font-size:10.5px;color:#999;">70점+ → 관리자 승인 대기</span></div>
         </div>
       </div>
 
@@ -1427,9 +1428,9 @@ a:hover{text-decoration:underline;}
         <div style="display:flex;align-items:center;gap:3px;justify-content:center;">
           <div class="db er ds">에러 발생</div><div class="da">→</div>
           <div class="db ds">Loki/Tempo</div><div class="da">→</div>
-          <div class="db ac ds">OpenClaw<br><span style="font-size:9.5px;">원인 분석</span></div><div class="da">→</div>
+          <div class="db ac ds">OpenClaw<br><span style="font-size:10.5px;">원인 분석</span></div><div class="da">→</div>
           <div class="db ds">코드 수정</div><div class="da">→</div>
-          <div class="db ok ds">PR 생성<br><span style="font-size:9.5px;">Human Review</span></div>
+          <div class="db ok ds">PR 생성<br><span style="font-size:10.5px;">Human Review</span></div>
         </div>
       </div>
 
@@ -1511,7 +1512,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">K8s & 모니터링</td><td>LGTM 비용 87%↓, SQS 하드코딩 장애 발견</td></tr>
         <tr><td class="bd">DB 마이그레이션</td><td>5가지 방식 비교→CDC 선택, 무중단 200GB</td></tr>
         <tr><td class="bd">매물 추천</td><td>Manticore→ES 재평가, 자연어 검색 출시</td></tr>
-        <tr><td class="bd">백오피스</td><td>3번 오진 끝 근본 원인, 캐시 히트 57ms(90배↑)</td></tr>
+        <tr><td class="bd">백오피스</td><td>3번 오진 끝 근본 원인, 평균 응답 74.7%↓</td></tr>
         <tr><td class="bd">Batch</td><td>MVCC 누락 발견→Chunk 전환, 64%↓</td></tr>
       </table>
 
