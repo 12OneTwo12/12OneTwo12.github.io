@@ -475,7 +475,7 @@ In MSA, you didn't have to worry about any of these things. But the moment you c
 
 If you're considering this kind of transition, I'd recommend being aware of this in advance.
 
-Separately, we also experienced CI test build times spiking to 45 minutes after the transition, which I'll cover in a follow-up post.
+Separately, we also experienced CI test build times spiking to 45 minutes after the transition, which I covered in a [follow-up post]({{< relref "/blog/backend/performance/ci-test-build-optimization" >}}).
 
 ### Silent Bugs Are the Scariest
 
