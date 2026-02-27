@@ -238,7 +238,7 @@ a:hover{text-decoration:underline;}
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼 (누적 회원 21만+, 중개 매칭 5만+)</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.11 (8개월)</td></tr>
-        <tr><td class="l">역할</td><td class="v">부분적 빅뱅 전략 설계, 14개 서비스 중 5개(apart · agent · match 포함) 설계 및 구현 담당</td></tr>
+        <tr><td class="l">역할</td><td class="v">부분적 빅뱅 전략 설계, 14개 서비스 중 5개(estate · agent · match 포함) 설계 및 구현 담당</td></tr>
         <tr><td class="l">기술스택</td><td class="v">Kotlin, Spring Cloud, Feign Client, AWS SQS, CQRS, Hexagonal</td></tr>
         <tr><td class="l">서비스 규모</td><td class="v">14개 MSA · 3 SNS / 42 SQS · Schema-per-Service · GKE 2 Cluster</td></tr>
       </table>
@@ -259,7 +259,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">해결: 부분적 빅뱅 + Dual Write</div>
       <ul class="bl">
-        <li>강결합 도메인(아파트, 매칭, 중개사) 동시 분리 + 나머지 점진적 전환</li>
+        <li>강결합 도메인(매물, 매칭, 중개사) 동시 분리 + 나머지 점진적 전환</li>
         <li><span class="hl">Dual Write + 검증 배치</span>로 과도기 데이터 정합성 보장</li>
         <li><strong class="bd">헥사고날 + CQS:</strong> Port/Adapter로 도메인↔기술 의존 차단(DB·MQ 교체 시 Adapter만 변경). 복제 테이블 조회 전용 → 쓰기(정합성)·읽기(속도) 분리가 자연스러워 CQS 도출</li>
       </ul>
@@ -279,7 +279,7 @@ a:hover{text-decoration:underline;}
             <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE (단일 EC2 · Docker Compose)</div>
             <div class="db er ds" style="width:100%;margin-bottom:4px;">레거시 서비스 (핵심 도메인 강결합)</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
-              <div class="db er ds">아파트</div><div class="db er ds">매칭</div>
+              <div class="db er ds">매물</div><div class="db er ds">매칭</div>
               <div class="db er ds">중개사</div>
               <div class="db ds" style="border-style:dashed;">기존 MSA 서비스들</div>
             </div>
@@ -292,7 +292,7 @@ a:hover{text-decoration:underline;}
             <div style="border:1px solid #81c995;border-radius:3px;padding:4px;position:relative;margin-bottom:3px;">
               <div style="position:absolute;top:-6px;left:4px;background:#fff;padding:0 2px;font-size:10.5px;font-weight:700;color:#137333;">GKE Cluster (dev/prod)</div>
               <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2px;">
-                <div class="db ok ds" style="font-size:10.5px;">agent</div><div class="db ok ds" style="font-size:10.5px;">apart</div>
+                <div class="db ok ds" style="font-size:10.5px;">agent</div><div class="db ok ds" style="font-size:10.5px;">estate</div>
                 <div class="db ok ds" style="font-size:10.5px;">match</div><div class="db ok ds" style="font-size:10.5px;">ai</div>
                 <div class="db ok ds" style="font-size:10.5px;">chat</div><div class="db ok ds" style="font-size:10.5px;">user</div>
                 <div class="db ok ds" style="font-size:10.5px;">notif</div><div class="db ok ds" style="font-size:10.5px;">event</div>
@@ -312,7 +312,7 @@ a:hover{text-decoration:underline;}
       <div class="dg" style="margin-top:8px;">
         <div class="dl">강결합 구조 — Strangler Fig 불가 원인</div>
         <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0;font-size:10.5px;text-align:center;">
-          <div class="db er ds" style="padding:8px 10px;font-weight:700;">아파트<br><span style="font-weight:400;font-size:10.5px;">매물 등록</span></div>
+          <div class="db er ds" style="padding:8px 10px;font-weight:700;">매물<br><span style="font-weight:400;font-size:10.5px;">등록 관리</span></div>
           <div style="display:flex;flex-direction:column;align-items:center;gap:2px;color:#c5221f;font-size:10.5px;">
             <span>매칭 로직 실행 →</span>
             <span>← 상태 변경</span>
@@ -328,7 +328,7 @@ a:hover{text-decoration:underline;}
         <strong>의사결정 과정 — "왜 점진적 전환이 불가능했는가"</strong>
         <ul style="margin:3px 0 0;padding-left:14px;line-height:1.6;">
           <li>합류 시 느슨한 서비스(알림·이벤트)는 이미 분리 완료 — <strong>핵심 도메인은 미착수</strong></li>
-          <li>아파트 분리 착수 → 레거시 코드 분석 중 <strong>매칭 로직이 아파트 테이블을 직접 JOIN하는 양방향 강결합</strong> 발견</li>
+          <li>매물 도메인 분리 착수 → 레거시 코드 분석 중 <strong>매칭 로직이 매물 테이블을 직접 JOIN하는 양방향 강결합</strong> 발견</li>
           <li>gRPC(고성능, but protobuf 학습 비용)·Zero-Payload(최종 일관성, but 실시간 불가) 검토 → <strong>"기술이 아닌 전략의 문제"</strong>라고 팀 회의에서 결론</li>
           <li>합의: 강결합 도메인은 동시 분리(부분적 빅뱅) + 나머지 점진적 + <strong>Dual Write로 과도기 데이터 정합성 보장</strong></li>
         </ul>
@@ -366,7 +366,7 @@ a:hover{text-decoration:underline;}
       <table class="ct" style="font-size:10px;">
         <tr><th>시기</th><th>작업</th><th>검증</th></tr>
         <tr><td>4~5월</td><td>헥사고날 아키텍처 설계, Port/Adapter 경계 정의</td><td>CTO님 아키텍처 리뷰</td></tr>
-        <tr><td>5~7월</td><td>apart, agent, match 3개 핵심 도메인 동시 분리</td><td>Dual Write 검증 배치</td></tr>
+        <tr><td>5~7월</td><td>estate, agent, match 3개 핵심 도메인 동시 분리</td><td>Dual Write 검증 배치</td></tr>
         <tr><td>7~9월</td><td>notification, event, community 점진적 분리</td><td>통합 테스트 + 카나리 배포</td></tr>
         <tr><td>9~11월</td><td>레거시 트래픽 이전 + Dual Write 종료</td><td>성능 벤치마크 비교</td></tr>
       </table>
@@ -384,7 +384,7 @@ a:hover{text-decoration:underline;}
       <div class="sec-s">이벤트 기반 비동기 통신 — SNS/SQS Fan-out</div>
       <div class="dg">
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div class="db ok" style="width:60%;">apart-svc (매물 등록)</div>
+          <div class="db ok" style="width:60%;">estate-svc (매물 등록)</div>
           <div class="dd">↓ 이벤트 발행</div>
           <div class="db ac" style="width:60%;">SNS Topic (btalk_common_event)</div>
           <div class="dd">↓ Fan-out</div>
@@ -402,7 +402,7 @@ a:hover{text-decoration:underline;}
       <div class="dg">
         <table class="ct" style="font-size:10px;margin:0;">
           <tr><th style="width:28%;">통신 방식</th><th>사용 구간</th><th style="width:22%;">선택 이유</th></tr>
-          <tr><td class="bd">Feign (동기)</td><td>apart↔agent, match→apart, agent→user</td><td>즉시 응답 필요<br><span style="font-size:10px;color:#999;">gRPC는 IDL 기반 타입 안전성이 장점이나, 2~3명 팀에서 protobuf 학습 비용 대비 효과↓ · Spring Cloud 생태계 즉시 사용 · 디버깅 편의성 우선</span></td></tr>
+          <tr><td class="bd">Feign (동기)</td><td>estate↔agent, match→estate, agent→user</td><td>즉시 응답 필요<br><span style="font-size:10px;color:#999;">gRPC는 IDL 기반 타입 안전성이 장점이나, 2~3명 팀에서 protobuf 학습 비용 대비 효과↓ · Spring Cloud 생태계 즉시 사용 · 디버깅 편의성 우선</span></td></tr>
           <tr><td class="bd">SQS (비동기)</td><td>매물등록→매칭, 알림, 이벤트 기록</td><td>결과 대기 불필요</td></tr>
           <tr><td class="bd" style="color:#8a6d3b;">Legacy 의존</td><td>chat→legacy, match→legacy</td><td style="color:#8a6d3b;">향후 제거 대상</td></tr>
         </table>
@@ -487,7 +487,7 @@ a:hover{text-decoration:underline;}
           <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE: 16개 개별 레포</div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
-              <div class="db er ds">agent-repo</div><div class="db er ds">apart-repo</div><div class="db er ds">ai-repo</div>
+              <div class="db er ds">agent-repo</div><div class="db er ds">estate-repo</div><div class="db er ds">ai-repo</div>
               <div class="db er ds">match-repo</div><div class="db er ds">chat-repo</div><div class="db er ds">user-repo</div>
               <div class="db er ds">notif-repo</div><div class="db er ds">data-repo</div><div class="db er ds">event-repo</div>
               <div class="db er ds">commu-repo</div><div class="db er ds">price-repo</div><div class="db er ds">store-repo</div>
@@ -500,7 +500,7 @@ a:hover{text-decoration:underline;}
             <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AFTER: Monorepo</div>
             <div class="db dk ds" style="width:100%;margin-bottom:3px;">:common — Types, Enums만</div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
-              <div class="db ok ds">:agent</div><div class="db ok ds">:apart</div><div class="db ok ds">:ai</div>
+              <div class="db ok ds">:agent</div><div class="db ok ds">:estate</div><div class="db ok ds">:ai</div>
               <div class="db ok ds">:match</div><div class="db ok ds">:chat</div><div class="db ok ds">:user</div>
               <div class="db ok ds">:notif</div><div class="db ok ds">:data</div><div class="db ok ds">:event</div>
             </div>
@@ -574,7 +574,7 @@ a:hover{text-decoration:underline;}
             <span style="display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;">2</span>
             <strong class="bd" style="font-size:12px;">순환 의존성 폭발</strong>
           </div>
-          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;">원인: FeignClient(HTTP) 런타임 순환 가능 → ModuleApi(메서드 호출) 전환 시 <strong>컴파일 타임 순환 참조</strong> 표면화<br>해결: <span class="hl">@Lazy 프록시 50곳 적용</span> — 장기적으로 의존 방향 정리 예정</div>
+          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;">원인: FeignClient(HTTP) 런타임 순환 가능 → ModuleApi(메서드 호출) 전환 시 <strong>컴파일 타임 순환 참조</strong> 표면화<br>해결: <span class="hl">@Lazy 프록시 50곳 적용</span> + <span class="hl">SmartInitializingSingleton으로 startup 검증</span> — @Lazy가 빈 누락을 런타임으로 숨기는 부작용 방지</div>
         </div>
         <div style="border:1px solid #f28b82;border-left:3px solid #c5221f;border-radius:4px;padding:6px 10px;background:#fef7f6;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
@@ -593,7 +593,7 @@ a:hover{text-decoration:underline;}
           <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE: 12개 MSA Pods</div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
-              <div class="db er ds">agent</div><div class="db er ds">apart</div><div class="db er ds">ai</div>
+              <div class="db er ds">agent</div><div class="db er ds">estate</div><div class="db er ds">ai</div>
               <div class="db er ds">match</div><div class="db er ds">chat</div><div class="db er ds">user</div>
               <div class="db er ds">event</div><div class="db er ds">data</div><div class="db er ds">commu</div>
               <div class="db er ds">price</div><div class="db er ds">store</div><div class="db er ds">batch</div>
@@ -606,7 +606,7 @@ a:hover{text-decoration:underline;}
             <div style="border:1px solid #81c995;border-radius:3px;padding:5px;position:relative;">
               <div style="position:absolute;top:-6px;left:6px;background:#fff;padding:0 3px;font-size:10.5px;font-weight:700;color:#137333;">BtalkApplication (1 JVM)</div>
               <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2px;">
-                <div class="db ok ds" style="font-size:10.5px;">:agent</div><div class="db ok ds" style="font-size:10.5px;">:apart</div>
+                <div class="db ok ds" style="font-size:10.5px;">:agent</div><div class="db ok ds" style="font-size:10.5px;">:estate</div>
                 <div class="db ok ds" style="font-size:10.5px;">:ai</div><div class="db ok ds" style="font-size:10.5px;">:match</div>
                 <div class="db ok ds" style="font-size:10.5px;">:chat</div><div class="db ok ds" style="font-size:10.5px;">:user</div>
                 <div class="db ok ds" style="font-size:10.5px;">:event</div><div class="db ok ds" style="font-size:10.5px;">:data</div>
@@ -633,7 +633,7 @@ a:hover{text-decoration:underline;}
         <strong>왜 ③이 가장 위험한가:</strong><br>
         각 서비스는 자기 Schema 전용 TransactionManager를 갖고 있었습니다.
         앱 통합 후 @Primary로 지정된 하나의 TM이 <strong>명시적 TM이 없는 모든 @Transactional을 가져갑니다.</strong>
-        결과: agent 도메인의 쿼리가 apart의 DB 커넥션으로 실행 → <strong>커밋/롤백 범위가 달라져 데이터 정합성이 깨짐.</strong>
+        결과: agent 도메인의 쿼리가 estate의 DB 커넥션으로 실행 → <strong>커밋/롤백 범위가 달라져 데이터 정합성이 깨짐.</strong>
         단위 테스트에서는 단일 TM 환경이라 재현 불가 — 통합 테스트 + 실제 다중 DataSource 환경에서만 발견 가능.
       </div>
 
@@ -786,7 +786,7 @@ a:hover{text-decoration:underline;}
         <div class="dl">모니터링 아키텍처: LGTM Stack</div>
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
           <div style="display:flex;gap:4px;">
-            <div class="db ds">agent</div><div class="db ds">apart</div>
+            <div class="db ds">agent</div><div class="db ds">estate</div>
             <div class="db ds">ai</div><div class="db ds">...(14개)</div>
           </div>
           <div class="dd">↓ OTel Agent v2.20.1 (Sidecar)</div>
@@ -995,7 +995,7 @@ a:hover{text-decoration:underline;}
               <div style="border:1px solid #81c995;border-radius:3px;padding:4px 5px;flex:3;position:relative;">
                 <div style="position:absolute;top:-6px;left:4px;background:#fafafa;padding:0 2px;font-size:10.5px;font-weight:700;color:#137333;">BtalkApplication (모듈러 모놀리식 · 1 JVM)</div>
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2px;">
-                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:agent</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:apart</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:agent</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:estate</div>
                   <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:ai</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:match</div>
                   <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:chat</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:user</div>
                   <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:event</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:data</div>
