@@ -284,10 +284,6 @@ Before optimization, the "Build test reports" step alone consumed 45 minutes and
 
 All major module tests passed. With no broken tests and everything green, I opened the PR.
 
-Local results confirmed the same improvements. Here's a direct comparison for the `agent-module` (242 tests) before and after optimization.
-
-![Local test comparison — agent-module with 242 tests, from 26m 38s to 4m 36s, 82% reduction](/images/blog/ci-test-optimization/local-test-comparison.png)
-
 If you're in a similar situation and wondering where to start, I'd recommend tackling Spring Context loading optimizations first. Context loading is what consumes the most time in tests — removing redundant tests and CI caching improvements can come after.
 
 ### Bonus: Bugs Discovered During Optimization
