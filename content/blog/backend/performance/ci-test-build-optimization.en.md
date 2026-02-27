@@ -10,8 +10,6 @@ tags:
 date: '2026-02-27'
 ---
 
-## Introduction
-
 Hi, I'm Jeongil Jeong, a backend developer working at a proptech platform.
 
 In a [previous post]({{< relref "/blog/architecture/msa-to-modular-monolith" >}}), I wrote about how I, as the sole remaining backend developer, consolidated 13 microservices into a modular monolith. At the end of that post, I mentioned:
