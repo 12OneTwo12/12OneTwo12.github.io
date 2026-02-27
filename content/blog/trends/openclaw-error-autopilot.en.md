@@ -246,7 +246,7 @@ You don't need to create a TypeScript server like MCP. Just one markdown file.
 # Error Autopilot Skill
 
 ## Trigger
-- Cron Job (auto-run every 30 minutes)
+- Heartbeat (periodic auto-run)
 - Or manual forward from Telegram
 
 ## Workflow
@@ -410,7 +410,7 @@ The Tailscale Funnel approach had significant security risks. I could be exposed
 
 The remaining options were cloud deployment or polling. Since real-time wasn't essential, considering cost and management, I chose the **polling approach**.
 
-## Final Implementation: Periodic Checks with Cron Job
+## Final Implementation: Periodic Checks with Heartbeat
 
 Having decided on polling, I needed to figure out how to implement it.
 
@@ -454,20 +454,20 @@ The disadvantage is slightly more complex configuration and separate Cron Job ma
 
 ### Selection Rationale
 
-Initially, Heartbeat seemed attractive because it was simple. Just a few lines of configuration.
+Initially, Cron Job seemed attractive for its stability. It runs independently of the OpenClaw process, after all.
 
-But the fact that it would run on a local PC was concerning. What if I accidentally terminated OpenClaw? Heartbeat stops too. Then automation becomes meaningless.
+But Heartbeat's much simpler configuration was a bigger factor. And the supposed disadvantage—"if OpenClaw dies, Heartbeat dies too"—wasn't actually a problem. OpenClaw registers itself as an **OS-level service** (macOS LaunchAgent, Linux systemd, etc.) during gateway setup, so even if the process terminates or the PC reboots, it automatically restarts.
 
-So I **chose Cron Job**. A bit more complex, but more stable since it runs independently of the OpenClaw process. And I set the Cron interval to 30 minutes to check errors every 30 minutes.
+So I **chose Heartbeat**. Simple to configure, and with OpenClaw handling process recovery on its own, it's just as stable as Cron Job. I set the Heartbeat interval to 30 minutes to check errors every 30 minutes.
 
-Running Cron too frequently could incur high token costs, so I judged 30-minute intervals to be appropriate.
+Running Heartbeat too frequently could incur high token costs, so I judged 30-minute intervals to be appropriate.
 
 But the 30-minute delay still bothered me. It felt insufficient for complete automation. After some thought, I realized a **hybrid approach** could work.
 
 ```mermaid
 flowchart TB
     subgraph "Normal Situation (Auto)"
-        Cron1["⏰ Every 30 min<br/>Cron Job"] --> Auto["Auto Process"]
+        Cron1["⏰ Every 30 min<br/>Heartbeat"] --> Auto["Auto Process"]
     end
 
     subgraph "Urgent Situation (Manual)"
@@ -477,7 +477,7 @@ flowchart TB
 
 ![](https://www.dropbox.com/scl/fi/5spvynh7iwdx81v95amuy/73A570CA-50F4-4B16-A461-82715D359A29.jpg?rlkey=n958h679jpjvjhn78h8qgv4bu&st=zo71v7mj&raw=1)
 
-**Normal Situation**: Auto-process every 30 minutes via polling
+**Normal Situation**: Heartbeat auto-polls every 30 minutes for processing
 **Urgent Situation**: Immediate processing by forwarding message in Telegram group
 
 ### Telegram Forward Mechanism
@@ -505,7 +505,7 @@ This way, normal situations use 30-minute polling for cost-efficient and secure 
 **Scenario 1: Auto-Processing (Normal Case)**
 When an error occurs in DEV environment at 3 AM:
 - **3:00** - Grafana sends Telegram alert (immediate human notification)
-- **3:30** - Cron Job detects new error in Loki
+- **3:30** - Heartbeat detects new error in Loki
 - **3:35** - OpenClaw completes analysis, creates PR
 - **3:36** - Sends processing result to DEV Telegram group (-100XXXXXXXXXX)
 - **9:00** - Morning arrival, check and merge PR
@@ -547,12 +547,16 @@ All six challenges defined earlier are now automated:
 
 | Challenge | MCP (Semi-Automation) | OpenClaw (Automation) |
 |------|---------------|---------------------|
-| 1. Error Detection | ❌ Manual Trigger | ✅ Cron Job Auto Polling |
+| 1. Error Detection | ❌ Manual Trigger | ✅ Heartbeat Auto Polling |
 | 2. Log/Trace Query | ✅ | ✅ |
 | 3. Root Cause Analysis | ✅ | ✅ |
 | 4. Issue Creation | ✅ | ✅ |
 | 5. Code Fixing | ❌ | ✅ |
 | 6. PR Creation | ❌ | ✅ |
+
+### Extension: Performance Bottlenecks Too
+
+Once error automation was running reliably, I applied the same pattern to **performance bottleneck detection**. It automatically discovers slow APIs from monitoring metrics, analyzes bottleneck points through trace analysis, and suggests improvement directions. I'll cover this in detail in a separate post if I get the chance.
 
 ## Don't Blindly Trust: PR Code Review is Essential
 
