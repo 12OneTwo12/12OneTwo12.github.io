@@ -461,7 +461,13 @@ Only notification-service and batch-service were kept as independent deployment 
 
 The biggest infrastructure change was the pod count. Previously, with at least 2 pods per service, we needed 26+ pods. After consolidating into a single application, 2–3 pods for `ModularMonolithApplication` are sufficient. The total pod count dropped to less than 1/5. This brought us to a level that's sustainable even after the credits expire in April.
 
-We haven't precisely measured the cost savings yet, so we'll operate through March and update this post with the numbers.
+![before-modular-credit](https://www.dropbox.com/scl/fi/9to7251qma6g4z7crjeta/before-moduler-credit.png?rlkey=5ll2xme9maze9ltwha94ss1pl&st=vci6m584&raw=1)
+
+![after-modular-credit](https://www.dropbox.com/scl/fi/xpsueudcdebbiw6v7csad/after-moduler-credit.png?rlkey=7nsgpgge7crevuitprl1fl78w&st=v9ldtz7k&raw=1)
+
+Comparing actual GCP costs confirmed the impact. During MSA operation in January, the daily cost was Compute Engine ₩96,505 + Kubernetes Engine ₩6,885, totaling **roughly ₩103,000 per day**. After the modular monolith transition, as of late February, it dropped to Compute Engine ₩58,768 + Kubernetes Engine ₩6,864, totaling **roughly ₩65,000 per day**.
+
+That's about a 39% reduction in Compute Engine costs. Kubernetes Engine costs barely changed since they represent the GKE cluster management overhead itself, but the Compute Engine costs—which reflect actual workload processing—decreased significantly. On a monthly basis, costs went from **roughly ₩3.1M to ₩1.97M, saving approximately ₩1.13M per month**.
 
 ## Lessons Learned
 
@@ -493,7 +499,7 @@ Inter-service communication complexity dropped dramatically. When tracing code, 
 
 Most importantly, if we hadn't addressed the cost problem, the financial burden starting April when credits expire would have been significant. This was a critical issue directly tied to the company's bottom line, and just the fact that pod count dropped from 26+ to a handful makes me glad we cleaned this up when we did.
 
-That said, we haven't quantitatively measured the cost savings yet, so as mentioned above, we'll operate through March and update with the cost reduction figures.
+As mentioned above, Compute Engine costs dropped from roughly ₩96,000 to ₩58,000 per day—about a 39% reduction—translating to approximately ₩1.13M in monthly savings. Of course, we plan to explore further ways to reduce server costs—such as whether K8s is truly necessary, or whether all services really need to be running 24/7.
 
 ## Closing
 
