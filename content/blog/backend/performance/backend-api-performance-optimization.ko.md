@@ -83,7 +83,7 @@ WHERE (aggregation_year * 100 + aggregation_month) BETWEEN ? AND ?
 
 이 쿼리의 문제가 보이시나요?
 
-코드만 보면 꽤 깔끔합니다. `year * 100 + month`로 `202603` 같은 정수를 만들어서 `BETWEEN`으로 범위를 잡는 거죠. 가독성도 좋고 의도도 명확합니다. 저도 처음 코드를 봤을 때는 "깔끔하게 잘 짰네" 싶었습니다.
+코드만 보면 문제가 없어보일 수 있습니다. `year * 100 + month`로 `202603` 같은 정수를 만들어서 `BETWEEN`으로 범위를 잡는 거죠. 
 
 하지만 문제는 **MySQL 옵티마이저 입장**에서 봐야 보입니다. `aggregation_year * 100 + aggregation_month`이라는 **컬럼 연산**이 WHERE 절에 들어가 있으면, 옵티마이저는 인덱스를 사용할 수 없습니다. 컬럼 값을 가공한 결과가 인덱스에 저장된 게 아니니까요. 이런 조건을 **Non-sargable(Search ARGument ABLE이 아닌) expression**이라고 합니다.
 

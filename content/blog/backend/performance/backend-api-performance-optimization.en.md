@@ -59,7 +59,7 @@ graph LR
 
 Now that we've identified the bottleneck points, let's walk through each one in detail.
 
-## Chapter 1. Query Optimization — There Was a Reason Indexes Weren't Helping
+## Query Optimization — There Was a Reason Indexes Weren't Helping
 
 ### Ranking API: Why P95 Tail Latency Was Abnormally High
 
@@ -82,7 +82,7 @@ WHERE (aggregation_year * 100 + aggregation_month) BETWEEN ? AND ?
 
 Can you spot the problem with this query?
 
-Looking at just the code, it seems quite clean. It creates an integer like `202603` from `year * 100 + month` and uses `BETWEEN` for the range. Good readability, clear intent. When I first read the code, I thought "nice and clean."
+Looking at just the code, it might not seem like there's a problem. It creates an integer like `202603` from `year * 100 + month` and uses `BETWEEN` for the range.
 
 But the problem becomes visible when you look at it **from the MySQL optimizer's perspective**. When a **column expression** like `aggregation_year * 100 + aggregation_month` appears in the WHERE clause, the optimizer cannot use an index. The computed result of the column values isn't what's stored in the index. This type of condition is called a **Non-sargable (Search ARGument ABLE) expression**.
 
@@ -281,7 +281,7 @@ I added an index on the settlement date column and switched to SQL aggregation. 
 
 The code change was less than 50 lines. Yet it eliminated unnecessary data transfer and reduced application memory usage in one stroke. Cases like this remind me why the basic principle of "let the DB do what the DB does best" matters so much.
 
-## Chapter 2. Parallelization — Why Were Independent Operations Running Sequentially?
+## Parallelization — Why Were Independent Operations Running Sequentially?
 
 After finishing query optimization, I turned my attention to **sequential processing** sections. Looking at Tempo trace span waterfalls, I kept seeing this pattern: calls with no dependencies on each other lined up one after another.
 
@@ -305,7 +305,7 @@ sequenceDiagram
     Note over Server,Email: Waiting for completion
     Email-->>Server: Done
     Server->>Sms: Send SMS (~1.3s)
-    Note over Server,Alim: Waiting for completion
+    Note over Server,Sms: Waiting for completion
     Sms-->>Server: Done
     Server-->>Client: Response (P95 ~4.9s)
 ```
@@ -375,7 +375,7 @@ graph LR
 
 Query B needs Query A's result, so sequential execution is correct. But Query C can run independently of A and B. I changed Query C to execute in parallel with A+B, reducing this logic's execution time from about **150ms to 100ms**. While the absolute time difference isn't huge, this logic was shared across multiple modules, so a single change improved P95 by about 30% across several APIs.
 
-## Chapter 3. Caching — Why Fetch the Same Data Every Time?
+## Caching — Why Fetch the Same Data Every Time?
 
 After fixing queries and parallelizing independent calls, the next thing that caught my eye was the pattern of **fetching the same data from the DB on every request**.
 
