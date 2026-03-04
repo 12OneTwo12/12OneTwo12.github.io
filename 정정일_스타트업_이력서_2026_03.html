@@ -464,7 +464,7 @@
             <p class="profile-text">
                 <strong>운영 문제의 근본 원인을 끝까지 추적</strong>하고, <strong>팀 규모에 맞는 아키텍처를 선택</strong>하는 3년차 백엔드 개발자입니다.<br>
                 14개 MSA 무중단 전환 → 비용 위기에 모듈러 모놀리식 재전환, K8s 인프라·모니터링 구축까지 직접 제안하고 실행했습니다.<br>
-                <strong>API 응답속도 87% 개선</strong>(10.3초→1.3초), <strong>장애 인지 98% 단축</strong>(1시간→1분), <strong>배치 64% 단축</strong>(13.3분→4.8분)을 달성했습니다.
+                <strong>핵심 API P95 99% 개선</strong>(4초→50ms), <strong>장애 인지 98% 단축</strong>(1시간→1분), <strong>인프라 비용 36% 절감</strong>을 달성했습니다.
             </p>
         </section>
 
@@ -519,13 +519,15 @@
                             <li>초기 점진적 전환 시도 실패 후 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리, 과도기 Dual Write + 검증 배치</li>
                             <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li>
                             <li><strong>Jacoco + Detekt + Reviewdog</strong> 도입 제안·적용 — PR 단위 테스트 커버리지·정적 분석 자동 리뷰 파이프라인 구축</li>
-                            <li>인프라 비용 부담 + 팀 3→1명 감축 — 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a>, Pod 1/5 절감</li>
-                            <li>주요 API(부동산 매물 상세조회)의 병목을 진단하고 <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">쿼리 최적화, 병렬 처리, 캐싱을 통합 P95 87% 개선 (P95 4,045ms→50ms)</a></li>
+                            <li>인프라 비용 부담 + 팀 3→1명 감축 — 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a> 설계·실행</li>
+                            <li>주요 API(부동산 매물 상세조회) 병목 진단 → <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">쿼리 최적화·병렬 처리·Redis 캐싱으로 P95 99% 개선</a>(4,045ms→50ms)</li>
+                            <li>RAG + Elasticsearch Geo-search 기반 <a href="https://bootalk.co.kr/ai/chat">자연어 매물 추천 시스템</a> 설계·구축 (백엔드 전담)</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li><strong>무중단</strong> MSA 전환 완료, 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
                             <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만), CI <strong>77% 단축</strong>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
+                            <li><strong>핵심 API P95 응답시간 99% 개선</strong>(4,045ms→50ms), 568 req/s 트래픽 기준</li>
                         </ul>
                     </div>
                 </div>
@@ -562,29 +564,6 @@
                     </div>
                 </div>
 
-                <!-- 프로젝트 3: RAG 매물추천 -->
-                <div class="project">
-                    <div class="project-header">
-                        <span class="project-title">자연어 기반 AI 부동산 매물 추천 시스템 (<a href="https://bootalk.co.kr/ai/chat" style="color: #0066cc;">서비스</a>)</span>
-                        <span class="project-period">2025.08 – 2025.11 · 3명 팀</span>
-                    </div>
-                    <div class="project-summary"><span>RAG + Elasticsearch Geo-search로 자연어 위치 검색 매물 추천 기능 개발</span><span class="project-role">백엔드 전담</span></div>
-                    <div class="project-content">
-                        <div class="detail-label">[문제]</div>
-                        <ul class="detail-list">
-                            <li>기존 AI는 Q&A RAG만 지원, "여의도역 근처 아파트 추천해줘" 같은 <strong>자연어 기반 매물 검색 불가</strong></li>
-                        </ul>
-                        <div class="detail-label">[주요 기여]</div>
-                        <ul class="detail-list">
-                            <li>Spring Batch 일배치로 Elasticsearch에 <strong>위치 정보(POI) 인덱싱</strong> 자동화</li>
-                            <li>자연어 → LLM 키워드 추출 → Elasticsearch <strong>벡터기반 유사도 검색</strong> → 조건 필터링 파이프라인 구축</li>
-                        </ul>
-                        <div class="detail-label">[성과]</div>
-                        <ul class="detail-list">
-                            <li>자연어 위치 검색 기반 <strong>AI 매물 추천</strong> 기능 런칭 ("강남역 도보 10분 이내 15억정도 하는 신혼부부가 살만한 아파트 추천해줘" 같은 <strong>복합 조건 검색</strong> 지원)</li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </section>
     </div>
