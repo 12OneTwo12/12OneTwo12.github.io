@@ -526,7 +526,7 @@
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li><strong>무중단</strong> MSA 전환 완료, 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
-                            <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만), CI <strong>77% 단축</strong>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
+                            <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만), <a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">CI <strong>77% 단축</strong></a>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
                             <li><strong>핵심 API P95 응답시간 99% 개선</strong>(4,045ms→50ms), 568 req/s 트래픽 기준</li>
                         </ul>
                     </div>
@@ -571,7 +571,7 @@
     <!-- Page 2 -->
     <div class="page">
         <!-- 헬로핀테크 (continued) -->
-        <section class="section">
+        <section class="section"  style="margin-bottom: 7px;">
             <div class="exp-item">
                 <div class="exp-header">
                     <span class="exp-company">㈜헬로핀테크</span>
@@ -583,7 +583,7 @@
                 <!-- 프로젝트 1: 백오피스 성능 최적화 -->
                 <div class="project">
                     <div class="project-header">
-                        <span class="project-title">백오피스 서버 성능 최적화 및 트러블슈팅</span>
+                        <span class="project-title">백오피스 서버 마이그레이션 및 성능 최적화, 트러블슈팅</span>
                         <span class="project-period">2024.04 – 2025.03 · 2~6명 팀</span>
                     </div>
                     <div class="project-summary"><span>PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선 및 장애 대응</span><span class="project-role">성능 최적화 및 트러블슈팅 담당</span></div>
@@ -622,8 +622,7 @@
                         </ul>
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li>새로운 DevOps 입사 전까지 <strong>인프라 운영 전담</strong> (6개월)</li>
-                            <li><strong>19개 인스턴스</strong>, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB 운영 및 유지보수</li>
+                            <li>새로운 DevOps 입사 전까지 <strong>인프라 운영 전담</strong> (6개월), <strong>19개 인스턴스</strong>, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB 운영 및 유지보수</li>
                             <li><strong>Redis Session Clustering</strong> 도입으로 세션 유실 문제 해결</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
@@ -634,10 +633,10 @@
                 </div>
 
                 <!-- 프로젝트 3: Spring Batch -->
-                <div class="project">
+                <div class="project" style="margin-bottom: 7px;">
                     <div class="project-header">
-                        <span class="project-title">Spring Batch 성능 최적화</span>
-                        <span class="project-period">2024.05 – 2025.03 · 4~6명 팀</span>
+                        <span class="project-title">Spring Batch 마이그레이션 및 성능 최적화</span>
+                        <span class="project-period">2024.05 – 2024.12 · 4~6명 팀</span>
                     </div>
                     <div class="project-summary"><span>PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선</span><span class="project-role">배치 시스템 전환 및 성능 최적화 설계 담당</span></div>
                     <div class="project-content">
@@ -653,7 +652,7 @@
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li><strong>배치 처리시간 64% 단축</strong>(13.3분→4.8분), 트랜잭션 락 점유: 22분 → <strong>0.01초</strong></li>
+                            <li>마이그레이션 완료 및 <strong>배치 처리시간 64% 단축</strong>(13.3분→4.8분), 트랜잭션 락 점유: 22분 → <strong>0.01초</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -661,9 +660,9 @@
         </section>
 
         <!-- Side Project -->
-        <section class="section" style="margin-top: 16px;">
+        <section class="section" style="margin-bottom: 10px;">
             <h2 class="section-title">Side Project</h2>
-            <div class="exp-item">
+            <div class="exp-item" style="margin-bottom: 7px;">
                 <div class="exp-header">
                     <span><span class="exp-company" style="font-size: 9pt;">Upvy</span> – 교육용 숏폼 영상 플랫폼 앱 <span class="exp-meta" style="display: inline; margin: 0;">(1인 개발 · <a href="https://apps.apple.com/app/upvy/id6756291696" target="_blank" style="color: #0066cc; text-decoration: none;">App Store</a> / <a href="https://play.google.com/store/apps/details?id=com.upvy.app" target="_blank" style="color: #0066cc; text-decoration: none;">Play Store</a> 출시 및 운영중)</span></span>
                     <span class="exp-period">2025.10 – 현재</span>
@@ -672,10 +671,19 @@
                     <li>Spring WebFlux + R2DBC 비동기 백엔드, <strong>LLM + BTT</strong> 기반 YouTube <strong>영상 자동 편집 파이프라인 구축</strong> 및 n8n 파이프라인 구축 <strong>79% test coverage</strong> 달성</li>
                 </ul>
             </div>
+            <div class="exp-item">
+                <div class="exp-header">
+                    <span><span class="exp-company" style="font-size: 9pt;">Error Autopilot</span> – AI 에러 자동 대응 시스템 <span class="exp-meta" style="display: inline; margin: 0;">(1인 개발 · Upvy 적용 · <a href="https://github.com/12OneTwo12/error-autopilot-mcp" target="_blank" style="color: #0066cc; text-decoration: none;">GitHub</a> · <a href="https://jeongil.dev/ko/blog/trends/openclaw-error-autopilot" target="_blank" style="color: #0066cc; text-decoration: none;">Blog</a>)</span></span>
+                    <span class="exp-period">2026.01 – 현재</span>
+                </div>
+                <ul class="exp-list">
+                    <li><a href="https://github.com/12OneTwo12/error-autopilot-mcp">MCP Server</a>로 Loki/Tempo 연동 반자동화 구축 → <strong>OpenClaw</strong> Heartbeat 폴링 + 텔레그램 Forward 하이브리드로 <strong>에러 인지→분석→이슈/PR 생성 완전 자동화</strong></li>
+                </ul>
+            </div>
         </section>
 
         <!-- Certifications -->
-        <section class="section" style="margin-top: 14px;">
+        <section class="section" style="margin-bottom: 7px;">
             <h2 class="section-title table-section">Certifications</h2>
             <table class="cert-table">
                 <tr>
@@ -702,7 +710,7 @@
         </section>
 
         <!-- Education -->
-        <section class="section" style="margin-top: 14px;">
+        <section class="section"  style="margin-bottom: 7px;">
             <h2 class="section-title table-section">Education</h2>
             <table class="edu-table">
                 <tr>
@@ -724,7 +732,7 @@
         </section>
 
         <!-- Additional -->
-        <section class="section" style="margin-top: 14px;">
+        <section class="section" style="margin-bottom: 7px;">
             <h2 class="section-title">Additional</h2>
             <div class="add-item">
                 <span class="add-label">Open Source</span>
