@@ -460,11 +460,11 @@
 
         <!-- Profile -->
         <section class="section" style="margin-bottom: 8px;">
-            <h2 class="section-title">Profile -- 3줄 정도로 회사 채용공고 자격 요건을 적절히 잘 녹여서 작성할것  --</strong></h2>
+            <h2 class="section-title">Profile</h2>
             <p class="profile-text">
-                <strong>"지금 우리 서비스에 가장 필요한 개선이 무엇인가?"</strong>를 고민하는 3년차 백엔드 개발자입니다.<br>
-                API 성능 최적화부터 MSA 전환, K8s 인프라 구축, 팀 개발문화 개선까지 <strong>필요하다면 제안하고, 협의하여 팀과 함께 만들어왔습니다.</strong><br>
-                MSA 전환을 서비스 중단 없이 완료했고, <strong>API 응답속도 87% 개선</strong>(10.3초→1.3초), <strong>장애 인지 시간 98% 단축</strong>(1시간→1분)을 달성했습니다.<br>
+                <strong>운영 문제의 근본 원인을 끝까지 추적</strong>하고, <strong>팀 규모에 맞는 아키텍처를 선택</strong>하는 3년차 백엔드 개발자입니다.<br>
+                14개 MSA 무중단 전환 → 비용 위기에 모듈러 모놀리식 재전환, K8s 인프라·모니터링 구축까지 직접 제안하고 실행했습니다.<br>
+                <strong>API 응답속도 87% 개선</strong>(10.3초→1.3초), <strong>장애 인지 98% 단축</strong>(1시간→1분), <strong>배치 64% 단축</strong>(13.3분→4.8분)을 달성했습니다.
             </p>
         </section>
 
@@ -478,7 +478,7 @@
                 </tr>
                 <tr>
                     <td class="cat">Infrastructure</td>
-                    <td class="content">Kubernetes, Docker, Jenkins, ArgoCD, Grafana</td>
+                    <td class="content">Kubernetes, Docker, Jenkins, ArgoCD, Terraform, Grafana, Prometheus</td>
                 </tr>
                 <tr>
                     <td class="cat">Database</td>
@@ -520,11 +520,12 @@
                             <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li>
                             <li><strong>Jacoco + Detekt + Reviewdog</strong> 도입 제안·적용 — PR 단위 테스트 커버리지·정적 분석 자동 리뷰 파이프라인 구축</li>
                             <li>인프라 비용 부담 + 팀 3→1명 감축 — 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a>, Pod 1/5 절감</li>
+                            <li>주요 API(부동산 매물 상세조회)의 병목을 진단하고 <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">쿼리 최적화, 병렬 처리, 캐싱을 통합 P95 87% 개선 (P95 4,045ms→50ms)</a></li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li><strong>무중단</strong> MSA 전환 완료, 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
-                            <li>모듈러 모놀리식 전환으로 <strong>비용 (몇프로)% 절감</strong>, CI <strong>77% 단축</strong>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
+                            <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만), CI <strong>77% 단축</strong>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -541,6 +542,7 @@
                         <ul class="detail-list">
                             <li>단일 인스턴스 + Shell Script 배포 → <strong>SPOF</strong>, 장애 복구 시 개발자 수동 개입 필수. 개발서버 부재로 테스트의 어려움 존재</li>
                             <li>모니터링 부재로 장애 인식을 CS에만 의존 (평균 1시간) → <strong>사용자 서비스 이탈 위험</strong></li>
+                            <li><strong>K8s로 전환 후 JVM Cold Start 빈도 상승</strong>으로 인한 일부 지연 발생</li>
                         </ul>
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
@@ -549,11 +551,13 @@
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system">Grafana LGTM Stack 선택</a> – ELK·Datadog·LGTM 비교 후 소규모 팀 자체 운영 가능성과 비용($92~200 vs <strong>$12~37/월</strong>)을 기준으로 선택</li>
                             <li>GitHub Actions CI/CD 구축 → 빌드 증가로 Self-hosted Runner(개인 PC) 부하 심화, <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins">Jenkins on K8s 전환</a></li>
                             <li>일부 서비스 <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story">온프레미스 → AWS 무중단 마이그레이션</a> (실시간 동기화 위해 <strong>AWS DMS CDC</strong> 선택)</li>
+                            <li>startupProbe을 통한 <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up">K8s JVM Warm-Up 최적화</a></li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li><strong>장애 인지 시간 98% 단축</strong>(1시간→1분), 롤백 83% 단축(12분→2분), 배포 67% 단축(15분→5분)</li>
-                            <li><strong>무중단 배포</strong> 체계 및 <strong>자동 스케일링, 회복 탄력성</strong> 확보, <strong>독립된 환경에서의 테스트 Flow 도입</strong></li>
+                            <li><strong>무중단 배포</strong> 체계, <strong>자동 스케일링·회복 탄력성</strong> 확보, JVM Cold Start <strong>85% 개선</strong>(1.2초→150ms)</li>
+                            <li>개발서버 구축 완료로 독립된 환경에서의 테스트 Flow 도입</li>
                         </ul>
                     </div>
                 </div>
