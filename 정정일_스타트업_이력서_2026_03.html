@@ -518,13 +518,13 @@
                             <li>초기 점진적 전환 시도 실패 후 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리, 과도기 Dual Write + 검증 배치</li>
                             <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li>
                             <li>팀 규모 축소(3→1명)에 따라 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a> 설계·실행</li>
-                            <li>주요 API(부동산 매물 상세조회) 병목 진단 → <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">쿼리 최적화·병렬 처리·Redis 캐싱으로 P95 99% 개선</a>(4,045ms→50ms)</li>
+                            <li>주요 API(부동산 매물 상세조회, <strong>일 4,900만 건</strong>) 병목 진단 → <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">쿼리 최적화·병렬 처리·Redis 캐싱으로 P95 99% 개선</a>(4,045ms→50ms)</li>
                             <li>MSA 전환 중 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace">MySQL Collation 불일치로 335배 성능 저하</a> 진단 → <strong>109개 테이블 MyISAM→InnoDB 전환</strong>, utf8mb4 통일로 근본 해결</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li><strong>무중단</strong> MSA 전환 완료, 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
-                            <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만), <a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">CI 77% 단축</a>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
+                            <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만, 연 ₩1,350만), <a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">CI 77% 단축</a>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -602,7 +602,7 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">백오피스 서버 마이그레이션 및 성능 최적화, 트러블슈팅</span>
-                        <span class="project-period">2024.04 – 2025.03 · 2~6명 팀</span>
+                        <span class="project-period">2023.04 – 2025.03 · 2~6명 팀</span>
                     </div>
                     <div class="project-summary"><span>PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선 및 장애 대응</span><span class="project-role">성능 최적화 및 트러블슈팅 담당</span></div>
                     <div class="project-content">
@@ -615,7 +615,7 @@
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis">HikariCP Deadlock 해결</a> – OSIV 환경에서 JPA+MyBatis가 2 Connection 점유하는 원인 파악, 영향 범위 최소화 위해 MyBatis 제거 대신 JPA 일원화 선택</li>
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag">Replication 지연 해결</a> – 전체 Master 조회는 Slave 분산 목적을 훼손하므로, 쓰기 직후 조회만 Master로 라우팅하는 AOP 방식으로 <strong>일관성/성능 균형</strong> 조절</li>
-                            <li><a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf">외부 API Redis 캐싱</a> – 기존 인프라 활용, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf">외부 API Redis 캐싱</a> – <strong>외부 API 호출 76% 감소</strong>, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
                             <li><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction">Git Flow 도입 제안</a> – Cherry-pick 충돌 사례 시각화로 팀 설득, Pn룰 코드리뷰 도입</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
@@ -654,7 +654,7 @@
                 <div class="project" style="margin-bottom: 7px;">
                     <div class="project-header">
                         <span class="project-title">Spring Batch 마이그레이션 및 성능 최적화</span>
-                        <span class="project-period">2024.05 – 2024.12 · 4~6명 팀</span>
+                        <span class="project-period">2023.05 – 2024.12 · 4~6명 팀</span>
                     </div>
                     <div class="project-summary"><span>PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선</span><span class="project-role">배치 시스템 전환 및 성능 최적화 설계 담당</span></div>
                     <div class="project-content">
