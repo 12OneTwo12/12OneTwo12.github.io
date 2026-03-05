@@ -279,12 +279,12 @@
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li>초기 점진적 전환 시도 실패 후 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion" target="_blank">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리, 과도기 Dual Write + 검증 배치</li>
-                            <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module" target="_blank">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li>
-                            <li>MSA 전환 중 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace" target="_blank">MySQL Collation 불일치로 프로시저 8배 성능 저하</a> 진단 → <strong>109개 테이블 MyISAM→InnoDB 전환</strong>, utf8mb4 통일로 근본 해결</li>
-                            <li><strong>Jacoco + Detekt + Reviewdog</strong> 도입 제안·적용 — PR 단위 테스트 커버리지·정적 분석 자동 리뷰 파이프라인 구축</li>
-                            <li>운영 복잡도·인프라 비용 최적화를 위해 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith" target="_blank">모듈러 모놀리식 재전환</a> 설계·실행 (3→1명 운영 체제 전환)</li>
-                            <li>주요 API(부동산 매물 상세조회, <strong>피크 568 req/s</strong>) 병목 진단 → <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization" target="_blank">쿼리 최적화·병렬 처리·Redis 캐싱으로 P95 99% 개선</a>(4,045ms→50ms)</li>
+                            <li>매칭→매물 도메인 직접 의존으로 Strangler Fig 실패 → <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion" target="_blank">부분적 빅뱅 전략</a>으로 강결합 도메인 동시 분리, Dual Write + 검증 배치로 무중단 전환 (FeignClient + SQS)</li>
+                            <li>공통 코드 16개 레포 분산 → <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module" target="_blank">멀티모듈 전환</a>(Git Subtree로 이력 보존), Spring Boot 2.7→3.1.1 마이그레이션 포함, <strong>선택적 빌드 파이프라인</strong> 구성</li>
+                            <li>MSA 전환 중 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace" target="_blank">Collation 불일치로 프로시저 성능 저하</a> 진단(457ms→42ms) – latin1/utf8 혼재 JOIN 인덱스 무효화 → <strong>109개 테이블 MyISAM→InnoDB 전환</strong>, utf8mb4 통일</li>
+                            <li><strong>Jacoco + Detekt + Reviewdog</strong> 도입 제안 — PR 단위 커버리지·정적 분석 자동 리뷰 파이프라인 구축</li>
+                            <li>운영 복잡도·비용 최적화 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith" target="_blank">모듈러 모놀리식 재전환</a> – FeignClient→9개 ModuleApi 인터페이스, 11개 독립 스키마 유지, Pod 26+→5~7개 축소</li>
+                            <li>매물 상세조회 API(<strong>피크 568 req/s</strong>) N+1 제거(~4,001→2쿼리) + Cache-Aside(TTL Jitter)로 <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization" target="_blank">P95 99% 개선</a>(4,045ms→50ms)</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
@@ -313,11 +313,11 @@
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s" target="_blank">GKE 도입 제안 및 구축</a> – 자체 구축(kubeadm)·EKS·GKE 비교 후, DevOps 부재·4인 팀 상황에서 운영 부담 최소화 가능한 Managed K8s 선택</li>
-                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system" target="_blank">Grafana LGTM Stack 선택</a> – ELK·Datadog·LGTM 비교 후 소규모 팀 자체 운영 가능성과 비용($92~200 vs <strong>$12~37/월</strong>)을 기준으로 선택</li>
-                            <li>GitHub Actions CI/CD 구축 → 빌드 증가로 Self-hosted Runner(개인 PC) 부하 심화, <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins" target="_blank">Jenkins on K8s 전환</a></li>
-                            <li>일부 서비스 온프레미스 → <a href="https://jeongil.dev/ko/blog/infrastructure/on-premise-to-aws-migration" target="_blank">AWS 무중단 마이그레이션</a> (실시간 동기화 위해 AWS DMS CDC 선택)</li>
-                            <li>배포 직후 Cold Start(P99 1.2초) 해결 위해 <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" target="_blank">startupProbe 기반 JVM Warm-Up</a> 적용</li>
+                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s" target="_blank">GKE 도입</a> – kubeadm·EKS·GKE 비교, DevOps 부재 상황에서 Managed K8s 선택. 미문서화 방화벽 발견 → <strong>Cloud NAT</strong>으로 고정 IP 확보</li>
+                            <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system" target="_blank">Grafana LGTM Stack</a> – ELK($92~200) 대비 비용(<strong>$12~37/월</strong>) 및 운영 부담 기준 선택, OpenTelemetry로 로그·트레이싱·메트릭 통합</li>
+                            <li>14개 서비스 빌드 증가로 Self-hosted Runner 부하 → <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins" target="_blank">Jenkins on K8s 전환</a>, 동시 Pod 최대 10개, 병렬 빌드 15분→5분</li>
+                            <li>온프레미스 → <a href="https://jeongil.dev/ko/blog/infrastructure/on-premise-to-aws-migration" target="_blank">AWS 무중단 마이그레이션</a> (Terraform + <strong>AWS DMS CDC</strong> 실시간 동기화)</li>
+                            <li>Cold Start(1,190~1,390ms) → <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" target="_blank">startupProbe 기반 JVM Warm-Up</a>(4개 엔드포인트 × 10회 사전 호출), <strong>150~230ms로 85% 개선</strong></li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
@@ -386,10 +386,10 @@
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" target="_blank">HikariCP Deadlock 해결</a> – OSIV 환경에서 JPA+MyBatis가 2 Connection 점유하는 원인 파악, 영향 범위 최소화 위해 MyBatis 제거 대신 JPA 일원화 선택</li>
-                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag" target="_blank">Replication 지연 해결</a> – 전체 Master 조회는 Slave 분산 목적을 훼손하므로, 쓰기 직후 조회만 Master로 라우팅하는 AOP 방식으로 <strong>일관성/성능 균형</strong> 조절</li>
-                            <li>주택 시세 외부 API(평균 5.1초) 병목 → <a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf" target="_blank">Look-aside Cache 적용</a>, <strong>호출 76% 감소</strong>, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
-                            <li><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction" target="_blank">Git Flow 도입 제안</a> – Cherry-pick 충돌 사례 시각화로 팀 설득, Pn룰 코드리뷰 도입</li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" target="_blank">HikariCP Deadlock 해결</a> – Pool 40개 전량 점유(active=40, waiting=46). OSIV ON에서 JPA+MyBatis 2 Connection 점유 → Pool 고갈 원인 파악, <strong>영향 범위 최소화</strong> 위해 JPA 일원화 선택</li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag" target="_blank">Replication 지연 해결</a> – AbstractRoutingDataSource + <strong>@UseMasterDB</strong> AOP로 쓰기 직후 조회만 Master 라우팅, 일관성/성능 균형 조절</li>
+                            <li>외부 API(평균 5,132ms) 병목 → <a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf" target="_blank">Redis Look-aside Cache</a>(TTL 86,400초), <strong>호출 76% 감소</strong>, 캐시 히트 <strong>57ms</strong>, 평균 5,132ms→<strong>1,299ms (75% 개선)</strong></li>
+                            <li><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction" target="_blank">Git Flow 도입 제안</a> – Cherry-pick 충돌 핫픽스 롤백 사례 시각화로 팀 설득, P1~P5 우선순위 코드리뷰 도입</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
@@ -411,20 +411,13 @@
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
-                            <li>기존 DevOps 퇴사로 <strong>인프라 운영 공백</strong> 발생</li>
-                            <li>K8s Ingress Sticky Session 설정으로 앱 재기동 시 <strong>세션 유실</strong> 발생</li>
+                            <li>DevOps 퇴사로 <strong>인프라 운영 공백</strong>, K8s Ingress Sticky Session으로 앱 재기동 시 <strong>세션 유실</strong></li>
                         </ul>
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li>새로운 DevOps 입사 전까지 <strong>인프라 운영 전담</strong> (6개월)</li>
-                            <li><strong>19개 인스턴스</strong>, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB 운영 및 유지보수</li>
-                            <li><strong>Redis Session Clustering</strong> 도입으로 세션 유실 문제 해결</li>
-                        </ul>
-
-                        <div class="detail-label">[성과]</div>
-                        <ul class="detail-list">
-                            <li>운영 공백 기간 <strong>안정적 인프라 유지</strong>, 세션 유실 문제 해결로 <strong>사용자 경험 개선</strong></li>
+                            <li>DevOps 입사 전까지 <strong>인프라 운영 전담</strong>(6개월) – <strong>19개 인스턴스</strong>, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB 운영</li>
+                            <li><strong>Redis Session Clustering</strong> 도입으로 세션을 외부 저장소 분리, 세션 유실 문제 해결 → <strong>사용자 경험 개선</strong></li>
                         </ul>
 
                         <div class="tech-line"><strong>기술:</strong> Kubernetes, Jenkins, ArgoCD, ELK, Prometheus, Redis, MySQL</div>
@@ -447,8 +440,8 @@
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock" target="_blank">Deadlock 해결</a> – 4가지 방법 비교 후 Bean 설정으로 Isolation Level 변경</li>
-                            <li>데이터 누락 원인 파악 후 Chunk 전환, 추가 성능 개선 위해 <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Partitioning 병렬 처리 설계</a></li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock" target="_blank">Deadlock 해결</a> – BATCH_JOB_INSTANCE SELECT→INSERT 락 전환 시 교착. 4가지 비교 후 <strong>Bean 설정으로 Isolation Level REPEATABLE_READ 변경</strong></li>
+                            <li>Tasklet 단일 트랜잭션(22분) MVCC 스냅샷 고정 → 중간 입금 불가시. Chunk 전환 후 <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Partitioning 병렬 처리</a>(GridSize 10, ThreadPool 10) 적용</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
@@ -471,7 +464,7 @@
                     <span class="project-title">Upvy – 교육용 숏폼 영상 플랫폼</span>
                     <span class="project-period">2025.10 – 현재 · 1인 개발</span>
                 </div>
-                <div class="project-summary">스크롤 시간을 학습 시간으로 전환하는 교육용 숏폼 플랫폼 (<a href="https://apps.apple.com/app/upvy/id6756291696" target="_blank" style="color: #0066cc; text-decoration: none;">App Store</a> / <a href="https://play.google.com/store/apps/details?id=com.upvy.app" target="_blank" style="color: #0066cc; text-decoration: none;">Play Store</a> 출시 및 운영 중)</div>
+                <div class="project-summary">스크롤 시간을 학습 시간으로 전환하는 교육용 숏폼 플랫폼 (<a href="https://apps.apple.com/app/upvy/id6756291696" target="_blank" style="color: #0066cc; text-decoration: none;">App Store</a> / <a href="https://play.google.com/store/apps/details?id=com.upvy.app" target="_blank" style="color: #0066cc; text-decoration: none;">Play Store</a> 출시 및 운영 중 · <a href="https://github.com/12OneTwo12/upvy" target="_blank" style="color: #0066cc; text-decoration: none;">GitHub</a>)</div>
                 <div class="project-content">
                     <div class="detail-label">[주요 구현]</div>
                     <ul class="detail-list">
@@ -479,7 +472,6 @@
                         <li>React Native 크로스플랫폼 앱 개발, <strong>79% test coverage</strong> 달성</li>
                     </ul>
 
-                    <div class="service-link"><a href="https://github.com/12OneTwo12/upvy" target="_blank">GitHub</a></div>
                     <div class="tech-line"><strong>기술:</strong> Kotlin, Spring WebFlux, R2DBC, React Native, Vertex AI</div>
                 </div>
             </div>
@@ -493,7 +485,7 @@
                 <div class="project-content">
                     <div class="detail-label">[주요 구현]</div>
                     <ul class="detail-list">
-                        <li><a href="https://github.com/12OneTwo12/error-autopilot-mcp" target="_blank">MCP Server</a>로 Loki/Tempo 연동, <strong>OpenClaw</strong> Heartbeat 폴링으로 <strong>에러 인지→분석→이슈/PR 완전 자동화</strong></li>
+                        <li><a href="https://github.com/12OneTwo12/error-autopilot-mcp" target="_blank">MCP Server</a>로 Loki/Tempo 연동, OpenClaw Heartbeat(30분)로 에러 감지→분석→이슈→PR <strong>6단계 자동화</strong>, 멀티 에이전트 리뷰 + CI 검증</li>
                     </ul>
                 </div>
             </div>
