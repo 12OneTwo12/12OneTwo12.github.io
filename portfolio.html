@@ -96,10 +96,10 @@ a:hover{text-decoration:underline;}
   body{background:#fff;}
   .slide{padding:0;min-height:0;page-break-after:always;}
   .slide:last-child{page-break-after:avoid;}
-  .si{box-shadow:none;width:297mm;height:210mm;}
+  .si{box-shadow:none;width:297mm;height:210mm;padding:24px 40px 18px;overflow:hidden;}
 }
 @page{size:A4 landscape;margin:0;}
-@media (max-width:1200px){
+@media screen and (max-width:1200px){
   html{scroll-snap-type:none;}
   .slide{min-height:auto;padding:8px 0;}
   .si{width:100%;height:auto;min-height:auto;padding:20px 20px 16px;overflow:visible;}
@@ -720,22 +720,18 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="dg" style="margin-top:8px;">
-        <div class="dl">EXPLAIN 분석 — 쿼리 최적화 핵심</div>
-        <div style="display:flex;gap:8px;align-items:start;">
-          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
-            <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:4px;">BEFORE</div>
-            <div class="db er ds" style="width:100%;margin-bottom:3px;">type: <strong>ALL</strong> (Full Scan)</div>
-            <div class="db er ds" style="width:100%;margin-bottom:3px;">rows: <strong>1,195,038</strong></div>
-            <div class="db er ds" style="width:100%;">Non-sargable 조건식</div>
+        <div class="dl">Grafana 실제 P95 — 쿼리 최적화 Before → After (거래량 랭킹 API)</div>
+        <div style="display:flex;gap:4px;">
+          <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
+            <div style="font-size:9.5px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">BEFORE — Peak P95: 3s</div>
+            <img src="public/images/blog/performance/query-optimization-before.png" style="width:100%;display:block;" alt="Before Query Optimization">
           </div>
-          <div style="display:flex;align-items:center;padding-top:24px;font-size:16px;color:#999;">→</div>
-          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
-            <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:4px;">AFTER</div>
-            <div class="db ok ds" style="width:100%;margin-bottom:3px;">type: <strong>ref</strong> (Index)</div>
-            <div class="db ok ds" style="width:100%;margin-bottom:3px;">rows: <strong>14,122</strong></div>
-            <div class="db ok ds" style="width:100%;">Sargable 변환 완료</div>
+          <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+            <div style="font-size:9.5px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">AFTER — Current P95: 89ms</div>
+            <img src="public/images/blog/performance/query-optimization-result.png" style="width:100%;display:block;" alt="After Query Optimization">
           </div>
         </div>
+        <div style="font-size:10px;color:#666;text-align:center;margin-top:3px;">EXPLAIN: type: ALL (rows 1,195,038) → type: ref (rows 14,122) | Non-sargable → Sargable 변환</div>
       </div>
 
       <div class="dg" style="margin-top:8px;">
@@ -753,12 +749,51 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:8px;">
-        <strong>왜 "P95 99% 개선"이 가능했는가:</strong>
-        레거시 코드에 Non-sargable 쿼리(인덱스 무효화), N+1 문제가 누적된 상태에서 MSA 전환 시 리팩터링 없이 마이그레이션된 코드였습니다.
-        <strong>Tempo 분산 트레이싱으로 병목 지점을 정확히 식별</strong>한 후, 쿼리→병렬→캐싱 순서로 체계적으로 접근했습니다.
-        모든 수치는 <strong>Prometheus 운영 메트릭 + Grafana 대시보드</strong>에서 측정한 것입니다.
+      <div style="font-size:10px;color:#888;text-align:center;margin-top:6px;padding:4px;background:#f8f9fa;border-radius:3px;">
+        Grafana 운영 대시보드, Cache Hit Rate, GCP 비용 변화는 다음 페이지에서 확인하실 수 있습니다.
       </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE: API 성능 & 비용 증빙 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(3-1) API 성능 & 비용 — Grafana 운영 대시보드</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">9</span>
+  <div style="flex:1;display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+
+    <div style="border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+      <div class="dl" style="margin:0;padding:4px 8px;background:#f8f9fa;font-size:10px;">Grafana 운영 대시보드 — API 응답시간 Before / After (Prometheus 기준)</div>
+      <img src="public/images/blog/performance/api-before-after-comparison.png" style="width:100%;max-height:220px;object-fit:contain;display:block;" alt="API Before/After Grafana">
+    </div>
+
+    <div style="display:flex;gap:6px;">
+      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+        <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">최적화 후 P95 현황 + 10일 추이 (Grafana)</div>
+        <img src="public/images/blog/performance/performance-summary-dashboard.png" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="P95 Dashboard">
+      </div>
+      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+        <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">Cache Hit Rate 모니터링 (Micrometer + Grafana)</div>
+        <img src="public/images/blog/performance/cache-hitrate-gauge.png" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="Cache Hit Rate">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:6px;">
+      <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
+        <div style="font-size:9.5px;font-weight:700;color:#c5221f;text-align:center;padding:3px;background:#fff4f4;">GCP Billing — MSA 운영 (일 ₩96,505)</div>
+        <img src="https://www.dropbox.com/scl/fi/9to7251qma6g4z7crjeta/before-moduler-credit.png?rlkey=5ll2xme9maze9ltwha94ss1pl&st=vci6m584&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost Before">
+      </div>
+      <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+        <div style="font-size:9.5px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#f2f9f4;">GCP Billing — 모듈러 전환 후 (일 ₩58,768, 39%↓)</div>
+        <img src="https://www.dropbox.com/scl/fi/xpsueudcdebbiw6v7csad/after-moduler-credit.png?rlkey=7nsgpgge7crevuitprl1fl78w&st=v9ldtz7k&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost After">
+      </div>
+    </div>
+
+    <div class="ib" style="font-size:10.5px;">
+      <strong>모든 수치는 Prometheus 운영 메트릭 + Grafana 대시보드에서 직접 측정한 실제 데이터입니다.</strong>
+      GCP 비용은 Console Billing에서 직접 캡처한 실제 청구 데이터이며, Compute Engine 비용 기준 39% 절감 (연 ₩1,350만).
     </div>
   </div>
 </div></div>
@@ -768,7 +803,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(3-2) MySQL Collation 진단 & 109개 테이블 DB 마이그레이션</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">9</span>
+  <span class="pn">10</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -882,7 +917,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4) Kubernetes 인프라 & CI/CD 구축</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">10</span>
+  <span class="pn">11</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -970,7 +1005,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4-1) 모니터링 시스템 구축 — Observability</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">11</span>
+  <span class="pn">12</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1048,12 +1083,40 @@ a:hover{text-decoration:underline;}
         <strong>"처음부터 완벽하게 만들려 하기보다, 빠르게 시작하고 점진적으로 개선하자"</strong>는 방향으로 접근했습니다.
       </div>
 
-      <div class="ib" style="margin-top:8px;">
-        <strong>알림 설계 원칙 — 알림 피로 방지:</strong>
-        모든 에러를 알림하면 무시하게 됩니다.
-        <strong>서비스 가용성에 영향을 주는 이벤트만 Telegram 알림</strong>으로 제한하고,
-        나머지는 Grafana 대시보드에서 확인하는 2단계 구조를 설계했습니다.
+      <div style="font-size:10px;color:#888;text-align:center;margin-top:8px;padding:4px;background:#f8f9fa;border-radius:3px;">
+        Grafana Alert Rules, Telegram 알림, Tempo APM 운영 화면은 다음 페이지에서 확인하실 수 있습니다.
       </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE: 모니터링 운영 증빙 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(4-1) 모니터링 — Grafana & Telegram 운영 화면</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">13</span>
+  <div style="flex:1;display:flex;flex-direction:column;gap:10px;margin-top:12px;">
+
+    <div style="display:flex;gap:6px;">
+      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+        <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">실제 Grafana 알림 규칙 (운영 환경)</div>
+        <img src="https://velog.velcdn.com/images/12onetwo12/post/ab9019c5-c26f-428f-ad96-cb9e1120d480/image.png" style="width:100%;max-height:230px;object-fit:contain;display:block;" alt="Grafana Alert Rules">
+      </div>
+      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+        <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">Telegram 실시간 알림 (Firing / Resolved)</div>
+        <img src="https://velog.velcdn.com/images/12onetwo12/post/7af340cc-092c-411e-84c5-c9e605ba35e4/image.png" style="width:100%;max-height:230px;object-fit:contain;display:block;" alt="Telegram Alert">
+      </div>
+    </div>
+
+    <div style="border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+      <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">Tempo APM — API별 병목 지점 분산 트레이싱 (운영 환경)</div>
+      <img src="https://velog.velcdn.com/images/12onetwo12/post/a05fd553-721d-4cf4-ae10-724d178c56b6/image.png" style="width:100%;max-height:320px;object-fit:contain;display:block;" alt="Tempo Trace">
+    </div>
+
+    <div class="ib" style="font-size:10.5px;">
+      <strong>장애 인지 1시간→1분:</strong> Grafana Alert Rules에서 조건 감지 → Telegram Bot으로 즉시 Firing 알림 → Runbook 링크로 표준 대응.
+      Tempo 분산 트레이싱으로 API별 병목 지점을 span 단위로 추적하여 정확한 원인 식별이 가능합니다.
     </div>
   </div>
 </div></div>
@@ -1063,7 +1126,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4-2) 온프레미스 → AWS 무중단 마이그레이션</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">12</span>
+  <span class="pn">14</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -1173,7 +1236,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4) 아키텍처 진화 과정 — 입사 후 11개월의 기록</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">13</span>
+  <span class="pn">15</span>
   <div class="body" style="margin-top:10px;">
     <p class="bt" style="margin-bottom:10px;">
       아래 타임라인은 실제 backend_onboarding 레포의 아키텍처 다이어그램에서 추출한 것입니다.
@@ -1288,7 +1351,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(5) 자연어 기반 부동산 매물 추천 기능</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">14</span>
+  <span class="pn">16</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1355,7 +1418,17 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:10px;">
+      <div style="margin-top:10px;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+        <div class="dl" style="margin:0;padding:4px 8px;background:#f8f9fa;font-size:10px;">실제 서비스 화면 — 자연어 매물 추천 AI (<a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a>)</div>
+        <!-- TODO: 실제 서비스 스크린샷으로 교체 -->
+        <div style="height:80px;display:flex;align-items:center;justify-content:center;background:#f0f4f8;color:#888;font-size:11px;border-top:1px solid #e0e0e0;">
+          <div style="text-align:center;">
+            <div>실제 서비스 스크린샷 삽입 예정 — <a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
         <strong>왜 Manticore에서 Elasticsearch로 전환했는가:</strong><br>
         초기에는 Manticore Search를 선택했습니다 (ES 대비 메모리 200배 절약, RSS ~40MB, Pull 모델로 앱 코드 변경 없음).
         그러나 RAG 구축 과정에서 <strong>임베딩 벡터 검색이 필수</strong>가 되었고, Manticore의 생태계로는 불가능했습니다.
@@ -1376,7 +1449,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(6) 백오피스 서버 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">15</span>
+  <span class="pn">17</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1469,7 +1542,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(7) Spring Batch 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">16</span>
+  <span class="pn">18</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1583,7 +1656,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">Side Project — Upvy (교육용 숏폼 영상 플랫폼)</div>
   <span class="ss">3. Side Project</span>
-  <span class="pn">17</span>
+  <span class="pn">19</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1678,7 +1751,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
-  <span class="pn">18</span>
+  <span class="pn">20</span>
   <div class="tc" style="margin-top:16px;flex:1;">
     <div class="cw">
       <h3 style="margin-bottom:12px;">개발 철학</h3>
