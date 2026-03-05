@@ -462,7 +462,7 @@
         <section class="section" style="margin-bottom: 8px;">
             <h2 class="section-title">Profile</h2>
             <p class="profile-text">
-                <strong>운영 문제의 근본 원인을 끝까지 추적</strong>하고, <strong>팀 규모에 맞는 아키텍처를 선택</strong>하는 3년차 백엔드 개발자입니다.<br>
+                <strong>근본 원인을 추적하되, 필요하면 결정을 되돌리는 판단력</strong>을 갖춘 3년차 백엔드 개발자입니다.<br>
                 14개 MSA 무중단 전환 → 모듈러 모놀리식 재전환, K8s 인프라·모니터링, LLM 기반 AI 매물 추천까지 직접 제안하고 실행했습니다.<br>
                 <strong>핵심 API P95 99% 개선</strong>(4초→50ms), <strong>장애 인지 98% 단축</strong>(1시간→1분), <strong>인프라 비용 36% 절감</strong>을 달성했습니다.
             </p>
@@ -548,7 +548,7 @@
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system">Grafana LGTM Stack 선택</a> – ELK·Datadog·LGTM 비교 후 소규모 팀 자체 운영 가능성과 비용($92~200 vs <strong>$12~37/월</strong>)을 기준으로 선택</li>
                             <!-- 임펙트 상대적으로 약해서 주석처리 (Jenkins on K8s) <li>GitHub Actions CI/CD 구축 → 빌드 증가로 Self-hosted Runner(개인 PC) 부하 심화, <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins">Jenkins on K8s 전환</a></li> -->
                             <li>일부 서비스 온프레미스 → <a href="https://jeongil.dev/ko/blog/infrastructure/on-premise-to-aws-migration">AWS 무중단 마이그레이션</a> (실시간 동기화 위해 AWS DMS CDC 선택)</li>
-                            <li>startupProbe을 통한 <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up">K8s JVM Warm-Up 최적화</a></li>
+                            <li>배포 직후 Cold Start(P99 1.2초) 해결 위해 <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up">startupProbe 기반 JVM Warm-Up</a> 적용</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
@@ -618,7 +618,7 @@
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis">HikariCP Deadlock 해결</a> – OSIV 환경에서 JPA+MyBatis가 2 Connection 점유하는 원인 파악, 영향 범위 최소화 위해 MyBatis 제거 대신 JPA 일원화 선택</li>
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag">Replication 지연 해결</a> – 전체 Master 조회는 Slave 분산 목적을 훼손하므로, 쓰기 직후 조회만 Master로 라우팅하는 AOP 방식으로 <strong>일관성/성능 균형</strong> 조절</li>
-                            <li><a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf">외부 API Redis 캐싱</a> – <strong>외부 API 호출 76% 감소</strong>, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
+                            <li>주택 시세 외부 API(평균 5.1초) 병목 → <a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf">Look-aside Cache 적용</a>, <strong>호출 76% 감소</strong>, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
                             <li><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction">Git Flow 도입 제안</a> – Cherry-pick 충돌 사례 시각화로 팀 설득, Pn룰 코드리뷰 도입</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
@@ -663,7 +663,7 @@
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
                             <li>Job 동시 실행 시 <strong>Metadata Table Deadlock</strong> – SELECT 공유락 → INSERT 배타락 전환 시 교착</li>
-                            <li>Tasklet 방식 전체 작업이 하나의 트랜잭션 → <strong>MVCC 스냅샷으로 중간 입금 데이터 누락</strong></li>
+                            <li>예치금 정산 Tasklet이 하나의 트랜잭션 → <strong>MVCC 스냅샷으로 중간 입금 누락</strong>, 금융 정합성 위협</li>
                         </ul>
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
@@ -697,7 +697,7 @@
                     <span class="exp-period">2026.01 – 현재</span>
                 </div>
                 <ul class="exp-list" style="margin-left: 12px;">
-                    <li><a href="https://github.com/12OneTwo12/error-autopilot-mcp">MCP Server</a>로 Loki/Tempo 연동 반자동화 구축 → <strong>OpenClaw</strong> Skill 구성 및 Heartbeat 폴링을 통해 <strong>에러 인지→분석→이슈/PR 생성 완전 자동화</strong></li>
+                    <li>1인 백엔드 야간 장애 대응 → <a href="https://github.com/12OneTwo12/error-autopilot-mcp">MCP Server</a>로 Loki/Tempo 연동, <strong>OpenClaw</strong> Heartbeat 폴링으로 <strong>에러 인지→분석→이슈/PR 완전 자동화</strong></li>
                 </ul>
             </div>
         </section>
