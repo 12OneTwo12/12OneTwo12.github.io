@@ -125,7 +125,7 @@ a:hover{text-decoration:underline;}
   <div class="sub" style="margin-top:8px;font-size:20px;">Backend Developer Portfolio</div>
   <div style="font-size:13px;color:#888;margin-top:16px;line-height:1.6;">
     EC2 단일 서버에서 MSA, 그리고 다시 모듈러 모놀리식까지<br>
-    14개 MSA 무중단 전환 · API 평균 74.7%↓(Hit 57ms) · JVM Cold Start 85%↓ · 배치 64%↓ · 장애 인지 98%↓ · CKA<br>
+    14개 MSA 무중단 전환 · API P95 4초→50ms(99%↓) · JVM Cold Start 85%↓ · 배치 64%↓ · 장애 인지 1시간→1분 · CKA<br>
     2~3명 팀에서 아키텍처·인프라·성능을 직접 설계하고 운영한 기록
   </div>
   <div style="font-size:12px;color:#999;margin-top:28px;">
@@ -141,12 +141,14 @@ a:hover{text-decoration:underline;}
   <div class="st">CONTENTS</div>
   <span class="pn">2</span>
   <div class="body" style="justify-content:center;padding:0 20px;">
-    <div style="display:grid;grid-template-columns:32px 1fr;row-gap:6px;font-size:15px;line-height:2;">
+    <div style="display:grid;grid-template-columns:32px 1fr;row-gap:5px;font-size:14.5px;line-height:1.95;">
       <span class="bd">1.</span><span>Profile <span class="sm">— 경력, 기술 스택, 핵심 성과</span></span>
       <span class="bd">2.</span><span>프로젝트</span>
       <span></span><span style="padding-left:16px;color:#666;">2-1. 모놀리식 → MSA 전환 <span class="sm">— 무중단 아키텍처 전환, 부분적 빅뱅 전략</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-2. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-3. MSA → 모듈러 모놀리식 전환 <span class="sm">— 12서비스→1앱, 비용 최적화</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-3. MSA → 모듈러 모놀리식 전환 <span class="sm">— 12서비스→1앱, GCP 비용 39%↓</span></span>
+      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ API P95 99% 개선 <span class="sm">— 4,045ms→50ms, 3단계 체계적 최적화</span></span>
+      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ MySQL Collation 진단 & DB 마이그레이션 <span class="sm">— 109개 테이블, 8배 성능 저하 해결</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-4. K8s 인프라 & CI/CD 구축 <span class="sm">— GKE, Jenkins on K8s, JVM 최적화</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 모니터링 시스템 구축 <span class="sm">— LGTM Stack, OTel Sidecar, 비용 최적화</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 온프레미스 → AWS 무중단 마이그레이션 <span class="sm">— 200GB CDC, Terraform IaC</span></span>
@@ -211,8 +213,8 @@ a:hover{text-decoration:underline;}
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">KEY RESULTS</div>
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;margin:0 0 36px;">
         <li>무중단 MSA 전환 완료 (다운타임 0분, 데이터 유실 0건)</li>
-        <li>장애 인지 시간 98% 단축 (1시간→1분, CS 의존 탈피)</li>
-        <li>외부 API 평균 응답 74.7%↓ (5,132→1,299ms, Cache Hit 57ms), 호출 76%↓</li>
+        <li>장애 인지 시간 1시간 이상→1분 이내 (모니터링 도입, CS 의존 탈피)</li>
+        <li>핵심 API P95 4,045ms→50ms (쿼리 최적화·병렬·캐싱, Grafana 메트릭 기준)</li>
         <li>JVM Cold Start 85% 개선 (1.2초→150ms) · 배치 64% 단축 (13분→4.8분)</li>
         <li>품질 게이트 도입 — Detekt + JaCoCo(PR 변경분 50%↑) + ReviewDog 자동 리뷰</li>
       </ul>
@@ -359,7 +361,7 @@ a:hover{text-decoration:underline;}
           <div class="dd">↓ 불일치 시</div>
           <div class="db wn" style="width:80%;">Telegram 알림 + 자동 보정</div>
         </div>
-        <div class="dn">실제 운영 결과: 검증 배치 8개월간 불일치 미검출 (매시간 자동 비교)</div>
+        <div style="text-align:center;margin-top:4px;padding:4px 8px;background:#e6f4ea;border:1px solid #81c995;border-radius:3px;font-size:10.5px;color:#137333;font-weight:600;">✅ 실제 운영 결과: 검증 배치 8개월간 불일치 0건 검출 — 매시간 자동 비교, 전체 과도기 동안 데이터 정합성 100% 유지</div>
       </div>
 
       <div class="sec-s" style="margin-top:10px;">실제 마이그레이션 타임라인</div>
@@ -421,7 +423,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="rb" style="margin-top:8px;">
-        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.10)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
+        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.12)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
       </div>
     </div>
   </div>
@@ -623,9 +625,9 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li><strong class="bd">Pod 75% 감소</strong> (26+개→5~7개) — 12 JVM → 1 JVM + notification 별도, 인프라 비용 대폭 절감</li>
+        <li><strong class="bd">Pod 75% 감소</strong> (26+개→5~7개) — 12 JVM → 1 JVM + notification 별도, <strong>GCP 일일 비용 ₩96,505→₩58,768 (39%↓)</strong>, 월 ₩310만→₩197만 (연 ₩1,350만 절감, 동일 요금제 기준)</li>
         <li>FeignClient → <strong class="bd">ModuleApi 9개 인터페이스</strong> 설계 — 네트워크 호출 제거, .data!! 언래핑 일괄 제거</li>
-        <li>CI/CD <strong class="bd">77% 단축</strong> (45분→10분) — 핵심: <strong>maxParallelForks가 테스트에서는 독</strong>이었음. 프로세스 병렬→JUnit5 스레드 병렬로 전환하여 Spring Context 캐시 공유 복원</li>
+        <li>CI/CD <strong class="bd">77% 단축</strong> (45분→10분, <a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">66파일 수정</a>) — 핵심: <strong>maxParallelForks(프로세스 병렬)가 Spring TestContext 캐시를 무효화</strong>하여 오히려 느려지는 현상 발견 → JUnit5 스레드 병렬로 전환, Lazy Init·Smoke Test 태그 분리·Gradle 캐싱까지 4단계 최적화</li>
         <li>11개 Schema·EntityManager·TM 분리 유지 — 필요 시 다시 MSA로 분리 가능</li>
       </ul>
 
@@ -649,12 +651,238 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
+<!-- ===== SLIDE 7-2: API 성능 최적화 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(3-1) 핵심 API P95 99% 개선 — 4,045ms → 50ms</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">8</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c" style="flex:.9;">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">부톡(주) — 부동산 매물 상세조회 API (피크 568 req/s, 일 4,900만 건)</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.12 ~ 2026.01 (약 10일 집중 작업)</td></tr>
+        <tr><td class="l">역할</td><td class="v">병목 진단, 쿼리 최적화, 캐싱 설계 전담</td></tr>
+        <tr><td class="l">측정 도구</td><td class="v">Prometheus + Grafana 운영 메트릭 (P50/P95/P99), Tempo 분산 트레이싱</td></tr>
+      </table>
+
+      <div class="sec">배경 및 문제</div>
+      <ul class="bl">
+        <li>매물 상세조회 API — 앱 핵심 화면, <strong class="bd">피크 568 req/s</strong> (편의시설 525 req/s)</li>
+        <li>P95 응답시간 <strong class="bd">4,045ms</strong> — Tempo 트레이싱으로 DB 쿼리 + 외부 API가 95% 차지 확인</li>
+        <li>거래량 랭킹 P95 2.4s / 단가 랭킹 P50 7.2s / 세대수 랭킹 P50 6.3s</li>
+      </ul>
+
+      <div class="sec">3단계 체계적 최적화</div>
+      <div style="display:flex;flex-direction:column;gap:5px;">
+        <div style="border:1px solid #e0e0e0;border-radius:4px;padding:6px 10px;background:#fff;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+            <span style="display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;">1</span>
+            <strong class="bd" style="font-size:12px;">쿼리 최적화</strong>
+          </div>
+          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;">EXPLAIN 분석 → type: ALL(풀스캔, rows 1,195,038) 발견 → <span class="hl">Non-sargable → Sargable 변환</span>, 조회 패턴별 분기<br>결과: 거래량 P95 <strong>2.4s→95ms (21배)</strong> / 단가 <strong>7.2s→126ms (57배)</strong> / 세대수 <strong>6.3s→125ms (51배)</strong></div>
+        </div>
+        <div style="border:1px solid #e0e0e0;border-radius:4px;padding:6px 10px;background:#fff;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+            <span style="display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;">2</span>
+            <strong class="bd" style="font-size:12px;">병렬 처리 (Kotlin Coroutines)</strong>
+          </div>
+          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;">독립 DB 조회를 <span class="hl">async/await 병렬화</span>, 알림 발송 <span class="hl">비동기 fire-and-forget</span><br>결과: 알림 P95 <strong>4.9s→2s (59%↓)</strong> / DB 조회 <strong>150ms→100ms (30%↓)</strong></div>
+        </div>
+        <div style="border:1px solid #e0e0e0;border-radius:4px;padding:6px 10px;background:#fff;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+            <span style="display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;">3</span>
+            <strong class="bd" style="font-size:12px;">Redis Cache-Aside 캐싱</strong>
+          </div>
+          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;"><span class="hl">TTL Jitter로 Cache Stampede 방지</span>, 비동기 저장 (SupervisorJob), Redis 장애 시 DB 폴백<br>결과: 기본정보 P95 <strong>4,045ms→50ms (99%↓)</strong> / 편의시설 P95 <strong>4,840ms→168ms (97%↓)</strong></div>
+        </div>
+      </div>
+
+      <div class="sec">성과</div>
+      <ul class="bl">
+        <li>핵심 API P95 <strong class="bd">4,045ms → 50ms</strong> (568 req/s 운영 트래픽, Grafana P95 메트릭 기준)</li>
+        <li>Micrometer 기반 <strong class="bd">캐시 히트율 모니터링 대시보드</strong> 구축, P95 임계치 초과 시 <strong class="bd">Grafana Alert</strong></li>
+      </ul>
+    </div>
+
+    <div class="c" style="flex:1.1;">
+      <div class="dg">
+        <div class="dl">Before / After — Grafana 운영 메트릭 기준</div>
+        <table class="ct" style="font-size:10px;margin:0;">
+          <tr><th>API</th><th>트래픽</th><th style="color:#c5221f;">Before (P95)</th><th style="color:#137333;">After (P95)</th><th>개선율</th></tr>
+          <tr><td class="bd">매물 기본정보</td><td>568 req/s</td><td>4,045ms</td><td class="w">50ms</td><td class="w">99%↓</td></tr>
+          <tr><td class="bd">편의시설/교통</td><td>525 req/s</td><td>4,840ms</td><td class="w">168ms</td><td class="w">97%↓</td></tr>
+          <tr><td class="bd">거래량 랭킹</td><td>-</td><td>2,400ms</td><td class="w">95ms</td><td class="w">96%↓</td></tr>
+          <tr><td class="bd">단가 랭킹</td><td>-</td><td>7,240ms</td><td class="w">126ms</td><td class="w">98%↓</td></tr>
+          <tr><td class="bd">세대수 랭킹</td><td>-</td><td>6,330ms</td><td class="w">125ms</td><td class="w">98%↓</td></tr>
+          <tr><td class="bd">알림 발송</td><td>-</td><td>4,900ms</td><td class="w">2,000ms</td><td class="w">59%↓</td></tr>
+        </table>
+      </div>
+
+      <div class="dg" style="margin-top:8px;">
+        <div class="dl">EXPLAIN 분석 — 쿼리 최적화 핵심</div>
+        <div style="display:flex;gap:8px;align-items:start;">
+          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:4px;">BEFORE</div>
+            <div class="db er ds" style="width:100%;margin-bottom:3px;">type: <strong>ALL</strong> (Full Scan)</div>
+            <div class="db er ds" style="width:100%;margin-bottom:3px;">rows: <strong>1,195,038</strong></div>
+            <div class="db er ds" style="width:100%;">Non-sargable 조건식</div>
+          </div>
+          <div style="display:flex;align-items:center;padding-top:24px;font-size:16px;color:#999;">→</div>
+          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
+            <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:4px;">AFTER</div>
+            <div class="db ok ds" style="width:100%;margin-bottom:3px;">type: <strong>ref</strong> (Index)</div>
+            <div class="db ok ds" style="width:100%;margin-bottom:3px;">rows: <strong>14,122</strong></div>
+            <div class="db ok ds" style="width:100%;">Sargable 변환 완료</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dg" style="margin-top:8px;">
+        <div class="dl">배치 N+1 해결 — Reader 2,400배 개선</div>
+        <div style="display:flex;gap:8px;align-items:start;">
+          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:6px;background:#fff;">
+            <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:3px;">BEFORE</div>
+            <div style="font-size:10.5px;color:#555;text-align:center;line-height:1.4;">1페이지 <strong>35.6초</strong><br>쿼리수 <strong>~4,001개</strong><br>전체 <strong>~50분</strong> (최대 87분)</div>
+          </div>
+          <div style="display:flex;align-items:center;padding-top:16px;font-size:16px;color:#999;">→</div>
+          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:6px;background:#fff;">
+            <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:3px;">AFTER</div>
+            <div style="font-size:10.5px;color:#555;text-align:center;line-height:1.4;">1페이지 <strong>15ms</strong> (2,400배)<br>쿼리수 <strong>2개</strong> (2,000배)<br>전체 <strong>~21분</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>왜 "P95 99% 개선"이 가능했는가:</strong>
+        레거시 코드에 Non-sargable 쿼리(인덱스 무효화), N+1 문제가 누적된 상태에서 MSA 전환 시 리팩터링 없이 마이그레이션된 코드였습니다.
+        <strong>Tempo 분산 트레이싱으로 병목 지점을 정확히 식별</strong>한 후, 쿼리→병렬→캐싱 순서로 체계적으로 접근했습니다.
+        모든 수치는 <strong>Prometheus 운영 메트릭 + Grafana 대시보드</strong>에서 측정한 것입니다.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 7-3: MySQL Collation & DB 마이그레이션 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(3-2) MySQL Collation 진단 & 109개 테이블 DB 마이그레이션</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">9</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c" style="flex:.9;">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">부톡(주) — MSA 전환 과정에서 발견</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.07</td></tr>
+        <tr><td class="l">역할</td><td class="v">성능 저하 원인 진단, 121개 테이블 마이그레이션, 109개 엔진 전환</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">MySQL, EXPLAIN, SET profiling, MyISAM → InnoDB</td></tr>
+      </table>
+
+      <div class="sec">현상 — "같은 쿼리인데 8배 느리다"</div>
+      <ul class="bl">
+        <li>MSA 전환 중 프로시저 파라미터를 bigint → varchar로 변경했더니 <strong class="bd">56ms → 457ms (8배 느려짐)</strong></li>
+        <li>개별 쿼리는 1~2ms인데, 프로시저 안에서는 200ms+ → <strong class="bd">335배 차이</strong></li>
+      </ul>
+
+      <div class="sec">3단계 가설 검증</div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="border:1px solid #f28b82;border-radius:4px;padding:5px 10px;background:#fef7f6;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:10px;font-weight:700;color:#c5221f;">가설 1: 인덱스 문제</span>
+            <span style="font-size:10px;color:#c5221f;">❌ 인덱스 정상 확인</span>
+          </div>
+        </div>
+        <div style="border:1px solid #f28b82;border-radius:4px;padding:5px 10px;background:#fef7f6;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:10px;font-weight:700;color:#c5221f;">가설 2: 서브쿼리 문제</span>
+            <span style="font-size:10px;color:#c5221f;">❌ 서브쿼리 제거해도 동일</span>
+          </div>
+        </div>
+        <div style="border:1px solid #81c995;border-radius:4px;padding:5px 10px;background:#f2f9f4;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:10px;font-weight:700;color:#137333;">가설 3: EXPLAIN 경고 발견</span>
+            <span style="font-size:10px;color:#137333;">✅ Collation 불일치</span>
+          </div>
+          <div style="font-size:10.5px;color:#555;margin-top:2px;padding-left:4px;">"Cannot use ref access on index due to <strong>type or collation conversion</strong>"</div>
+        </div>
+      </div>
+
+      <div class="sec" style="margin-top:6px;">근본 원인</div>
+      <ul class="bl">
+        <li>테이블: <strong class="bd">utf8mb3</strong> (3바이트) vs 프로시저 파라미터: <strong class="bd">utf8mb4</strong> (4바이트)</li>
+        <li>Collation 불일치 → MySQL이 <strong class="bd">인덱스를 사용하지 못하고 Full Table Scan</strong> (45,453 rows)</li>
+        <li>PREPARE STATEMENT 검증: bigint 바인딩 0.6ms vs varchar 바인딩 <strong class="bd">202ms (335배 차이)</strong></li>
+      </ul>
+
+      <div class="sec" style="margin-top:6px;">해결: 2단계 마이그레이션</div>
+      <ul class="bl">
+        <li><strong class="bd">1단계 (긴급):</strong> utf8mb3 지역변수로 임시 해결 → 457ms → <strong>42ms</strong></li>
+        <li><strong class="bd">2단계 (근본):</strong> 전체 DB utf8mb4 통일 + 엔진 전환</li>
+      </ul>
+
+      <div class="sec" style="margin-top:6px;">성과</div>
+      <ul class="bl">
+        <li>프로시저 성능 <strong class="bd">8배 회복</strong> (457ms → 42ms)</li>
+        <li><strong class="bd">121개 테이블</strong> utf8mb4_general_ci 통일</li>
+        <li><strong class="bd">109개 테이블</strong> MyISAM → InnoDB 전환 (인덱스 키 제한 1000B → 3072B)</li>
+      </ul>
+    </div>
+
+    <div class="c" style="flex:1.1;">
+      <div class="dg">
+        <div class="dl">성능 저하 원인 분석 — SET profiling</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db dk" style="width:80%;">프로시저 호출 (총 636ms)</div>
+          <div class="dd">↓ 내부 실행 분석</div>
+          <div style="display:flex;gap:4px;width:85%;">
+            <div class="db er ds" style="flex:1;">INSERT<br><strong>225ms</strong></div>
+            <div class="db er ds" style="flex:1;">INSERT<br><strong>202ms</strong></div>
+            <div class="db er ds" style="flex:1;">SELECT<br><strong>209ms</strong></div>
+          </div>
+          <div class="dd" style="font-size:10.5px;color:#c5221f;">↑ 개별 실행 시 각 1~2ms인데, 프로시저 내부에서 200ms+</div>
+          <div class="dd">↓ 원인</div>
+          <div class="db wn" style="width:80%;">utf8mb3(테이블) ≠ utf8mb4(파라미터)<br><span style="font-size:10.5px;">→ 매 쿼리마다 Collation 변환 + 인덱스 무효화</span></div>
+        </div>
+      </div>
+
+      <div class="dg" style="margin-top:8px;">
+        <div class="dl">DB 마이그레이션 규모</div>
+        <table class="ct" style="font-size:10px;margin:0;">
+          <tr><th>항목</th><th style="color:#c5221f;">Before</th><th style="color:#137333;">After</th></tr>
+          <tr><td class="bd">Character Set</td><td>utf8mb3 + utf8mb4 혼재</td><td class="w">utf8mb4 통일 (121개 테이블)</td></tr>
+          <tr><td class="bd">Collation</td><td>불일치 (인덱스 무효화)</td><td class="w">utf8mb4_general_ci 통일</td></tr>
+          <tr><td class="bd">Storage Engine</td><td>MyISAM 109개 혼재</td><td class="w">InnoDB 전환 (트랜잭션 지원)</td></tr>
+          <tr><td class="bd">인덱스 키 제한</td><td>MyISAM 1,000 bytes</td><td class="w">InnoDB 3,072 bytes</td></tr>
+          <tr><td class="bd">프로시저 성능</td><td>457ms</td><td class="w">42ms</td></tr>
+        </table>
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>MySQL 공식 문서 + 버그 트래커 기반 분석:</strong>
+        MySQL Bug #83856, #83857을 확인하여 Collation 변환이 인덱스를 무효화하는 것이 알려진 동작임을 확인했습니다.
+        <strong>SET profiling</strong>으로 프로시저 내부 각 쿼리의 실행 시간을 측정하여, 개별 쿼리(1~2ms)와 프로시저 내부(200ms+)의 <strong>335배 차이</strong>를 데이터로 입증했습니다.
+      </div>
+
+      <div class="ib" style="margin-top:6px;">
+        <strong>왜 MyISAM → InnoDB까지 전환했는가:</strong>
+        MyISAM의 인덱스 키 제한(1,000 bytes)으로 utf8mb4(문자당 4bytes) 전환 시
+        <strong>VARCHAR(255) 컬럼의 인덱스가 생성 불가</strong>해지는 문제를 사전에 발견했습니다.
+        InnoDB(3,072 bytes)로 전환하면 이 제약이 해소되고, 트랜잭션 지원·행 단위 잠금 등 추가 이점을 확보할 수 있었습니다.
+      </div>
+
+      <div class="rb" style="margin-top:6px;">
+        <strong>참고:</strong> <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace">블로그 상세 분석</a> — EXPLAIN 결과, SET profiling 출력, MySQL 공식 문서 인용, utf8mb4_general_ci vs utf8mb4_0900_ai_ci 선택 근거 포함
+      </div>
+    </div>
+  </div>
+</div></div>
+
 <!-- ===== SLIDE 8: K8s 인프라 & CI/CD ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(4) Kubernetes 인프라 & CI/CD 구축</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">8</span>
+  <span class="pn">10</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -731,7 +959,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="rb" style="margin-top:8px;">
-        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.10)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
+        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.12)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
       </div>
     </div>
   </div>
@@ -742,7 +970,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4-1) 모니터링 시스템 구축 — Observability</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">9</span>
+  <span class="pn">11</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -768,7 +996,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>장애 인지 시간 <strong class="bd">98% 단축</strong> (1시간→1분) → CS 의존 탈피, 선제적 장애 대응 체계</li>
+        <li>장애 인지 시간 <strong class="bd">1시간 이상→1분 이내</strong> (모니터링 도입 전 CS 100% 의존 → Telegram 실시간 알림으로 선제 대응)</li>
         <li>Grafana LGTM Stack으로 <strong class="bd">ELK 대비 월 $92~200→$12~37</strong> 비용 절감</li>
         <li>Telegram 알림 + Runbook 연동 → 장애 유형별 <strong class="bd">표준 대응 절차</strong> 확보</li>
       </ul>
@@ -835,7 +1063,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4-2) 온프레미스 → AWS 무중단 마이그레이션</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">10</span>
+  <span class="pn">12</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -945,7 +1173,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4) 아키텍처 진화 과정 — 입사 후 11개월의 기록</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">11</span>
+  <span class="pn">13</span>
   <div class="body" style="margin-top:10px;">
     <p class="bt" style="margin-bottom:10px;">
       아래 타임라인은 실제 backend_onboarding 레포의 아키텍처 다이어그램에서 추출한 것입니다.
@@ -1035,13 +1263,14 @@ a:hover{text-decoration:underline;}
         <tr><th></th><th style="color:#c5221f;">Before (2025.03)</th><th style="color:#137333;">After (2026.02)</th></tr>
         <tr><td class="bd">인프라</td><td>EC2 단일 인스턴스 (SPOF)</td><td class="w">GKE 2 Cluster (dev/prod)</td></tr>
         <tr><td class="bd">서비스</td><td>MSA 전환 중 (단일 EC2 집중)</td><td class="w">모듈러 모놀리식 (12→1앱 통합)</td></tr>
-        <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (1시간+)</td><td class="w">실시간 알림 (1분 이내, 98% 단축)</td></tr>
+        <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (1시간+)</td><td class="w">실시간 알림 (1분 이내)</td></tr>
         <tr><td class="bd">롤백</td><td>수동 배포 12분 (SSH + 재빌드)</td><td class="w">GitOps 선언적 롤백 2분 (83% 단축)</td></tr>
         <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack ($12~37/월)</td></tr>
         <tr><td class="bd">배포</td><td>SSH + Docker Compose (15분)</td><td class="w">Jenkins + ArgoCD (5분, 67% 단축)</td></tr>
         <tr><td class="bd">마이그레이션</td><td>온프레미스 서버</td><td class="w">200GB DB, AWS DMS CDC 무중단 이전</td></tr>
         <tr><td class="bd">IaC</td><td>수동 콘솔 설정</td><td class="w">Terraform 코드화, 재현성 확보</td></tr>
-        <tr><td class="bd">인프라 비용</td><td>GCP 스타트업 크레딧</td><td style="color:#8a6d3b;font-weight:600;">크레딧 만료 후 2.5~3배 ↑ → 모듈러 모놀리식으로 대응</td></tr>
+        <tr><td class="bd">인프라 비용</td><td>GCP 크레딧 (일 ₩96,505)</td><td style="color:#137333;font-weight:600;">모듈러 전환 후 일 ₩58,768 (39%↓, 연 ₩1,350만 절감)</td></tr>
+        <tr><td class="bd">API 성능</td><td>P95 4,045ms (레거시 쿼리)</td><td class="w">P95 50ms (99%↓, Grafana 메트릭 기준)</td></tr>
       </table>
       <div class="ib" style="flex:1;">
         <strong>11개월간의 핵심 판단:</strong><br>
@@ -1059,7 +1288,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(5) 자연어 기반 부동산 매물 추천 기능</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">12</span>
+  <span class="pn">14</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1087,10 +1316,11 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>자연어 매물 검색 기능 <strong class="bd"><a href="https://bootalk.co.kr/ai/chat">프로덕션 출시 및 운영중</a></strong></li>
+        <li>자연어 매물 검색 기능 <strong class="bd"><a href="https://bootalk.co.kr/ai/chat">프로덕션 출시 및 운영중</a></strong> — 3개월간 3명 팀(백엔드 전담)으로 기획→개발→출시</li>
         <li>"강남역 도보 10분 이내 15억 정도 신혼부부가 살만한 아파트" 같은 <strong class="bd">복합 조건 자연어 검색</strong> 지원</li>
         <li>Spring Batch 일배치로 매물 POI 데이터 <strong class="bd">Elasticsearch 자동 인덱싱</strong> 파이프라인 구축</li>
         <li>Manticore Search → Elasticsearch 전환 — <strong class="bd">RAG 벡터 검색 + geo_distance 지리 검색 + 형태소 분석</strong> 복합 검색 구현</li>
+        <li>한국어 검색 최적화: 공식 문서 권장값(ngram_len=1) 대신 <strong class="bd">부동산 검색어 분석 후 ngram_len=2 적용</strong> (도메인 데이터 기반 의사결정)</li>
       </ul>
     </div>
 
@@ -1146,7 +1376,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(6) 백오피스 서버 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">13</span>
+  <span class="pn">15</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1159,7 +1389,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec" style="margin-top:8px;">HikariCP Deadlock 해결 — 3번의 오진 끝에 찾은 근본 원인</div>
       <ul class="bl">
-        <li><strong class="bd">현상:</strong> 풀 40/40 포화, 46 스레드 대기. <strong>Pod 5→2 축소로 잠재 버그 표면화</strong></li>
+        <li><strong class="bd">현상:</strong> 풀 40/40 포화, 46 스레드 대기. <strong>비용 절감 목적의 Pod 5→2 축소</strong>로 트래픽이 집중되며 수개월간 잠재된 버그 표면화</li>
         <li><strong class="bd">오진:</strong> ①DB 데드락→로그 없음 ②Conn Leak→fetchOne() 분석 후 배제 ③QueryDSL→JPQL 재현 성공, 배제</li>
         <li><strong class="bd">근본 원인:</strong> OSIV + JPA/MyBatis 혼용 → 1요청이 2커넥션 동시 점유 → Pool 고갈 시 <span class="hl">HikariCP Deadlock</span></li>
         <li><strong class="bd">해결:</strong> ①풀 증가(재발) ②OSIV OFF(Lazy Loading 전면 수정) ③<span class="hl">JPA/MyBatis 트랜잭션 혼용 제거</span> — ③ 채택</li>
@@ -1239,7 +1469,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(7) Spring Batch 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">14</span>
+  <span class="pn">16</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1353,7 +1583,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">Side Project — Upvy (교육용 숏폼 영상 플랫폼)</div>
   <span class="ss">3. Side Project</span>
-  <span class="pn">15</span>
+  <span class="pn">17</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1448,7 +1678,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
-  <span class="pn">16</span>
+  <span class="pn">18</span>
   <div class="tc" style="margin-top:16px;flex:1;">
     <div class="cw">
       <h3 style="margin-bottom:12px;">개발 철학</h3>
@@ -1504,15 +1734,17 @@ a:hover{text-decoration:underline;}
       </table>
 
       <h3 style="margin:14px 0 8px;">프로젝트 임팩트 요약</h3>
-      <table class="ct" style="font-size:10px;">
+      <table class="ct" style="font-size:9.5px;">
         <tr><th>프로젝트</th><th>핵심 판단 & 성과</th></tr>
-        <tr><td class="bd">MSA 전환</td><td>강결합→부분적 빅뱅 전략 선택, 무중단 전환</td></tr>
+        <tr><td class="bd">MSA 전환</td><td>강결합→부분적 빅뱅 전략 선택, 무중단 전환, 8개월 불일치 0건</td></tr>
         <tr><td class="bd">멀티모듈</td><td>:common 비대화 실패→재설계, 16→1 레포</td></tr>
-        <tr><td class="bd">모듈러 모놀리식</td><td>"MSA는 과했다" 판단, CI 77%↓ (45분→10분)</td></tr>
-        <tr><td class="bd">K8s & 모니터링</td><td>LGTM 비용 87%↓, SQS 하드코딩 장애 발견</td></tr>
+        <tr><td class="bd">모듈러 모놀리식</td><td>"MSA는 과했다" 판단, GCP 일비용 39%↓, CI 77%↓</td></tr>
+        <tr><td class="bd">API 성능 최적화</td><td>Non-sargable→Sargable 전환, P95 4초→50ms(99%↓)</td></tr>
+        <tr><td class="bd">MySQL Collation</td><td>3가설 검증→utf8mb3 원인 규명, 109테이블 InnoDB 전환</td></tr>
+        <tr><td class="bd">K8s & 모니터링</td><td>LGTM 비용 87%↓, 장애 인지 1시간→1분 이내</td></tr>
         <tr><td class="bd">DB 마이그레이션</td><td>5가지 방식 비교→CDC 선택, 무중단 200GB</td></tr>
         <tr><td class="bd">매물 추천</td><td>Manticore→ES 재평가, 자연어 검색 출시</td></tr>
-        <tr><td class="bd">백오피스</td><td>3번 오진 끝 근본 원인, 평균 응답 74.7%↓</td></tr>
+        <tr><td class="bd">백오피스</td><td>Pod 축소→잠재 버그 표면화, OSIV+JPA/MyBatis 데드락 규명</td></tr>
         <tr><td class="bd">Batch</td><td>MVCC 누락 발견→Chunk 전환, 64%↓</td></tr>
       </table>
 
