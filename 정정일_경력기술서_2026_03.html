@@ -265,33 +265,35 @@
                 <!-- 프로젝트 1: MSA 전환 -->
                 <div class="project">
                     <div class="project-header">
-                        <span class="project-title">모놀리식 → MSA → 멀티모듈 MSA → 모듈러 모놀리식 전환</span>
+                        <span class="project-title">모놀리식 → MSA → 모듈러 모놀리식 전환</span>
                         <span class="project-period">2025.04 – 2026.02 · 3→1명</span>
                     </div>
                     <div class="project-summary" style="display: flex; justify-content: space-between; position: relative;"><span>모놀리식→MSA 무중단 전환, 이후 비용·운영 최적화를 위해 모듈러 모놀리식 재전환</span><span style="position: absolute; right: 0; top: 0; text-align: right; color: #888; flex-shrink: 0;">MSA 14개 서비스 중 5개 설계·구현<br>멀티모듈, 모듈러 전환 전담</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
-                            <li>핵심 도메인(매물, 중개사-사용자 매칭)의 <strong>강결합</strong>으로 점진적 전환 전략 적용 불가</li>
+                            <li>Java Servlet 레거시 서버의 핵심 도메인(매물, 중개사-사용자 매칭)이 <strong>강결합</strong>돼 점진적 전환 전략 적용 불가</li>
                             <li>공통 코드가 16개 레포에 분산 → <strong>동일 수정에 16개 PR 필요</strong>, 버전 불일치</li>
-                            <li>MSA 전환 이후 회사 경영 악화로 <strong>운영 인원 감축</strong> 및 <strong>비용 부담 문제 발생</strong></li>
+                            <li>MSA 전환 후 14개 서비스의 운영 복잡도(배포·모니터링·장애 전파) 증가, <strong>소규모 팀 대비 과도한 운영 오버헤드</strong></li>
                         </ul>
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li>초기 점진적 전환 시도 실패 후 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion" target="_blank">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리, 과도기 Dual Write + 검증 배치</li>
                             <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module" target="_blank">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li>
+                            <li>MSA 전환 중 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace" target="_blank">MySQL Collation 불일치로 프로시저 8배 성능 저하</a> 진단 → <strong>109개 테이블 MyISAM→InnoDB 전환</strong>, utf8mb4 통일로 근본 해결</li>
                             <li><strong>Jacoco + Detekt + Reviewdog</strong> 도입 제안·적용 — PR 단위 테스트 커버리지·정적 분석 자동 리뷰 파이프라인 구축</li>
-                            <li>인프라 비용 부담 + 팀 3→1명 감축 — 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith" target="_blank">모듈러 모놀리식 재전환</a>, Pod 1/5 절감</li>
+                            <li>운영 복잡도·인프라 비용 최적화를 위해 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith" target="_blank">모듈러 모놀리식 재전환</a> 설계·실행 (3→1명 운영 체제 전환)</li>
+                            <li>주요 API(부동산 매물 상세조회, <strong>피크 568 req/s</strong>) 병목 진단 → <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization" target="_blank">쿼리 최적화·병렬 처리·Redis 캐싱으로 P95 99% 개선</a>(4,045ms→50ms)</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li><strong>무중단</strong> MSA 전환 완료, 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
-                            <li>모듈러 모놀리식 전환으로 <strong>비용 (몇프로)% 절감</strong>, CI <strong>77% 단축</strong>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
+                            <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만, 연 ₩1,350만), <a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization" target="_blank">CI 77% 단축</a>(45분→10분), 공통 변경 PR: 16개→<strong>1개</strong></li>
                         </ul>
 
-                        <div class="tech-line"><strong>기술:</strong> Kotlin, Spring Cloud, Feign Client, CQRS, Hexagonal Architecture, AWS SQS</div>
+                        <div class="tech-line"><strong>기술:</strong> Kotlin, Spring Cloud, Redis, Hexagonal Architecture, AWS SQS</div>
                     </div>
                 </div>
 
@@ -312,18 +314,16 @@
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s" target="_blank">GKE 도입 제안 및 구축</a> – 자체 구축(kubeadm)·EKS·GKE 비교 후, DevOps 부재·4인 팀 상황에서 운영 부담 최소화 가능한 Managed K8s 선택</li>
-                            <li>마이그레이션 중 SQS URL 하드코딩, 미문서화 방화벽 등 <strong>레거시 숨은 설정 발견 → 환경변수 분리, Cloud NAT 도입</strong></li>
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system" target="_blank">Grafana LGTM Stack 선택</a> – ELK·Datadog·LGTM 비교 후 소규모 팀 자체 운영 가능성과 비용($92~200 vs <strong>$12~37/월</strong>)을 기준으로 선택</li>
                             <li>GitHub Actions CI/CD 구축 → 빌드 증가로 Self-hosted Runner(개인 PC) 부하 심화, <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins" target="_blank">Jenkins on K8s 전환</a></li>
-                            <li>일부 서비스 <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" target="_blank">온프레미스 → AWS 무중단 마이그레이션</a> (이중 쓰기/배치 동기화 대비 <strong>실시간 동기화 위해 AWS DMS CDC</strong> 선택)</li>
+                            <li>일부 서비스 온프레미스 → <a href="https://jeongil.dev/ko/blog/infrastructure/on-premise-to-aws-migration" target="_blank">AWS 무중단 마이그레이션</a> (실시간 동기화 위해 AWS DMS CDC 선택)</li>
+                            <li>배포 직후 Cold Start(P99 1.2초) 해결 위해 <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" target="_blank">startupProbe 기반 JVM Warm-Up</a> 적용</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li><strong>CS 의존 탈피</strong>, 장애 인지 시간: 1시간 → <strong>1분 (98% 단축)</strong></li>
-                            <li>롤백 시간: 12분 → <strong>2분 (83% 단축)</strong></li>
-                            <li>배포 시간: 15분 → <strong>5분 (67% 단축)</strong></li>
-                            <li><strong>무중단 배포</strong> 체계 및 <strong>자동 스케일링, 회복 탄력성</strong> 확보, <strong>독립된 환경에서의 테스트 Flow 도입</strong></li>
+                            <li><strong>장애 인지 98% 단축</strong>(1시간→1분), 배포 67% 단축(15분→5분), 롤백 83% 단축(12분→2분)</li>
+                            <li><strong>무중단 배포</strong>·<strong>자동 스케일링</strong> 확보, JVM Cold Start <strong>85% 개선</strong>(1.2초→150ms), 개발서버 도입</li>
                         </ul>
 
                         <div class="tech-line"><strong>기술:</strong> Kubernetes, GKE, ArgoCD, Jenkins, Grafana, Loki, Tempo, Prometheus</div>
@@ -333,31 +333,28 @@
                 <!-- 프로젝트 3: RAG 매물추천 -->
                 <div class="project">
                     <div class="project-header">
-                        <span class="project-title">자연어 위치 검색 기반 매물 추천 시스템 (<a href="https://bootalk.co.kr/ai/chat" target="_blank" style="color: #0066cc;">서비스</a>)</span>
+                        <span class="project-title">자연어 기반 AI 부동산 매물 추천 시스템 (<a href="https://bootalk.co.kr/ai/chat" target="_blank" style="color: #0066cc;">서비스</a>)</span>
                         <span class="project-period">2025.08 – 2025.11 · 3명 팀</span>
                     </div>
                     <div class="project-summary" style="display: flex; justify-content: space-between;"><span>RAG + Elasticsearch Geo-search로 자연어 위치 검색 매물 추천 기능 개발</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">백엔드 전담</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
-                            <li>기존 AI 서비스는 부동산 Q&A RAG만 존재, <strong>매물 추천 기능 부재</strong></li>
-                            <li>"여의도역 근처 아파트 추천해줘" 같은 <strong>위치 기반 자연어 검색 불가</strong></li>
+                            <li>기존 AI는 Q&A RAG만 지원, "여의도역 근처 아파트 추천해줘" 같은 <strong>자연어 기반 매물 검색 불가</strong></li>
                         </ul>
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li>Spring Batch 일배치로 Elasticsearch에 <strong>위치 정보(POI) 인덱싱</strong> 자동화</li>
-                            <li>자연어 → LLM 키워드 추출 → Elasticsearch <strong>유사도 검색</strong> → 조건 필터링 파이프라인 구축</li>
-                            <li>OpenAI Embedding API 활용 매물 데이터 <strong>벡터화 및 유사도 검색</strong> 구현</li>
+                            <li>자연어 → LLM 키워드 추출 → Elasticsearch <strong>벡터기반 유사도 검색</strong> → 조건 필터링 파이프라인 구축</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li>자연어 위치 검색 기반 <strong>AI 매물 추천</strong> 기능 런칭</li>
-                            <li>"강남역 도보 10분 이내 투룸" 같은 <strong>복합 조건 검색</strong> 지원</li>
+                            <li>자연어 위치 검색 기반 <strong>AI 매물 추천</strong> 기능 런칭 ("강남역 도보 10분 이내 15억정도 하는 신혼부부가 살만한 아파트 추천해줘" 같은 <strong>복합 조건 검색</strong> 지원)</li>
                         </ul>
 
-                        <div class="tech-line"><strong>기술:</strong> Kotlin, Spring Batch, Elasticsearch, OpenAI API, RAG, Geo-search, Embedding</div>
+                        <div class="tech-line"><strong>기술:</strong> Kotlin, Spring Batch, Elasticsearch, RAG, Geo-search, Embedding</div>
                     </div>
                 </div>
             </div>
@@ -370,14 +367,14 @@
             <h2 class="section-title">㈜헬로핀테크 <span class="period">· 2023.03 – 2025.03 (2년)</span></h2>
 
             <div class="company-block">
-                <div class="company-meta">P2P 온라인투자연계 금융플랫폼 (누적대출액 2조 5천억원) · Backend Developer · 개발팀 5~10명<br>
+                <div class="company-meta">P2P 온라인투자연계 금융플랫폼 (누적대출 2.5조원) · Backend Developer · 개발팀 5~10명<br>
                 <strong>주요 기술:</strong> Java, Spring Boot, Spring Batch, JPA, QueryDSL, Redis, MySQL, Kubernetes, Jenkins, ArgoCD</div>
 
                 <!-- 프로젝트 1: 백오피스 성능 최적화 -->
                 <div class="project">
                     <div class="project-header">
-                        <span class="project-title">백오피스 서버 성능 최적화 및 트러블슈팅</span>
-                        <span class="project-period">2024.04 – 2025.03 · 2~6명 팀</span>
+                        <span class="project-title">백오피스 서버 마이그레이션 및 성능 최적화, 트러블슈팅</span>
+                        <span class="project-period">2023.04 – 2025.03 · 2~6명 팀</span>
                     </div>
                     <div class="project-summary" style="display: flex; justify-content: space-between;"><span>PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선 및 장애 대응</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">성능 최적화 및 트러블슈팅 담당</span></div>
                     <div class="project-content">
@@ -391,14 +388,13 @@
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" target="_blank">HikariCP Deadlock 해결</a> – OSIV 환경에서 JPA+MyBatis가 2 Connection 점유하는 원인 파악, 영향 범위 최소화 위해 MyBatis 제거 대신 JPA 일원화 선택</li>
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag" target="_blank">Replication 지연 해결</a> – 전체 Master 조회는 Slave 분산 목적을 훼손하므로, 쓰기 직후 조회만 Master로 라우팅하는 AOP 방식으로 <strong>일관성/성능 균형</strong> 조절</li>
-                            <li><a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf" target="_blank">외부 API Redis 캐싱</a> – 기존 인프라 활용, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
+                            <li>주택 시세 외부 API(평균 5.1초) 병목 → <a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf" target="_blank">Look-aside Cache 적용</a>, <strong>호출 76% 감소</strong>, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
                             <li><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction" target="_blank">Git Flow 도입 제안</a> – Cherry-pick 충돌 사례 시각화로 팀 설득, Pn룰 코드리뷰 도입</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li>API 응답속도: 10.3초 → <strong>1.3초 (87% 개선)</strong>, 캐싱 적용 API: 5.1초 → <strong>1.3초 (75% 개선)</strong></li>
-                            <li>HikariCP Deadlock 및 Replication 지연 문제 <strong>완전 해결</strong></li>
+                            <li><strong>API 응답속도 87% 개선</strong>(10.3초→1.3초), Deadlock 및 Replication 지연 문제 완전 해결</li>
                         </ul>
 
                         <div class="tech-line"><strong>기술:</strong> Spring Boot, Java 11, JPA, Redis, MySQL</div>
@@ -438,27 +434,26 @@
                 <!-- 프로젝트 3: Spring Batch -->
                 <div class="project">
                     <div class="project-header">
-                        <span class="project-title">Spring Batch 성능 최적화</span>
-                        <span class="project-period">2024.05 – 2025.03 · 4~6명 팀</span>
+                        <span class="project-title">Spring Batch 마이그레이션 및 성능 최적화</span>
+                        <span class="project-period">2023.05 – 2024.12 · 4~6명 팀</span>
                     </div>
                     <div class="project-summary" style="display: flex; justify-content: space-between;"><span>PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">배치 시스템 전환 및 성능 최적화 설계 담당</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
                             <li>Job 동시 실행 시 <strong>Metadata Table Deadlock</strong> – SELECT 공유락 → INSERT 배타락 전환 시 교착</li>
-                            <li>Tasklet 방식 전체 작업이 하나의 트랜잭션 → <strong>MVCC 스냅샷으로 중간 입금 데이터 누락</strong></li>
+                            <li>예치금 정산 Tasklet이 하나의 트랜잭션 → <strong>MVCC 스냅샷으로 중간 입금 누락</strong>, 금융 정합성 위협</li>
                         </ul>
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock" target="_blank">Deadlock 해결</a> – 4가지 방법(동시 실행 금지, Isolation 변경, DAO Override, 5.0 업그레이드) 비교 후 <strong>Bean 설정으로 Isolation Level 변경</strong></li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock" target="_blank">Deadlock 해결</a> – 4가지 방법 비교 후 Bean 설정으로 Isolation Level 변경</li>
                             <li>데이터 누락 원인 파악 후 Chunk 전환, 추가 성능 개선 위해 <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Partitioning 병렬 처리 설계</a></li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li>배치 처리 시간: 13.3분 → <strong>4.8분 (64% 단축)</strong></li>
-                            <li>트랜잭션 락 점유: 22분 → <strong>0.01초</strong> (Chunk 단위 커밋으로 정합성 문제 <strong>99.9% 감소</strong>)</li>
+                            <li>마이그레이션 완료 및 <strong>배치 처리시간 64% 단축</strong>(13.3분→4.8분), 트랜잭션 락 점유: 22분 → <strong>0.01초</strong></li>
                         </ul>
 
                         <div class="tech-line"><strong>기술:</strong> Spring Batch, Java 11, JPA, QueryDSL</div>
@@ -480,13 +475,26 @@
                 <div class="project-content">
                     <div class="detail-label">[주요 구현]</div>
                     <ul class="detail-list">
-                        <li>Spring WebFlux + R2DBC 기반 <strong>비동기 백엔드</strong> 구축</li>
-                        <li>Vertex AI Gemini + Speech-to-Text 기반 <strong>YouTube 영상 자동 편집 파이프라인</strong></li>
+                        <li>Spring WebFlux + R2DBC 비동기 백엔드, <strong>LLM + BTT</strong> 기반 YouTube <strong>영상 자동 편집 파이프라인 구축</strong> 및 n8n 파이프라인 구축</li>
                         <li>React Native 크로스플랫폼 앱 개발, <strong>79% test coverage</strong> 달성</li>
                     </ul>
 
                     <div class="service-link"><a href="https://github.com/12OneTwo12/upvy" target="_blank">GitHub</a></div>
                     <div class="tech-line"><strong>기술:</strong> Kotlin, Spring WebFlux, R2DBC, React Native, Vertex AI</div>
+                </div>
+            </div>
+
+            <div class="project">
+                <div class="project-header">
+                    <span class="project-title">Error Autopilot – AI 에러 자동 대응 시스템</span>
+                    <span class="project-period">2026.01 – 현재 · 1인 개발</span>
+                </div>
+                <div class="project-summary">1인 백엔드 야간 장애 대응을 위한 AI 에러 자동 대응 시스템 (Upvy 적용 · <a href="https://github.com/12OneTwo12/error-autopilot-mcp" target="_blank" style="color: #0066cc; text-decoration: none;">GitHub</a> · <a href="https://jeongil.dev/ko/blog/trends/openclaw-error-autopilot" target="_blank" style="color: #0066cc; text-decoration: none;">Blog</a>)</div>
+                <div class="project-content">
+                    <div class="detail-label">[주요 구현]</div>
+                    <ul class="detail-list">
+                        <li><a href="https://github.com/12OneTwo12/error-autopilot-mcp" target="_blank">MCP Server</a>로 Loki/Tempo 연동, <strong>OpenClaw</strong> Heartbeat 폴링으로 <strong>에러 인지→분석→이슈/PR 완전 자동화</strong></li>
+                    </ul>
                 </div>
             </div>
         </section>
