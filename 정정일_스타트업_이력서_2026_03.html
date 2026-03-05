@@ -285,8 +285,8 @@
         .detail-list li {
             font-size: 8pt;
             color: #333;
-            margin-bottom: 1px;
-            line-height: 1.4;
+            margin-bottom: 2.5px;
+            line-height: 1.55;
         }
 
         .detail-list strong {
@@ -516,10 +516,10 @@
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
                             <li>초기 점진적 전환 시도 실패 후 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리, 과도기 Dual Write + 검증 배치</li>
-                            <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li>
-                            <li>팀 규모 축소(3→1명)에 따라 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a> 설계·실행</li>
-                            <li>주요 API(부동산 매물 상세조회, <strong>일 4,900만 건</strong>) 병목 진단 → <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">쿼리 최적화·병렬 처리·Redis 캐싱으로 P95 99% 개선</a>(4,045ms→50ms)</li>
+                            <!-- 임펙트 상대적으로 약해서 주석처리 (멀티모듈 전환) <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li> -->
                             <li>MSA 전환 중 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace">MySQL Collation 불일치로 335배 성능 저하</a> 진단 → <strong>109개 테이블 MyISAM→InnoDB 전환</strong>, utf8mb4 통일로 근본 해결</li>
+                            <li>운영 복잡도·인프라 비용 최적화를 위해 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a> 설계·실행 (3→1명 운영 체제 전환)</li>
+                            <li>주요 API(부동산 매물 상세조회, <strong>피크 568 req/s</strong>) 병목 진단 → <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">쿼리 최적화·병렬 처리·Redis 캐싱으로 P95 99% 개선</a>(4,045ms→50ms)</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
@@ -546,14 +546,17 @@
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s">GKE 도입</a> – 자체 구축(kubeadm)·EKS·GKE 비교 후, DevOps 부재·4인 팀 상황에서 운영 부담 최소화 가능한 Managed K8s 선택</li>
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system">Grafana LGTM Stack 선택</a> – ELK·Datadog·LGTM 비교 후 소규모 팀 자체 운영 가능성과 비용($92~200 vs <strong>$12~37/월</strong>)을 기준으로 선택</li>
-                            <li>GitHub Actions CI/CD 구축 → 빌드 증가로 Self-hosted Runner(개인 PC) 부하 심화, <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins">Jenkins on K8s 전환</a></li>
-                            <li>일부 서비스 <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story">온프레미스 → AWS 무중단 마이그레이션</a> (실시간 동기화 위해 <strong>AWS DMS CDC</strong> 선택)</li>
+                            <!-- 임펙트 상대적으로 약해서 주석처리 (Jenkins on K8s) <li>GitHub Actions CI/CD 구축 → 빌드 증가로 Self-hosted Runner(개인 PC) 부하 심화, <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins">Jenkins on K8s 전환</a></li> -->
+                            <li>일부 서비스 온프레미스 → <a href="https://jeongil.dev/ko/blog/infrastructure/on-premise-to-aws-migration">AWS 무중단 마이그레이션</a> (실시간 동기화 위해 AWS DMS CDC 선택)</li>
                             <li>startupProbe을 통한 <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up">K8s JVM Warm-Up 최적화</a></li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
+                            <!-- 임펙트 상대적으로 약해서 주석처리 (K8s 성과 원본 2줄 → 1줄로 병합)
                             <li><strong>장애 인지 시간 98% 단축</strong>(1시간→1분), 롤백 83% 단축(12분→2분), 배포 67% 단축(15분→5분), 개발서버 도입</li>
                             <li><strong>무중단 배포</strong> 체계, <strong>자동 스케일링·회복 탄력성</strong> 확보, JVM Cold Start <strong>85% 개선</strong>(1.2초→150ms)</li>
+                            -->
+                            <li><strong>장애 인지 98% 단축</strong>(1시간→1분), 배포 67% 단축(15분→5분), 무중단 배포·자동 스케일링 확보, JVM Cold Start <strong>85% 개선</strong>(1.2초→150ms), 개발서버 도입</li>
                         </ul>
                     </div>
                 </div>
@@ -589,7 +592,7 @@
     <!-- Page 2 -->
     <div class="page">
         <!-- 헬로핀테크 (continued) -->
-        <section class="section"  style="margin-bottom: 7px;">
+        <section class="section"  style="margin-bottom: 9px;">
             <div class="exp-item">
                 <div class="exp-header">
                     <span class="exp-company">㈜헬로핀테크</span>
@@ -635,17 +638,16 @@
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
-                            <li>기존 DevOps 퇴사로 <strong>인프라 운영 공백</strong> 발생</li>
-                            <li>K8s Ingress Sticky Session 설정으로 앱 재기동 시 <strong>세션 유실</strong> 발생</li>
+                            <li>DevOps 퇴사로 <strong>인프라 운영 공백</strong> 발생, K8s Ingress Sticky Session으로 앱 재기동 시 <strong>세션 유실</strong></li>
                         </ul>
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li>새로운 DevOps 입사 전까지 <strong>인프라 운영 전담</strong> (6개월), <strong>19개 인스턴스</strong>, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB 운영 및 유지보수</li>
+                            <li>DevOps 입사 전까지 <strong>인프라 운영 전담</strong>(6개월), <strong>19개 인스턴스</strong>, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB 운영·유지보수</li>
                             <li><strong>Redis Session Clustering</strong> 도입으로 세션 유실 문제 해결</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li>운영 공백 기간 <strong>안정적 인프라 유지</strong>, 세션 유실 문제 해결로 <strong>사용자 경험 개선</strong></li>
+                            <li>운영 공백 기간 <strong>안정적 인프라 유지</strong>, 세션 유실 해결로 <strong>사용자 경험 개선</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -678,7 +680,7 @@
         </section>
 
         <!-- Side Project -->
-        <section class="section" style="margin-bottom: 10px;">
+        <section class="section" style="margin-bottom: 12px;">
             <h2 class="section-title">Side Project</h2>
             <div class="exp-item" style="margin-bottom: 7px;">
                 <div class="exp-header">
@@ -701,7 +703,7 @@
         </section>
 
         <!-- Certifications -->
-        <section class="section" style="margin-bottom: 7px;">
+        <section class="section" style="margin-bottom: 9px;">
             <h2 class="section-title table-section">Certifications</h2>
             <table class="cert-table">
                 <tr>
@@ -714,11 +716,13 @@
                     <td class="cert-org">KAIT</td>
                     <td class="cert-date">2024.10</td>
                 </tr>
+                <!-- 임펙트 상대적으로 약해서 주석처리 (AWS CCP)
                 <tr>
                     <td class="cert-name">AWS Certified Cloud Practitioner</td>
                     <td class="cert-org">Amazon Web Services</td>
                     <td class="cert-date">2024.08</td>
                 </tr>
+                -->
                 <tr>
                     <td class="cert-name">SQL Developer (SQLD)</td>
                     <td class="cert-org">한국데이터산업진흥원</td>
@@ -728,7 +732,7 @@
         </section>
 
         <!-- Education -->
-        <section class="section"  style="margin-bottom: 7px;">
+        <section class="section"  style="margin-bottom: 9px;">
             <h2 class="section-title table-section">Education</h2>
             <table class="edu-table">
                 <tr>
