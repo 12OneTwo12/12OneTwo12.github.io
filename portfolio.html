@@ -155,7 +155,9 @@ a:hover{text-decoration:underline;}
       <span></span><span style="padding-left:16px;color:#666;">2-5. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Elasticsearch + OpenAI</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-6. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-7. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
-      <span class="bd">3.</span><span>Side Project — Upvy <span class="sm">— AI 숏폼 영상 플랫폼, 1인 개발</span></span>
+      <span class="bd">3.</span><span>Side Project</span>
+      <span></span><span style="padding-left:16px;color:#666;">3-1. Upvy <span class="sm">— AI 숏폼 영상 플랫폼, 1인 개발 · App Store/Play Store 출시</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">3-2. Error Autopilot <span class="sm">— AI 에러 자동 대응 시스템, MCP → OpenClaw 진화</span></span>
       <span class="bd">4.</span><span>개발 철학 & Contact</span>
     </div>
   </div>
@@ -724,11 +726,11 @@ a:hover{text-decoration:underline;}
         <div style="display:flex;gap:4px;">
           <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
             <div style="font-size:9.5px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">BEFORE — Peak P95: 3s</div>
-            <img src="public/images/blog/performance/query-optimization-before.png" style="width:100%;display:block;" alt="Before Query Optimization">
+            <img src="https://www.dropbox.com/scl/fi/9murattffr40rdve4k8ep/query-optimization-before.png?rlkey=lunzfzlps6qaabp5uxi831xvd&st=cq0s9rok&raw=1" style="width:100%;display:block;" alt="Before Query Optimization">
           </div>
           <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
             <div style="font-size:9.5px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">AFTER — Current P95: 89ms</div>
-            <img src="public/images/blog/performance/query-optimization-result.png" style="width:100%;display:block;" alt="After Query Optimization">
+            <img src="https://www.dropbox.com/scl/fi/rmg3tt6pif9070r3qvq2o/query-optimization-result.png?rlkey=lg663dcyrd4rj54fkno8unxvw&st=mwtfokri&raw=1" style="width:100%;display:block;" alt="After Query Optimization">
           </div>
         </div>
         <div style="font-size:10px;color:#666;text-align:center;margin-top:3px;">EXPLAIN: type: ALL (rows 1,195,038) → type: ref (rows 14,122) | Non-sargable → Sargable 변환</div>
@@ -756,7 +758,7 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE: API 성능 & 비용 증빙 ===== -->
+<!-- ===== SLIDE: API 성능 & 비용 대시보드 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(3-1) API 성능 & 비용 — Grafana 운영 대시보드</div>
@@ -764,19 +766,25 @@ a:hover{text-decoration:underline;}
   <span class="pn">9</span>
   <div style="flex:1;display:flex;flex-direction:column;gap:8px;margin-top:12px;">
 
-    <div style="border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-      <div class="dl" style="margin:0;padding:4px 8px;background:#f8f9fa;font-size:10px;">Grafana 운영 대시보드 — API 응답시간 Before / After (Prometheus 기준)</div>
-      <img src="public/images/blog/performance/api-before-after-comparison.png" style="width:100%;max-height:220px;object-fit:contain;display:block;" alt="API Before/After Grafana">
+    <div style="display:flex;gap:6px;">
+      <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
+        <div class="dl" style="margin:0;padding:3px 8px;background:#fff4f4;font-size:9.5px;color:#c5221f;font-weight:700;">BEFORE — 전체 API P95 현황 (Grafana)</div>
+        <img src="https://www.dropbox.com/scl/fi/335mnm3b9ardbtqqkcxvp/performance-before.png?rlkey=qwd7xz01g26qwexox8at2fubx&st=x5zhqpwh&raw=1" style="width:100%;max-height:180px;object-fit:contain;display:block;" alt="API P95 Before">
+      </div>
+      <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+        <div class="dl" style="margin:0;padding:3px 8px;background:#f2f9f4;font-size:9.5px;color:#137333;font-weight:700;">AFTER — 최적화 후 P95 현황 (Grafana)</div>
+        <img src="https://www.dropbox.com/scl/fi/01p3zk422klgohvrzznz1/performance-summary.png?rlkey=7yqpdmu40qus5c7ay5tvgm9aw&st=j4a4wg9t&raw=1" style="width:100%;max-height:180px;object-fit:contain;display:block;" alt="API P95 After">
+      </div>
     </div>
 
     <div style="display:flex;gap:6px;">
       <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-        <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">최적화 후 P95 현황 + 10일 추이 (Grafana)</div>
-        <img src="public/images/blog/performance/performance-summary-dashboard.png" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="P95 Dashboard">
+        <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">캐싱 적용 전 — 외부 API 의존 (Grafana)</div>
+        <img src="https://www.dropbox.com/scl/fi/h8opmv88dssfweymrpg9h/caching-before.png?rlkey=akdbj2qvmllu4402satlf8t7f&st=s0mplh17&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="Caching Before">
       </div>
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-        <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">Cache Hit Rate 모니터링 (Micrometer + Grafana)</div>
-        <img src="public/images/blog/performance/cache-hitrate-gauge.png" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="Cache Hit Rate">
+      <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+        <div class="dl" style="margin:0;padding:3px 8px;background:#f2f9f4;font-size:9.5px;color:#137333;">캐싱 적용 후 — Look-aside Cache 효과 (Grafana)</div>
+        <img src="https://www.dropbox.com/scl/fi/v0efinc70k3streovsbkc/caching-result.png?rlkey=b7llkitaul7jvzqhbds8khg86&st=o415mjfo&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="Caching After">
       </div>
     </div>
 
@@ -1090,7 +1098,7 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE: 모니터링 운영 증빙 ===== -->
+<!-- ===== SLIDE: 모니터링 운영 화면 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(4-1) 모니터링 — Grafana & Telegram 운영 화면</div>
@@ -1651,11 +1659,11 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 14: Side Project - Upvy ===== -->
+<!-- ===== SLIDE 14: Side Project - Upvy (1/2) 서비스 소개 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">Side Project — Upvy (교육용 숏폼 영상 플랫폼)</div>
-  <span class="ss">3. Side Project</span>
+  <span class="ss">3-1. Upvy</span>
   <span class="pn">19</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
@@ -1682,14 +1690,7 @@ a:hover{text-decoration:underline;}
           <span class="sm">1인 개발일수록 테스트가 중요 — 나 대신 코드를 검증해줄 동료가 없기 때문</span></li>
       </ul>
 
-      <div class="ib" style="margin-top:10px;">
-        <strong>왜 사이드 프로젝트를 하는가:</strong>
-        회사에서는 기존 시스템의 제약 안에서 일합니다. 사이드 프로젝트는
-        <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>해볼 수 있는 소중한 기회라고 생각합니다.
-        WebFlux와 R2DBC는 여기서 먼저 경험한 후 회사 프로젝트에 적용 여부를 판단했습니다.
-      </div>
-
-      <div class="dg" style="margin-top:10px;">
+      <div class="dg" style="margin-top:8px;">
         <div class="dl">FULL STACK ARCHITECTURE</div>
         <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:10.5px;">
           <span style="color:#222;font-weight:600;">Backend</span><span style="color:#666;">Kotlin · Spring WebFlux · R2DBC · Coroutines</span>
@@ -1699,8 +1700,63 @@ a:hover{text-decoration:underline;}
           <span style="color:#222;font-weight:600;">Monitoring</span><span style="color:#666;">Grafana · Loki · Tempo · Prometheus</span>
         </div>
       </div>
+
+      <div class="ib" style="margin-top:10px;">
+        <strong>왜 사이드 프로젝트를 하는가:</strong>
+        회사에서는 기존 시스템의 제약 안에서 일합니다. 사이드 프로젝트는
+        <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>해볼 수 있는 소중한 기회라고 생각합니다.
+        WebFlux와 R2DBC는 여기서 먼저 경험한 후 회사 프로젝트에 적용 여부를 판단했습니다.
+      </div>
     </div>
 
+    <div class="c" style="flex:1.1;">
+      <div class="sec">실제 서비스 운영 화면</div>
+      <div style="display:flex;gap:4px;">
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
+          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">로그인</div>
+          <img src="https://github.com/user-attachments/assets/6832d5d4-f429-4c12-a0da-91b04cd26433" style="width:100%;display:block;" alt="Upvy Login">
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
+          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">메인 피드</div>
+          <img src="https://github.com/user-attachments/assets/cc1c42c4-6684-4058-8043-73440a2191ca" style="width:100%;display:block;" alt="Upvy Main Feed">
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
+          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">카테고리</div>
+          <img src="https://github.com/user-attachments/assets/2e390728-2b36-4dcb-8105-1ccfb8d4c192" style="width:100%;display:block;" alt="Upvy Category">
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
+          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">프로필</div>
+          <img src="https://github.com/user-attachments/assets/f34b31f5-ce10-4484-be17-f489998674f3" style="width:100%;display:block;" alt="Upvy Profile">
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
+          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">검색</div>
+          <img src="https://github.com/user-attachments/assets/e765bfe9-3be5-4105-8451-5af160c12795" style="width:100%;display:block;" alt="Upvy Search">
+        </div>
+      </div>
+
+      <div class="dg" style="margin-top:10px;">
+        <div class="dl">n8n 콘텐츠 자동화 워크플로우 — 실제 운영 화면</div>
+        <img src="https://github.com/user-attachments/assets/d4f8b6c4-2214-41de-bc98-0db64c8d1f72" style="width:100%;display:block;border-radius:3px;" alt="n8n Workflow">
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>n8n 도입 이유:</strong>
+        콘텐츠 생성 파이프라인(검색→다운로드→STT→분석→편집→업로드)을
+        코드로만 관리하면 수정·모니터링이 어렵습니다.
+        <strong>n8n으로 시각적 워크플로우를 구성</strong>하여 각 단계의 성공/실패를 실시간으로 추적하고,
+        비개발자도 흐름을 이해할 수 있도록 설계했습니다.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 15: Upvy (2/2) AI 파이프라인 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">Upvy — AI 콘텐츠 파이프라인 & 개발 자동화</div>
+  <span class="ss">3-1. Upvy</span>
+  <span class="pn">20</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <div class="dg">
         <div class="dl">AI 기반 영상 자동 편집 파이프라인</div>
@@ -1719,25 +1775,45 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="sec-s" style="margin-top:12px;">AI 활용</div>
+      <div class="ib" style="margin-top:10px;">
+        <strong>파이프라인 설계 핵심:</strong>
+        각 단계를 독립적으로 실패·재시도 가능하게 설계했습니다.
+        STT 실패 시 해당 영상만 스킵하고, Gemini 분석 결과가 70점 미만이면
+        자동 폐기하여 <strong>품질 기준 이하의 콘텐츠가 사용자에게 노출되지 않도록</strong> 제어합니다.
+      </div>
+    </div>
+
+    <div class="c" style="flex:1.1;">
+      <div class="sec-s">AI 활용 & 개발 자동화</div>
       <ul class="bl" style="font-size:11px;">
         <li><strong class="bd"><a href="https://jeongil.dev/trends/ai-agent-co-work/">AI 협업 방법론</a>:</strong> Skills 분리(토큰 50~92%↓), TDD로 AI 출력 검증 구조 정립</li>
         <li><strong class="bd">AI 코드 검증 자동화:</strong> Jacoco·Detekt·ArchUnit CI 자동 검증 + Gemini PR 리뷰로 교차 검증, 검증 부담 분산</li>
-        <li><strong class="bd"><a href="https://jeongil.dev/trends/openclaw-error-autopilot/">OpenClaw</a> — 에러 자동 대응:</strong> Loki/Tempo Cron 폴링 + 텔레그램 Forward 하이브리드, AI가 분석→PR까지 자동 처리</li>
       </ul>
 
-      <div class="dg" style="margin-top:8px;padding:8px 12px;">
-        <div class="dl">OpenClaw — 에러 자동 대응 파이프라인</div>
-        <div style="display:flex;align-items:center;gap:3px;justify-content:center;">
-          <div class="db er ds">에러 발생</div><div class="da">→</div>
-          <div class="db ds">Loki/Tempo</div><div class="da">→</div>
-          <div class="db ac ds">OpenClaw<br><span style="font-size:10.5px;">원인 분석</span></div><div class="da">→</div>
-          <div class="db ds">코드 수정</div><div class="da">→</div>
-          <div class="db ok ds">PR 생성<br><span style="font-size:10.5px;">Human Review</span></div>
+      <div class="dg" style="margin-top:10px;">
+        <div class="dl">CI/CD 자동화 — 1인 개발의 품질 관리 전략</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db ac" style="width:75%;">PR 생성 (AI 또는 직접)</div>
+          <div class="dd">↓</div>
+          <div style="display:flex;gap:4px;width:90%;justify-content:center;">
+            <div class="db ds" style="flex:1;">Jacoco<br><span style="font-size:10px;color:#999;">Coverage 79%+</span></div>
+            <div class="db ds" style="flex:1;">Detekt<br><span style="font-size:10px;color:#999;">코드 품질</span></div>
+            <div class="db ds" style="flex:1;">ArchUnit<br><span style="font-size:10px;color:#999;">아키텍처 규칙</span></div>
+          </div>
+          <div class="dd">↓</div>
+          <div class="db ac" style="width:75%;">Gemini PR 리뷰 (AI 교차 검증)</div>
+          <div class="dd">↓</div>
+          <div class="db ok" style="width:75%;">Merge → ArgoCD 자동 배포</div>
         </div>
       </div>
 
       <div class="ib" style="margin-top:10px;">
+        <strong>1인 개발의 핵심 과제는 품질 관리입니다.</strong>
+        동료 리뷰어가 없는 환경에서 CI 자동 검증(Jacoco·Detekt·ArchUnit)과
+        AI PR 리뷰를 교차 적용하여, <strong>사람이 놓치는 것은 도구가, 도구가 놓치는 것은 AI가</strong> 보완하는 구조를 만들었습니다.
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
         어떻게 하면 AI를 더 잘 활용할 수 있을지 꾸준히 고민하고 있습니다.
         무조건 수락하면 제게 남는 게 없다고 느꼈기에,
         <strong>AI의 제안에 항상 질문하고 반박하며, 더 좋은 결과물을 만들고 성장하기 위해 노력하려 합니다.</strong>
@@ -1746,12 +1822,95 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 15: 개발 철학 & Contact ===== -->
+<!-- ===== SLIDE 16: Error Autopilot ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">Side Project — Error Autopilot (AI 에러 자동 대응 시스템)</div>
+  <span class="ss">3-2. Error Autopilot</span>
+  <span class="pn">21</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c">
+      <table class="it">
+        <tr><td class="l">기간</td><td class="v">2026.01 ~ 현재</td></tr>
+        <tr><td class="l">인원</td><td class="v">1인 개발 · Upvy 실서비스 적용</td></tr>
+        <tr><td class="l">목표</td><td class="v">에러 감지→분석→수정→PR을 AI가 자동 처리</td></tr>
+        <tr><td class="l">링크</td><td class="v"><a href="https://github.com/12OneTwo12/error-autopilot-mcp">GitHub</a> · <a href="https://jeongil.dev/ko/blog/trends/openclaw-error-autopilot">Blog</a></td></tr>
+      </table>
+
+      <div class="sec">v1: MCP 에러 자동 대응 (반자동)</div>
+      <p class="bt">1인 백엔드 야간 장애 대응의 한계에서 출발.
+      Claude Code MCP로 Loki/Tempo 에러 로그를 분석하고,
+      원인 파악 → 코드 수정 → GitHub Issue 자동 생성.
+      <strong class="bd">개발자가 트리거</strong>해야 하는 한계가 있었습니다.</p>
+
+      <div style="display:flex;gap:4px;margin-top:6px;">
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">MCP 에러 분석 트리거</div>
+          <img src="https://github.com/user-attachments/assets/99f4c410-70b6-4e03-8ef8-1bca025e2049" style="width:100%;display:block;" alt="MCP Trigger">
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">자동 생성된 GitHub Issue</div>
+          <img src="https://github.com/user-attachments/assets/befff3df-fe3b-495d-aff3-f284afc38c67" style="width:100%;display:block;" alt="Auto Created Issue">
+        </div>
+      </div>
+
+      <div class="dg" style="margin-top:8px;padding:6px 10px;">
+        <div class="dl">MCP 파이프라인 (반자동)</div>
+        <div style="display:flex;align-items:center;gap:3px;justify-content:center;font-size:10.5px;">
+          <div class="db er ds">에러 발생</div><div class="da">→</div>
+          <div class="db wn ds">개발자<br>트리거</div><div class="da">→</div>
+          <div class="db ac ds">MCP<br>분석</div><div class="da">→</div>
+          <div class="db ok ds">Issue<br>생성</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c" style="flex:1.1;">
+      <div class="sec">v2: OpenClaw으로의 진화 (완전 자동)</div>
+      <p class="bt"><strong class="bd">"도구를 쓰는 것과 파이프라인을 구축하는 것은 다르다"</strong>는 깨달음으로 발전.
+      Cron 폴링으로 에러를 자동 감지하고, AI가 분석→코드 수정→PR까지 사람 개입 없이 처리합니다.</p>
+
+      <div style="display:flex;gap:4px;margin-top:6px;">
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">OpenClaw 자동 에러 분석</div>
+          <img src="https://www.dropbox.com/scl/fi/iy75r7yid6wed7f6s7acd/E9955AA6-A06F-44D8-A6EB-C1DF4274B16E.jpg?rlkey=m2nssrzfm5uypia6kfvdgiqm6&st=dkcgc5gu&raw=1" style="width:100%;display:block;" alt="OpenClaw Auto Analysis">
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">Loki 로그 분석 → PR 자동 생성</div>
+          <img src="https://www.dropbox.com/scl/fi/n7oc7ys210wu8h71f18sc/9E45A3DA-F469-4CE7-9A07-5E761F19FC6C.jpg?rlkey=nmn6yvo8hx4ng1ufp07mn88ge&st=oi8i9kxn&raw=1" style="width:100%;display:block;" alt="OpenClaw Loki Analysis">
+        </div>
+      </div>
+
+      <div class="dg" style="margin-top:8px;padding:6px 10px;">
+        <div class="dl">OpenClaw 파이프라인 (완전 자동)</div>
+        <div style="display:flex;align-items:center;gap:3px;justify-content:center;font-size:10.5px;">
+          <div class="db er ds">에러 발생</div><div class="da">→</div>
+          <div class="db ds">Cron<br>감지</div><div class="da">→</div>
+          <div class="db ac ds">OpenClaw<br>분석</div><div class="da">→</div>
+          <div class="db ds">코드<br>수정</div><div class="da">→</div>
+          <div class="db ok ds">PR 생성<br><span style="font-size:9.5px;">Human Review</span></div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:8px;">
+        <strong>Heartbeat 하이브리드:</strong> Cron 폴링(주기적 감지) + 텔레그램 Forward(즉시 감지)를 결합.
+        Cron은 놓칠 수 있는 에러를, 텔레그램은 긴급 에러를 커버하여 <strong>감지 사각지대를 제거</strong>했습니다.
+      </div>
+
+      <div class="rb" style="margin-top:8px;">
+        <strong>진화 과정:</strong> MCP(반자동, 2026.01) → Error Autopilot MCP(체계화) → <strong>OpenClaw(완전 자동, 2026.02~)</strong>
+        <br><span class="sm">에러 인지→분석→이슈/PR을 완전 자동화하여 1인 백엔드의 야간 장애 대응 한계를 극복</span>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE 17: 개발 철학 & Contact ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
-  <span class="pn">20</span>
+  <span class="pn">22</span>
   <div class="tc" style="margin-top:16px;flex:1;">
     <div class="cw">
       <h3 style="margin-bottom:12px;">개발 철학</h3>
@@ -1819,6 +1978,8 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">매물 추천</td><td>Manticore→ES 재평가, 자연어 검색 출시</td></tr>
         <tr><td class="bd">백오피스</td><td>Pod 축소→잠재 버그 표면화, OSIV+JPA/MyBatis 데드락 규명</td></tr>
         <tr><td class="bd">Batch</td><td>MVCC 누락 발견→Chunk 전환, 64%↓</td></tr>
+        <tr><td class="bd">Upvy</td><td>1인 풀스택, WebFlux+R2DBC, AI 파이프라인, App Store/Play Store 출시</td></tr>
+        <tr><td class="bd">Error Autopilot</td><td>MCP→OpenClaw 진화, 에러 인지→PR 완전 자동화</td></tr>
       </table>
 
       <div style="margin-top:auto;padding-top:12px;text-align:center;">
