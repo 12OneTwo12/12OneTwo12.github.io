@@ -661,7 +661,7 @@ a:hover{text-decoration:underline;}
   <div class="st">(3-1) 핵심 API P95 99% 개선 — 4,045ms → 50ms</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">8</span>
-  <div class="tc" style="margin-top:10px;flex:1;">
+  <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — 부동산 매물 상세조회 API (피크 568 req/s, 일 4,900만 건)</td></tr>
@@ -679,7 +679,7 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="sec">3단계 체계적 최적화</div>
-      <div style="display:flex;flex-direction:column;gap:5px;">
+      <div style="display:flex;flex-direction:column;gap:3px;">
         <div style="border:1px solid #e0e0e0;border-radius:4px;padding:6px 10px;background:#fff;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
             <span style="display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;">1</span>
@@ -754,7 +754,7 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div style="font-size:10px;color:#888;text-align:center;margin-top:6px;padding:4px;background:#f8f9fa;border-radius:3px;">
+      <div style="font-size:10px;color:#888;text-align:center;margin-top:3px;padding:3px;background:#f8f9fa;border-radius:3px;">
         Grafana 운영 대시보드, Cache Hit Rate, GCP 비용 변화는 다음 페이지에서 확인하실 수 있습니다.
       </div>
     </div>
@@ -930,7 +930,7 @@ a:hover{text-decoration:underline;}
   <div class="st">(3-3) CI/CD 빌드 최적화 — 45분 → 7분</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">11</span>
-  <div class="tc" style="margin-top:10px;flex:1;">
+  <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — 모듈러 모놀리식 전환 과정에서 발생</td></tr>
@@ -946,7 +946,7 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="sec">7단계 체계적 최적화</div>
-      <div style="display:flex;flex-direction:column;gap:4px;">
+      <div style="display:flex;flex-direction:column;gap:2px;">
         <div style="border:1px solid #f28b82;border-left:3px solid #c5221f;border-radius:4px;padding:5px 10px;background:#fef7f6;">
           <div style="display:flex;align-items:center;gap:6px;">
             <span style="display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;border-radius:50%;background:#c5221f;color:#fff;font-size:9px;font-weight:700;flex-shrink:0;">1</span>
@@ -972,7 +972,7 @@ a:hover{text-decoration:underline;}
         <li>최적화 과정에서 <strong class="bd">숨겨진 버그 2건 발견</strong> — @Qualifier Bean 충돌, URL 마이그레이션 후 orphan 테스트</li>
       </ul>
 
-      <div class="ib" style="margin-top:8px;">
+      <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
         <strong>자기 과거 코드와의 싸움:</strong>
         MSA 멀티모듈 시절 빌드 최적화를 위해 내가 설정한 <code>maxParallelForks</code>가, 모듈러 모놀리식 통합 후에는 오히려 <strong>최대 병목</strong>이 됐습니다. "빌드 최적화 ≠ 테스트 최적화"라는 사실을 몸으로 느꼈습니다.
       </div>
@@ -990,23 +990,23 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div style="border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;margin-top:8px;">
+      <div style="border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;margin-top:4px;">
         <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">최적화별 기여도 — 워터폴 분석</div>
-        <img src="https://www.dropbox.com/scl/fi/ogf76f6wx1tip009xlee6/optimization-waterfall-en.png?rlkey=cfgtatjdno42jsdwxyooobzmb&st=w90uxhoz&raw=1" style="width:100%;display:block;" alt="Optimization Waterfall">
+        <img src="https://www.dropbox.com/scl/fi/ogf76f6wx1tip009xlee6/optimization-waterfall-en.png?rlkey=cfgtatjdno42jsdwxyooobzmb&st=w90uxhoz&raw=1" style="width:100%;max-height:190px;object-fit:contain;display:block;" alt="Optimization Waterfall">
       </div>
 
-      <div style="display:flex;gap:4px;margin-top:8px;">
+      <div style="display:flex;gap:4px;margin-top:4px;">
         <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
           <div style="font-size:9px;text-align:center;padding:2px;background:#fff4f4;color:#c5221f;font-weight:700;">빌드 로그 — FAILED (153 tasks)</div>
-          <img src="https://www.dropbox.com/scl/fi/qt5vi0wqwyor0dwrtoosj/ci-before-log.png?rlkey=rtwkqs9f192tmnsfy6uo22uyj&st=n0qi2yog&raw=1" style="width:100%;display:block;" alt="CI Before Log">
+          <img src="https://www.dropbox.com/scl/fi/qt5vi0wqwyor0dwrtoosj/ci-before-log.png?rlkey=rtwkqs9f192tmnsfy6uo22uyj&st=n0qi2yog&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="CI Before Log">
         </div>
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
           <div style="font-size:9px;text-align:center;padding:2px;background:#f2f9f4;color:#137333;font-weight:700;">빌드 로그 — SUCCESS (7분)</div>
-          <img src="https://www.dropbox.com/scl/fi/mcry395cxvfvxk0q95dj8/ci-after-log.png?rlkey=ca72rys19nlkmd77hx2ekeb0e&st=4mxowo9h&raw=1" style="width:100%;display:block;" alt="CI After Log">
+          <img src="https://www.dropbox.com/scl/fi/mcry395cxvfvxk0q95dj8/ci-after-log.png?rlkey=ca72rys19nlkmd77hx2ekeb0e&st=4mxowo9h&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="CI After Log">
         </div>
       </div>
 
-      <div class="ib" style="margin-top:8px;">
+      <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
         <strong>숨겨진 버그 2건 — 최적화 과정에서 발견:</strong>
         ① <strong>@Qualifier Bean 충돌</strong> — 12개 서비스 통합 후 동명 Bean이 충돌, 테스트에서만 재현되어 기존에는 발견 불가.
         ② <strong>URL 마이그레이션 후 orphan 테스트</strong> — MSA 시절 URL이 변경되었으나 테스트는 구 URL 그대로 → 항상 통과하지만 실제로는 검증하지 않는 유령 테스트.
@@ -1500,7 +1500,7 @@ a:hover{text-decoration:underline;}
   <div class="st">(5) 자연어 기반 부동산 매물 추천 기능</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">18</span>
-  <div class="tc" style="margin-top:10px;flex:1;">
+  <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
@@ -1556,7 +1556,7 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="dg" style="margin-top:8px;">
+      <div class="dg" style="margin-top:4px;">
         <div class="dl">데이터 준비 파이프라인</div>
         <div style="display:flex;align-items:center;gap:3px;justify-content:center;flex-wrap:wrap;">
           <div class="db ds">매물 데이터<br>수집</div><div class="da">→</div>
@@ -1566,9 +1566,9 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div style="margin-top:10px;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+      <div style="margin-top:5px;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
         <div class="dl" style="margin:0;padding:4px 8px;background:#f8f9fa;font-size:10px;">실제 서비스 — 자연어 매물 추천 AI (<a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a>)</div>
-        <div style="padding:10px 14px;background:#f8fbff;border-top:1px solid #e0e0e0;">
+        <div style="padding:6px 10px;background:#f8fbff;border-top:1px solid #e0e0e0;">
           <div style="display:flex;gap:10px;align-items:start;">
             <div style="flex:1;">
               <div style="font-size:10.5px;font-weight:600;color:#222;margin-bottom:4px;">사용자 입력 예시</div>
@@ -1592,17 +1592,10 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:8px;">
-        <strong>왜 Manticore에서 Elasticsearch로 전환했는가:</strong><br>
-        초기에는 Manticore Search를 선택했습니다 (ES 대비 메모리 200배 절약, RSS ~40MB, Pull 모델로 앱 코드 변경 없음).
-        그러나 RAG 구축 과정에서 <strong>임베딩 벡터 검색이 필수</strong>가 되었고, Manticore의 생태계로는 불가능했습니다.
-        <strong>요구사항이 변하면 기술 선택도 재평가해야 한다</strong>는 걸 이때 배웠습니다 — 매몰 비용에 집착하지 않으려고 노력했습니다.
-      </div>
-
-      <div class="ib" style="margin-top:8px;">
-        <strong>도메인 지식이 기술 설계를 결정한 사례:</strong>
-        한국어 검색을 위한 ngram_len 설정에서, 공식 문서는 1을 권장했지만 부동산 검색어("강남", "서초") 분석 결과 <strong>2글자가 더 자연스럽고 정확</strong>하다고 판단하여 ngram_len=2로 설정.
-        <strong>도메인 데이터를 먼저 분석</strong>하고, 그 결과를 바탕으로 기술 결정을 내렸습니다.
+      <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
+        <strong>기술 재평가 & 도메인 기반 의사결정:</strong>
+        초기 Manticore Search 선택(메모리 200배 절약) → RAG 구축 시 <strong>벡터 검색 필수</strong>로 ES 전환. <strong>요구사항이 변하면 기술 선택도 재평가해야 한다</strong>는 걸 배웠습니다.
+        한국어 검색 ngram_len도 공식 문서(1) 대신 부동산 검색어 분석 결과 <strong>2글자가 더 정확</strong>하다고 판단하여 적용 — 도메인 데이터 기반 의사결정.
       </div>
     </div>
   </div>
@@ -1614,7 +1607,7 @@ a:hover{text-decoration:underline;}
   <div class="st">(6) 백오피스 서버 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">19</span>
-  <div class="tc" style="margin-top:10px;flex:1;">
+  <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">(주)헬로핀테크 — P2P 금융플랫폼 (누적대출 2.5조원)</td></tr>
@@ -1643,12 +1636,6 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><strong class="bd">현상:</strong> INSERT 직후 SELECT→Slave "데이터 없음". <strong>모든 읽기를 Master로 보내면 Replication 의미 상실</strong> → 4패턴(RYOW·Monotonic·Txn·<span class="hl">Routing</span>) 비교, AOP 세밀 제어 가능한 AbstractRoutingDataSource 채택</li>
         <li><strong class="bd">3단계:</strong> ①@Transactional Master 라우팅(빠른 적용) → ②<strong class="bd">@UseMasterDB</strong>+AOP(세밀 제어) → ③핵심 서비스 Master 직접 연결 (네이버페이 DAN24 참고)</li>
-      </ul>
-
-      <div class="sec" style="margin-top:4px;">팀 개발 문화 — 직접 제안하고 팀과 합의한 경험</div>
-      <ul class="bl">
-        <li><strong class="bd">Git Flow 도입:</strong> Cherry-pick 충돌이 반복되는 상황에서, 실제 테스트 MR을 만들어 팀원이 직접 경험하게 한 후 합의 도출 → dev / staging / main 분리</li>
-        <li><strong class="bd">Pn룰 코드리뷰:</strong> P1(반드시 수정, Request Changes) ~ P5(참고, Approve) 5단계로 리뷰 강도를 명시화하여 리뷰어-작성자 간 기대치 정렬</li>
       </ul>
 
     </div>
@@ -1690,14 +1677,14 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:8px;">
+      <div class="ib" style="margin-top:5px;font-size:11px;line-height:1.5;">
         <strong>인프라 변경이 잠재 버그를 깨운 경험:</strong>
         Pod 5→2 축소가 수개월간 잠재된 Deadlock을 표면화. <strong>pool-size=1로 로컬 재현</strong>하여 DefaultJpaDialect 소스까지 추적.
         OSIV는 웹 컨텍스트에서만 활성화 — <strong>단위 테스트에서는 재현 불가</strong>, 통합 테스트 필수.
       </div>
     </div>
   </div>
-  <div class="rb" style="margin-top:8px;">
+  <div class="rb" style="margin-top:4px;font-size:11px;">
     <strong>종합 성과 (개별 검증 가능):</strong> ① HikariCP Deadlock 해결 → Pool 40/40 포화 제거 · ② 평균 응답 <strong>74.7%↓</strong> (5,132→1,299ms, Cache Hit 시 57ms), 호출 <strong>76%↓</strong> · ③ Replication Lag → 핵심 서비스 정합성 확보. 3가지 복합 적용 후 전체 API 응답 <strong>10.3초→1.3초</strong>
   </div>
 </div></div>
@@ -1985,7 +1972,7 @@ a:hover{text-decoration:underline;}
   <div class="st">Side Project — Error Autopilot (AI 에러 자동 대응 시스템)</div>
   <span class="ss">3-2. Error Autopilot</span>
   <span class="pn">23</span>
-  <div class="tc" style="margin-top:10px;flex:1;">
+  <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
         <tr><td class="l">기간</td><td class="v">2026.01 ~ 현재</td></tr>
@@ -2003,15 +1990,15 @@ a:hover{text-decoration:underline;}
       <div style="display:flex;gap:4px;margin-top:6px;">
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">MCP 에러 분석 트리거</div>
-          <img src="https://github.com/user-attachments/assets/99f4c410-70b6-4e03-8ef8-1bca025e2049" style="width:100%;display:block;" alt="MCP Trigger">
+          <img src="https://github.com/user-attachments/assets/99f4c410-70b6-4e03-8ef8-1bca025e2049" style="width:100%;max-height:80px;object-fit:contain;display:block;" alt="MCP Trigger">
         </div>
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">자동 생성된 GitHub Issue</div>
-          <img src="https://github.com/user-attachments/assets/befff3df-fe3b-495d-aff3-f284afc38c67" style="width:100%;display:block;" alt="Auto Created Issue">
+          <img src="https://github.com/user-attachments/assets/befff3df-fe3b-495d-aff3-f284afc38c67" style="width:100%;max-height:80px;object-fit:contain;display:block;" alt="Auto Created Issue">
         </div>
       </div>
 
-      <div class="dg" style="margin-top:8px;padding:6px 10px;">
+      <div class="dg" style="margin-top:4px;padding:4px 10px;">
         <div class="dl">MCP 파이프라인 (반자동)</div>
         <div style="display:flex;align-items:center;gap:3px;justify-content:center;font-size:10.5px;">
           <div class="db er ds">에러 발생</div><div class="da">→</div>
@@ -2030,15 +2017,15 @@ a:hover{text-decoration:underline;}
       <div style="display:flex;gap:4px;margin-top:6px;">
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">OpenClaw 자동 에러 분석</div>
-          <img src="https://www.dropbox.com/scl/fi/iy75r7yid6wed7f6s7acd/E9955AA6-A06F-44D8-A6EB-C1DF4274B16E.jpg?rlkey=m2nssrzfm5uypia6kfvdgiqm6&st=dkcgc5gu&raw=1" style="width:100%;display:block;" alt="OpenClaw Auto Analysis">
+          <img src="https://www.dropbox.com/scl/fi/iy75r7yid6wed7f6s7acd/E9955AA6-A06F-44D8-A6EB-C1DF4274B16E.jpg?rlkey=m2nssrzfm5uypia6kfvdgiqm6&st=dkcgc5gu&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;" alt="OpenClaw Auto Analysis">
         </div>
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">Loki 로그 분석 → PR 자동 생성</div>
-          <img src="https://www.dropbox.com/scl/fi/n7oc7ys210wu8h71f18sc/9E45A3DA-F469-4CE7-9A07-5E761F19FC6C.jpg?rlkey=nmn6yvo8hx4ng1ufp07mn88ge&st=oi8i9kxn&raw=1" style="width:100%;display:block;" alt="OpenClaw Loki Analysis">
+          <img src="https://www.dropbox.com/scl/fi/n7oc7ys210wu8h71f18sc/9E45A3DA-F469-4CE7-9A07-5E761F19FC6C.jpg?rlkey=nmn6yvo8hx4ng1ufp07mn88ge&st=oi8i9kxn&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;" alt="OpenClaw Loki Analysis">
         </div>
       </div>
 
-      <div class="dg" style="margin-top:8px;padding:6px 10px;">
+      <div class="dg" style="margin-top:4px;padding:4px 10px;">
         <div class="dl">OpenClaw 파이프라인 (완전 자동)</div>
         <div style="display:flex;align-items:center;gap:3px;justify-content:center;font-size:10.5px;">
           <div class="db er ds">에러 발생</div><div class="da">→</div>
@@ -2049,7 +2036,7 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:8px;">
+      <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
         <strong>Heartbeat 하이브리드:</strong> Cron 폴링(주기적 감지) + 텔레그램 Forward(즉시 감지)를 결합.
         Cron은 놓칠 수 있는 에러를, 텔레그램은 긴급 에러를 커버하여 <strong>감지 사각지대를 제거</strong>했습니다.
       </div>
@@ -2057,15 +2044,15 @@ a:hover{text-decoration:underline;}
       <div style="display:flex;gap:4px;margin-top:6px;">
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f2f9f4;color:#137333;font-weight:600;">자동 생성된 PR — 코드 수정 포함</div>
-          <img src="https://www.dropbox.com/scl/fi/ke6gteppxzxh6bdald7c2/7E88D40F-92B8-4268-84DA-2A547451F7DC.jpg?rlkey=qqn2xrzzeiepm0kqw7ckwpdko&st=9bl69075&raw=1" style="width:100%;display:block;" alt="Auto Created PR">
+          <img src="https://www.dropbox.com/scl/fi/ke6gteppxzxh6bdald7c2/7E88D40F-92B8-4268-84DA-2A547451F7DC.jpg?rlkey=qqn2xrzzeiepm0kqw7ckwpdko&st=9bl69075&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;" alt="Auto Created PR">
         </div>
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">Heartbeat + Forward 하이브리드 감지</div>
-          <img src="https://www.dropbox.com/scl/fi/5spvynh7iwdx81v95amuy/73A570CA-50F4-4B16-A461-82715D359A29.jpg?rlkey=n958h679jpjvjhn78h8qgv4bu&st=zo71v7mj&raw=1" style="width:100%;display:block;" alt="Heartbeat Hybrid">
+          <img src="https://www.dropbox.com/scl/fi/5spvynh7iwdx81v95amuy/73A570CA-50F4-4B16-A461-82715D359A29.jpg?rlkey=n958h679jpjvjhn78h8qgv4bu&st=zo71v7mj&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;" alt="Heartbeat Hybrid">
         </div>
       </div>
 
-      <div class="rb" style="margin-top:8px;">
+      <div class="rb" style="margin-top:4px;font-size:11px;">
         <strong>진화 과정:</strong> MCP(반자동, 2026.01) → Error Autopilot MCP(체계화) → <strong>OpenClaw(완전 자동, 2026.02~)</strong>
         <br><span class="sm">에러 인지→분석→이슈/PR을 완전 자동화하여 1인 백엔드의 야간 장애 대응 한계를 극복</span>
       </div>
@@ -2079,62 +2066,68 @@ a:hover{text-decoration:underline;}
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
   <span class="pn">24</span>
-  <div class="tc" style="margin-top:16px;flex:1;">
+  <div class="tc" style="margin-top:10px;flex:1;">
     <div class="cw">
-      <h3 style="margin-bottom:12px;">개발 철학</h3>
+      <h3 style="margin-bottom:8px;">개발 철학</h3>
 
-      <div style="border-left:3px solid #333;padding:6px 0 6px 12px;margin-bottom:10px;">
-        <div style="font-size:13px;font-weight:700;color:#222;">"팀 규모에 맞는 아키텍처를 선택한다."</div>
+      <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"팀 규모에 맞는 아키텍처를 선택한다."</div>
         <p class="bt" style="margin-top:2px;">14개 MSA→모듈러 모놀리식 제안, 16개 멀티레포→모노레포 전환. <strong class="bd">기술 트렌드보다 팀이 감당할 수 있는 복잡성을 기준으로 삼으려 합니다.</strong></p>
       </div>
 
-      <div style="border-left:3px solid #333;padding:6px 0 6px 12px;margin-bottom:10px;">
-        <div style="font-size:13px;font-weight:700;color:#222;">"3번 오진하더라도 근본 원인을 찾는다."</div>
+      <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"3번 오진하더라도 근본 원인을 찾는다."</div>
         <p class="bt" style="margin-top:2px;">HikariCP Deadlock: DB데드락→Conn Leak→QueryDSL 3번 오진 후 OSIV+ORM 혼용 발견. <strong class="bd">증상만 가리는 해결은 다음 장애를 예약하는 거라고 뼈저리게 느꼈습니다.</strong></p>
       </div>
 
-      <div style="border-left:3px solid #333;padding:6px 0 6px 12px;margin-bottom:10px;">
-        <div style="font-size:13px;font-weight:700;color:#222;">"기술적 결정은 비용과 비즈니스로 정당화한다."</div>
+      <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"기술적 결정은 비용과 비즈니스로 정당화한다."</div>
         <p class="bt" style="margin-top:2px;">ELK vs LGTM — 솔직히 가장 큰 이유는 비용($92~200 vs $12~37/월)이었습니다. <strong class="bd">기술적으로 우월한 것보다 우리 상황에서 합리적인 선택을 하려고 노력합니다.</strong></p>
       </div>
 
-      <div style="border-left:3px solid #333;padding:6px 0 6px 12px;margin-bottom:10px;">
-        <div style="font-size:13px;font-weight:700;color:#222;">"실패를 기록하고, 재평가할 줄 안다."</div>
+      <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"실패를 기록하고, 재평가할 줄 안다."</div>
         <p class="bt" style="margin-top:2px;">:common 비대화→폐기·재설계. Manticore→ES 재평가. <strong class="bd">과정을 블로그에 기록하고, 2년+ 스터디와 Spring Security PR로 돌려드리려 합니다.</strong></p>
       </div>
 
-      <div style="border-left:3px solid #333;padding:6px 0 6px 12px;margin-bottom:10px;">
-        <div style="font-size:13px;font-weight:700;color:#222;">"AI를 도구로 활용하되, 대체 불가능한 역량에 집중한다."</div>
+      <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"AI를 도구로 활용하되, 대체 불가능한 역량에 집중한다."</div>
         <p class="bt" style="margin-top:2px;">MCP 에러 자동 대응 파이프라인을 구축하면서, <strong class="bd">아키텍처 설계와 근본 원인 분석</strong>처럼 AI가 대체하기 어려운 역량을 키우려 합니다.</p>
       </div>
 
-      <div class="rb" style="margin-top:auto;padding:12px 16px;text-align:center;">
-        <div style="font-size:15px;font-weight:700;color:#222;letter-spacing:-.02em;">
+      <div class="rb" style="margin-top:auto;padding:8px 16px;text-align:center;">
+        <div style="font-size:14px;font-weight:700;color:#222;letter-spacing:-.02em;">
           "우리 서비스에 지금 가장 필요한 개선은 무엇인가?"
         </div>
-        <p style="font-size:11px;color:#666;margin-top:6px;">항상 이 질문에서 시작하려 합니다.</p>
+        <p style="font-size:11px;color:#666;margin-top:4px;">항상 이 질문에서 시작하려 합니다.</p>
       </div>
     </div>
 
     <div class="cn">
-      <h3 style="margin-bottom:10px;">활동</h3>
-      <ul class="bl" style="margin-bottom:16px;">
+      <h3 style="margin-bottom:6px;">활동</h3>
+      <ul class="bl" style="margin-bottom:10px;line-height:1.5;">
         <li>기술 블로그 <a href="https://jeongil.dev">jeongil.dev</a><br>
           <span class="sm">아키텍처 의사결정, 트러블슈팅, AI 생태계</span></li>
-        <li style="margin-top:6px;">오픈소스 — Spring Security <a href="https://github.com/spring-projects/spring-security/pull/16216">PR#16216</a></li>
-        <li style="margin-top:6px;"><a href="https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c">백엔드 아티클 스터디</a><br><span class="sm">2023.08~진행중</span></li>
-        <li style="margin-top:6px;">빅데이터 기반 MLOps 과정<br><span class="sm">2022.07~12</span></li>
+        <li style="margin-top:3px;">오픈소스 — Spring Security <a href="https://github.com/spring-projects/spring-security/pull/16216">PR#16216</a></li>
+        <li style="margin-top:3px;"><a href="https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c">백엔드 아티클 스터디</a> <span class="sm">2023.08~진행중</span></li>
+        <li style="margin-top:3px;">빅데이터 기반 MLOps 과정 <span class="sm">2022.07~12</span></li>
       </ul>
 
-      <h3 style="margin-bottom:10px;">Contact</h3>
+      <h3 style="margin-bottom:8px;">팀 개발 문화 — 제안하고 합의한 경험</h3>
+      <ul class="bl" style="margin-bottom:14px;line-height:1.5;">
+        <li><strong class="bd">Git Flow 도입:</strong> Cherry-pick 충돌 반복 → 실제 테스트 MR로 팀원이 직접 경험 후 합의 도출 → dev / staging / main 분리</li>
+        <li><strong class="bd">Pn룰 코드리뷰:</strong> P1(반드시 수정) ~ P5(참고) 5단계로 리뷰 강도 명시화, 리뷰어-작성자 간 기대치 정렬</li>
+      </ul>
+
+      <h3 style="margin-bottom:6px;">Contact</h3>
       <table class="it" style="width:100%;">
         <tr><td class="l">Email</td><td class="v">jji042842@gmail.com</td></tr>
         <tr><td class="l">GitHub</td><td class="v"><a href="https://github.com/12OneTwo12">github.com/12OneTwo12</a></td></tr>
         <tr><td class="l">Blog</td><td class="v"><a href="https://jeongil.dev">jeongil.dev</a></td></tr>
       </table>
 
-      <h3 style="margin:14px 0 8px;">프로젝트 임팩트 요약</h3>
-      <table class="ct" style="font-size:9.5px;">
+      <h3 style="margin:8px 0 4px;">프로젝트 임팩트 요약</h3>
+      <table class="ct" style="font-size:9px;">
         <tr><th>프로젝트</th><th>핵심 판단 & 성과</th></tr>
         <tr><td class="bd">MSA 전환</td><td>강결합→부분적 빅뱅 전략 선택, 무중단 전환, 8개월 불일치 0건</td></tr>
         <tr><td class="bd">멀티모듈</td><td>:common 비대화 실패→재설계, 16→1 레포</td></tr>
@@ -2150,8 +2143,8 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">Error Autopilot</td><td>MCP→OpenClaw 진화, 에러 인지→PR 완전 자동화</td></tr>
       </table>
 
-      <div style="margin-top:auto;padding-top:12px;text-align:center;">
-        <div style="font-size:14px;color:#888;letter-spacing:-.02em;">읽어주셔서 감사합니다.</div>
+      <div style="margin-top:auto;padding-top:6px;text-align:center;">
+        <div style="font-size:13px;color:#888;letter-spacing:-.02em;">읽어주셔서 감사합니다.</div>
       </div>
     </div>
   </div>
