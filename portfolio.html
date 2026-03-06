@@ -126,7 +126,7 @@ a:hover{text-decoration:underline;}
   <div style="font-size:13px;color:#888;margin-top:16px;line-height:1.6;">
     EC2 단일 서버에서 MSA, 그리고 다시 모듈러 모놀리식까지<br>
     14개 MSA 무중단 전환 · API P95 4초→50ms(99%↓) · JVM Cold Start 85%↓ · 배치 64%↓ · 장애 인지 1시간→1분 · CKA<br>
-    2~3명 팀에서 아키텍처·인프라·성능을 직접 설계하고 운영한 기록
+    2~3명 팀에서 아키텍처·인프라·성능을 직접 경험하며 배운 기록
   </div>
   <div style="font-size:12px;color:#999;margin-top:28px;">
     jji042842@gmail.com &nbsp;·&nbsp;
@@ -803,8 +803,8 @@ a:hover{text-decoration:underline;}
     </div>
 
     <div class="ib" style="font-size:10.5px;">
-      <strong>모든 수치는 Prometheus 운영 메트릭 + Grafana 대시보드에서 직접 측정한 실제 데이터입니다.</strong>
-      GCP 비용은 Console Billing에서 직접 캡처한 실제 청구 데이터이며, 월 총비용 기준 36% 절감 (월 ₩310만→₩197만, 연 ₩1,350만).
+      <strong>수치는 Prometheus 운영 메트릭 + Grafana 대시보드에서 측정한 데이터입니다.</strong>
+      GCP 비용은 Console Billing에서 캡처한 청구 데이터이며, 월 총비용 기준 36% 절감 (월 ₩310만→₩197만, 연 ₩1,350만).
     </div>
   </div>
 </div></div>
@@ -1157,9 +1157,9 @@ a:hover{text-decoration:underline;}
       </table>
 
       <div class="ib" style="margin-top:12px;">
-        <strong>모든 인프라는 직접 설계·구축·운영한 실제 프로덕션 환경입니다.</strong><br>
+        <strong>아래 인프라는 직접 설계·구축·운영해본 프로덕션 환경입니다.</strong><br>
         Helm Chart로 Jenkins/ArgoCD 설치, Terraform으로 GKE/VPC/Cloud NAT 코드화,
-        Taint/NodeSelector로 워크로드 격리까지 전담했습니다.
+        Taint/NodeSelector로 워크로드 격리까지 담당했습니다.
       </div>
     </div>
   </div>
@@ -1645,7 +1645,7 @@ a:hover{text-decoration:underline;}
         <li><strong class="bd">3단계:</strong> ①@Transactional Master 라우팅(빠른 적용) → ②<strong class="bd">@UseMasterDB</strong>+AOP(세밀 제어) → ③핵심 서비스 Master 직접 연결 (네이버페이 DAN24 참고)</li>
       </ul>
 
-      <div class="sec" style="margin-top:4px;">팀 개발 문화 — 직접 제안하고 합의를 이끈 경험</div>
+      <div class="sec" style="margin-top:4px;">팀 개발 문화 — 직접 제안하고 팀과 합의한 경험</div>
       <ul class="bl">
         <li><strong class="bd">Git Flow 도입:</strong> Cherry-pick 충돌이 반복되는 상황에서, 실제 테스트 MR을 만들어 팀원이 직접 경험하게 한 후 합의 도출 → dev / staging / main 분리</li>
         <li><strong class="bd">Pn룰 코드리뷰:</strong> P1(반드시 수정, Request Changes) ~ P5(참고, Approve) 5단계로 리뷰 강도를 명시화하여 리뷰어-작성자 간 기대치 정렬</li>
