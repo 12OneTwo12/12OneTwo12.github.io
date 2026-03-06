@@ -1120,10 +1120,10 @@ a:hover{text-decoration:underline;}
       </ul>
       <div style="border:1px solid #81c995;border-radius:4px;overflow:hidden;margin-top:8px;">
         <div style="font-size:9.5px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#f2f9f4;">ArgoCD — bootalk-app-prod (Synced · Healthy)</div>
-        <img src="https://www.dropbox.com/scl/fi/uhnc4y255i9c2zs8mer5k/bootalk_argocd.png?rlkey=27kg6wfb9esxv232x2ucbl3sw&st=mdkd3d2a&raw=1" style="width:100%;max-height:200px;object-fit:contain;display:block;background:#1e2127;" alt="ArgoCD Dashboard - bootalk-app-prod Synced Healthy">
+        <img src="https://www.dropbox.com/scl/fi/uhnc4y255i9c2zs8mer5k/bootalk_argocd.png?rlkey=27kg6wfb9esxv232x2ucbl3sw&st=mdkd3d2a&raw=1" style="width:100%;max-height:250px;object-fit:contain;display:block;background:#1e2127;" alt="ArgoCD Dashboard - bootalk-app-prod Synced Healthy">
       </div>
 
-      <div class="sec" style="margin-top:12px;">Jenkins on K8s — 동적 Agent Pod</div>
+      <div class="sec" style="margin-top:16px;">Jenkins on K8s — 동적 Agent Pod</div>
       <ul class="bl">
         <li>Jenkins Kubernetes Plugin으로 빌드 시에만 Agent Pod 동적 생성 → 완료 후 자동 삭제</li>
         <li>전용 노드풀 (오토스케일링 0~N개) → 미사용 시 비용 0원</li>
@@ -1144,7 +1144,7 @@ a:hover{text-decoration:underline;}
       </ul>
       <div style="border:1px solid #81c995;border-radius:4px;overflow:hidden;margin-top:8px;">
         <div style="font-size:9.5px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#f2f9f4;">k9s — Pods(all) 97개 실행 중 (prod 클러스터)</div>
-        <img src="https://www.dropbox.com/scl/fi/depiebgemfqhotigpgwbn/bootalk_k9s.png?rlkey=o264gfgxfiadqepkmenfbb3x1&st=bevh3sdb&raw=1" style="width:100%;max-height:200px;object-fit:contain;display:block;background:#0a0e14;" alt="k9s - 97 Pods running on GKE prod cluster">
+        <img src="https://www.dropbox.com/scl/fi/depiebgemfqhotigpgwbn/bootalk_k9s.png?rlkey=o264gfgxfiadqepkmenfbb3x1&st=bevh3sdb&raw=1" style="width:100%;max-height:250px;object-fit:contain;display:block;background:#0a0e14;" alt="k9s - 97 Pods running on GKE prod cluster">
       </div>
 
       <div class="sec" style="margin-top:12px;">클러스터 구성 요약</div>
@@ -1156,7 +1156,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">총 Pod 수</td><td>~30개</td><td>~97개 (k9s 확인)</td></tr>
       </table>
 
-      <div class="ib" style="margin-top:12px;">
+      <div class="ib" style="margin-top:16px;">
         <strong>아래 인프라는 직접 설계·구축·운영해본 프로덕션 환경입니다.</strong><br>
         Helm Chart로 Jenkins/ArgoCD 설치, Terraform으로 GKE/VPC/Cloud NAT 코드화,
         Taint/NodeSelector로 워크로드 격리까지 담당했습니다.
@@ -1834,9 +1834,9 @@ a:hover{text-decoration:underline;}
           <span class="sm">1인 개발일수록 테스트가 중요 — 나 대신 코드를 검증해줄 동료가 없기 때문</span></li>
       </ul>
 
-      <div class="dg" style="margin-top:8px;">
+      <div class="dg" style="margin-top:12px;">
         <div class="dl">FULL STACK ARCHITECTURE</div>
-        <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:10.5px;">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:10.5px;">
           <span style="color:#222;font-weight:600;">Backend</span><span style="color:#666;">Kotlin · Spring WebFlux · R2DBC · Coroutines</span>
           <span style="color:#222;font-weight:600;">Frontend</span><span style="color:#666;">React Native (Expo) · TypeScript</span>
           <span style="color:#222;font-weight:600;">AI</span><span style="color:#666;">Vertex AI Gemini · Google STT · YouTube Data API</span>
@@ -1845,7 +1845,7 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:10px;">
+      <div class="ib" style="margin-top:16px;">
         <strong>왜 사이드 프로젝트를 하는가:</strong>
         회사에서는 기존 시스템의 제약 안에서 일합니다. 사이드 프로젝트는
         <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>해볼 수 있는 소중한 기회라고 생각합니다.
@@ -1878,12 +1878,12 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="dg" style="margin-top:10px;">
+      <div class="dg" style="margin-top:14px;">
         <div class="dl">n8n 콘텐츠 자동화 워크플로우 — 실제 운영 화면</div>
         <img src="https://github.com/user-attachments/assets/d4f8b6c4-2214-41de-bc98-0db64c8d1f72" style="width:100%;max-height:160px;object-fit:contain;display:block;border-radius:3px;" alt="n8n Workflow">
       </div>
 
-      <div class="ib" style="margin-top:8px;">
+      <div class="ib" style="margin-top:14px;">
         <strong>n8n 도입 이유:</strong>
         콘텐츠 생성 파이프라인(검색→다운로드→STT→분석→편집→업로드)을
         코드로만 관리하면 수정·모니터링이 어렵습니다.
@@ -1904,22 +1904,22 @@ a:hover{text-decoration:underline;}
     <div class="c">
       <div class="dg">
         <div class="dl">AI 기반 영상 자동 편집 파이프라인</div>
-        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div class="db ac" style="width:65%;">Gemini 검색어 생성<br><span style="font-size:10.5px;color:#999;">AI가 주제별 검색 쿼리 추론</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:center;padding:6px 0;">
+          <div class="db ac" style="width:75%;padding:8px 10px;">Gemini 검색어 생성<br><span style="font-size:10.5px;color:#999;">AI가 주제별 검색 쿼리 추론</span></div>
           <div class="dd">↓</div>
-          <div class="db dk" style="width:65%;">YouTube API 검색<br><span style="font-size:10.5px;color:#999;">CC 라이선스만 + yt-dlp 다운로드</span></div>
+          <div class="db dk" style="width:75%;padding:8px 10px;">YouTube API 검색<br><span style="font-size:10.5px;color:#999;">CC 라이선스만 + yt-dlp 다운로드</span></div>
           <div class="dd">↓</div>
-          <div class="db" style="width:65%;">Google STT<br><span style="font-size:10.5px;color:#999;">음성 → 타임스탬프 포함 텍스트</span></div>
+          <div class="db" style="width:75%;padding:8px 10px;">Google STT<br><span style="font-size:10.5px;color:#999;">음성 → 타임스탬프 포함 텍스트</span></div>
           <div class="dd">↓</div>
-          <div class="db ac" style="width:65%;">Gemini 분석<br><span style="font-size:10.5px;color:#999;">핵심 구간 추출 + 적합성 평가</span></div>
+          <div class="db ac" style="width:75%;padding:8px 10px;">Gemini 분석<br><span style="font-size:10.5px;color:#999;">핵심 구간 추출 + 적합성 평가</span></div>
           <div class="dd">↓</div>
-          <div class="db" style="width:65%;">FFmpeg 편집<br><span style="font-size:10.5px;color:#999;">클리핑 + 세로 포맷 변환</span></div>
+          <div class="db" style="width:75%;padding:8px 10px;">FFmpeg 편집<br><span style="font-size:10.5px;color:#999;">클리핑 + 세로 포맷 변환</span></div>
           <div class="dd">↓</div>
-          <div class="db ok" style="width:65%;">품질 검수<br><span style="font-size:10.5px;color:#999;">70점+ → 관리자 승인 대기</span></div>
+          <div class="db ok" style="width:75%;padding:8px 10px;">품질 검수<br><span style="font-size:10.5px;color:#999;">70점+ → 관리자 승인 대기</span></div>
         </div>
       </div>
 
-      <div class="ib" style="margin-top:10px;">
+      <div class="ib" style="margin-top:18px;">
         <strong>파이프라인 설계 핵심:</strong>
         각 단계를 독립적으로 실패·재시도 가능하게 설계했습니다.
         STT 실패 시 해당 영상만 스킵하고, Gemini 분석 결과가 70점 미만이면
@@ -1934,30 +1934,30 @@ a:hover{text-decoration:underline;}
         <li><strong class="bd">AI 코드 검증 자동화:</strong> Jacoco·Detekt·ArchUnit CI 자동 검증 + Gemini PR 리뷰로 교차 검증, 검증 부담 분산</li>
       </ul>
 
-      <div class="dg" style="margin-top:10px;">
+      <div class="dg" style="margin-top:16px;">
         <div class="dl">CI/CD 자동화 — 1인 개발의 품질 관리 전략</div>
-        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div class="db ac" style="width:75%;">PR 생성 (AI 또는 직접)</div>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:center;padding:6px 0;">
+          <div class="db ac" style="width:85%;padding:8px 10px;">PR 생성 (AI 또는 직접)</div>
           <div class="dd">↓</div>
-          <div style="display:flex;gap:4px;width:90%;justify-content:center;">
-            <div class="db ds" style="flex:1;">Jacoco<br><span style="font-size:10px;color:#999;">Coverage 79%+</span></div>
-            <div class="db ds" style="flex:1;">Detekt<br><span style="font-size:10px;color:#999;">코드 품질</span></div>
-            <div class="db ds" style="flex:1;">ArchUnit<br><span style="font-size:10px;color:#999;">아키텍처 규칙</span></div>
+          <div style="display:flex;gap:8px;width:95%;justify-content:center;">
+            <div class="db ds" style="flex:1;padding:8px 4px;">Jacoco<br><span style="font-size:10px;color:#999;">Coverage 79%+</span></div>
+            <div class="db ds" style="flex:1;padding:8px 4px;">Detekt<br><span style="font-size:10px;color:#999;">코드 품질</span></div>
+            <div class="db ds" style="flex:1;padding:8px 4px;">ArchUnit<br><span style="font-size:10px;color:#999;">아키텍처 규칙</span></div>
           </div>
           <div class="dd">↓</div>
-          <div class="db ac" style="width:75%;">Gemini PR 리뷰 (AI 교차 검증)</div>
+          <div class="db ac" style="width:85%;padding:8px 10px;">Gemini PR 리뷰 (AI 교차 검증)</div>
           <div class="dd">↓</div>
-          <div class="db ok" style="width:75%;">Merge → ArgoCD 자동 배포</div>
+          <div class="db ok" style="width:85%;padding:8px 10px;">Merge → ArgoCD 자동 배포</div>
         </div>
       </div>
 
-      <div class="ib" style="margin-top:10px;">
+      <div class="ib" style="margin-top:18px;">
         <strong>1인 개발의 핵심 과제는 품질 관리입니다.</strong>
         동료 리뷰어가 없는 환경에서 CI 자동 검증(Jacoco·Detekt·ArchUnit)과
         AI PR 리뷰를 교차 적용하여, <strong>사람이 놓치는 것은 도구가, 도구가 놓치는 것은 AI가</strong> 보완하는 구조를 만들었습니다.
       </div>
 
-      <div class="ib" style="margin-top:8px;">
+      <div class="ib" style="margin-top:16px;">
         어떻게 하면 AI를 더 잘 활용할 수 있을지 꾸준히 고민하고 있습니다.
         무조건 수락하면 제게 남는 게 없다고 느꼈기에,
         <strong>AI의 제안에 항상 질문하고 반박하며, 더 좋은 결과물을 만들고 성장하기 위해 노력하려 합니다.</strong>
@@ -1990,11 +1990,11 @@ a:hover{text-decoration:underline;}
       <div style="display:flex;gap:4px;margin-top:6px;">
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">MCP 에러 분석 트리거</div>
-          <img src="https://github.com/user-attachments/assets/99f4c410-70b6-4e03-8ef8-1bca025e2049" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="MCP Trigger">
+          <img src="https://github.com/user-attachments/assets/99f4c410-70b6-4e03-8ef8-1bca025e2049" style="width:100%;max-height:160px;object-fit:contain;display:block;" alt="MCP Trigger">
         </div>
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">자동 생성된 GitHub Issue</div>
-          <img src="https://github.com/user-attachments/assets/befff3df-fe3b-495d-aff3-f284afc38c67" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="Auto Created Issue">
+          <img src="https://github.com/user-attachments/assets/befff3df-fe3b-495d-aff3-f284afc38c67" style="width:100%;max-height:160px;object-fit:contain;display:block;" alt="Auto Created Issue">
         </div>
       </div>
 
@@ -2014,14 +2014,14 @@ a:hover{text-decoration:underline;}
       <p class="bt"><strong class="bd">"도구를 쓰는 것과 파이프라인을 구축하는 것은 다르다"</strong>는 깨달음으로 발전.
       Cron 폴링으로 에러를 자동 감지하고, AI가 분석→코드 수정→PR까지 사람 개입 없이 처리합니다.</p>
 
-      <div style="display:flex;gap:4px;margin-top:6px;">
+      <div style="display:flex;gap:4px;margin-top:8px;">
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">OpenClaw 자동 에러 분석</div>
-          <img src="https://www.dropbox.com/scl/fi/iy75r7yid6wed7f6s7acd/E9955AA6-A06F-44D8-A6EB-C1DF4274B16E.jpg?rlkey=m2nssrzfm5uypia6kfvdgiqm6&st=dkcgc5gu&raw=1" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="OpenClaw Auto Analysis">
+          <img src="https://www.dropbox.com/scl/fi/iy75r7yid6wed7f6s7acd/E9955AA6-A06F-44D8-A6EB-C1DF4274B16E.jpg?rlkey=m2nssrzfm5uypia6kfvdgiqm6&st=dkcgc5gu&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="OpenClaw Auto Analysis">
         </div>
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">Loki 로그 분석 → PR 자동 생성</div>
-          <img src="https://www.dropbox.com/scl/fi/n7oc7ys210wu8h71f18sc/9E45A3DA-F469-4CE7-9A07-5E761F19FC6C.jpg?rlkey=nmn6yvo8hx4ng1ufp07mn88ge&st=oi8i9kxn&raw=1" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="OpenClaw Loki Analysis">
+          <img src="https://www.dropbox.com/scl/fi/n7oc7ys210wu8h71f18sc/9E45A3DA-F469-4CE7-9A07-5E761F19FC6C.jpg?rlkey=nmn6yvo8hx4ng1ufp07mn88ge&st=oi8i9kxn&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="OpenClaw Loki Analysis">
         </div>
       </div>
 
@@ -2041,14 +2041,14 @@ a:hover{text-decoration:underline;}
         Cron은 놓칠 수 있는 에러를, 텔레그램은 긴급 에러를 커버하여 <strong>감지 사각지대를 제거</strong>했습니다.
       </div>
 
-      <div style="display:flex;gap:4px;margin-top:6px;">
+      <div style="display:flex;gap:4px;margin-top:8px;">
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f2f9f4;color:#137333;font-weight:600;">자동 생성된 PR — 코드 수정 포함</div>
-          <img src="https://www.dropbox.com/scl/fi/ke6gteppxzxh6bdald7c2/7E88D40F-92B8-4268-84DA-2A547451F7DC.jpg?rlkey=qqn2xrzzeiepm0kqw7ckwpdko&st=9bl69075&raw=1" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="Auto Created PR">
+          <img src="https://www.dropbox.com/scl/fi/ke6gteppxzxh6bdald7c2/7E88D40F-92B8-4268-84DA-2A547451F7DC.jpg?rlkey=qqn2xrzzeiepm0kqw7ckwpdko&st=9bl69075&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="Auto Created PR">
         </div>
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
           <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">Heartbeat + Forward 하이브리드 감지</div>
-          <img src="https://www.dropbox.com/scl/fi/5spvynh7iwdx81v95amuy/73A570CA-50F4-4B16-A461-82715D359A29.jpg?rlkey=n958h679jpjvjhn78h8qgv4bu&st=zo71v7mj&raw=1" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="Heartbeat Hybrid">
+          <img src="https://www.dropbox.com/scl/fi/5spvynh7iwdx81v95amuy/73A570CA-50F4-4B16-A461-82715D359A29.jpg?rlkey=n958h679jpjvjhn78h8qgv4bu&st=zo71v7mj&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="Heartbeat Hybrid">
         </div>
       </div>
 
