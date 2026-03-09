@@ -289,7 +289,7 @@
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li><strong>무중단</strong> MSA 전환 완료, 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
+                            <li>주요 도메인 <strong>무중단</strong> MSA 전환 (일부 레거시 잔존), 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
                             <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만, 연 ₩1,350만), <a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization" target="_blank">CI 84% 단축</a>(45분→7분), 공통 변경 PR: 16개→<strong>1개</strong></li>
                         </ul>
 
@@ -315,7 +315,6 @@
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s" target="_blank">GKE 도입</a> – kubeadm·EKS·GKE 비교, DevOps 부재 상황에서 Managed K8s 선택. 미문서화 방화벽 발견 → <strong>Cloud NAT</strong>으로 고정 IP 확보</li>
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system" target="_blank">Grafana LGTM Stack</a> – ELK($92~200) 대비 비용(<strong>$12~37/월</strong>) 및 운영 부담 기준 선택, OpenTelemetry로 로그·트레이싱·메트릭 통합</li>
-                            <li>14개 서비스 빌드 증가로 Self-hosted Runner 부하 → <a href="https://jeongil.dev/ko/blog/infrastructure/github-actions-to-jenkins" target="_blank">Jenkins on K8s 전환</a>, 동시 Pod 최대 10개, 병렬 빌드 15분→5분</li>
                             <li>온프레미스 → <a href="https://jeongil.dev/ko/blog/infrastructure/on-premise-to-aws-migration" target="_blank">AWS 무중단 마이그레이션</a> (Terraform + <strong>AWS DMS CDC</strong> 실시간 동기화)</li>
                             <li>Cold Start(1,190~1,390ms) → <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" target="_blank">startupProbe 기반 JVM Warm-Up</a>(4개 엔드포인트 × 10회 사전 호출), <strong>150~230ms로 85% 개선</strong></li>
                         </ul>
@@ -326,7 +325,7 @@
                             <li><strong>무중단 배포</strong>·<strong>자동 스케일링</strong> 확보, JVM Cold Start <strong>85% 개선</strong>(1.2초→150ms), 개발서버 도입</li>
                         </ul>
 
-                        <div class="tech-line"><strong>기술:</strong> Kubernetes, GKE, ArgoCD, Jenkins, Grafana, Loki, Tempo, Prometheus</div>
+                        <div class="tech-line"><strong>기술:</strong> Kubernetes, GKE, ArgoCD, GitHub Actions, Grafana, Loki, Tempo, Prometheus</div>
                     </div>
                 </div>
 
