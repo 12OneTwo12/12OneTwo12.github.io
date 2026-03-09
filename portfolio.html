@@ -144,19 +144,20 @@ a:hover{text-decoration:underline;}
     <div style="display:grid;grid-template-columns:32px 1fr;row-gap:5px;font-size:14.5px;line-height:1.95;">
       <span class="bd">1.</span><span>Profile <span class="sm">— 경력, 기술 스택, 핵심 성과</span></span>
       <span class="bd">2.</span><span>프로젝트</span>
-      <span></span><span style="padding-left:16px;color:#666;">2-1. 모놀리식 → MSA 전환 <span class="sm">— 무중단 아키텍처 전환, 부분적 빅뱅 전략</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-2. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-3. MSA → 모듈러 모놀리식 전환 <span class="sm">— 12서비스→1앱, 인프라 비용 36%↓</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-1. 부톡 시스템 아키텍처 진화 <span class="sm">— EC2 → MSA + K8s → 모듈러 모놀리식, 3단계 전환</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-2. 모놀리식 → MSA 전환 <span class="sm">— 무중단 아키텍처 전환, 부분적 빅뱅 전략</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-3. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-4. MSA → 모듈러 모놀리식 전환 <span class="sm">— 12서비스→1앱, 인프라 비용 36%↓</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ API P95 99% 개선 <span class="sm">— 4,045ms→50ms, 3단계 체계적 최적화</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ MySQL Collation 진단 & DB 마이그레이션 <span class="sm">— 109개 테이블, 8배 성능 저하 해결</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ CI/CD 빌드 최적화 <span class="sm">— 45분→7분, 7단계 체계적 최적화</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-4. K8s 인프라 & CI/CD 구축 <span class="sm">— GKE, Jenkins on K8s, JVM 최적화</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-5. K8s 인프라 & CI/CD 구축 <span class="sm">— GKE, Jenkins on K8s, JVM 최적화</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 실제 운영 화면 <span class="sm">— ArgoCD 배포 · k9s 클러스터 · 97 Pods</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 모니터링 시스템 구축 <span class="sm">— LGTM Stack, OTel Sidecar, 비용 최적화</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 온프레미스 → AWS 무중단 마이그레이션 <span class="sm">— 200GB CDC, Terraform IaC</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-5. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Elasticsearch + OpenAI</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-6. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-7. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-6. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Elasticsearch + OpenAI</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-7. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-8. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
       <span class="bd">3.</span><span>Side Project</span>
       <span></span><span style="padding-left:16px;color:#666;">3-1. Upvy <span class="sm">— AI 숏폼 영상 플랫폼, 1인 개발 · App Store/Play Store 출시</span></span>
       <span></span><span style="padding-left:16px;color:#666;">3-2. Error Autopilot <span class="sm">— AI 에러 자동 대응 시스템, MCP → OpenClaw 진화</span></span>
@@ -233,12 +234,160 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
+<!-- ===== SLIDE 10: 아키텍처 진화 타임라인 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(1) 부톡(Bootalk) 시스템 아키텍처 진화 — 11개월간 3단계 전환</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">4</span>
+  <div class="body" style="margin-top:10px;">
+    <p class="bt" style="margin-bottom:10px;">
+      <strong class="bd">부톡(Bootalk)</strong>은 AI 기반 부동산 중개 플랫폼입니다. 입사 후 EC2 단일 서버 → MSA + K8s → 모듈러 모놀리식으로 <strong class="bd">3단계 아키텍처 전환</strong>을 주도했습니다.
+      MSA 전환과 K8s 인프라 구축은 병렬로 진행되었으며, 각 단계마다 CTO와 아키텍처 리뷰를 거쳐 방향을 결정했습니다.
+    </p>
+
+    <div class="tl">
+      <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 단일 서버</strong><br>Docker Compose<br>OOM Kill · SPOF<br>롤백 30분+</div></div>
+      <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>GKE 도입</strong><br>K8s 전환 시작<br>NGINX Ingress<br>레거시 격리</div></div>
+      <div class="ti"><div class="tdt">2025.06</div><div class="td"></div><div class="tt"><strong>Migration & IaC</strong><br>200GB DB 무중단 이전<br>AWS DMS CDC<br>Terraform 도입</div></div>
+      <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>Observability</strong><br>LGTM Stack<br>OTel Sidecar<br>Telegram 알림</div></div>
+      <div class="ti"><div class="tdt">2025.11</div><div class="td"></div><div class="tt"><strong>MSA 완성</strong><br>Jenkins on K8s 전환<br>14 MSA 안정 운영<br>GitOps CI/CD</div></div>
+      <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>모듈러 모놀리식</strong><br>12서비스→1앱 통합<br>비용 2.5~3배 ↑ 대비<br>Bean·@Tx 버그 해결</div></div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <!-- BEFORE -->
+      <div class="dg" style="flex:.4;">
+        <div class="dl" style="color:#c5221f;">BEFORE (2025.03 입사 시점)</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db er ds" style="width:85%;">EC2 단일 대형 인스턴스</div>
+          <div class="dd">↓ Docker Compose + Shell Script</div>
+          <div class="db er ds" style="width:85%;">MSA 서비스 + 레거시<br><span style="font-size:10.5px;">모든 컨테이너가 단일 EC2에 집중</span></div>
+          <div class="dd">↓</div>
+          <div class="db wn ds" style="width:85%;">도메인 간 DB 공유</div>
+          <div class="dd">↓</div>
+          <div class="db ds" style="width:85%;">모니터링 부재 · 개발서버 없음</div>
+        </div>
+        <div style="text-align:center;margin-top:6px;font-size:10px;color:#c5221f;">SPOF · OOM Kill · Noisy Neighbor · 롤백 30분+</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:22px;color:#999;">→</div>
+      <!-- AFTER -->
+      <div class="dg" style="flex:.6;">
+        <div class="dl" style="color:#137333;">AFTER (2026.02 현재 운영 중)</div>
+        <div style="display:flex;flex-direction:column;gap:2px;align-items:center;">
+          <!-- Clients -->
+          <div style="display:flex;gap:3px;">
+            <div class="db ds" style="font-size:10.5px;">bootalk_app<br><span style="font-size:10.5px;color:#999;">Expo+RN</span></div>
+            <div class="db ds" style="font-size:10.5px;">bootalk_web<br><span style="font-size:10.5px;color:#999;">Next.js</span></div>
+            <div class="db ds" style="font-size:10.5px;">bootalk_admin<br><span style="font-size:10.5px;color:#999;">Next.js</span></div>
+          </div>
+          <div class="dd" style="margin:1px 0;">↓ NGINX Ingress</div>
+          <!-- GKE Cluster -->
+          <div style="border:1.5px solid #81c995;border-radius:4px;padding:5px 6px;width:98%;position:relative;">
+            <div style="position:absolute;top:-7px;left:8px;background:#fafafa;padding:0 4px;font-size:10.5px;font-weight:700;color:#137333;">GKE Cluster (dev / prod)</div>
+            <div style="display:flex;gap:3px;margin-top:2px;">
+              <div style="border:1px solid #81c995;border-radius:3px;padding:4px 5px;flex:3;position:relative;">
+                <div style="position:absolute;top:-6px;left:4px;background:#fafafa;padding:0 2px;font-size:10.5px;font-weight:700;color:#137333;">BtalkApplication (모듈러 모놀리식 · 1 JVM)</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2px;">
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:agent</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:estate</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:ai</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:match</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:chat</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:user</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:event</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:data</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:commu</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:price</div>
+                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:store</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:batch</div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:2px;flex:1;">
+                <div class="db wn ds" style="font-size:10.5px;padding:2px 3px;">notification<br>(별도 Pod)</div>
+                <div class="db ds" style="font-size:10.5px;padding:2px 3px;border-style:dashed;">Jenkins<br>ArgoCD</div>
+              </div>
+            </div>
+          </div>
+          <div class="dd" style="margin:1px 0;">↓</div>
+          <!-- Infrastructure Layer -->
+          <div style="display:flex;gap:3px;justify-content:center;width:98%;">
+            <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:1;">
+              <div style="font-size:10.5px;color:#999;font-weight:600;">AWS</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:10.5px;padding:1px 3px;">SNS/SQS</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Cognito</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">DynamoDB</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">RDS</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">S3/CF</div></div>
+            </div>
+            <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:.6;">
+              <div style="font-size:10.5px;color:#999;font-weight:600;">GCP</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Cloud SQL</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Redis</div></div>
+            </div>
+            <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:.7;">
+              <div style="font-size:10.5px;color:#999;font-weight:600;">Monitoring</div>
+              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Grafana</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Prom</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Loki</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Tempo</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:3px;font-size:10.5px;color:#137333;">모듈러 모놀리식 · 11 Schema 분리 · 3 SNS/42 SQS · GCP+AWS 하이브리드 · 장애 인지 1분 이내</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:10px;">
+      <table class="ct" style="font-size:10px;flex:1;">
+        <tr><th></th><th style="color:#c5221f;">Before (2025.03)</th><th style="color:#137333;">After (2026.02)</th></tr>
+        <tr><td class="bd">인프라</td><td>EC2 단일 인스턴스 (SPOF)</td><td class="w">GKE 2 Cluster (dev/prod)</td></tr>
+        <tr><td class="bd">서비스</td><td>MSA 전환 중 (단일 EC2 집중)</td><td class="w">모듈러 모놀리식 (12→1앱 통합)</td></tr>
+        <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (1시간+)</td><td class="w">실시간 알림 (1분 이내)</td></tr>
+        <tr><td class="bd">롤백</td><td>수동 배포 12분 (SSH + 재빌드)</td><td class="w">GitOps 선언적 롤백 2분 (83% 단축)</td></tr>
+        <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack ($12~37/월)</td></tr>
+        <tr><td class="bd">배포</td><td>SSH + Docker Compose (15분)</td><td class="w">Jenkins + ArgoCD (5분, 67% 단축)</td></tr>
+        <tr><td class="bd">마이그레이션</td><td>온프레미스 서버</td><td class="w">200GB DB, AWS DMS CDC 무중단 이전</td></tr>
+        <tr><td class="bd">IaC</td><td>수동 콘솔 설정</td><td class="w">Terraform 코드화, 재현성 확보</td></tr>
+        <tr><td class="bd">인프라 비용</td><td>GCP 크레딧 (월 ₩310만)</td><td style="color:#137333;font-weight:600;">모듈러 전환 후 월 ₩197만 (36%↓, 연 ₩1,350만 절감)</td></tr>
+        <tr><td class="bd">API 성능</td><td>P95 4,045ms (레거시 쿼리)</td><td class="w">P95 50ms (99%↓, Grafana 메트릭 기준)</td></tr>
+      </table>
+      <div class="ib" style="flex:1;">
+        <strong>11개월간의 핵심 판단:</strong><br>
+        모든 전환은 "기술 도입"이 아니라 <strong>운영 문제와 비용 현실</strong>에서 시작했습니다.<br><br>
+        <strong>팀 구성:</strong> CTO(아키텍처 리뷰·방향 결정) + 백엔드 2명(본인 + 동료) + 프론트엔드 1명. 본인 담당: MSA 5개 서비스 설계·구현, 인프라 전담, 성능 최적화. MSA 전환과 K8s 구축은 동시 병행.<br><br>
+        <strong>다시 한다면:</strong> 모니터링을 전환 초기부터 구축, 모듈러 모놀리식 단계를 더 오래 유지, DMS CDC 대신 Debezium 검토(비용).
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE: 아키텍처 — EC2 입사 시점 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(1) Bootalk 시스템 아키텍처 — EC2 단일 서버 (2025.03)</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">5</span>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;margin-top:6px;overflow:hidden;">
+    <img src="https://www.dropbox.com/scl/fi/r7mwqkhbhfh7y5rq5ob39/Bootalk-System-Architecture-2025-03-10.png?rlkey=jf5445dhiimefcqtakwa86i66&st=cyhnpqgc&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
+  </div>
+</div></div>
+
+<!-- ===== SLIDE: 아키텍처 — MSA + K8s ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(1) Bootalk 시스템 아키텍처 — MSA + K8s (2025.04 ~ 2025.11)</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">6</span>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;margin-top:6px;overflow:hidden;">
+     <img src="https://www.dropbox.com/scl/fi/yw5hupfypirv7bqecwf06/Bootalk-System-Architecture-2025-09-11.png?rlkey=ht2tat4tqs7rw355bhjklwb36&st=gikrkoha&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
+  </div>
+</div></div>
+
+<!-- ===== SLIDE: 아키텍처 — Modular Monolith + K8s ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(1) Bootalk 시스템 아키텍처 — Modular Monolith + K8s (2025.11 ~ Present)</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">7</span>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;margin-top:6px;overflow:hidden;">
+     <img src="https://www.dropbox.com/scl/fi/hlv6bulzxp0vuoas22g43/Bootalk-System-Architecture-2025-11-11.png?rlkey=scu4a755kkraovx8bw2u6zdp1&st=egsbmtbv&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
+  </div>
+</div></div>
+
+
 <!-- ===== SLIDE 4: MSA 전환 (1/2) ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(1) 모놀리식 → MSA 전환 프로젝트</div>
+  <div class="st">(2) 모놀리식 → MSA 전환 프로젝트</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">4</span>
+  <span class="pn">8</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -346,9 +495,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 5: MSA 전환 (2/2) — 실행과 검증 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(1) MSA 전환 — 과도기 관리 & 실행 과정</div>
+  <div class="st">(2) MSA 전환 — 과도기 관리 & 실행 과정</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">5</span>
+  <span class="pn">9</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <div class="sec-s">Dual Write + 검증 배치 — 과도기 데이터 정합성 보장</div>
@@ -419,7 +568,7 @@ a:hover{text-decoration:underline;}
         chat-svc와 match-svc의 레거시 의존성을 즉시 제거하지 않았습니다.
         8개월 내 모든 것을 완벽히 전환하려는 욕심보다,
         <strong>"지금 안전하게 전환할 수 있는 범위"와 "나중에 할 일"을 명확히 분리</strong>하는 것이
-        2~3명 팀에서 현실적인 전략이었습니다. 이후 모듈러 모놀리식 전환(p.7)에서 이 부채를 해소했습니다.
+        2~3명 팀에서 현실적인 전략이었습니다. 이후 모듈러 모놀리식 전환(p.11)에서 이 부채를 해소했습니다.
       </div>
 
       <div class="rb" style="margin-top:8px;">
@@ -427,7 +576,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="rb" style="margin-top:8px;">
-        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.16)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
+        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.20)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
       </div>
     </div>
   </div>
@@ -436,9 +585,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 6: 멀티모듈 전환 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(2) 16개 레포지토리를 하나로 — 멀티모듈 전환</div>
+  <div class="st">(3) 16개 레포지토리를 하나로 — 멀티모듈 전환</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">6</span>
+  <span class="pn">10</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -542,9 +691,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 7: MSA → 모듈러 모놀리식 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(3) MSA → 모듈러 모놀리식 전환</div>
+  <div class="st">(4) MSA → 모듈러 모놀리식 전환</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">7</span>
+  <span class="pn">11</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -631,7 +780,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><strong class="bd">Pod 75% 감소</strong> (26+개→5~7개) — 12 JVM → 1 JVM + notification 별도, <strong>인프라 비용 36% 절감</strong> (월 ₩310만→₩197만, 연 ₩1,350만 절감). 동일 트래픽(피크 568 req/s) · 동일 요금제 기준, Compute Engine 일비용 ₩96,505→₩58,768</li>
         <li>FeignClient → <strong class="bd">ModuleApi 9개 인터페이스</strong> 설계 — 네트워크 호출 제거, .data!! 언래핑 일괄 제거</li>
-        <li>CI/CD <strong class="bd">84% 단축</strong> (45분→7분, 66파일 수정) — 상세 내용은 p.11 CI/CD 빌드 최적화 슬라이드 참조</li>
+        <li>CI/CD <strong class="bd">84% 단축</strong> (45분→7분, 66파일 수정) — 상세 내용은 p.15 CI/CD 빌드 최적화 슬라이드 참조</li>
         <li>11개 Schema·EntityManager·TM 분리 유지 — 필요 시 다시 MSA로 분리 가능</li>
       </ul>
 
@@ -658,9 +807,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 7-2: API 성능 최적화 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(3-1) 핵심 API P95 99% 개선 — 4,045ms → 50ms</div>
+  <div class="st">(4-1) 핵심 API P95 99% 개선 — 4,045ms → 50ms</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">8</span>
+  <span class="pn">12</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -764,9 +913,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE: API 성능 & 비용 대시보드 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(3-1) API 성능 & 비용 — Grafana 운영 대시보드</div>
+  <div class="st">(4-1) API 성능 & 비용 — Grafana 운영 대시보드</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">9</span>
+  <span class="pn">13</span>
   <div style="flex:1;display:flex;flex-direction:column;gap:8px;margin-top:12px;">
 
     <div style="display:flex;gap:6px;">
@@ -812,9 +961,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 7-3: MySQL Collation & DB 마이그레이션 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(3-2) MySQL Collation 진단 & 109개 테이블 DB 마이그레이션</div>
+  <div class="st">(4-2) MySQL Collation 진단 & 109개 테이블 DB 마이그레이션</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">10</span>
+  <span class="pn">14</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -927,9 +1076,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE: CI/CD 빌드 최적화 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(3-3) CI/CD 빌드 최적화 — 45분 → 7분</div>
+  <div class="st">(4-3) CI/CD 빌드 최적화 — 45분 → 7분</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">11</span>
+  <span class="pn">15</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -1019,9 +1168,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 8: K8s 인프라 & CI/CD ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(4) Kubernetes 인프라 & CI/CD 구축</div>
+  <div class="st">(5) Kubernetes 인프라 & CI/CD 구축</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">12</span>
+  <span class="pn">16</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1098,7 +1247,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="rb" style="margin-top:8px;">
-        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.16)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
+        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.20)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
       </div>
     </div>
   </div>
@@ -1107,9 +1256,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 8-1.5: K8s 인프라 운영 증빙 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(4) Kubernetes 인프라 & CI/CD — 실제 운영 화면</div>
+  <div class="st">(5) Kubernetes 인프라 & CI/CD — 실제 운영 화면</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">13</span>
+  <span class="pn">17</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <div class="sec">ArgoCD — GitOps 기반 선언적 배포</div>
@@ -1168,9 +1317,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 8-2: 모니터링 시스템 구축 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(4-1) 모니터링 시스템 구축 — Observability</div>
+  <div class="st">(5-1) 모니터링 시스템 구축 — Observability</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">14</span>
+  <span class="pn">18</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1242,9 +1391,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE: 모니터링 운영 화면 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(4-1) 모니터링 — Grafana & Telegram 운영 화면</div>
+  <div class="st">(5-1) 모니터링 — Grafana & Telegram 운영 화면</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">15</span>
+  <span class="pn">19</span>
   <div style="flex:1;display:flex;flex-direction:column;gap:10px;margin-top:12px;">
 
     <div style="display:flex;gap:6px;">
@@ -1273,9 +1422,9 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 9: 온프레미스 → AWS 무중단 마이그레이션 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(4-2) 온프레미스 → AWS 무중단 마이그레이션</div>
+  <div class="st">(5-2) 온프레미스 → AWS 무중단 마이그레이션</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">16</span>
+  <span class="pn">20</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -1379,158 +1528,10 @@ a:hover{text-decoration:underline;}
     </div>
   </div>
 </div></div>
-
-<!-- ===== SLIDE 10: 아키텍처 진화 타임라인 ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(4) 아키텍처 진화 과정 — 입사 후 11개월의 기록</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">17</span>
-  <div class="body" style="margin-top:10px;">
-    <p class="bt" style="margin-bottom:10px;">
-      MSA 전환과 K8s 인프라 구축은 <strong class="bd">병렬로 진행</strong>되었습니다 (MSA 서비스를 K8s에 배포하며 동시 진행).
-      각 단계마다 <strong class="bd">해결하고 싶은 문제</strong>가 있었고, CTO와 아키텍처 리뷰를 거쳐 방향을 결정했습니다.
-    </p>
-
-    <div class="tl">
-      <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 단일 서버</strong><br>Docker Compose<br>OOM Kill · SPOF<br>롤백 30분+</div></div>
-      <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>GKE 도입</strong><br>K8s 전환 시작<br>NGINX Ingress<br>레거시 격리</div></div>
-      <div class="ti"><div class="tdt">2025.06</div><div class="td"></div><div class="tt"><strong>Migration & IaC</strong><br>200GB DB 무중단 이전<br>AWS DMS CDC<br>Terraform 도입</div></div>
-      <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>Observability</strong><br>LGTM Stack<br>OTel Sidecar<br>Telegram 알림</div></div>
-      <div class="ti"><div class="tdt">2025.11</div><div class="td"></div><div class="tt"><strong>MSA 완성</strong><br>Jenkins on K8s 전환<br>14 MSA 안정 운영<br>GitOps CI/CD</div></div>
-      <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>모듈러 모놀리식</strong><br>12서비스→1앱 통합<br>비용 2.5~3배 ↑ 대비<br>Bean·@Tx 버그 해결</div></div>
-    </div>
-
-    <div style="display:flex;gap:10px;margin-top:8px;">
-      <!-- BEFORE -->
-      <div class="dg" style="flex:.4;">
-        <div class="dl" style="color:#c5221f;">BEFORE (2025.03 입사 시점)</div>
-        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div class="db er ds" style="width:85%;">EC2 단일 대형 인스턴스</div>
-          <div class="dd">↓ Docker Compose + Shell Script</div>
-          <div class="db er ds" style="width:85%;">MSA 서비스 + 레거시<br><span style="font-size:10.5px;">모든 컨테이너가 단일 EC2에 집중</span></div>
-          <div class="dd">↓</div>
-          <div class="db wn ds" style="width:85%;">도메인 간 DB 공유</div>
-          <div class="dd">↓</div>
-          <div class="db ds" style="width:85%;">모니터링 부재 · 개발서버 없음</div>
-        </div>
-        <div style="text-align:center;margin-top:6px;font-size:10px;color:#c5221f;">SPOF · OOM Kill · Noisy Neighbor · 롤백 30분+</div>
-      </div>
-      <div style="display:flex;align-items:center;font-size:22px;color:#999;">→</div>
-      <!-- AFTER -->
-      <div class="dg" style="flex:.6;">
-        <div class="dl" style="color:#137333;">AFTER (2026.02 현재 운영 중)</div>
-        <div style="display:flex;flex-direction:column;gap:2px;align-items:center;">
-          <!-- Clients -->
-          <div style="display:flex;gap:3px;">
-            <div class="db ds" style="font-size:10.5px;">bootalk_app<br><span style="font-size:10.5px;color:#999;">Expo+RN</span></div>
-            <div class="db ds" style="font-size:10.5px;">bootalk_web<br><span style="font-size:10.5px;color:#999;">Next.js</span></div>
-            <div class="db ds" style="font-size:10.5px;">bootalk_admin<br><span style="font-size:10.5px;color:#999;">Next.js</span></div>
-          </div>
-          <div class="dd" style="margin:1px 0;">↓ NGINX Ingress</div>
-          <!-- GKE Cluster -->
-          <div style="border:1.5px solid #81c995;border-radius:4px;padding:5px 6px;width:98%;position:relative;">
-            <div style="position:absolute;top:-7px;left:8px;background:#fafafa;padding:0 4px;font-size:10.5px;font-weight:700;color:#137333;">GKE Cluster (dev / prod)</div>
-            <div style="display:flex;gap:3px;margin-top:2px;">
-              <div style="border:1px solid #81c995;border-radius:3px;padding:4px 5px;flex:3;position:relative;">
-                <div style="position:absolute;top:-6px;left:4px;background:#fafafa;padding:0 2px;font-size:10.5px;font-weight:700;color:#137333;">BtalkApplication (모듈러 모놀리식 · 1 JVM)</div>
-                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2px;">
-                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:agent</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:estate</div>
-                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:ai</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:match</div>
-                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:chat</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:user</div>
-                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:event</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:data</div>
-                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:commu</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:price</div>
-                  <div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:store</div><div class="db ok ds" style="font-size:10.5px;padding:2px 3px;">:batch</div>
-                </div>
-              </div>
-              <div style="display:flex;flex-direction:column;gap:2px;flex:1;">
-                <div class="db wn ds" style="font-size:10.5px;padding:2px 3px;">notification<br>(별도 Pod)</div>
-                <div class="db ds" style="font-size:10.5px;padding:2px 3px;border-style:dashed;">Jenkins<br>ArgoCD</div>
-              </div>
-            </div>
-          </div>
-          <div class="dd" style="margin:1px 0;">↓</div>
-          <!-- Infrastructure Layer -->
-          <div style="display:flex;gap:3px;justify-content:center;width:98%;">
-            <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:1;">
-              <div style="font-size:10.5px;color:#999;font-weight:600;">AWS</div>
-              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:10.5px;padding:1px 3px;">SNS/SQS</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Cognito</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">DynamoDB</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">RDS</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">S3/CF</div></div>
-            </div>
-            <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:.6;">
-              <div style="font-size:10.5px;color:#999;font-weight:600;">GCP</div>
-              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Cloud SQL</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Redis</div></div>
-            </div>
-            <div style="border:1px dashed #ddd;border-radius:3px;padding:2px 4px;text-align:center;flex:.7;">
-              <div style="font-size:10.5px;color:#999;font-weight:600;">Monitoring</div>
-              <div style="display:flex;gap:1px;flex-wrap:wrap;justify-content:center;"><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Grafana</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Prom</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Loki</div><div class="db ds" style="font-size:10.5px;padding:1px 3px;">Tempo</div></div>
-            </div>
-          </div>
-        </div>
-        <div style="text-align:center;margin-top:3px;font-size:10.5px;color:#137333;">모듈러 모놀리식 · 11 Schema 분리 · 3 SNS/42 SQS · GCP+AWS 하이브리드 · 장애 인지 1분 이내</div>
-      </div>
-    </div>
-
-    <div style="display:flex;gap:12px;margin-top:10px;">
-      <table class="ct" style="font-size:10px;flex:1;">
-        <tr><th></th><th style="color:#c5221f;">Before (2025.03)</th><th style="color:#137333;">After (2026.02)</th></tr>
-        <tr><td class="bd">인프라</td><td>EC2 단일 인스턴스 (SPOF)</td><td class="w">GKE 2 Cluster (dev/prod)</td></tr>
-        <tr><td class="bd">서비스</td><td>MSA 전환 중 (단일 EC2 집중)</td><td class="w">모듈러 모놀리식 (12→1앱 통합)</td></tr>
-        <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (1시간+)</td><td class="w">실시간 알림 (1분 이내)</td></tr>
-        <tr><td class="bd">롤백</td><td>수동 배포 12분 (SSH + 재빌드)</td><td class="w">GitOps 선언적 롤백 2분 (83% 단축)</td></tr>
-        <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack ($12~37/월)</td></tr>
-        <tr><td class="bd">배포</td><td>SSH + Docker Compose (15분)</td><td class="w">Jenkins + ArgoCD (5분, 67% 단축)</td></tr>
-        <tr><td class="bd">마이그레이션</td><td>온프레미스 서버</td><td class="w">200GB DB, AWS DMS CDC 무중단 이전</td></tr>
-        <tr><td class="bd">IaC</td><td>수동 콘솔 설정</td><td class="w">Terraform 코드화, 재현성 확보</td></tr>
-        <tr><td class="bd">인프라 비용</td><td>GCP 크레딧 (월 ₩310만)</td><td style="color:#137333;font-weight:600;">모듈러 전환 후 월 ₩197만 (36%↓, 연 ₩1,350만 절감)</td></tr>
-        <tr><td class="bd">API 성능</td><td>P95 4,045ms (레거시 쿼리)</td><td class="w">P95 50ms (99%↓, Grafana 메트릭 기준)</td></tr>
-      </table>
-      <div class="ib" style="flex:1;">
-        <strong>11개월간의 핵심 판단:</strong><br>
-        모든 전환은 "기술 도입"이 아니라 <strong>운영 문제와 비용 현실</strong>에서 시작했습니다.<br><br>
-        <strong>팀 구성:</strong> CTO(아키텍처 리뷰·방향 결정) + 백엔드 2명(본인 + 동료) + 프론트엔드 1명. 본인 담당: MSA 5개 서비스 설계·구현, 인프라 전담, 성능 최적화. MSA 전환과 K8s 구축은 동시 병행.<br><br>
-        <strong>다시 한다면:</strong> 모니터링을 전환 초기부터 구축, 모듈러 모놀리식 단계를 더 오래 유지, DMS CDC 대신 Debezium 검토(비용).
-      </div>
-    </div>
-  </div>
-</div></div>
-
-<!-- ===== SLIDE: 아키텍처 — EC2 입사 시점 ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(4) 시스템 아키텍처 — EC2 단일 서버 (2025.03 입사 시점)</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">18</span>
-  <div style="flex:1;display:flex;align-items:center;justify-content:center;margin-top:6px;overflow:hidden;">
-    <img src="https://www.dropbox.com/scl/fi/r7mwqkhbhfh7y5rq5ob39/Bootalk-System-Architecture-2025-03-10.png?rlkey=jf5445dhiimefcqtakwa86i66&st=cyhnpqgc&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
-  </div>
-</div></div>
-
-<!-- ===== SLIDE: 아키텍처 — MSA + K8s ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(4) 시스템 아키텍처 — MSA + K8s (2025.04 ~ 2025.11)</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">19</span>
-  <div style="flex:1;display:flex;align-items:center;justify-content:center;margin-top:6px;overflow:hidden;">
-     <img src="https://www.dropbox.com/scl/fi/yw5hupfypirv7bqecwf06/Bootalk-System-Architecture-2025-09-11.png?rlkey=ht2tat4tqs7rw355bhjklwb36&st=gikrkoha&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
-  </div>
-</div></div>
-
-<!-- ===== SLIDE: 아키텍처 — Modular Monolith + K8s ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(4) 시스템 아키텍처 — Modular Monolith + K8s (2025.11 ~ Present)</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">20</span>
-  <div style="flex:1;display:flex;align-items:center;justify-content:center;margin-top:6px;overflow:hidden;">
-     <img src="https://www.dropbox.com/scl/fi/hlv6bulzxp0vuoas22g43/Bootalk-System-Architecture-2025-11-11.png?rlkey=scu4a755kkraovx8bw2u6zdp1&st=egsbmtbv&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
-  </div>
-</div></div>
-
 <!-- ===== SLIDE 11: 자연어 기반 매물 추천 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(5) 자연어 기반 부동산 매물 추천 기능</div>
+  <div class="st">(6) 자연어 기반 부동산 매물 추천 기능</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">21</span>
   <div class="tc" style="margin-top:6px;flex:1;">
@@ -1637,7 +1638,7 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 11-2: 자연어 매물 추천 — 서비스 화면 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(5) 자연어 매물 추천 — 실제 서비스 화면</div>
+  <div class="st">(6) 자연어 매물 추천 — 실제 서비스 화면</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">22</span>
   <div style="flex:1;display:flex;flex-direction:column;margin-top:12px;">
@@ -1674,7 +1675,7 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 12: 백오피스 성능 최적화 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(6) 백오피스 서버 성능 최적화</div>
+  <div class="st">(7) 백오피스 서버 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">23</span>
   <div class="tc" style="margin-top:6px;flex:1;">
@@ -1762,7 +1763,7 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 13: Spring Batch ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(7) Spring Batch 성능 최적화</div>
+  <div class="st">(8) Spring Batch 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">24</span>
   <div class="tc" style="margin-top:10px;flex:1;">
