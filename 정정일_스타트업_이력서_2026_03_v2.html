@@ -573,12 +573,13 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">자연어 기반 AI 부동산 매물 추천 시스템 (<a href="https://bootalk.co.kr/ai/chat" style="color: #0066cc;">서비스</a>)</span>
-                        <span class="project-period">2025.08 – 2025.11 · 3명 팀</span>
+                        <span class="project-period">2025.08 – 현재 · 3명 팀</span>
                     </div>
-                    <div class="project-summary"><span>RAG + Elasticsearch Geo-search로 자연어 위치 검색 매물 추천 기능 개발</span><span class="project-role">백엔드 전담</span></div>
+                    <div class="project-summary"><span>자연어 기반 AI 부동산 매물 추천 시스템 설계·개발·아키텍처 개선</span><span class="project-role">백엔드 전담</span></div>
                     <div class="project-content">
                         <ul class="detail-list">
-                            <li>자연어 → LLM 키워드 추출 → Elasticsearch <strong>벡터기반 유사도 검색</strong> → 조건 필터링 파이프라인 구축, Spring Batch 일배치 <strong>위치 정보(POI) 인덱싱</strong> 자동화 → 자연어 기반 <strong>AI 매물 추천</strong> 런칭 ("강남역 도보 10분 이내 15억 아파트" 등 <strong>복합 조건 검색</strong> 지원)</li>
+                            <li>자연어 매물 검색 부재 → LLM + ES Geo-search 파이프라인 + Spring Batch 13종 POI 일배치 구축 → <strong>AI 매물 추천</strong> 런칭</li>
+                            <li>복합 조건 처리 한계 → <strong>DAG 아키텍처 전환</strong>(위상정렬·코루틴 병렬) + ES <strong>도메인 스코어링</strong> 설계 → 다중 위치·복합 조건 자연어 검색 지원</li>
                         </ul>
                     </div>
                 </div>

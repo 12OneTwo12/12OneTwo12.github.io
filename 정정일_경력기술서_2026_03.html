@@ -333,27 +333,30 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">자연어 기반 AI 부동산 매물 추천 시스템 (<a href="https://bootalk.co.kr/ai/chat" target="_blank" style="color: #0066cc;">서비스</a>)</span>
-                        <span class="project-period">2025.08 – 2025.11 · 3명 팀</span>
+                        <span class="project-period">2025.08 – 현재 · 3명 팀</span>
                     </div>
-                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>RAG + Elasticsearch Geo-search로 자연어 위치 검색 매물 추천 기능 개발</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">백엔드 전담</span></div>
+                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>자연어 기반 AI 부동산 매물 추천 시스템 설계·개발·아키텍처 개선</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">백엔드 전담</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
-                            <li>기존 AI는 Q&A RAG만 지원, "여의도역 근처 아파트 추천해줘" 같은 <strong>자연어 기반 매물 검색 불가</strong></li>
+                            <li>기존 AI는 Q&A RAG만 지원 → "여의도역 근처 아파트 추천해줘" 같은 <strong>자연어 매물 검색 불가</strong></li>
+                            <li>초기 고정 파이프라인은 도구가 단일 묶음 → "강남역에서 신논현역 사이 30평대 10억 이하 신축" 같은 <strong>다중 위치·복합 조건 처리 불가</strong></li>
                         </ul>
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li>Spring Batch 일배치로 Elasticsearch에 <strong>위치 정보(POI) 인덱싱</strong> 자동화</li>
-                            <li>자연어 → LLM 키워드 추출 → Elasticsearch <strong>벡터기반 유사도 검색</strong> → 조건 필터링 파이프라인 구축</li>
+                            <li>Spring Batch <strong>2-Step 일배치 직접 구축</strong> — 13종 POI + 시세 데이터 Elasticsearch 인덱싱 자동화</li>
+                            <li>자연어 → LLM 키워드 추출 → ES 벡터 검색 → 조건 필터링 <strong>파이프라인 구축</strong>, Planned Tool Use 전환으로 LLM 호출 개선</li>
+                            <li>도구 분리 한계 → <strong>DAG 아키텍처로 전환</strong> — Kahn's Algorithm 위상정렬 + Kotlin 코루틴 레벨별 병렬, 원자적 도구 분리(poi_search·property_search·property_info)</li>
+                            <li>ES <strong>function_score 도메인 스코어링</strong> 설계 — 거리·가격·면적 등 5가지 가중치로 매물 관련성 랭킹</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li>자연어 위치 검색 기반 <strong>AI 매물 추천</strong> 기능 런칭 ("강남역 도보 10분 이내 15억정도 하는 신혼부부가 살만한 아파트 추천해줘" 같은 <strong>복합 조건 검색</strong> 지원)</li>
+                            <li>다중 위치·복합 조건 <strong>자연어 매물 검색</strong> 프로덕션 런칭·운영중, DAG 전환으로 <strong>LLM 호출 33%↓</strong>(3→2회)</li>
                         </ul>
 
-                        <div class="tech-line"><strong>기술:</strong> Kotlin, Spring Batch, Elasticsearch, RAG, Geo-search, Embedding</div>
+                        <div class="tech-line"><strong>기술:</strong> Kotlin, Spring Batch, Elasticsearch, function_score, DAG, Kahn's Algorithm, Coroutines, SSE Streaming, RAG, Embedding</div>
                     </div>
                 </div>
             </div>
