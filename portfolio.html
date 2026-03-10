@@ -155,8 +155,7 @@ a:hover{text-decoration:underline;}
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 실제 운영 화면 <span class="sm">— ArgoCD 배포 · k9s 클러스터 · 97 Pods</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 모니터링 시스템 구축 <span class="sm">— LGTM Stack, OTel Sidecar, 비용 최적화</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 온프레미스 → AWS 무중단 마이그레이션 <span class="sm">— 200GB CDC, Terraform IaC</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-6. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Elasticsearch + OpenAI</span></span>
-      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 아키텍처 개선 — DAG 전환 <span class="sm">— 고정 RAG → DAG, LLM 3→2회, 도메인 스코어링</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-6. 자연어 AI 매물 추천 시스템 <span class="sm">— DAG 아키텍처, ES 도메인 스코어링, Spring Batch</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-7. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-8. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
       <span class="bd">3.</span><span>Side Project</span>
@@ -1533,32 +1532,32 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE: 자연어 매물 추천 — 아키텍처 개선 (1/3) ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(6) 자연어 매물 추천 — 아키텍처 개선</div>
+  <div class="st">(6) 자연어 AI 매물 추천 시스템</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">21</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼 (누적 회원 21만+)</td></tr>
-        <tr><td class="l">기간</td><td class="v">2025.12 ~ 현재</td></tr>
-        <tr><td class="l">역할</td><td class="v">DAG 아키텍처 설계·구현, ES 스코어링 설계, 배치 최적화</td></tr>
-        <tr><td class="l">기술스택</td><td class="v">OpenAI GPT (JSON mode), Elasticsearch function_score, Kahn's Algorithm, SSE</td></tr>
-        <tr><td class="l">규모</td><td class="v">6개 PR · +4,200줄 · 59개 파일</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.08 ~ 현재</td></tr>
+        <tr><td class="l">역할</td><td class="v">자연어 AI 매물 추천 시스템 전담 설계·개발·아키텍처 개선</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">OpenAI GPT (JSON mode), Elasticsearch function_score, Kahn's Algorithm, Spring Batch, SSE</td></tr>
       </table>
 
-      <div class="sec">배경 — 고정 RAG에서 DAG까지</div>
+      <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>기존 RAG 파이프라인(다른 개발자가 구축)에 <strong class="bd">ES + LLM 기반 좌표 검색 전략을 설계·추가</strong>하여 AI 매물 찾기 기능 구현</li>
-        <li>직접 <strong class="bd">Planned Tool Use(Plan→Execute→Generate)로 전환</strong>하여 LLM 3→2회로 줄였으나, PropertySearchTool에 모든 로직이 뭉쳐 <strong class="bd">도구 조합 한계</strong></li>
-        <li>이 한계를 해결하기 위해 <strong class="bd">DAG 방식으로 아키텍처를 개선</strong>한 것이 이 프로젝트의 핵심</li>
+        <li>기존 매물 검색은 <strong class="bd">필터 기반</strong> — "강남역 근처 30평대 10억 이하 신축 아파트"같은 <strong class="bd">자연어 검색 불가</strong></li>
+        <li>"30평대 신축" 같은 모호한 표현은 규칙 기반 파싱으로 커버 불가 → <strong class="bd">LLM으로 자연어→구조화 변환</strong> 선택</li>
+        <li><strong class="bd">검색 엔진:</strong> 초기 Manticore Search(메모리 200배 절약) → RAG 벡터 검색 필요로 <strong class="bd">Elasticsearch 재평가·전환</strong><br>
+          <span class="sm">한국어 검색: 공식 문서 ngram_len=1 대신 부동산 검색어 분석 후 <strong>ngram_len=2 적용</strong> (도메인 데이터 기반 의사결정)</span></li>
+        <li>LLM + ES + Spring Batch 일배치(역·학교·병원 등 위치 데이터 인덱싱)로 <strong class="bd">3개월 만에 프로덕션 런칭</strong></li>
       </ul>
 
-      <div class="sec">왜 DAG인가 — Agent Loop이 아닌 이유</div>
+      <div class="sec">고정 RAG의 한계 → DAG 아키텍처 전환</div>
       <ul class="bl">
-        <li>부동산 검색은 <strong class="bd">열린 탐색이 아님</strong> → Agent Loop(LLM N회 반복)은 레이턴시·비용 과함</li>
-        <li>OpenAI tools 파라미터(function calling)는 step 간 <strong class="bd">의존성과 변수 참조($1.lat) 미지원</strong></li>
-        <li>1회 호출로 DAG 전체를 생성하고, 코드가 위상정렬 후 실행하는 방식 선택</li>
-        <li class="sm">참고: Anthropic "Building Effective Agents" — "최소한의 자유도만 부여하라"</li>
+        <li>초기 고정 파이프라인(LLM 3회)에서 <strong class="bd">Planned Tool Use로 전환</strong>(LLM 2회)했으나, 도구가 뭉쳐 <strong class="bd">다중 위치·복합 조건 불가</strong></li>
+        <li>Agent Loop(LLM N회)은 부동산 검색에 비용·레이턴시 과함 → <strong class="bd">DAG: LLM 1회로 실행 계획 생성, 코드가 위상정렬 후 병렬 실행</strong></li>
+        <li>도구를 원자적으로 분리(poi_search·property_search·property_info) → deps로 의존성, $1.lat로 변수 참조</li>
       </ul>
     </div>
 
@@ -1576,7 +1575,7 @@ a:hover{text-decoration:underline;}
               <div class="db er ds" style="min-width:auto;padding:2px 6px;">ES</div><div class="da" style="font-size:9px;">→</div>
               <div class="db er ds" style="min-width:auto;padding:2px 6px;">응답<br><span style="font-size:9px;">LLM</span></div>
             </div>
-            <div style="font-size:9px;color:#c5221f;margin-top:3px;">LLM 3회 · 분류 틀리면 전체 실패 · 코드 하드코딩 분기</div>
+            <div style="font-size:9px;color:#c5221f;margin-top:3px;">LLM 3회 · Manticore→ES 전환(벡터 검색 필요) · 코드 하드코딩 분기</div>
           </div>
           <!-- Phase 2 -->
           <div style="border:1.5px solid #f0c14b;border-radius:4px;padding:6px 8px;background:#fff;">
@@ -1654,7 +1653,7 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE: 자연어 매물 추천 — 스코어링 · 도구 분리 · 배치 (2/3) ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(6) 스코어링 설계 · 도구 분리 · 배치 최적화</div>
+  <div class="st">(6) 자연어 매물 추천 — 도메인 스코어링 · 도구 설계</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">22</span>
   <div class="tc" style="margin-top:6px;flex:1;">
@@ -1695,26 +1694,8 @@ a:hover{text-decoration:underline;}
       </div>
       <p class="sm" style="margin-top:3px;">→ "강남역이랑 잠실역 사이 아파트" 같은 복합 질의가 DAG deps로 자연스럽게 표현됨</p>
 
-      <div class="sec" style="margin-top:8px;">Spring Batch ES 인덱싱 구축 & 최적화</div>
-      <p class="sm" style="margin-bottom:4px;">일배치 직접 구축: 2-Step Job (Step1: 매물 full rebuild + Step2: 시세 partial update) + 13종 POI 인덱싱, 임베딩 캐싱(sourceText 불변 시 skip)</p>
-      <div class="cmp" style="gap:6px;">
-        <div class="cc bf" style="padding:6px;">
-          <div class="cl">Before</div>
-          <ul>
-            <li>49K건 전건 reindex</li>
-            <li>81% 변동 없음</li>
-            <li>per-item N+1 쿼리 (~300회)</li>
-          </ul>
-        </div>
-        <div class="cc af" style="padding:6px;">
-          <div class="cl">After</div>
-          <ul>
-            <li>referenceDate diff → ~9K건만</li>
-            <li>ES _update API (임베딩 불변)</li>
-            <li>chunk-level IN쿼리 (~7회)</li>
-          </ul>
-        </div>
-      </div>
+      <div class="sec" style="margin-top:8px;">Spring Batch 데이터 파이프라인</div>
+      <p class="sm" style="margin-bottom:2px;">2-Step 일배치 직접 구축: Step1 매물+역·학교·병원 등 위치 데이터 인덱싱, Step2 시세 부분 업데이트. 임베딩 캐싱으로 불필요한 재계산 방지.</p>
     </div>
 
     <div class="c">
@@ -1729,14 +1710,13 @@ a:hover{text-decoration:underline;}
         프롬프트(LLM이 독립 step 미생성) + 저장 로직(전체 POI × 전체 아파트 카르테시안 곱) 두 원인을 동시에 수정.
       </div>
 
-      <div class="sec" style="margin-top:10px;">정량 성과</div>
+      <div class="sec" style="margin-top:10px;">결과</div>
       <table class="ct" style="font-size:10.5px;">
         <tr><th>지표</th><th>Before</th><th>After</th></tr>
-        <tr><td class="bd">LLM 호출</td><td>3회</td><td class="w">2회</td></tr>
+        <tr><td class="bd">자연어 매물 검색</td><td>불가</td><td class="w"><strong>프로덕션 런칭·운영중</strong></td></tr>
+        <tr><td class="bd">LLM 호출</td><td>3회</td><td class="w">2회 (33%↓)</td></tr>
         <tr><td class="bd">복수 위치 검색</td><td>미지원</td><td class="w">독립/중간점/가중 전략</td></tr>
-        <tr><td class="bd">추천 방식</td><td>거리순 나열</td><td class="w">도메인 스코어링</td></tr>
-        <tr><td class="bd">배치 N+1</td><td>~300쿼리</td><td class="w">~7쿼리</td></tr>
-        <tr><td class="bd">배치 대상</td><td>49K건 전건</td><td class="w">~9K건 변동분</td></tr>
+        <tr><td class="bd">추천 방식</td><td>거리순 나열</td><td class="w">5가지 가중치 도메인 스코어링</td></tr>
       </table>
 
       <div class="rb" style="margin-top:8px;">
@@ -1815,156 +1795,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 11: 자연어 기반 매물 추천 ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(6) 자연어 기반 부동산 매물 추천 기능</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">24</span>
-  <div class="tc" style="margin-top:6px;flex:1;">
-    <div class="c">
-      <table class="it">
-        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
-        <tr><td class="l">기간</td><td class="v">2025.08 ~ 2025.11</td></tr>
-        <tr><td class="l">역할</td><td class="v">검색 엔진 설계 및 RAG 파이프라인 구축</td></tr>
-        <tr><td class="l">기술스택</td><td class="v">OpenAI GPT, Elasticsearch, RAG</td></tr>
-      </table>
-
-      <div class="sec">배경 및 문제</div>
-      <ul class="bl">
-        <li>기존 매물 검색은 필터 기반 — "강남역 근처 30평대 아파트"같은 <strong class="bd">자연어 검색 불가</strong></li>
-        <li>사용자가 원하는 조건을 정확한 필터로 변환하는 것 자체가 진입장벽</li>
-        <li>부동산 도메인 특화 지식(법정동, 단지명, 평형 등)이 필요한 검색</li>
-      </ul>
-
-      <div class="sec">고려한 접근법 & 해결</div>
-      <ul class="bl">
-        <li><strong class="bd">검색 엔진:</strong> Manticore Search(초기) → <span class="hl">Elasticsearch(최종 선택)</span><br>
-          <span class="sm">→ 초기: 비용 효율적인 Manticore 도입 (메모리 200배 절약) → RAG 구축 시 벡터 검색·생태계 확장성 요구로 ES 전환</span></li>
-        <li><strong class="bd">자연어 이해:</strong> 규칙 기반 파싱 vs <span class="hl">OpenAI GPT로 자연어→구조화 변환</span><br>
-          <span class="sm">→ "30평대 신축" 같은 모호한 표현은 규칙으로 커버 불가 → LLM 선택</span></li>
-        <li><strong class="bd">데이터 보강:</strong> 매물 이미지 <span class="hl">AI 라벨링 자동화</span> → 검색 정확도 향상</li>
-      </ul>
-
-      <div class="sec">성과</div>
-      <ul class="bl">
-        <li>자연어 매물 검색 기능 <strong class="bd"><a href="https://bootalk.co.kr/ai/chat">프로덕션 출시 및 운영중</a></strong> — 3개월간 3명 팀(백엔드 전담)으로 기획→개발→출시</li>
-        <li>"강남역 도보 10분 이내 15억 정도 신혼부부가 살만한 아파트" 같은 <strong class="bd">복합 조건 자연어 검색</strong> 지원</li>
-        <li>Spring Batch 일배치로 매물 POI 데이터 <strong class="bd">Elasticsearch 자동 인덱싱</strong> 파이프라인 구축</li>
-        <li>Manticore Search → Elasticsearch 전환 — <strong class="bd">RAG 벡터 검색 + geo_distance 지리 검색 + 형태소 분석</strong> 복합 검색 구현</li>
-        <li>한국어 검색 최적화: 공식 문서 권장값(ngram_len=1) 대신 <strong class="bd">부동산 검색어 분석 후 ngram_len=2 적용</strong> (도메인 데이터 기반 의사결정)</li>
-      </ul>
-    </div>
-
-    <div class="c">
-      <div class="dg">
-        <div class="dl">RAG 기반 자연어 매물 추천 파이프라인</div>
-        <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
-          <div class="db dk" style="width:70%;">사용자 자연어 쿼리<br><span style="font-size:10.5px;color:#666;">"강남역 근처 30평대 신축 아파트"</span></div>
-          <div class="dd">↓</div>
-          <div class="db ac" style="width:70%;">OpenAI GPT<br><span style="font-size:10.5px;color:#666;">자연어 → 구조화된 검색 조건 변환</span></div>
-          <div class="dd">↓ 복합 검색</div>
-          <div class="db" style="width:80%;padding:8px 12px;">
-            <div style="font-weight:600;text-align:center;margin-bottom:4px;">Elasticsearch</div>
-            <div style="display:flex;gap:4px;">
-              <div style="flex:1;font-size:10.5px;color:#999;text-align:center;border-right:1px dashed #ddd;padding-right:4px;">벡터 검색<br>(RAG 유사도)</div>
-              <div style="flex:1;font-size:10.5px;color:#999;text-align:center;border-right:1px dashed #ddd;padding-right:4px;">지리 검색<br>(위치 기반)</div>
-              <div style="flex:1;font-size:10.5px;color:#999;text-align:center;">키워드 검색<br>(형태소 분석)</div>
-            </div>
-          </div>
-          <div class="dd">↓ 결과 랭킹</div>
-          <div class="db ok" style="width:70%;">매물 추천 결과 반환</div>
-        </div>
-      </div>
-
-      <div class="dg" style="margin-top:4px;">
-        <div class="dl">데이터 준비 파이프라인</div>
-        <div style="display:flex;align-items:center;gap:3px;justify-content:center;flex-wrap:wrap;">
-          <div class="db ds">매물 데이터<br>수집</div><div class="da">→</div>
-          <div class="db ds">이미지 라벨링<br><span style="font-size:10.5px;">AI 자동 분석</span></div><div class="da">→</div>
-          <div class="db ds">텍스트 벡터화<br><span style="font-size:10.5px;">Embedding</span></div><div class="da">→</div>
-          <div class="db ac ds">ES 인덱싱<br><span style="font-size:10.5px;">Vector Store</span></div>
-        </div>
-      </div>
-
-      <div style="margin-top:5px;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-        <div class="dl" style="margin:0;padding:4px 8px;background:#f8f9fa;font-size:10px;">실제 서비스 — 자연어 매물 추천 AI (<a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a>)</div>
-        <div style="padding:6px 10px;background:#f8fbff;border-top:1px solid #e0e0e0;">
-          <div style="display:flex;gap:10px;align-items:start;">
-            <div style="flex:1;">
-              <div style="font-size:10.5px;font-weight:600;color:#222;margin-bottom:4px;">사용자 입력 예시</div>
-              <div style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px 10px;font-size:10.5px;color:#555;line-height:1.5;">
-                "강남역 도보 10분 이내 15억 정도<br>신혼부부가 살만한 아파트"
-              </div>
-              <div style="margin-top:6px;background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px 10px;font-size:10.5px;color:#555;line-height:1.5;">
-                "서초구 30평대 신축 아파트<br>학군 좋은 곳"
-              </div>
-            </div>
-            <div style="flex:1.5;">
-              <div style="font-size:10.5px;font-weight:600;color:#222;margin-bottom:4px;">AI 처리 과정</div>
-              <div style="display:flex;flex-direction:column;gap:2px;">
-                <div class="db ac ds" style="font-size:10px;">GPT: 자연어 → 위치(강남역), 가격(15억), 타입(아파트) 추출</div>
-                <div class="db ds" style="font-size:10px;">ES: geo_distance(강남역, 800m) + 벡터 유사도 + 가격 필터</div>
-                <div class="db ok ds" style="font-size:10px;">결과: 조건 매칭 매물 목록 + 유사도 점수 순 정렬</div>
-              </div>
-              <div style="font-size:10px;color:#1a73e8;margin-top:6px;text-align:center;"><a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a> 에서 직접 사용해보실 수 있습니다</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
-        <strong>기술 재평가 & 도메인 기반 의사결정:</strong>
-        초기 Manticore Search 선택(메모리 200배 절약) → RAG 구축 시 <strong>벡터 검색 필수</strong>로 ES 전환. <strong>요구사항이 변하면 기술 선택도 재평가해야 한다</strong>는 걸 배웠습니다.
-        한국어 검색 ngram_len도 공식 문서(1) 대신 부동산 검색어 분석 결과 <strong>2글자가 더 정확</strong>하다고 판단하여 적용 — 도메인 데이터 기반 의사결정.
-      </div>
-    </div>
-  </div>
-</div></div>
-
-<!-- ===== SLIDE 11-2: 자연어 매물 추천 — 서비스 화면 ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(6) 자연어 매물 추천 — 실제 서비스 화면</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">25</span>
-  <div style="flex:1;display:flex;flex-direction:column;margin-top:12px;">
-
-    <div style="display:flex;gap:10px;flex:1;">
-      <!-- 이미지 1: 왼쪽 큰 이미지 -->
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="font-size:10px;font-weight:700;text-align:center;padding:4px;background:#f8f9fa;color:#666;">자연어 검색 입력 화면</div>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:10px;">
-          <span style="color:#bbb;font-size:12px;">📷 이미지를 여기에 넣어주세요</span>
-          <!-- <img src="YOUR_IMAGE_URL" style="width:100%;max-height:500px;object-fit:contain;display:block;" alt="자연어 검색 입력"> -->
-        </div>
-      </div>
-
-      <!-- 이미지 2: 오른쪽 큰 이미지 -->
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="font-size:10px;font-weight:700;text-align:center;padding:4px;background:#f8f9fa;color:#666;">매물 추천 결과 화면</div>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:10px;">
-          <span style="color:#bbb;font-size:12px;">📷 이미지를 여기에 넣어주세요</span>
-          <!-- <img src="YOUR_IMAGE_URL" style="width:100%;max-height:500px;object-fit:contain;display:block;" alt="매물 추천 결과"> -->
-        </div>
-      </div>
-    </div>
-
-    <div class="ib" style="margin-top:12px;">
-      <strong>실제 서비스 화면:</strong>
-      사용자가 자연어로 검색 조건을 입력하면, RAG 파이프라인이 자연어→구조화 쿼리 변환 → Elasticsearch 복합 검색 → 결과 랭킹 순으로 처리하여 매물을 추천합니다.
-      <strong><a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a></strong>에서 직접 사용해보실 수 있습니다.
-    </div>
-
-  </div>
-</div></div>
-
 <!-- ===== SLIDE 12: 백오피스 성능 최적화 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(7) 백오피스 서버 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">26</span>
+  <span class="pn">24</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
@@ -2052,7 +1888,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(8) Spring Batch 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">27</span>
+  <span class="pn">25</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -2166,7 +2002,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">Side Project — Upvy (교육용 숏폼 영상 플랫폼)</div>
   <span class="ss">3-1. Upvy</span>
-  <span class="pn">28</span>
+  <span class="pn">26</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -2257,7 +2093,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">Upvy — AI 콘텐츠 파이프라인 & 개발 자동화</div>
   <span class="ss">3-1. Upvy</span>
-  <span class="pn">29</span>
+  <span class="pn">27</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <div class="dg">
@@ -2329,7 +2165,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">Side Project — Error Autopilot (AI 에러 자동 대응 시스템)</div>
   <span class="ss">3-2. Error Autopilot</span>
-  <span class="pn">30</span>
+  <span class="pn">28</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
@@ -2423,7 +2259,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
-  <span class="pn">31</span>
+  <span class="pn">29</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="cw">
       <h3 style="margin-bottom:8px;">개발 철학</h3>
