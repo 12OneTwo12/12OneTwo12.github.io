@@ -156,6 +156,7 @@ a:hover{text-decoration:underline;}
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 모니터링 시스템 구축 <span class="sm">— LGTM Stack, OTel Sidecar, 비용 최적화</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 온프레미스 → AWS 무중단 마이그레이션 <span class="sm">— 200GB CDC, Terraform IaC</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-6. 자연어 기반 매물 추천 기능 <span class="sm">— RAG + Elasticsearch + OpenAI</span></span>
+      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 아키텍처 개선 — DAG 전환 <span class="sm">— 고정 RAG → DAG, LLM 3→2회, 도메인 스코어링</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-7. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-8. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
       <span class="bd">3.</span><span>Side Project</span>
@@ -1528,12 +1529,255 @@ a:hover{text-decoration:underline;}
     </div>
   </div>
 </div></div>
+
+<!-- ===== SLIDE: 자연어 매물 추천 — 아키텍처 개선 (1/3) ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(6) 자연어 매물 추천 — 아키텍처 개선</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">21</span>
+  <div class="tc" style="margin-top:6px;flex:1;">
+    <div class="c">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼 (누적 회원 21만+)</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.12 ~ 현재</td></tr>
+        <tr><td class="l">역할</td><td class="v">DAG 아키텍처 설계·구현, ES 스코어링 설계, 배치 최적화</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">OpenAI GPT (JSON mode), Elasticsearch function_score, Kahn's Algorithm, SSE</td></tr>
+        <tr><td class="l">규모</td><td class="v">6개 PR · +4,200줄 · 59개 파일</td></tr>
+      </table>
+
+      <div class="sec">배경 — 기존 파이프라인의 한계</div>
+      <ul class="bl">
+        <li>기존 RAG 파이프라인(다른 개발자가 구축)에 <strong class="bd">ES + LLM 기반 좌표 검색 전략을 설계·추가</strong>하여 AI 매물 찾기 기능을 구현</li>
+        <li>이후 운영하면서 한계: <strong class="bd">Classifier 분류 오류 시 전체 파이프라인 실패</strong>, 코드 하드코딩 분기, LLM 3회 호출</li>
+        <li>PropertySearchTool 하나에 POI 검색 + 좌표 검색 + 필터링 전부 뭉쳐 있어 <strong class="bd">도구 조합 불가</strong></li>
+      </ul>
+
+      <div class="sec">왜 DAG인가 — Agent Loop이 아닌 이유</div>
+      <ul class="bl">
+        <li>부동산 검색은 <strong class="bd">열린 탐색이 아님</strong> → Agent Loop(LLM N회 반복)은 레이턴시·비용 과함</li>
+        <li>OpenAI tools 파라미터(function calling)는 step 간 <strong class="bd">의존성과 변수 참조($1.lat) 미지원</strong></li>
+        <li>1회 호출로 DAG 전체를 생성하고, 코드가 위상정렬 후 실행하는 방식 선택</li>
+        <li class="sm">참고: Anthropic "Building Effective Agents" — "최소한의 자유도만 부여하라"</li>
+      </ul>
+    </div>
+
+    <div class="c" style="flex:1.1;">
+      <div class="dg">
+        <div class="dl">아키텍처 3단계 진화</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <!-- Phase 1 -->
+          <div style="border:1.5px solid #f28b82;border-radius:4px;padding:6px 8px;background:#fff;">
+            <div style="font-size:9.5px;font-weight:700;color:#c5221f;margin-bottom:3px;">① 고정 파이프라인 RAG (2025.08~11)</div>
+            <div style="display:flex;align-items:center;gap:2px;font-size:9.5px;flex-wrap:wrap;">
+              <div class="db er ds" style="min-width:auto;padding:2px 6px;">Classifier<br><span style="font-size:9px;">LLM</span></div><div class="da" style="font-size:9px;">→</div>
+              <div class="db er ds" style="min-width:auto;padding:2px 6px;">Strategy</div><div class="da" style="font-size:9px;">→</div>
+              <div class="db er ds" style="min-width:auto;padding:2px 6px;">Extractor<br><span style="font-size:9px;">LLM</span></div><div class="da" style="font-size:9px;">→</div>
+              <div class="db er ds" style="min-width:auto;padding:2px 6px;">ES</div><div class="da" style="font-size:9px;">→</div>
+              <div class="db er ds" style="min-width:auto;padding:2px 6px;">응답<br><span style="font-size:9px;">LLM</span></div>
+            </div>
+            <div style="font-size:9px;color:#c5221f;margin-top:3px;">LLM 3회 · 분류 틀리면 전체 실패 · 코드 하드코딩 분기</div>
+          </div>
+          <!-- Phase 2 -->
+          <div style="border:1.5px solid #f0c14b;border-radius:4px;padding:6px 8px;background:#fff;">
+            <div style="font-size:9.5px;font-weight:700;color:#8a6d3b;margin-bottom:3px;">② Planned Tool Use (2025.12)</div>
+            <div style="display:flex;align-items:center;gap:2px;font-size:9.5px;">
+              <div class="db wn ds" style="min-width:auto;padding:2px 6px;">Plan<br><span style="font-size:9px;">LLM</span></div><div class="da" style="font-size:9px;">→</div>
+              <div class="db wn ds" style="min-width:auto;padding:2px 6px;">Execute</div><div class="da" style="font-size:9px;">→</div>
+              <div class="db wn ds" style="min-width:auto;padding:2px 6px;">Generate<br><span style="font-size:9px;">LLM</span></div>
+            </div>
+            <div style="font-size:9px;color:#8a6d3b;margin-top:3px;">LLM 2회 · PropertySearchTool에 POI+검색+필터 전부 뭉쳐 도구 조합 불가</div>
+          </div>
+          <!-- Phase 3 -->
+          <div style="border:1.5px solid #81c995;border-radius:4px;padding:6px 8px;background:#fff;">
+            <div style="font-size:9.5px;font-weight:700;color:#137333;margin-bottom:3px;">③ DAG (2025.12~현재)</div>
+            <div style="display:flex;align-items:center;gap:2px;font-size:9.5px;">
+              <div class="db ok ds" style="min-width:auto;padding:2px 6px;">Plan LLM<br><span style="font-size:9px;">DAG 생성<br>(JSON mode)</span></div><div class="da" style="font-size:9px;">→</div>
+              <div class="db ok ds" style="min-width:auto;padding:2px 6px;">ToolExecutor<br><span style="font-size:9px;">위상정렬<br>병렬 실행</span></div><div class="da" style="font-size:9px;">→</div>
+              <div class="db ok ds" style="min-width:auto;padding:2px 6px;">Generate LLM<br><span style="font-size:9px;">SSE 스트리밍</span></div>
+            </div>
+            <div style="font-size:9px;color:#137333;margin-top:3px;">LLM 2회 고정 · 원자적 도구 조합 · deps로 의존성 · $1.lat 변수 참조</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmp" style="margin-top:8px;">
+        <div class="cc bf">
+          <div class="cl">Before: 고정 파이프라인</div>
+          <ul>
+            <li>Classifier 분류 오류 → 전체 실패</li>
+            <li>LLM 3회 호출</li>
+            <li>PropertySearchTool 단일 도구에 모든 로직</li>
+            <li>복수 위치 검색 불가</li>
+            <li>거리순 나열만 가능</li>
+          </ul>
+        </div>
+        <div class="cc af">
+          <div class="cl">After: DAG</div>
+          <ul>
+            <li>Plan LLM이 DAG 생성 → 분류 단계 제거</li>
+            <li>LLM 2회 고정</li>
+            <li>poi_search · property_search · property_info 분리</li>
+            <li>복수 위치 검색 (독립/중간점/가중)</li>
+            <li>도메인 스코어링 추천</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:6px;font-size:10.5px;">
+        <strong>DAG 실행 흐름:</strong> Plan LLM이 JSON mode로 DAG를 1회 생성 → ToolExecutor가 Kahn's Algorithm으로 위상정렬 → 같은 레벨의 도구는 병렬 실행, 의존성이 있으면 순차 실행 → Generate LLM이 결과를 SSE 스트리밍으로 응답.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE: 자연어 매물 추천 — 스코어링 · 도구 분리 · 배치 (2/3) ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(6) 스코어링 설계 · 도구 분리 · 배치 최적화</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">22</span>
+  <div class="tc" style="margin-top:6px;flex:1;">
+    <div class="c">
+      <div class="sec">ES function_score 스코어링 설계</div>
+      <ul class="bl">
+        <li>거리순 나열뿐이던 결과를 <strong class="bd">도메인 특화 추천</strong>으로 전환</li>
+        <li>가격 근접도: Painless 스크립트, "5억 이상" 오픈 범위 보정, 가격 없으면 중립값 0.3</li>
+        <li class="sm">호가(26.1%) vs 실거래가(8.8%) — 호가가 3배 많아서 호가 우선, 실거래가 fallback</li>
+      </ul>
+
+      <table class="ct" style="font-size:10px;margin-top:6px;">
+        <tr><th>가중치</th><th>비율</th><th>방식</th></tr>
+        <tr><td class="bd">거리감쇠</td><td>35%</td><td>Gaussian decay</td></tr>
+        <tr><td class="bd">가격근접도</td><td>35%</td><td>호가 우선 · 실거래가 fallback · Painless</td></tr>
+        <tr><td class="bd">평형매칭</td><td>15%</td><td>요청 평형 ± 범위 일치도</td></tr>
+        <tr><td class="bd">매물부스팅</td><td>10%</td><td>현재 매물 수 기반</td></tr>
+        <tr><td class="bd">신축</td><td>5%</td><td>최근 준공 가산</td></tr>
+      </table>
+
+      <div class="sec" style="margin-top:8px;">원자적 도구 분리</div>
+      <div class="cmp" style="gap:6px;">
+        <div class="cc bf" style="padding:6px;">
+          <div class="cl">Before</div>
+          <ul>
+            <li>PropertySearchTool 하나에 전부</li>
+            <li>LLM이 도구 조합 불가</li>
+          </ul>
+        </div>
+        <div class="cc af" style="padding:6px;">
+          <div class="cl">After</div>
+          <ul>
+            <li><strong>poi_search</strong> — 장소명→좌표 (신규)</li>
+            <li><strong>property_search</strong> — 좌표+조건→매물</li>
+            <li><strong>property_info</strong> — 단지 상세</li>
+          </ul>
+        </div>
+      </div>
+      <p class="sm" style="margin-top:3px;">→ "강남역이랑 잠실역 사이 아파트" 같은 복합 질의가 DAG deps로 자연스럽게 표현됨</p>
+
+      <div class="sec" style="margin-top:8px;">배치 최적화</div>
+      <div class="cmp" style="gap:6px;">
+        <div class="cc bf" style="padding:6px;">
+          <div class="cl">Before</div>
+          <ul>
+            <li>49K건 전건 reindex</li>
+            <li>81% 변동 없음</li>
+            <li>per-item N+1 쿼리 (~300회)</li>
+          </ul>
+        </div>
+        <div class="cc af" style="padding:6px;">
+          <div class="cl">After</div>
+          <ul>
+            <li>변동분 ~9K건만 처리</li>
+            <li>ES partial update (임베딩 불변)</li>
+            <li>chunk-level batch fetch (~7쿼리)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="c">
+      <div class="sec">복수 POI 지원 (1:N)</div>
+      <ul class="bl">
+        <li>"강남역, 신림역, 송내역 중에서" → 각 역 근처 <strong class="bd">독립 검색</strong></li>
+        <li>3가지 전략: <strong class="bd">독립 검색</strong> / 중간점 검색 / 가중 검색</li>
+        <li>Plan LLM이 질의 의도에 따라 전략 선택 → DAG에 반영</li>
+      </ul>
+      <div class="ib" style="margin-top:4px;font-size:10.5px;">
+        <strong>이중 버그:</strong> "강남역, 신림역, 송내역 중에서" 질의 시 독립 검색 대신 하나의 중심점 검색만 수행.
+        프롬프트(LLM이 독립 step 미생성) + 저장 로직(전체 POI × 전체 아파트 카르테시안 곱) 두 원인을 동시에 수정.
+      </div>
+
+      <div class="sec" style="margin-top:10px;">정량 성과</div>
+      <table class="ct" style="font-size:10.5px;">
+        <tr><th>지표</th><th>Before</th><th>After</th></tr>
+        <tr><td class="bd">LLM 호출</td><td>3회</td><td class="w">2회</td></tr>
+        <tr><td class="bd">복수 위치 검색</td><td>미지원</td><td class="w">독립/중간점/가중 전략</td></tr>
+        <tr><td class="bd">추천 방식</td><td>거리순 나열</td><td class="w">도메인 스코어링</td></tr>
+        <tr><td class="bd">배치 N+1</td><td>~300쿼리</td><td class="w">~7쿼리</td></tr>
+        <tr><td class="bd">배치 대상</td><td>49K건 전건</td><td class="w">~9K건 변동분</td></tr>
+      </table>
+
+      <div class="rb" style="margin-top:8px;">
+        <strong>규모:</strong> 6개 PR · +4,200줄 · 59개 파일<br>
+        <strong>프로덕션:</strong> <a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a>
+      </div>
+
+      <div class="ib" style="margin-top:6px;font-size:10.5px;">
+        <strong>돌아보면,</strong> 가장 큰 전환점은 PropertySearchTool을 원자적으로 쪼갠 것이었습니다.
+        도구를 쪼개기 전에는 "강남역이랑 잠실역 사이" 같은 질의를 하드코딩으로 처리하려 했고, 경우의 수가 계속 늘어났습니다.
+        도구를 쪼개니까 DAG deps만으로 자연스럽게 표현됐습니다.
+      </div>
+
+      <div style="margin-top:auto;font-size:10px;color:#999;">
+        <a href="https://github.com/uitiorg/btalk2.1_backend/issues/393">GitHub #393</a> (DAG 전환) ·
+        <a href="https://github.com/uitiorg/btalk2.1_backend/issues/400">GitHub #400</a> (스코어링 · 배치)
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== SLIDE: 자연어 매물 추천 — 아키텍처 개선 스크린샷 (3/3) ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(6) 자연어 매물 추천 — 아키텍처 개선 스크린샷</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">23</span>
+  <div style="flex:1;display:flex;flex-direction:column;margin-top:12px;">
+
+    <div style="display:flex;gap:10px;flex:1;">
+      <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="font-size:10px;font-weight:700;text-align:center;padding:4px;background:#f8f9fa;color:#666;">DAG 기반 복합 질의 처리</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:10px;">
+          <span style="color:#bbb;font-size:12px;">이미지를 여기에 넣어주세요</span>
+          <!-- <img src="YOUR_IMAGE_URL" style="width:100%;max-height:500px;object-fit:contain;display:block;" alt="DAG 복합 질의"> -->
+        </div>
+      </div>
+
+      <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="font-size:10px;font-weight:700;text-align:center;padding:4px;background:#f8f9fa;color:#666;">스코어링 기반 매물 추천 결과</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:10px;">
+          <span style="color:#bbb;font-size:12px;">이미지를 여기에 넣어주세요</span>
+          <!-- <img src="YOUR_IMAGE_URL" style="width:100%;max-height:500px;object-fit:contain;display:block;" alt="스코어링 추천 결과"> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="ib" style="margin-top:12px;">
+      <strong>아키텍처 개선 결과:</strong>
+      DAG 전환으로 LLM 호출 3→2회, 원자적 도구 분리로 복합 질의 지원, ES function_score 도메인 스코어링으로 추천 품질 개선.
+      <strong><a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a></strong>에서 직접 사용해보실 수 있습니다.
+    </div>
+
+  </div>
+</div></div>
+
 <!-- ===== SLIDE 11: 자연어 기반 매물 추천 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(6) 자연어 기반 부동산 매물 추천 기능</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">21</span>
+  <span class="pn">24</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1640,7 +1884,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(6) 자연어 매물 추천 — 실제 서비스 화면</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">22</span>
+  <span class="pn">25</span>
   <div style="flex:1;display:flex;flex-direction:column;margin-top:12px;">
 
     <div style="display:flex;gap:10px;flex:1;">
@@ -1677,7 +1921,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(7) 백오피스 서버 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">23</span>
+  <span class="pn">26</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1765,7 +2009,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(8) Spring Batch 성능 최적화</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">24</span>
+  <span class="pn">27</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1879,7 +2123,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">Side Project — Upvy (교육용 숏폼 영상 플랫폼)</div>
   <span class="ss">3-1. Upvy</span>
-  <span class="pn">25</span>
+  <span class="pn">28</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1970,7 +2214,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">Upvy — AI 콘텐츠 파이프라인 & 개발 자동화</div>
   <span class="ss">3-1. Upvy</span>
-  <span class="pn">26</span>
+  <span class="pn">29</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <div class="dg">
@@ -2042,7 +2286,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">Side Project — Error Autopilot (AI 에러 자동 대응 시스템)</div>
   <span class="ss">3-2. Error Autopilot</span>
-  <span class="pn">27</span>
+  <span class="pn">30</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
@@ -2136,7 +2380,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
-  <span class="pn">28</span>
+  <span class="pn">31</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="cw">
       <h3 style="margin-bottom:8px;">개발 철학</h3>
@@ -2207,7 +2451,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">MySQL Collation</td><td>3가설 검증→utf8mb3 원인 규명, 109테이블 InnoDB 전환</td></tr>
         <tr><td class="bd">K8s & 모니터링</td><td>LGTM 비용 87%↓, 장애 인지 1시간→1분 이내</td></tr>
         <tr><td class="bd">DB 마이그레이션</td><td>5가지 방식 비교→CDC 선택, 무중단 200GB</td></tr>
-        <tr><td class="bd">매물 추천</td><td>Manticore→ES 재평가, 자연어 검색 출시</td></tr>
+        <tr><td class="bd">매물 추천</td><td>Manticore→ES 재평가, 자연어 검색 출시, DAG 전환(LLM 3→2회), 도메인 스코어링, N+1 제거(300→7쿼리)</td></tr>
         <tr><td class="bd">백오피스</td><td>Pod 축소→잠재 버그 표면화, OSIV+JPA/MyBatis 데드락 규명</td></tr>
         <tr><td class="bd">Batch</td><td>MVCC 누락 발견→Chunk 전환, 64%↓</td></tr>
         <tr><td class="bd">Upvy</td><td>1인 풀스택, WebFlux+R2DBC, AI 파이프라인, App Store/Play Store 출시</td></tr>
