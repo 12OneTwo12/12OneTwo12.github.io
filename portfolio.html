@@ -126,7 +126,7 @@ a:hover{text-decoration:underline;}
   <div style="font-size:13px;color:#888;margin-top:16px;line-height:1.6;">
     EC2 단일 서버에서 MSA, 그리고 다시 모듈러 모놀리식까지<br>
     주요 도메인 MSA 무중단 전환 · API P95 4초→50ms(99%↓) · JVM Cold Start 85%↓ · 배치 64%↓ · 장애 인지 1시간→1분 · CKA<br>
-    2~3명 팀에서 아키텍처·인프라·성능을 직접 경험하며 배운 기록
+    2~3명이 전부인 팀에서 직접 부딪히며 배운 것들을 정리했습니다
   </div>
   <div style="font-size:12px;color:#999;margin-top:28px;">
     jji042842@gmail.com &nbsp;·&nbsp;
@@ -148,9 +148,9 @@ a:hover{text-decoration:underline;}
       <span></span><span style="padding-left:16px;color:#666;">2-2. 모놀리식 → MSA 전환 <span class="sm">— 무중단 아키텍처 전환, 부분적 빅뱅 전략</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-3. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-4. MSA → 모듈러 모놀리식 전환 <span class="sm">— 12서비스→1앱, 인프라 비용 36%↓</span></span>
-      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ API P95 99% 개선 <span class="sm">— 4,045ms→50ms, 3단계 체계적 최적화</span></span>
+      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ API P95 99% 개선 <span class="sm">— 4,045ms→50ms, 쿼리·병렬·캐싱 3단계</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ MySQL Collation 진단 & DB 마이그레이션 <span class="sm">— 109개 테이블, 8배 성능 저하 해결</span></span>
-      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ CI/CD 빌드 최적화 <span class="sm">— 45분→7분, 7단계 체계적 최적화</span></span>
+      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ CI/CD 빌드 최적화 <span class="sm">— 45분→7분, 과거 내가 만든 병목부터 해결</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-5. K8s 인프라 & CI/CD 구축 <span class="sm">— GKE, GitHub Actions, JVM 최적화</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 실제 운영 화면 <span class="sm">— ArgoCD 배포 · k9s 클러스터 · 97 Pods</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 모니터링 시스템 구축 <span class="sm">— LGTM Stack, OTel Sidecar, 비용 최적화</span></span>
@@ -184,9 +184,9 @@ a:hover{text-decoration:underline;}
       </div>
       <div style="height:16px;"></div>
       <div style="font-size:13px;color:#555;line-height:1.7;margin-bottom:28px;border-left:3px solid #333;padding-left:12px;">
-        <strong style="color:#222;">"지금 우리 서비스에 가장 필요한 개선이 무엇인가?"</strong>를 고민합니다.<br>
+        <strong style="color:#222;">"지금 우리 서비스에 가장 필요한 게 뭘까?"</strong>를 늘 고민합니다.<br>
         API 성능 최적화부터 MSA 전환, K8s 인프라 구축, 팀 개발문화 개선까지<br>
-        필요하다면 제안하고, 협의하여 팀과 함께 만들어왔습니다.
+        필요하다고 느끼면 먼저 제안하고, 팀과 합의해서 함께 만들어왔습니다.
       </div>
 
       <div style="font-size:15px;font-weight:700;color:#222;margin-bottom:14px;">CAREER</div>
@@ -242,8 +242,8 @@ a:hover{text-decoration:underline;}
   <span class="pn">4</span>
   <div class="body" style="margin-top:10px;">
     <p class="bt" style="margin-bottom:10px;">
-      <strong class="bd">부톡(Bootalk)</strong>은 AI 기반 부동산 중개 플랫폼입니다. 입사 후 EC2 단일 서버 → MSA + K8s → 모듈러 모놀리식으로 <strong class="bd">3단계 아키텍처 전환</strong>을 주도했습니다.
-      MSA 전환과 K8s 인프라 구축은 병렬로 진행되었으며, 각 단계마다 CTO와 아키텍처 리뷰를 거쳐 방향을 결정했습니다.
+      <strong class="bd">부톡(Bootalk)</strong>은 AI 기반 부동산 중개 플랫폼입니다. 입사해보니 EC2 단일 서버에 모든 게 올라가 있었고, 여기서부터 MSA + K8s를 거쳐 다시 모듈러 모놀리식까지 <strong class="bd">3단계 아키텍처 전환</strong>을 진행했습니다.
+      MSA 전환과 K8s 인프라 구축은 동시에 병행했고, 각 단계마다 CTO님과 리뷰를 거쳐 방향을 결정했습니다.
     </p>
 
     <div class="tl">
@@ -339,10 +339,10 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">API 성능</td><td>P95 4,045ms (레거시 쿼리)</td><td class="w">P95 50ms (99%↓, Grafana 메트릭 기준)</td></tr>
       </table>
       <div class="ib" style="flex:1;">
-        <strong>11개월간의 핵심 판단:</strong><br>
-        모든 전환은 "기술 도입"이 아니라 <strong>운영 문제와 비용 현실</strong>에서 시작했습니다.<br><br>
-        <strong>팀 구성:</strong> CTO(아키텍처 리뷰·방향 결정) + 백엔드 2명(본인 + 동료) + 프론트엔드 1명. 본인 담당: MSA 5개 서비스 설계·구현, 인프라 전담, 성능 최적화. MSA 전환과 K8s 구축은 동시 병행.<br><br>
-        <strong>다시 한다면:</strong> 모니터링을 전환 초기부터 구축, 모듈러 모놀리식 단계를 더 오래 유지, DMS CDC 대신 Debezium 검토(비용).
+        <strong>솔직히 돌이켜보면:</strong><br>
+        모든 전환은 "이 기술 써보고 싶다"가 아니라 <strong>운영하다 보니 안 되겠다</strong> 싶어서 시작한 것들이었습니다.<br><br>
+        <strong>팀 구성:</strong> CTO님(아키텍처 리뷰·방향 결정) + 백엔드 2명(본인 + 동료) + 프론트엔드 1명. 저는 MSA 5개 서비스 설계·구현, 인프라 전담, 성능 최적화를 맡았고 MSA 전환과 K8s 구축을 동시에 병행했습니다.<br><br>
+        <strong>다시 한다면:</strong> 모니터링을 전환 초기부터 구축했을 것 같고, 모듈러 모놀리식 단계를 더 오래 유지했을 것 같습니다. DMS CDC 대신 Debezium도 검토했을 것 같습니다(비용 때문에).
       </div>
     </div>
   </div>
@@ -480,12 +480,12 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>의사결정 과정 — "왜 점진적 전환이 불가능했는가"</strong>
+        <strong>"왜 점진적 전환이 안 됐는가"</strong>
         <ul style="margin:3px 0 0;padding-left:14px;line-height:1.6;">
-          <li>합류 시 느슨한 서비스(알림·이벤트)는 이미 분리 완료 — <strong>핵심 도메인은 미착수</strong></li>
-          <li>매물 도메인 분리 착수 → 레거시 코드 분석 중 <strong>매칭 로직이 매물 테이블을 직접 JOIN하는 양방향 강결합</strong> 발견</li>
-          <li>gRPC(고성능, but protobuf 학습 비용)·Zero-Payload(최종 일관성, but 실시간 불가) 검토 → <strong>"기술이 아닌 전략의 문제"</strong>라고 팀 회의에서 결론</li>
-          <li>합의: 강결합 도메인은 동시 분리(부분적 빅뱅) + 나머지 점진적 + <strong>Dual Write로 과도기 데이터 정합성 보장</strong></li>
+          <li>합류했을 때 느슨한 서비스(알림·이벤트)는 이미 분리가 끝나 있었는데, <strong>핵심 도메인은 손도 못 댄 상태</strong>였습니다</li>
+          <li>매물 도메인 분리를 시작하려고 레거시 코드를 열어보니, <strong>매칭 로직이 매물 테이블을 직접 JOIN하는 양방향 강결합</strong>이 있었습니다</li>
+          <li>gRPC(protobuf 학습 비용)나 Zero-Payload(실시간 불가) 등을 검토했지만, 팀 회의에서 <strong>"이건 기술이 아니라 전략의 문제"</strong>라는 결론이 나왔습니다</li>
+          <li>결국 강결합 도메인은 동시에 분리(부분적 빅뱅)하고, 나머지는 점진적으로 + <strong>Dual Write로 과도기 정합성을 보장</strong>하기로 했습니다</li>
         </ul>
       </div>
     </div>
@@ -528,10 +528,10 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:10px;">
         <strong>이 경험에서 배운 것:</strong>
-        "전환 전략보다 <strong>실패했을 때의 롤백 계획</strong>이 더 중요하다는 걸 느꼈습니다."
+        솔직히 전환 전략 자체보다 <strong>실패했을 때 어떻게 돌아갈 것인가</strong>가 더 중요하다는 걸 느꼈습니다.
         모든 단계에서 레거시로 즉시 롤백할 수 있는 상태를 유지했고, 이 안전망이 있었기에
-        과감한 전환을 실행할 수 있었습니다.
-        MSA를 처음부터 끝까지 직접 겪어보니, <strong>문제를 해결하려면 그만큼의 운영 복잡성을 감수해야 하는 트레이드오프</strong>라는 걸 몸으로 느꼈습니다.
+        과감하게 밀어붙일 수 있었던 것 같습니다.
+        MSA를 처음부터 끝까지 직접 겪어보니, <strong>문제를 해결하면 그만큼의 운영 복잡성이 따라온다</strong>는 걸 몸으로 느꼈습니다.
       </div>
     </div>
 
@@ -564,11 +564,11 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>의도적으로 남긴 기술 부채:</strong>
-        chat-svc와 match-svc의 레거시 의존성을 즉시 제거하지 않았습니다.
-        8개월 내 모든 것을 완벽히 전환하려는 욕심보다,
-        <strong>"지금 안전하게 전환할 수 있는 범위"와 "나중에 할 일"을 명확히 분리</strong>하는 것이
-        2~3명 팀에서 현실적인 전략이었습니다. 이후 모듈러 모놀리식 전환(p.11)에서 이 부채를 해소했습니다.
+        <strong>일부러 남겨둔 기술 부채:</strong>
+        chat-svc와 match-svc의 레거시 의존성은 일부러 안 건드렸습니다.
+        8개월 안에 전부 깔끔하게 하고 싶은 마음이야 있었지만,
+        <strong>"지금 안전하게 할 수 있는 것"과 "나중에 해도 되는 것"을 분리</strong>하는 게
+        2~3명 팀에서는 현실적이라고 판단했습니다. 이 부채는 이후 모듈러 모놀리식 전환(p.11)에서 해소했습니다.
       </div>
 
       <div class="rb" style="margin-top:8px;">
@@ -669,16 +669,16 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>핵심 의사결정: MSA ≠ Multi-Repo</strong><br>
-        "MSA는 멀티레포가 기본"이라는 관행에 의문을 품었습니다. 넷플릭스처럼 수백 명이라면 합리적이지만,
-        <strong>2~3명이 16개 레포를 관리하는 것은 운영 오버헤드</strong>였습니다.
-        빌드 시간과 PR 개수 데이터를 근거로 전환을 제안하고 CTO님 승인을 받았습니다.
+        <strong>MSA ≠ Multi-Repo라고 생각합니다</strong><br>
+        "MSA면 당연히 멀티레포지"라는 관행에 솔직히 의문이 들었습니다. 넷플릭스처럼 수백 명이면 모를까,
+        <strong>2~3명이 16개 레포를 관리하는 건 그냥 노동에 가까웠습니다.</strong>
+        빌드 시간과 PR 개수 데이터를 근거로 CTO님께 제안해서 승인을 받았습니다.
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>가장 고통스러웠던 버전 통합:</strong>
-        16개 레포의 Spring Boot 2.7→3.1, Kotlin 1.7→1.8, <strong>javax→jakarta 패키지 전면 교체</strong>, QueryDSL 버전 충돌 해결.
-        이 경험이 <strong>Version Catalog 도입</strong>의 직접적 계기가 되었습니다 — 두 번 다시 겪지 않기 위해.
+        <strong>버전 통합이 가장 고통스러웠습니다:</strong>
+        16개 레포의 Spring Boot 2.7→3.1, Kotlin 1.7→1.8, <strong>javax→jakarta 패키지 전면 교체</strong>, QueryDSL 버전 충돌까지.
+        이걸 겪고 나서 <strong>Version Catalog</strong>을 도입했습니다 — 두 번 다시 겪고 싶지 않았거든요.
       </div>
 
       <div class="rb" style="margin-top:6px;">
@@ -711,8 +711,8 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="rb" style="margin-top:6px;">
-        <strong>판단:</strong> MSA 유지(Pod 오버헤드 해결 불가) · 완전 모놀리식 회귀(모듈 경계 상실) 검토 →
-        <strong>비용 절감 + 모듈 경계 유지</strong>를 모두 확보하는 <span class="hl">모듈러 모놀리식</span> 채택
+        <strong>판단:</strong> MSA를 유지하자니 Pod 오버헤드가 해결이 안 되고, 완전 모놀리식으로 돌아가자니 모듈 경계가 사라집니다.
+        <strong>비용은 줄이면서 모듈 경계는 유지</strong>하는 <span class="hl">모듈러 모놀리식</span>이 답이라고 판단했습니다
       </div>
 
       <div class="sec">전환 과정의 3가지 기술 함정</div>
@@ -729,7 +729,7 @@ a:hover{text-decoration:underline;}
             <span style="display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;">2</span>
             <strong class="bd" style="font-size:12px;">순환 의존성 폭발</strong>
           </div>
-          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;">원인: FeignClient(HTTP) 런타임 순환 가능 → ModuleApi(메서드 호출) 전환 시 <strong>컴파일 타임 순환 참조</strong> 표면화<br>해결: <span class="hl">@Lazy 프록시 50곳 적용</span> + <span class="hl">SmartInitializingSingleton으로 startup 검증</span> — @Lazy가 빈 누락을 런타임으로 숨기는 부작용 방지<br><span class="sm" style="color:#8a6d3b;">의도적 트레이드오프: 1차 목표는 비용 절감을 위한 빠른 전환. 순환 의존 근본 해소는 모듈 경계 재설계 시 2차 과제로 분리</span></div>
+          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;">원인: FeignClient(HTTP) 런타임 순환 가능 → ModuleApi(메서드 호출) 전환 시 <strong>컴파일 타임 순환 참조</strong> 표면화<br>해결: <span class="hl">@Lazy 프록시 50곳 적용</span> + <span class="hl">SmartInitializingSingleton으로 startup 검증</span> — @Lazy가 빈 누락을 런타임으로 숨기는 부작용 방지<br><span class="sm" style="color:#8a6d3b;">일단은 비용 절감을 위한 빠른 전환이 우선이었고, 순환 의존의 근본 해소는 모듈 경계를 재설계할 때 2차 과제로 남겨뒀습니다</span></div>
         </div>
         <div style="border:1px solid #f28b82;border-left:3px solid #c5221f;border-radius:4px;padding:6px 10px;background:#fef7f6;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
@@ -785,20 +785,20 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>왜 ③이 가장 위험한가:</strong><br>
-        각 서비스는 자기 Schema 전용 TransactionManager를 갖고 있었습니다.
-        앱 통합 후 @Primary로 지정된 하나의 TM이 <strong>명시적 TM이 없는 모든 @Transactional을 가져갑니다.</strong>
-        결과: agent 도메인의 쿼리가 estate의 DB 커넥션으로 실행 → <strong>커밋/롤백 범위가 달라져 데이터 정합성이 깨짐.</strong>
-        단위 테스트에서는 단일 TM 환경이라 재현 불가 — 통합 테스트 + 실제 다중 DataSource 환경에서만 발견 가능.
+        <strong>③이 왜 가장 위험했냐면:</strong><br>
+        각 서비스가 자기 Schema 전용 TransactionManager를 갖고 있었거든요.
+        앱을 통합하니까 @Primary로 지정된 하나의 TM이 <strong>명시적 TM이 없는 모든 @Transactional을 가져가버렸습니다.</strong>
+        결과적으로 agent 도메인의 쿼리가 estate의 DB 커넥션으로 실행되면서 <strong>커밋/롤백 범위가 달라져 데이터 정합성이 깨졌습니다.</strong>
+        이게 단위 테스트에서는 단일 TM 환경이라 재현이 안 돼서 — 통합 테스트 + 실제 다중 DataSource 환경에서만 발견할 수 있었습니다.
       </div>
 
       <div class="ib" style="margin-top:6px;">
         <strong>돌아보면:</strong>
-        입사 시점에 MSA 전환은 이미 진행 중이었고, 합류하여 주요 도메인 전환을 완료했습니다 (일부 레거시 잔존).
-        하지만 <strong>2~3명 팀에 14개 MSA는 과한 복잡도</strong>라는 확신이 전환 과정에서 생겼고,
-        비용 위기를 계기로 <strong>모듈러 모놀리식을 직접 제안하고 전환을 주도</strong>했습니다.
-        다시 시작한다면 <strong>모듈러 모놀리식 단계를 더 오래 유지하고, 모니터링을 전환 초기부터 구축</strong>했을 것입니다.
-        MSA를 처음부터 끝까지 직접 겪어본 덕분에, "언제 채택하고 언제 되돌려야 하는가"에 대한 나름의 감을 잡을 수 있었습니다.
+        입사했을 때 MSA 전환은 이미 진행 중이었고, 합류해서 주요 도메인 전환을 마무리했습니다 (일부 레거시 잔존).
+        근데 전환 과정에서 <strong>2~3명 팀에 14개 MSA는 솔직히 과하다</strong>는 확신이 점점 생겼고,
+        비용 위기가 터지면서 <strong>모듈러 모놀리식을 직접 제안해서 전환을 주도</strong>했습니다.
+        다시 시작한다면 모듈러 모놀리식 단계를 더 오래 유지하고, 모니터링을 전환 초기부터 구축했을 것 같습니다.
+        MSA를 처음부터 끝까지 직접 겪어본 덕분에, "언제 채택하고 언제 되돌려야 하는지"에 대한 나름의 감을 잡을 수 있었다고 생각합니다.
       </div>
     </div>
   </div>
@@ -827,7 +827,7 @@ a:hover{text-decoration:underline;}
         <li class="sm" style="color:#888;">원인: 레거시 쿼리가 <code>aggregation_year * 100 + aggregation_month</code> 같은 Non-sargable 연산을 WHERE 절에 사용 → EXPLAIN type: ALL, rows 1,195,038 (전체 테이블 풀스캔)</li>
       </ul>
 
-      <div class="sec">3단계 체계적 최적화</div>
+      <div class="sec">3단계로 나눠서 진행한 최적화</div>
       <div style="display:flex;flex-direction:column;gap:3px;">
         <div style="border:1px solid #e0e0e0;border-radius:4px;padding:6px 10px;background:#fff;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
@@ -952,8 +952,8 @@ a:hover{text-decoration:underline;}
     </div>
 
     <div class="ib" style="font-size:10.5px;">
-      <strong>수치는 Prometheus 운영 메트릭 + Grafana 대시보드에서 측정한 데이터입니다.</strong>
-      GCP 비용은 Console Billing에서 캡처한 청구 데이터이며, 월 총비용 기준 36% 절감 (월 ₩310만→₩197만, 연 ₩1,350만).
+      <strong>위 수치는 전부 Prometheus 운영 메트릭 + Grafana 대시보드에서 직접 측정한 데이터입니다.</strong>
+      GCP 비용은 Console Billing 캡처 기준이고, 월 총비용 기준 36% 절감 (월 ₩310만→₩197만, 연 ₩1,350만).
     </div>
   </div>
 </div></div>
@@ -1053,16 +1053,16 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>MySQL 공식 문서 + 버그 트래커 기반 분석:</strong>
-        MySQL Bug #83856, #83857을 확인하여 Collation 변환이 인덱스를 무효화하는 것이 알려진 동작임을 확인했습니다.
-        <strong>SET profiling</strong>으로 프로시저 내부 각 쿼리의 실행 시간을 측정하여, 개별 쿼리(1~2ms)와 프로시저 내부(200ms+)의 <strong>335배 차이</strong>를 데이터로 입증했습니다.
+        <strong>MySQL 공식 문서 + 버그 트래커를 뒤져봤습니다:</strong>
+        MySQL Bug #83856, #83857에서 Collation 변환이 인덱스를 무효화하는 게 알려진 동작이라는 걸 확인했고,
+        <strong>SET profiling</strong>으로 프로시저 내부 각 쿼리의 실행 시간을 직접 측정해서, 개별 쿼리(1~2ms)와 프로시저 내부(200ms+)의 <strong>335배 차이</strong>를 데이터로 보여드렸습니다.
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>왜 MyISAM → InnoDB까지 전환했는가:</strong>
-        MyISAM의 인덱스 키 제한(1,000 bytes)으로 utf8mb4(문자당 4bytes) 전환 시
-        <strong>VARCHAR(255) 컬럼의 인덱스가 생성 불가</strong>해지는 문제를 사전에 발견했습니다.
-        InnoDB(3,072 bytes)로 전환하면 이 제약이 해소되고, 트랜잭션 지원·행 단위 잠금 등 추가 이점을 확보할 수 있었습니다.
+        <strong>왜 MyISAM → InnoDB까지 전환했냐면:</strong>
+        MyISAM의 인덱스 키 제한이 1,000 bytes인데, utf8mb4(문자당 4bytes)로 전환하면
+        <strong>VARCHAR(255) 컬럼의 인덱스가 아예 생성이 안 되는 문제</strong>를 미리 발견했습니다.
+        InnoDB(3,072 bytes)로 바꾸면 이 제약이 풀리고, 트랜잭션 지원이랑 행 단위 잠금 같은 이점도 같이 가져갈 수 있었습니다.
       </div>
 
       <div class="rb" style="margin-top:6px;">
@@ -1094,7 +1094,7 @@ a:hover{text-decoration:underline;}
         <li>테스트 실패 시 45분 대기 후 실패 확인 → 개발 생산성 심각한 저하</li>
       </ul>
 
-      <div class="sec">7단계 체계적 최적화</div>
+      <div class="sec">7단계에 걸쳐 하나씩 잡아나간 최적화</div>
       <div style="display:flex;flex-direction:column;gap:2px;">
         <div style="border:1px solid #f28b82;border-left:3px solid #c5221f;border-radius:4px;padding:5px 10px;background:#fef7f6;">
           <div style="display:flex;align-items:center;gap:6px;">
@@ -1122,8 +1122,8 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
-        <strong>자기 과거 코드와의 싸움:</strong>
-        MSA 멀티모듈 시절 빌드 최적화를 위해 내가 설정한 <code>maxParallelForks</code>가, 모듈러 모놀리식 통합 후에는 오히려 <strong>최대 병목</strong>이 됐습니다. "빌드 최적화 ≠ 테스트 최적화"라는 사실을 몸으로 느꼈습니다.
+        <strong>과거의 내가 만든 병목:</strong>
+        MSA 멀티모듈 시절에 빌드 빠르게 하려고 제가 직접 설정한 <code>maxParallelForks</code>가, 모듈러 모놀리식으로 통합하고 나니까 오히려 <strong>가장 큰 병목</strong>이 돼버렸습니다. "빌드 최적화랑 테스트 최적화는 다르다"는 걸 뼈저리게 느꼈습니다.
       </div>
     </div>
 
@@ -1156,10 +1156,10 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
-        <strong>숨겨진 버그 2건 — 최적화 과정에서 발견:</strong>
-        ① <strong>@Qualifier Bean 충돌</strong> — 12개 서비스 통합 후 동명 Bean이 충돌, 테스트에서만 재현되어 기존에는 발견 불가.
-        ② <strong>URL 마이그레이션 후 orphan 테스트</strong> — MSA 시절 URL이 변경되었으나 테스트는 구 URL 그대로 → 항상 통과하지만 실제로는 검증하지 않는 유령 테스트.
-        빌드 최적화가 아니었으면 <strong>프로덕션에서 터질 때까지 몰랐을 버그</strong>들이었습니다.
+        <strong>최적화하다가 숨겨진 버그 2건을 발견했습니다:</strong>
+        ① <strong>@Qualifier Bean 충돌</strong> — 12개 서비스 통합하니까 동명 Bean이 충돌했는데, 테스트에서만 재현돼서 기존에는 발견이 안 됐던 겁니다.
+        ② <strong>URL 마이그레이션 후 orphan 테스트</strong> — MSA 시절에 URL이 바뀌었는데 테스트는 구 URL 그대로라 항상 통과만 하고 실제로는 아무것도 검증 안 하는 유령 테스트였습니다.
+        빌드 최적화를 안 했으면 <strong>프로덕션에서 터질 때까지 몰랐을 버그</strong>들이었습니다.
       </div>
     </div>
   </div>
@@ -1202,15 +1202,15 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>GKE 선택 근거:</strong>
-        Self-managed K8s 대비 월 $72 추가 비용이지만,
-        전담 DevOps 없이 컨트롤 플레인까지 관리하는 리스크를 $72로 해소할 수 있다면 합리적이라고 판단했습니다.
+        <strong>왜 GKE를 선택했는가:</strong>
+        Self-managed K8s 대비 월 $72 더 드는 건 사실인데,
+        전담 DevOps 없이 컨트롤 플레인까지 직접 관리하는 건 솔직히 감당이 안 된다고 판단했습니다. $72로 그 리스크를 해소할 수 있다면 합리적이지 않나 싶었습니다.
       </div>
 
       <div class="rb" style="margin-top:8px;border-left:3px solid #f0c14b;background:#fffdf5;">
-        <strong style="color:#8a6d3b;">개발 서버 도입 중 발견한 장애 2건:</strong><br>
-        <strong>①</strong> dev 환경이 <strong>운영 SQS 이벤트를 소비</strong>하여 운영 통계 데이터 오염 — 원인: SQS URL이 Java 코드에 하드코딩. 긴급 중단 후 환경변수 분리로 해결.<br>
-        <strong>②</strong> 모든 외부 API 타임아웃 — 원인: 파트너사가 기존 IDC IP만 방화벽 허용, <strong>문서화 부재</strong>로 아무도 몰랐음. Cloud NAT로 고정 IP 확보하여 해결.
+        <strong style="color:#8a6d3b;">개발 서버 만들다가 장애 2건을 발견했습니다:</strong><br>
+        <strong>①</strong> dev 환경이 <strong>운영 SQS 이벤트를 가져가버려서</strong> 운영 통계 데이터가 오염됐습니다 — 알고 보니 SQS URL이 Java 코드에 하드코딩돼 있었습니다. 긴급 중단 후 환경변수 분리로 해결했습니다.<br>
+        <strong>②</strong> 모든 외부 API가 타임아웃 — 파트너사에서 기존 IDC IP만 방화벽에 열어놨는데, <strong>이게 문서화가 안 돼 있어서</strong> 아무도 몰랐습니다. Cloud NAT로 고정 IP를 확보해서 해결했습니다.
       </div>
     </div>
 
@@ -1240,10 +1240,10 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>JVM Cold Start 해결 — 원인은 CPU 리소스:</strong>
-        K8s 배포 후 첫 API 응답이 1,190~1,390ms (7~14배↑). BlaBlaCar 사례를 참고하여
-        <strong>WarmupHealthIndicator로 주요 API를 10회씩 사전 호출</strong>. 초기 CPU limit 1000m에서는 효과 미미 →
-        <strong>JIT 컴파일에 ~3배 CPU가 필요</strong>하다는 사실 발견 후 limit을 1800m으로 상향하여 <strong>150~230ms (85% 개선)</strong>.
+        <strong>JVM Cold Start가 생각보다 쉽지 않았습니다:</strong>
+        K8s 배포 후 첫 API 응답이 1,190~1,390ms (7~14배↑)나 나왔거든요. BlaBlaCar 사례를 참고해서
+        <strong>WarmupHealthIndicator로 주요 API를 10회씩 사전 호출</strong>했는데 초기 CPU limit 1000m에서는 별 효과가 없었습니다.
+        알고 보니 <strong>JIT 컴파일에 ~3배 CPU가 필요</strong>했고, limit을 1800m으로 올리니까 <strong>150~230ms (85% 개선)</strong>가 됐습니다.
       </div>
 
       <div class="rb" style="margin-top:8px;">
@@ -1306,9 +1306,9 @@ a:hover{text-decoration:underline;}
       </table>
 
       <div class="ib" style="margin-top:16px;">
-        <strong>아래 인프라는 직접 설계·구축·운영해본 프로덕션 환경입니다.</strong><br>
-        Helm Chart로 ArgoCD 설치, Terraform으로 GKE/VPC/Cloud NAT 코드화,
-        Taint/NodeSelector로 워크로드 격리까지 담당했습니다.
+        <strong>위 인프라는 제가 직접 설계하고 구축해서 운영 중인 프로덕션 환경입니다.</strong><br>
+        Helm Chart로 ArgoCD를 설치하고, Terraform으로 GKE/VPC/Cloud NAT를 코드화하고,
+        Taint/NodeSelector로 워크로드 격리까지 직접 했습니다.
       </div>
     </div>
   </div>
@@ -1339,7 +1339,7 @@ a:hover{text-decoration:underline;}
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
         <li><strong class="bd">ELK Stack</strong>: 월 $92~200 (ES 인스턴스만, 최소 8GB RAM), Jaeger 별도 구성, 클러스터 관리 부담</li>
-        <li><span class="hl">Grafana LGTM Stack</span>: 월 $12~37 (1~4GB RAM 충분), Tempo 내장 트레이싱 → <strong class="bd">채택. 솔직히 가장 큰 이유는 비용</strong>이었습니다. 사이드 프로젝트에서 t3a.small로 검증한 경험이 판단 근거</li>
+        <li><span class="hl">Grafana LGTM Stack</span>: 월 $12~37 (1~4GB RAM 충분), Tempo 내장 트레이싱 → <strong class="bd">채택. 솔직히 가장 큰 이유는 비용</strong>이었습니다. 사이드 프로젝트에서 t3a.small로 먼저 돌려본 경험이 있어서 확신이 있었습니다</li>
         <li><strong class="bd">계측 2단계 진화:</strong> EC2 시절 서비스별 OTel 직접 설정(Phase 1) → K8s 전환 후 <span class="hl">Sidecar 패턴</span>으로 중앙 관리(Phase 2) — 서비스 추가 시 Helm 차트에 자동 포함</li>
       </ul>
 
@@ -1354,7 +1354,7 @@ a:hover{text-decoration:underline;}
         <strong style="color:#137333;">모니터링이 발견한 실제 버그 — CS 접수 0건:</strong><br>
         월세 검색 기능에서 서비스 A가 'monthly'(7자)로 전달하는데, DB 프로시저의 VARCHAR(5) 필드에서 잘려 검색 실패.
         <strong>사용량이 적은 기능이라 오랜 기간 아무도 몰랐던 버그</strong>를 모니터링 시스템이 발견 — CS 접수 0건인 장애의 전형적 사례.
-        <strong style="color:#137333;">이런 장애를 직접 겪고 나서야 모니터링의 가치를 뼈저리게 느꼈습니다.</strong>
+        <strong style="color:#137333;">이런 걸 직접 겪고 나니까 모니터링이 왜 필요한지 뼈저리게 느꼈습니다.</strong>
       </div>
     </div>
 
@@ -1374,11 +1374,11 @@ a:hover{text-decoration:underline;}
       </table>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>OTel Sidecar vs DaemonSet — 왜 Sidecar인가:</strong>
-        DaemonSet(노드 단위)은 설정이 간단하지만, <strong>서비스별 독립적 계측 설정이 불가</strong>.
-        Sidecar는 리소스 오버헤드(Pod당 50m CPU/64Mi)가 있지만,
-        서비스별 환경변수로 세밀한 제어가 가능하고 Helm 차트에 자동 포함.
-        <strong>"처음부터 완벽하게 만들려 하기보다, 빠르게 시작하고 점진적으로 개선하자"</strong>는 방향으로 접근했습니다.
+        <strong>OTel Sidecar vs DaemonSet — 왜 Sidecar로 했는가:</strong>
+        DaemonSet(노드 단위)이 설정은 간단한데, <strong>서비스별로 독립적인 계측 설정을 할 수가 없었습니다.</strong>
+        Sidecar는 리소스 오버헤드(Pod당 50m CPU/64Mi)가 있긴 하지만,
+        서비스별 환경변수로 세밀하게 제어할 수 있고 Helm 차트에 자동 포함됩니다.
+        처음부터 완벽하게 만들려 하기보다, 일단 빠르게 시작하고 점진적으로 개선하자는 방향으로 접근했습니다.
       </div>
 
       <div style="font-size:10px;color:#888;text-align:center;margin-top:8px;padding:4px;background:#f8f9fa;border-radius:3px;">
@@ -1413,8 +1413,8 @@ a:hover{text-decoration:underline;}
     </div>
 
     <div class="ib" style="font-size:10.5px;">
-      <strong>장애 인지 1시간→1분:</strong> Grafana Alert Rules에서 조건 감지 → Telegram Bot으로 즉시 Firing 알림 → Runbook 링크로 표준 대응.
-      Tempo 분산 트레이싱으로 API별 병목 지점을 span 단위로 추적하여 정확한 원인 식별이 가능합니다.
+      <strong>장애 인지 1시간→1분으로 바뀐 흐름:</strong> Grafana Alert Rules에서 조건을 감지하면 → Telegram Bot으로 즉시 Firing 알림이 오고 → Runbook 링크로 표준 대응합니다.
+      Tempo 분산 트레이싱으로 API별 병목 지점을 span 단위로 추적할 수 있어서, 정확한 원인 식별이 가능해졌습니다.
     </div>
   </div>
 </div></div>
@@ -1511,15 +1511,15 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>왜 CDC인가:</strong>
-        DB Replication(스키마 변경 어려움), Dual Write(앱 코드 복잡도↑, 정합성 리스크), MQ 기반(메시지 유실·순서 보장 어려움), ETL 배치(실시간 불가).
-        CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하므로 앱 코드 수정 없이 실시간 동기화 가능. AWS DMS는 RDS 호환성이 가장 높아 선택.
+        <strong>왜 CDC를 선택했냐면:</strong>
+        DB Replication은 스키마 변경이 어렵고, Dual Write는 앱 코드가 복잡해지고, MQ 기반은 메시지 유실 위험이 있고, ETL 배치는 실시간이 안 됩니다.
+        CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하니까 앱 코드 수정 없이 실시간 동기화가 되거든요. AWS DMS가 RDS 호환성이 가장 높아서 선택했습니다.
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>DNS 전환의 정합성 — 가장 위험한 구간:</strong>
-        DNS 전파 기간 동안 사용자가 IDC 또는 AWS로 자연스럽게 분산. <strong>양쪽 모두 IDC DB를 Source of Truth로 사용</strong>하여
-        정합성 보장. 전파 완료를 확인한 후에야 DB 참조를 RDS로 전환 — 돌이켜보면 <strong>팀과의 사전 계획 수립</strong>이 이 과정에서 가장 신경 쓰였던 부분이었습니다.
+        <strong>DNS 전환 구간이 가장 긴장됐습니다:</strong>
+        DNS 전파 기간 동안 사용자가 IDC 아니면 AWS로 자연스럽게 분산되는데, <strong>양쪽 다 IDC DB를 Source of Truth로 사용</strong>해서
+        정합성을 보장했습니다. 전파 완료를 확인한 후에야 DB 참조를 RDS로 전환했고 — 돌이켜보면 <strong>팀과 사전 계획을 꼼꼼히 세운 것</strong>이 이 과정에서 가장 중요했던 것 같습니다.
       </div>
 
       <div class="rb" style="margin-top:6px;">
@@ -1726,8 +1726,8 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:6px;font-size:10.5px;">
         <strong>돌아보면,</strong> 가장 큰 전환점은 PropertySearchTool을 원자적으로 쪼갠 것이었습니다.
-        도구를 쪼개기 전에는 "강남역이랑 잠실역 사이" 같은 질의를 하드코딩으로 처리하려 했고, 경우의 수가 계속 늘어났습니다.
-        도구를 쪼개니까 DAG deps만으로 자연스럽게 표현됐습니다.
+        쪼개기 전에는 "강남역이랑 잠실역 사이" 같은 질의를 하드코딩으로 처리하려 했는데, 경우의 수가 끝도 없이 늘어나더라고요.
+        도구를 쪼개니까 DAG deps만으로 자연스럽게 표현이 됐습니다.
       </div>
 
       <div style="margin-top:auto;font-size:10px;color:#999;">
@@ -1872,9 +1872,9 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:5px;font-size:11px;line-height:1.5;">
-        <strong>인프라 변경이 잠재 버그를 깨운 경험:</strong>
-        Pod 5→2 축소가 수개월간 잠재된 Deadlock을 표면화. <strong>pool-size=1로 로컬 재현</strong>하여 DefaultJpaDialect 소스까지 추적.
-        OSIV는 웹 컨텍스트에서만 활성화 — <strong>단위 테스트에서는 재현 불가</strong>, 통합 테스트 필수.
+        <strong>인프라 변경이 잠자던 버그를 깨웠습니다:</strong>
+        Pod 5→2로 축소했더니 수개월간 잠재돼 있던 Deadlock이 표면화됐습니다. <strong>pool-size=1로 로컬에서 재현</strong>하고 DefaultJpaDialect 소스까지 추적했습니다.
+        OSIV가 웹 컨텍스트에서만 활성화되다 보니 — <strong>단위 테스트에서는 아예 재현이 안 돼서</strong> 통합 테스트가 필수였습니다.
       </div>
     </div>
   </div>
@@ -1921,9 +1921,9 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>DevOps 공백기 — 무모했지만 가장 많이 성장한 시기:</strong>
-        DevOps 퇴사 후 자원해서 <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD) 수료 → <strong>19개 EC2·10개 노드를 7개월간 단독 운영</strong>.
-        이때의 경험 덕분에 부톡에서 K8s를 <strong>직접 설계하고 CTO께 제안</strong>할 수 있었습니다.
+        <strong>무모했지만 가장 많이 성장한 시기였습니다:</strong>
+        DevOps가 퇴사하고 나서 자원해서 <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD)을 받았고, 그 후 <strong>19개 EC2·10개 노드를 7개월간 혼자 운영</strong>했습니다.
+        솔직히 무모했는데, 이때의 경험이 있었기에 부톡에서 K8s를 <strong>직접 설계하고 CTO님께 제안</strong>할 수 있었다고 생각합니다.
       </div>
     </div>
 
@@ -1986,8 +1986,8 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>Isolation Level 완화 근거:</strong> Spring Batch 5에서 동일 방식으로 수정된 것을 확인(정당성 확보). 팀에 근거 공유 후 병렬 테스트로 검증.
-        <strong>EntityManager 함정:</strong> Chunk 전환 중 commit 전 close → <strong>Connection Leak</strong>. R/P/W 트랜잭션 분리, <strong>ConcurrentLinkedQueue</strong>로 스레드 안전 데이터 전달 설계.
+        <strong>Isolation Level 완화는 근거가 있었습니다:</strong> Spring Batch 5에서 동일 방식으로 수정된 걸 확인하고 팀에 공유한 후 병렬 테스트로 검증했습니다.
+        <strong>EntityManager 함정도 있었는데,</strong> Chunk 전환 중 commit 전에 close하면 <strong>Connection Leak</strong>이 나더라고요. R/P/W 트랜잭션 분리하고, <strong>ConcurrentLinkedQueue</strong>로 스레드 안전하게 데이터를 넘기도록 설계했습니다.
       </div>
 
       <div class="rb" style="margin-top:6px;">
@@ -2025,7 +2025,7 @@ a:hover{text-decoration:underline;}
         <li><strong class="bd">Vertex AI Gemini + Speech-to-Text</strong><br>
           <span class="sm">GPT-4 대비 50% 이상 저렴하면서 한국어 성능 우수</span></li>
         <li><strong class="bd">79% Test Coverage</strong><br>
-          <span class="sm">1인 개발일수록 테스트가 중요 — 나 대신 코드를 검증해줄 동료가 없기 때문</span></li>
+          <span class="sm">혼자 개발하면 나 대신 코드를 검증해줄 동료가 없으니까, 테스트가 더 중요하다고 생각합니다</span></li>
       </ul>
 
       <div class="dg" style="margin-top:12px;">
@@ -2040,10 +2040,10 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:16px;">
-        <strong>왜 사이드 프로젝트를 하는가:</strong>
-        회사에서는 기존 시스템의 제약 안에서 일합니다. 사이드 프로젝트는
-        <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>해볼 수 있는 소중한 기회라고 생각합니다.
-        WebFlux와 R2DBC는 여기서 먼저 경험한 후 회사 프로젝트에 적용 여부를 판단했습니다.
+        <strong>왜 사이드 프로젝트를 하냐면:</strong>
+        회사에서는 기존 시스템의 제약 안에서 일하잖아요. 사이드 프로젝트는
+        <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>해볼 수 있는 기회라고 생각합니다.
+        WebFlux와 R2DBC도 여기서 먼저 써보고, 회사 프로젝트에 적용할지 판단했습니다.
       </div>
     </div>
 
@@ -2078,11 +2078,11 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:14px;">
-        <strong>n8n 도입 이유:</strong>
+        <strong>n8n을 도입한 이유:</strong>
         콘텐츠 생성 파이프라인(검색→다운로드→STT→분석→편집→업로드)을
-        코드로만 관리하면 수정·모니터링이 어렵습니다.
-        <strong>n8n으로 시각적 워크플로우를 구성</strong>하여 각 단계의 성공/실패를 실시간으로 추적하고,
-        비개발자도 흐름을 이해할 수 있도록 설계했습니다.
+        코드로만 관리하니까 수정이랑 모니터링이 너무 어렵더라고요.
+        <strong>n8n으로 시각적 워크플로우를 구성</strong>해서 각 단계의 성공/실패를 실시간으로 추적하고,
+        비개발자도 흐름을 이해할 수 있게 만들었습니다.
       </div>
     </div>
   </div>
@@ -2114,10 +2114,10 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:18px;">
-        <strong>파이프라인 설계 핵심:</strong>
-        각 단계를 독립적으로 실패·재시도 가능하게 설계했습니다.
-        STT 실패 시 해당 영상만 스킵하고, Gemini 분석 결과가 70점 미만이면
-        자동 폐기하여 <strong>품질 기준 이하의 콘텐츠가 사용자에게 노출되지 않도록</strong> 제어합니다.
+        <strong>파이프라인 설계에서 가장 신경 쓴 부분:</strong>
+        각 단계가 독립적으로 실패하고 재시도할 수 있게 만들었습니다.
+        STT가 실패하면 해당 영상만 스킵하고, Gemini 분석 결과가 70점 미만이면
+        자동으로 폐기해서 <strong>품질 기준 이하의 콘텐츠가 사용자에게 노출되지 않도록</strong> 했습니다.
       </div>
     </div>
 
@@ -2146,15 +2146,15 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:18px;">
-        <strong>1인 개발의 핵심 과제는 품질 관리입니다.</strong>
-        동료 리뷰어가 없는 환경에서 CI 자동 검증(Jacoco·Detekt·ArchUnit)과
-        AI PR 리뷰를 교차 적용하여, <strong>사람이 놓치는 것은 도구가, 도구가 놓치는 것은 AI가</strong> 보완하는 구조를 만들었습니다.
+        <strong>1인 개발에서 가장 어려운 건 품질 관리라고 생각합니다.</strong>
+        동료 리뷰어가 없으니까 CI 자동 검증(Jacoco·Detekt·ArchUnit)이랑
+        AI PR 리뷰를 교차로 적용해서, <strong>사람이 놓치는 건 도구가, 도구가 놓치는 건 AI가</strong> 잡아주는 구조를 만들었습니다.
       </div>
 
       <div class="ib" style="margin-top:16px;">
         어떻게 하면 AI를 더 잘 활용할 수 있을지 꾸준히 고민하고 있습니다.
-        무조건 수락하면 제게 남는 게 없다고 느꼈기에,
-        <strong>AI의 제안에 항상 질문하고 반박하며, 더 좋은 결과물을 만들고 성장하기 위해 노력하려 합니다.</strong>
+        무조건 수락하면 제게 남는 게 없다는 걸 느꼈기에,
+        <strong>AI가 제안하면 항상 질문하고 반박하면서, 더 좋은 결과물을 만들고 성장하려고 노력하고 있습니다.</strong>
       </div>
     </div>
   </div>
@@ -2176,10 +2176,10 @@ a:hover{text-decoration:underline;}
       </table>
 
       <div class="sec">v1: MCP 에러 자동 대응 (반자동)</div>
-      <p class="bt">1인 백엔드 야간 장애 대응의 한계에서 출발.
+      <p class="bt">1인 백엔드로 야간 장애 대응하는 게 한계가 있어서 시작했습니다.
       Claude Code MCP로 Loki/Tempo 에러 로그를 분석하고,
-      원인 파악 → 코드 수정 → GitHub Issue 자동 생성.
-      <strong class="bd">개발자가 트리거</strong>해야 하는 한계가 있었습니다.</p>
+      원인 파악 → 코드 수정 → GitHub Issue 자동 생성까지는 했는데,
+      <strong class="bd">개발자가 직접 트리거</strong>해야 하는 한계가 있었습니다.</p>
 
       <div style="display:flex;gap:4px;margin-top:6px;">
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
@@ -2205,7 +2205,7 @@ a:hover{text-decoration:underline;}
 
     <div class="c" style="flex:1.1;">
       <div class="sec">v2: OpenClaw으로의 진화 (완전 자동)</div>
-      <p class="bt"><strong class="bd">"도구를 쓰는 것과 파이프라인을 구축하는 것은 다르다"</strong>는 깨달음으로 발전.
+      <p class="bt"><strong class="bd">"도구를 쓰는 것과 파이프라인을 구축하는 건 다르다"</strong>는 걸 느끼고 발전시켰습니다.
       Cron 폴링으로 에러를 자동 감지하고, AI가 분석→코드 수정→PR까지 사람 개입 없이 처리합니다.</p>
 
       <div style="display:flex;gap:4px;margin-top:8px;">
@@ -2231,8 +2231,8 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
-        <strong>Heartbeat 하이브리드:</strong> Cron 폴링(주기적 감지) + 텔레그램 Forward(즉시 감지)를 결합.
-        Cron은 놓칠 수 있는 에러를, 텔레그램은 긴급 에러를 커버하여 <strong>감지 사각지대를 제거</strong>했습니다.
+        <strong>Heartbeat 하이브리드를 왜 만들었냐면:</strong> Cron 폴링(주기적 감지)만으로는 놓치는 에러가 있고, 텔레그램 Forward(즉시 감지)만으로는 커버가 안 되는 부분이 있었습니다.
+        둘을 결합해서 <strong>감지 사각지대를 없앴습니다.</strong>
       </div>
 
       <div style="display:flex;gap:4px;margin-top:8px;">
@@ -2265,35 +2265,35 @@ a:hover{text-decoration:underline;}
       <h3 style="margin-bottom:8px;">개발 철학</h3>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"팀 규모에 맞는 아키텍처를 선택한다."</div>
-        <p class="bt" style="margin-top:2px;">MSA→모듈러 모놀리식 제안, 16개 멀티레포→모노레포 전환. <strong class="bd">기술 트렌드보다 팀이 감당할 수 있는 복잡성을 기준으로 삼으려 합니다.</strong></p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"우리 팀이 감당할 수 있는 복잡성인가?"</div>
+        <p class="bt" style="margin-top:2px;">MSA→모듈러 모놀리식 제안, 16개 멀티레포→모노레포 전환. <strong class="bd">기술 트렌드보다 팀 규모에 맞는 아키텍처를 선택하는 게 맞다고 생각합니다.</strong></p>
       </div>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"3번 오진하더라도 근본 원인을 찾는다."</div>
-        <p class="bt" style="margin-top:2px;">HikariCP Deadlock: DB데드락→Conn Leak→QueryDSL 3번 오진 후 OSIV+ORM 혼용 발견. <strong class="bd">증상만 가리는 해결은 다음 장애를 예약하는 거라고 뼈저리게 느꼈습니다.</strong></p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"3번 틀려도 근본 원인을 찾으려 합니다."</div>
+        <p class="bt" style="margin-top:2px;">HikariCP Deadlock은 DB데드락→Conn Leak→QueryDSL까지 3번 오진한 후에야 OSIV+ORM 혼용이라는 진짜 원인을 찾았습니다. <strong class="bd">증상만 가리면 다음 장애를 예약하는 거라는 걸 뼈저리게 느꼈습니다.</strong></p>
       </div>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"기술적 결정은 비용과 비즈니스로 정당화한다."</div>
-        <p class="bt" style="margin-top:2px;">ELK vs LGTM — 솔직히 가장 큰 이유는 비용($92~200 vs $12~37/월)이었습니다. <strong class="bd">기술적으로 우월한 것보다 우리 상황에서 합리적인 선택을 하려고 노력합니다.</strong></p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"기술적 결정은 결국 비용과 비즈니스로 판단합니다."</div>
+        <p class="bt" style="margin-top:2px;">ELK vs LGTM — 솔직히 가장 큰 이유는 비용($92~200 vs $12~37/월)이었습니다. <strong class="bd">기술적으로 더 좋은 것보다, 우리 상황에서 합리적인 게 뭔지를 고민하려고 합니다.</strong></p>
       </div>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"실패를 기록하고, 재평가할 줄 안다."</div>
-        <p class="bt" style="margin-top:2px;">:common 비대화→폐기·재설계. Manticore→ES 재평가. <strong class="bd">과정을 블로그에 기록하고, 2년+ 스터디와 Spring Security PR로 돌려드리려 합니다.</strong></p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"실패하면 기록하고, 다시 판단합니다."</div>
+        <p class="bt" style="margin-top:2px;">:common 모듈 비대화→폐기하고 재설계. Manticore→ES 재평가. <strong class="bd">이런 과정을 블로그에 기록하고, 2년+ 스터디와 Spring Security PR로 커뮤니티에 돌려드리려고 합니다.</strong></p>
       </div>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"AI를 도구로 활용하되, 대체 불가능한 역량에 집중한다."</div>
-        <p class="bt" style="margin-top:2px;">MCP 에러 자동 대응 파이프라인을 구축하면서, <strong class="bd">아키텍처 설계와 근본 원인 분석</strong>처럼 AI가 대체하기 어려운 역량을 키우려 합니다.</p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"AI는 적극 활용하되, 대체 안 되는 역량을 키우려 합니다."</div>
+        <p class="bt" style="margin-top:2px;">MCP 에러 자동 대응 파이프라인을 직접 만들어보면서, <strong class="bd">아키텍처 설계와 근본 원인 분석</strong>처럼 AI가 쉽게 대체하기 어려운 부분에 더 집중해야겠다고 느꼈습니다.</p>
       </div>
 
       <div class="rb" style="margin-top:auto;padding:8px 16px;text-align:center;">
         <div style="font-size:14px;font-weight:700;color:#222;letter-spacing:-.02em;">
-          "우리 서비스에 지금 가장 필요한 개선은 무엇인가?"
+          "우리 서비스에 지금 가장 필요한 게 뭘까?"
         </div>
-        <p style="font-size:11px;color:#666;margin-top:4px;">항상 이 질문에서 시작하려 합니다.</p>
+        <p style="font-size:11px;color:#666;margin-top:4px;">항상 이 질문에서 시작하려고 합니다.</p>
       </div>
     </div>
 
