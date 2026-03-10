@@ -345,7 +345,7 @@
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li>Spring Batch <strong>2-Step 일배치 직접 구축</strong> — 13종 POI + 시세 데이터 Elasticsearch 인덱싱 자동화</li>
+                            <li>Spring Batch <strong>2-Step 일배치 직접 구축</strong> — 역·학교·병원 등 위치 데이터 + 시세 데이터 Elasticsearch 인덱싱 자동화</li>
                             <li>자연어 → LLM 키워드 추출 → ES 벡터 검색 → 조건 필터링 <strong>파이프라인 구축</strong>, Planned Tool Use 전환으로 LLM 호출 개선</li>
                             <li>도구 분리 한계 → <strong>DAG 아키텍처로 전환</strong> — Kahn's Algorithm 위상정렬 + Kotlin 코루틴 레벨별 병렬, 원자적 도구 분리(poi_search·property_search·property_info)</li>
                             <li>ES <strong>function_score 도메인 스코어링</strong> 설계 — 거리·가격·면적 등 5가지 가중치로 매물 관련성 랭킹</li>
@@ -353,7 +353,7 @@
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li>다중 위치·복합 조건 <strong>자연어 매물 검색</strong> 프로덕션 런칭·운영중, DAG 전환으로 <strong>LLM 호출 33%↓</strong>(3→2회)</li>
+                            <li>"강남역에서 신논현역 사이 30평대 10억 이하 신축 아파트" 등 <strong>복합 조건 자연어 매물 검색</strong> 프로덕션 런칭·운영중, DAG 전환으로 <strong>LLM 호출 33%↓</strong>(3→2회)</li>
                         </ul>
 
                         <div class="tech-line"><strong>기술:</strong> Kotlin, Spring Batch, Elasticsearch, function_score, DAG, Kahn's Algorithm, Coroutines, SSE Streaming, RAG, Embedding</div>
