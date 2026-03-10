@@ -1601,43 +1601,51 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="cmp" style="margin-top:8px;">
-        <div class="cc bf">
-          <div class="cl">Before: 고정 파이프라인</div>
-          <ul>
-            <li>Classifier 분류 오류 → 전체 실패</li>
-            <li>LLM 3회 호출</li>
-            <li>PropertySearchTool 단일 도구에 모든 로직</li>
-            <li>복수 위치 검색 불가</li>
-            <li>거리순 나열만 가능</li>
-          </ul>
-        </div>
-        <div class="cc af">
-          <div class="cl">After: DAG</div>
-          <ul>
-            <li>Plan LLM이 DAG 생성 → 분류 단계 제거</li>
-            <li>LLM 2회 고정</li>
-            <li>poi_search · property_search · property_info 분리</li>
-            <li>복수 위치 검색 (독립/중간점/가중)</li>
-            <li>도메인 스코어링 추천</li>
-          </ul>
-        </div>
-      </div>
+      <div class="dg" style="margin-top:8px;">
+        <div class="dl">DAG 아키텍처 & 도구 구성</div>
 
-      <div class="dg" style="margin-top:6px;padding:6px 10px;">
-        <div class="dl">DAG 실행 예시 — "강남역이랑 잠실역 사이 아파트"</div>
-        <div style="display:flex;gap:4px;margin-bottom:3px;">
-          <div class="db ac ds" style="flex:1;font-family:monospace;text-align:left;padding:3px 6px;font-size:9px;">step 1: poi_search("강남역") &nbsp;deps:[]</div>
-          <div class="db ac ds" style="flex:1;font-family:monospace;text-align:left;padding:3px 6px;font-size:9px;">step 2: poi_search("잠실역") &nbsp;deps:[]</div>
-          <div style="font-size:8px;color:#999;display:flex;align-items:center;white-space:nowrap;">← 병렬</div>
+        <!-- Pipeline flow -->
+        <div style="display:flex;align-items:center;gap:3px;justify-content:center;margin-bottom:8px;">
+          <div class="db dk ds" style="padding:3px 6px;">사용자 쿼리</div>
+          <div class="da">→</div>
+          <div class="db ac ds" style="padding:3px 6px;">Plan LLM<br><span style="font-size:9px;">DAG 생성<br>(JSON mode, 1회)</span></div>
+          <div class="da">→</div>
+          <div class="db ds" style="padding:3px 6px;border-color:#333;font-weight:600;">ToolExecutor<br><span style="font-size:9px;font-weight:400;">Kahn's Algorithm<br>위상정렬 · 병렬</span></div>
+          <div class="da">→</div>
+          <div class="db ac ds" style="padding:3px 6px;">Generate LLM<br><span style="font-size:9px;">SSE 스트리밍<br>(1회)</span></div>
         </div>
-        <div class="dd" style="font-size:9px;">↓ $1.lat, $2.lat 변수 참조</div>
-        <div style="display:flex;gap:4px;">
-          <div class="db ok ds" style="flex:1;font-family:monospace;text-align:left;padding:3px 6px;font-size:9px;">step 3: property_search(lat:$1.lat) deps:[1]</div>
-          <div class="db ok ds" style="flex:1;font-family:monospace;text-align:left;padding:3px 6px;font-size:9px;">step 4: property_search(lat:$2.lat) deps:[2]</div>
-          <div style="font-size:8px;color:#999;display:flex;align-items:center;white-space:nowrap;">← 병렬</div>
+
+        <!-- Tool inventory -->
+        <div style="display:flex;gap:4px;justify-content:center;margin-bottom:6px;">
+          <div class="db ok ds" style="flex:1;text-align:center;padding:4px 6px;">
+            <strong style="font-size:10px;">poi_search</strong><br>
+            <span style="font-size:9px;color:#666;">장소명 → 좌표<br>kNN 임베딩 검색</span>
+          </div>
+          <div class="db ok ds" style="flex:1;text-align:center;padding:4px 6px;">
+            <strong style="font-size:10px;">property_search</strong><br>
+            <span style="font-size:9px;color:#666;">좌표+조건 → 매물<br>function_score 스코어링</span>
+          </div>
+          <div class="db ok ds" style="flex:1;text-align:center;padding:4px 6px;">
+            <strong style="font-size:10px;">property_info</strong><br>
+            <span style="font-size:9px;color:#666;">단지 상세 조회</span>
+          </div>
         </div>
-        <div class="dn">Plan LLM 1회로 전체 DAG 생성 → Kahn's Algorithm 위상정렬 → 같은 레벨 병렬 실행 → Generate LLM SSE 스트리밍</div>
+
+        <!-- Concrete execution example -->
+        <div style="border-top:1px dashed #ddd;padding-top:5px;">
+          <div style="font-size:8.5px;font-weight:600;color:#666;margin-bottom:4px;">실행 예시: "강남역에서 신논현역 사이 30평대 10억 이하 500세대 이상 신축 아파트 추천해줘"</div>
+          <div style="display:flex;gap:3px;margin-bottom:2px;">
+            <div style="font-size:8.5px;color:#999;width:42px;text-align:right;padding-top:2px;">Level 0</div>
+            <div class="db ac ds" style="flex:1;font-family:monospace;text-align:left;padding:2px 5px;font-size:8.5px;">[1] poi_search("강남역") deps:[]</div>
+            <div class="db ac ds" style="flex:1;font-family:monospace;text-align:left;padding:2px 5px;font-size:8.5px;">[2] poi_search("신논현역") deps:[]</div>
+            <div style="font-size:8px;color:#137333;display:flex;align-items:center;white-space:nowrap;">← 병렬</div>
+          </div>
+          <div class="dd" style="font-size:8.5px;padding-left:42px;">↓ mid($1.lat, $2.lat) 중간점 계산</div>
+          <div style="display:flex;gap:3px;">
+            <div style="font-size:8.5px;color:#999;width:42px;text-align:right;padding-top:2px;">Level 1</div>
+            <div class="db ok ds" style="flex:1;font-family:monospace;text-align:left;padding:2px 5px;font-size:8.5px;line-height:1.4;">[3] property_search(<br>&nbsp;&nbsp;lat: mid($1,$2), area: 30평대,<br>&nbsp;&nbsp;price_max: 10억, households: ≥500, new_build: Y<br>) deps:<strong>[1,2]</strong></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1753,33 +1761,57 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE: 자연어 매물 추천 — 아키텍처 개선 스크린샷 (3/3) ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(6) 자연어 매물 추천 — 아키텍처 개선 스크린샷</div>
+  <div class="st">(6) 자연어 매물 추천 — 핵심 코드 & 서비스 화면</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">23</span>
-  <div style="flex:1;display:flex;flex-direction:column;margin-top:12px;">
+  <div style="flex:1;display:flex;flex-direction:column;margin-top:8px;gap:6px;">
 
-    <div style="display:flex;gap:10px;flex:1;">
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="font-size:10px;font-weight:700;text-align:center;padding:4px;background:#f8f9fa;color:#666;">DAG 기반 복합 질의 처리</div>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:10px;">
-          <span style="color:#bbb;font-size:12px;">이미지를 여기에 넣어주세요</span>
-          <!-- <img src="YOUR_IMAGE_URL" style="width:100%;max-height:500px;object-fit:contain;display:block;" alt="DAG 복합 질의"> -->
+    <!-- 상단: 코드 스크린샷 -->
+    <div style="display:flex;gap:6px;flex:1;">
+      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#f8f9fa;color:#666;">processChat() — DAG 파이프라인 오케스트레이터</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#1e1e1e;padding:4px;">
+          <img src="https://www.dropbox.com/scl/fi/lre62c3n3n9jtb65ccsui/ai-bootalk-code-1.png?rlkey=hdy7fy83x0ea919410zoe5nk8&st=v51wgvj1&raw=1" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="processChat 코드">
+        </div>
+        <div style="font-size:8.5px;color:#666;padding:3px 6px;background:#f8f9fa;line-height:1.4;">
+          Step 1: <strong>executePlan()</strong> → Step 2: <strong>executeDag()</strong> → Step 3: <strong>streamChatCompletion()</strong>
         </div>
       </div>
 
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="font-size:10px;font-weight:700;text-align:center;padding:4px;background:#f8f9fa;color:#666;">스코어링 기반 매물 추천 결과</div>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:10px;">
-          <span style="color:#bbb;font-size:12px;">이미지를 여기에 넣어주세요</span>
-          <!-- <img src="YOUR_IMAGE_URL" style="width:100%;max-height:500px;object-fit:contain;display:block;" alt="스코어링 추천 결과"> -->
+      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#f8f9fa;color:#666;">executeDag() — 위상정렬 · 레벨별 병렬 실행</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#1e1e1e;padding:4px;">
+          <img src="https://www.dropbox.com/scl/fi/8ogt2n9bb4jigyyflsie8/ai-bootalk-code-2.png?rlkey=0ufnluj059zljbdf6b20kh6x4&st=82ltg6ee&raw=1" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="executeDag 코드">
+        </div>
+        <div style="font-size:8.5px;color:#666;padding:3px 6px;background:#f8f9fa;line-height:1.4;">
+          <strong>levels.withIndex()</strong> 레벨 순회 → <strong>async(Dispatchers.IO)</strong> 병렬 → <strong>resolveVariables()</strong> $1.lat 해소
         </div>
       </div>
     </div>
 
-    <div class="ib" style="margin-top:12px;">
-      <strong>아키텍처 개선 결과:</strong>
-      DAG 전환으로 LLM 호출 3→2회, 원자적 도구 분리로 복합 질의 지원, ES function_score 도메인 스코어링으로 추천 품질 개선.
-      <strong><a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a></strong>에서 직접 사용해보실 수 있습니다.
+    <!-- 하단: 서비스 화면 -->
+    <div style="display:flex;gap:6px;flex:1;">
+      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#f8f9fa;color:#666;">복합 조건 자연어 검색 입력</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:4px;">
+          <span style="color:#bbb;font-size:10px;">서비스 스크린샷</span>
+          <!-- <img src="YOUR_IMAGE_URL" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="자연어 검색 입력"> -->
+        </div>
+      </div>
+
+      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#f8f9fa;color:#666;">스코어링 기반 매물 추천 결과</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:4px;">
+          <span style="color:#bbb;font-size:10px;">서비스 스크린샷</span>
+          <!-- <img src="YOUR_IMAGE_URL" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="매물 추천 결과"> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="ib" style="font-size:10px;">
+      <strong>코드 ↔ 아키텍처 ↔ 서비스:</strong>
+      processChat() 3-Step이 슬라이드 21 파이프라인과 1:1 대응. executeDag() 레벨별 병렬 실행이 DAG 실행 예시와 1:1 대응.
+      <strong><a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a></strong> 프로덕션 운영중.
     </div>
 
   </div>
