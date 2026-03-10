@@ -1546,11 +1546,11 @@ a:hover{text-decoration:underline;}
         <tr><td class="l">규모</td><td class="v">6개 PR · +4,200줄 · 59개 파일</td></tr>
       </table>
 
-      <div class="sec">배경 — 기존 파이프라인의 한계</div>
+      <div class="sec">배경 — 고정 RAG에서 DAG까지</div>
       <ul class="bl">
-        <li>기존 RAG 파이프라인(다른 개발자가 구축)에 <strong class="bd">ES + LLM 기반 좌표 검색 전략을 설계·추가</strong>하여 AI 매물 찾기 기능을 구현</li>
-        <li>이후 운영하면서 한계: <strong class="bd">Classifier 분류 오류 시 전체 파이프라인 실패</strong>, 코드 하드코딩 분기, LLM 3회 호출</li>
-        <li>PropertySearchTool 하나에 POI 검색 + 좌표 검색 + 필터링 전부 뭉쳐 있어 <strong class="bd">도구 조합 불가</strong></li>
+        <li>기존 RAG 파이프라인(다른 개발자가 구축)에 <strong class="bd">ES + LLM 기반 좌표 검색 전략을 설계·추가</strong>하여 AI 매물 찾기 기능 구현</li>
+        <li>직접 <strong class="bd">Planned Tool Use(Plan→Execute→Generate)로 전환</strong>하여 LLM 3→2회로 줄였으나, PropertySearchTool에 모든 로직이 뭉쳐 <strong class="bd">도구 조합 한계</strong></li>
+        <li>이 한계를 해결하기 위해 <strong class="bd">DAG 방식으로 아키텍처를 개선</strong>한 것이 이 프로젝트의 핵심</li>
       </ul>
 
       <div class="sec">왜 DAG인가 — Agent Loop이 아닌 이유</div>
@@ -1586,7 +1586,7 @@ a:hover{text-decoration:underline;}
               <div class="db wn ds" style="min-width:auto;padding:2px 6px;">Execute</div><div class="da" style="font-size:9px;">→</div>
               <div class="db wn ds" style="min-width:auto;padding:2px 6px;">Generate<br><span style="font-size:9px;">LLM</span></div>
             </div>
-            <div style="font-size:9px;color:#8a6d3b;margin-top:3px;">LLM 2회 · PropertySearchTool에 POI+검색+필터 전부 뭉쳐 도구 조합 불가</div>
+            <div style="font-size:9px;color:#8a6d3b;margin-top:3px;">LLM 3→2회 개선 · 하지만 도구 분리 미흡 → DAG 전환 계기</div>
           </div>
           <!-- Phase 3 -->
           <div style="border:1.5px solid #81c995;border-radius:4px;padding:6px 8px;background:#fff;">
@@ -1624,8 +1624,20 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:6px;font-size:10.5px;">
-        <strong>DAG 실행 흐름:</strong> Plan LLM이 JSON mode로 DAG를 1회 생성 → ToolExecutor가 Kahn's Algorithm으로 위상정렬 → 같은 레벨의 도구는 병렬 실행, 의존성이 있으면 순차 실행 → Generate LLM이 결과를 SSE 스트리밍으로 응답.
+      <div class="dg" style="margin-top:6px;padding:6px 10px;">
+        <div class="dl">DAG 실행 예시 — "강남역이랑 잠실역 사이 아파트"</div>
+        <div style="display:flex;gap:4px;margin-bottom:3px;">
+          <div class="db ac ds" style="flex:1;font-family:monospace;text-align:left;padding:3px 6px;font-size:9px;">step 1: poi_search("강남역") &nbsp;deps:[]</div>
+          <div class="db ac ds" style="flex:1;font-family:monospace;text-align:left;padding:3px 6px;font-size:9px;">step 2: poi_search("잠실역") &nbsp;deps:[]</div>
+          <div style="font-size:8px;color:#999;display:flex;align-items:center;white-space:nowrap;">← 병렬</div>
+        </div>
+        <div class="dd" style="font-size:9px;">↓ $1.lat, $2.lat 변수 참조</div>
+        <div style="display:flex;gap:4px;">
+          <div class="db ok ds" style="flex:1;font-family:monospace;text-align:left;padding:3px 6px;font-size:9px;">step 3: property_search(lat:$1.lat) deps:[1]</div>
+          <div class="db ok ds" style="flex:1;font-family:monospace;text-align:left;padding:3px 6px;font-size:9px;">step 4: property_search(lat:$2.lat) deps:[2]</div>
+          <div style="font-size:8px;color:#999;display:flex;align-items:center;white-space:nowrap;">← 병렬</div>
+        </div>
+        <div class="dn">Plan LLM 1회로 전체 DAG 생성 → Kahn's Algorithm 위상정렬 → 같은 레벨 병렬 실행 → Generate LLM SSE 스트리밍</div>
       </div>
     </div>
   </div>
@@ -1675,7 +1687,8 @@ a:hover{text-decoration:underline;}
       </div>
       <p class="sm" style="margin-top:3px;">→ "강남역이랑 잠실역 사이 아파트" 같은 복합 질의가 DAG deps로 자연스럽게 표현됨</p>
 
-      <div class="sec" style="margin-top:8px;">배치 최적화</div>
+      <div class="sec" style="margin-top:8px;">Spring Batch ES 인덱싱 구축 & 최적화</div>
+      <p class="sm" style="margin-bottom:4px;">일배치 직접 구축: 2-Step Job (Step1: 매물 full rebuild + Step2: 시세 partial update) + 13종 POI 인덱싱, 임베딩 캐싱(sourceText 불변 시 skip)</p>
       <div class="cmp" style="gap:6px;">
         <div class="cc bf" style="padding:6px;">
           <div class="cl">Before</div>
@@ -1688,9 +1701,9 @@ a:hover{text-decoration:underline;}
         <div class="cc af" style="padding:6px;">
           <div class="cl">After</div>
           <ul>
-            <li>변동분 ~9K건만 처리</li>
-            <li>ES partial update (임베딩 불변)</li>
-            <li>chunk-level batch fetch (~7쿼리)</li>
+            <li>referenceDate diff → ~9K건만</li>
+            <li>ES _update API (임베딩 불변)</li>
+            <li>chunk-level IN쿼리 (~7회)</li>
           </ul>
         </div>
       </div>
