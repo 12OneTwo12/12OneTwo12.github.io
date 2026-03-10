@@ -1726,7 +1726,7 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:6px;font-size:10.5px;">
         <strong>돌아보면,</strong> 가장 큰 전환점은 PropertySearchTool을 원자적으로 쪼갠 것이었습니다.
-        쪼개기 전에는 "강남역이랑 잠실역 사이" 같은 질의를 하드코딩으로 처리하려 했는데, 경우의 수가 끝도 없이 늘어나더라고요.
+        쪼개기 전에는 "강남역이랑 잠실역 사이" 같은 질의를 하드코딩으로 처리하려 했는데, 경우의 수가 계속 늘어났습니다.
         도구를 쪼개니까 DAG deps만으로 자연스럽게 표현이 됐습니다.
       </div>
 
@@ -1987,7 +1987,7 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:6px;">
         <strong>Isolation Level 완화는 근거가 있었습니다:</strong> Spring Batch 5에서 동일 방식으로 수정된 걸 확인하고 팀에 공유한 후 병렬 테스트로 검증했습니다.
-        <strong>EntityManager 함정도 있었는데,</strong> Chunk 전환 중 commit 전에 close하면 <strong>Connection Leak</strong>이 나더라고요. R/P/W 트랜잭션 분리하고, <strong>ConcurrentLinkedQueue</strong>로 스레드 안전하게 데이터를 넘기도록 설계했습니다.
+        <strong>EntityManager 함정도 있었습니다.</strong> Chunk 전환 중 commit 전에 close하면 <strong>Connection Leak</strong>이 발생했고, R/P/W 트랜잭션을 분리하고 <strong>ConcurrentLinkedQueue</strong>로 스레드 안전하게 데이터를 넘기도록 설계했습니다.
       </div>
 
       <div class="rb" style="margin-top:6px;">
@@ -2041,7 +2041,7 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:16px;">
         <strong>왜 사이드 프로젝트를 하냐면:</strong>
-        회사에서는 기존 시스템의 제약 안에서 일하잖아요. 사이드 프로젝트는
+        회사에서는 기존 시스템의 제약 안에서 일하게 되는데, 사이드 프로젝트는
         <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>해볼 수 있는 기회라고 생각합니다.
         WebFlux와 R2DBC도 여기서 먼저 써보고, 회사 프로젝트에 적용할지 판단했습니다.
       </div>
@@ -2080,7 +2080,7 @@ a:hover{text-decoration:underline;}
       <div class="ib" style="margin-top:14px;">
         <strong>n8n을 도입한 이유:</strong>
         콘텐츠 생성 파이프라인(검색→다운로드→STT→분석→편집→업로드)을
-        코드로만 관리하니까 수정이랑 모니터링이 너무 어렵더라고요.
+        코드로만 관리하니까 수정이랑 모니터링이 쉽지 않았습니다.
         <strong>n8n으로 시각적 워크플로우를 구성</strong>해서 각 단계의 성공/실패를 실시간으로 추적하고,
         비개발자도 흐름을 이해할 수 있게 만들었습니다.
       </div>
