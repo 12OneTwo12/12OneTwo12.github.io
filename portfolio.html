@@ -957,6 +957,7 @@ a:hover{text-decoration:underline;}
     <div class="ib" style="font-size:10.5px;">
       <strong>대시보드를 만들고 나서 가장 달라진 점:</strong> 배포 후 성능 변화를 실시간으로 확인할 수 있게 됐습니다.
       이전에는 "느린 것 같다"는 CS가 와야 알았는데, 이제는 배포 직후 P95 그래프를 보고 바로 판단할 수 있습니다.
+      실제로 모니터링 도입 후 <strong>CS 접수가 0건인데 사용자에게 영향을 주고 있던 버그</strong>를 발견한 적이 있었습니다. 사용자가 알려주기 전에 먼저 감지할 수 있는 구조가 왜 필요한지 그때 체감했습니다.
     </div>
   </div>
 </div></div>
@@ -1311,7 +1312,8 @@ a:hover{text-decoration:underline;}
       <div class="ib" style="margin-top:16px;">
         <strong>구축 과정에서 신경 쓴 것들:</strong>
         Helm Chart로 ArgoCD를 설치하고, Terraform으로 GKE/VPC/Cloud NAT를 코드화하고,
-        Taint/NodeSelector로 워크로드를 격리했습니다. 처음부터 재현 가능한 인프라를 만들고 싶었습니다.
+        Taint/NodeSelector로 워크로드를 격리했습니다.
+        합류했을 때 기존 인프라를 구축했던 분들은 이미 퇴사한 상태였고 문서도 없어서, 왜 이렇게 구성됐는지 아무도 모르는 상황이었습니다. 그래서 <strong>변경 이력이 Git에 남아서 누가, 언제, 왜 바꿨는지 추적할 수 있는 인프라</strong>를 처음부터 만들고 싶었습니다.
       </div>
     </div>
   </div>
