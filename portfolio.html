@@ -248,9 +248,9 @@ a:hover{text-decoration:underline;}
 
     <div class="tl">
       <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 단일 서버</strong><br>Docker Compose<br>OOM Kill · SPOF<br>롤백 30분+</div></div>
-      <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>GKE 도입</strong><br>K8s 전환 시작<br>NGINX Ingress<br>레거시 격리</div></div>
+      <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>Observability</strong><br>Docker Compose 기반<br>Logback→Loki 직접 전송<br>Prometheus Polling</div></div>
       <div class="ti"><div class="tdt">2025.06</div><div class="td"></div><div class="tt"><strong>Migration & IaC</strong><br>200GB DB 무중단 이전<br>AWS DMS CDC<br>Terraform 도입</div></div>
-      <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>Observability</strong><br>LGTM Stack<br>OTel Sidecar<br>Telegram 알림</div></div>
+      <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>GKE 도입</strong><br>MSA 증가 → 단일 인스턴스 한계<br>NGINX Ingress<br>OTel Sidecar 전환</div></div>
       <div class="ti"><div class="tdt">2025.11</div><div class="td"></div><div class="tt"><strong>MSA 주요 전환</strong><br>GitHub Actions CI/CD<br>주요 도메인 전환 완료<br>GitOps 배포 체계</div></div>
       <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>모듈러 모놀리식</strong><br>12서비스→1앱 통합<br>비용 2.5~3배 ↑ 대비<br>Bean·@Tx 버그 해결</div></div>
     </div>
@@ -362,7 +362,7 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE: 아키텍처 — MSA + K8s ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(1) Bootalk 시스템 아키텍처 — MSA + K8s (2025.04 ~ 2025.11)</div>
+  <div class="st">(1) Bootalk 시스템 아키텍처 — MSA + K8s (2025.08 ~ 2025.11)</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">6</span>
   <div style="flex:1;display:flex;align-items:center;justify-content:center;margin-top:6px;overflow:hidden;">
@@ -414,7 +414,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">해결: 부분적 빅뱅 + Dual Write</div>
       <ul class="bl">
-        <li>강결합 도메인(매물, 매칭, 중개사) 동시 분리 + 나머지 점진적 전환</li>
+        <li>강결합 도메인(매물, 매칭, 중개사) 동시 분리 + 나머지 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">점진적 전환</a></li>
         <li><span class="hl">Dual Write + 검증 배치</span>로 과도기 데이터 정합성 보장</li>
         <li><strong class="bd">헥사고날 + CQS:</strong> Port/Adapter로 도메인↔기술 의존 차단(DB·MQ 교체 시 Adapter만 변경). 복제 테이블 조회 전용 → 쓰기(정합성)·읽기(속도) 분리가 자연스러워 CQS 도출</li>
       </ul>
@@ -606,7 +606,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
-        <li><strong class="bd">레포 전략:</strong> 멀티레포 유지 vs <span class="hl">모노레포 전환</span> — 공통 Exception 수정에 16개 PR이 필요한 현실을 빌드/PR 데이터로 CTO께 제안, 입사 1개월 만에 승인 (<strong>230,909줄 통합 PR</strong>)</li>
+        <li><strong class="bd">레포 전략:</strong> 멀티레포 유지 vs <span class="hl"><a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">모노레포 전환</a></span> — 공통 Exception 수정에 16개 PR이 필요한 현실을 빌드/PR 데이터로 CTO께 제안, 입사 1개월 만에 승인 (<strong>230,909줄 통합 PR</strong>)</li>
         <li><strong class="bd">히스토리:</strong> 새 레포 생성(히스토리 손실) vs <span class="hl">Git Subtree(보존)</span> — git blame 추적 가능, 이후 버그 원인 파악에 결정적 역할</li>
         <li><strong class="bd">공통 모듈 실패 → 재설계:</strong> 초기에 인프라 코드(JPA Config, Security)까지 :common에 포함했으나 <strong>비대화 확인 후 작업 폐기</strong> → <span class="hl">순수 Types/Enums/Utils만 허용</span>하는 규칙으로 재설계 (우아한형제들 기술블로그 참고)</li>
         <li><strong class="bd">품질 게이트:</strong> <span class="hl">Detekt + ReviewDog + JaCoCo</span> — PR 단위 변경분 50% 커버리지 기준, 정적 분석 자동 리뷰 코멘트</li>
@@ -796,7 +796,7 @@ a:hover{text-decoration:underline;}
         <strong>돌아보면:</strong>
         입사했을 때 MSA 전환은 이미 진행 중이었고, 합류해서 주요 도메인 전환을 마무리했습니다 (일부 레거시 잔존).
         근데 전환 과정에서 <strong>2~3명 팀에 14개 MSA는 솔직히 과하다</strong>는 확신이 점점 생겼고,
-        비용 위기가 터지면서 <strong>모듈러 모놀리식을 직접 제안해서 전환을 주도</strong>했습니다.
+        비용 위기가 터지면서 <strong><a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식</a>을 직접 제안해서 전환을 주도</strong>했습니다.
         다시 시작한다면 모듈러 모놀리식 단계를 더 오래 유지하고, 모니터링을 전환 초기부터 구축했을 것 같습니다.
         MSA를 처음부터 끝까지 직접 겪어본 덕분에, "언제 채택하고 언제 되돌려야 하는지"에 대한 나름의 감을 잡을 수 있었다고 생각합니다.
       </div>
@@ -854,7 +854,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>핵심 API P95 <strong class="bd">4,045ms → 50ms</strong> (568 req/s 운영 트래픽, Grafana P95 메트릭 기준)</li>
+        <li>핵심 API P95 <strong class="bd"><a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">4,045ms → 50ms</a></strong> (568 req/s 운영 트래픽, Grafana P95 메트릭 기준)</li>
         <li>Micrometer 기반 <strong class="bd">캐시 히트율 모니터링 대시보드</strong> 구축, P95 임계치 초과 시 <strong class="bd">Grafana Alert</strong></li>
       </ul>
     </div>
@@ -973,7 +973,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="l">기술스택</td><td class="v">MySQL, EXPLAIN, SET profiling, MyISAM → InnoDB</td></tr>
       </table>
 
-      <div class="sec">현상 — "같은 쿼리인데 8배 느리다"</div>
+      <div class="sec">현상 — <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace">"같은 쿼리인데 8배 느리다"</a></div>
       <ul class="bl">
         <li>MSA 전환 중 프로시저 파라미터를 bigint → varchar로 변경했더니 <strong class="bd">56ms → 457ms (8배 느려짐)</strong></li>
         <li>개별 쿼리는 1~2ms인데, 프로시저 안에서는 200ms+ → <strong class="bd">335배 차이</strong></li>
@@ -1117,7 +1117,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>CI 빌드 시간 <strong class="bd">84% 단축</strong> (45분 31초 → 7분 8초), <strong class="bd">66개 파일 수정</strong></li>
+        <li>CI 빌드 시간 <strong class="bd"><a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">84% 단축</a></strong> (45분 31초 → 7분 8초), <strong class="bd">66개 파일 수정</strong></li>
         <li>최적화 과정에서 <strong class="bd">숨겨진 버그 2건 발견</strong> — @Qualifier Bean 충돌, URL 마이그레이션 후 orphan 테스트</li>
       </ul>
 
@@ -1175,8 +1175,8 @@ a:hover{text-decoration:underline;}
     <div class="c">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
-        <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.09 (6개월)</td></tr>
-        <tr><td class="l">역할</td><td class="v">인프라 아키텍처 설계 및 구축 전담 (GKE 도입 제안 → CI/CD → 모니터링 → 마이그레이션)</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.08 ~ 2025.11 (4개월)</td></tr>
+        <tr><td class="l">역할</td><td class="v">인프라 아키텍처 설계 및 구축 전담 (GKE 도입 제안 → CI/CD → OTel Sidecar 전환)</td></tr>
         <tr><td class="l">기술스택</td><td class="v">GKE, ArgoCD, GitHub Actions, Terraform</td></tr>
         <tr><td class="l">인프라 규모</td><td class="v">GKE 2 Cluster (dev/prod) · 14개 서비스 Pod</td></tr>
       </table>
@@ -1189,7 +1189,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
-        <li><strong class="bd">인프라:</strong> Self-managed K8s vs <span class="hl">GKE(Managed)</span> — DevOps 부재 상태에서 월 $72로 컨트롤 플레인 리스크 해소 (K8s 사용 기업 73%가 매니지드 선택)</li>
+        <li><strong class="bd">인프라:</strong> Self-managed K8s vs <span class="hl"><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s">GKE(Managed)</a></span> — DevOps 부재 상태에서 월 $72로 컨트롤 플레인 리스크 해소 (K8s 사용 기업 73%가 매니지드 선택)</li>
         <li><strong class="bd">CI/CD:</strong> <span class="hl">GitHub Actions + ArgoCD GitOps</span><br>
           <span class="sm">GitHub Actions로 빌드·테스트, ArgoCD로 GitOps 기반 선언적 배포</span></li>
         <li><strong class="bd">마이그레이션:</strong> 5가지 비교(Replication·Dual Write·MQ·ETL·<span class="hl">CDC</span>) 후 CDC 선택 — 앱 코드 수정 없이 실시간 동기화</li>
@@ -1198,7 +1198,7 @@ a:hover{text-decoration:underline;}
       <div class="sec">성과</div>
       <ul class="bl">
         <li>롤백 <strong class="bd">83% 단축</strong> (12분→2분), 배포 <strong class="bd">67% 단축</strong> (15분→5분) → GitOps 기반 선언적 배포·롤백</li>
-        <li>JVM Cold Start <strong class="bd">85% 개선</strong> (1.2~1.4초→150~230ms) → startupProbe + WarmupHealthIndicator</li>
+        <li>JVM Cold Start <strong class="bd">85% 개선</strong> (1.2~1.4초→150~230ms) → <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up">startupProbe + WarmupHealthIndicator</a></li>
       </ul>
 
       <div class="ib" style="margin-top:10px;">
@@ -1324,7 +1324,7 @@ a:hover{text-decoration:underline;}
     <div class="c">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼</td></tr>
-        <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.09 (K8s 인프라 구축과 병행)</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.11 (Docker Compose → GKE 전환 후 OTel Sidecar)</td></tr>
         <tr><td class="l">역할</td><td class="v">모니터링 아키텍처 설계, OTel 계측, 알림 체계 구축</td></tr>
         <tr><td class="l">기술스택</td><td class="v">Grafana, Prometheus, Loki, Tempo, OTel Sidecar</td></tr>
       </table>
@@ -1339,8 +1339,8 @@ a:hover{text-decoration:underline;}
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
         <li><strong class="bd">ELK Stack</strong>: 월 $92~200 (ES 인스턴스만, 최소 8GB RAM), Jaeger 별도 구성, 클러스터 관리 부담</li>
-        <li><span class="hl">Grafana LGTM Stack</span>: 월 $12~37 (1~4GB RAM 충분), Tempo 내장 트레이싱 → <strong class="bd">채택. 솔직히 가장 큰 이유는 비용</strong>이었습니다. 사이드 프로젝트에서 t3a.small로 먼저 돌려본 경험이 있어서 확신이 있었습니다</li>
-        <li><strong class="bd">계측 2단계 진화:</strong> EC2 시절 서비스별 OTel 직접 설정(Phase 1) → K8s 전환 후 <span class="hl">Sidecar 패턴</span>으로 중앙 관리(Phase 2) — 서비스 추가 시 Helm 차트에 자동 포함</li>
+        <li><span class="hl"><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system">Grafana LGTM Stack</a></span>: 월 $12~37 (1~4GB RAM 충분), Tempo 내장 트레이싱 → <strong class="bd">채택. 솔직히 가장 큰 이유는 비용</strong>이었습니다. 사이드 프로젝트에서 t3a.small로 먼저 돌려본 경험이 있어서 확신이 있었습니다</li>
+        <li><strong class="bd">계측 2단계 진화:</strong> Docker Compose 시절 Logback→Loki 직접 전송 + Prometheus Polling(Phase 1) → GKE 전환 후 <span class="hl">OTel Sidecar 패턴</span>으로 중앙 관리(Phase 2) — 서비스 추가 시 Helm 차트에 자동 포함</li>
       </ul>
 
       <div class="sec">성과</div>
@@ -1460,7 +1460,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li><strong class="bd">무중단 마이그레이션 달성</strong> — 다운타임 0분, 데이터 유실 0건</li>
+        <li><strong class="bd"><a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story">무중단 마이그레이션</a> 달성</strong> — 다운타임 0분, 데이터 유실 0건</li>
         <li>Terraform IaC로 <strong class="bd">인프라 재현성 확보</strong> — 동일 환경 즉시 재생성 가능</li>
         <li>IDC SPOF 탈피 → AWS RDS <strong class="bd">자동 백업(7일 보존) + 스케일링</strong> 확보</li>
       </ul>
@@ -1815,18 +1815,18 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><strong class="bd">현상:</strong> 풀 40/40 포화, 46 스레드 대기. <strong>비용 절감 목적의 Pod 5→2 축소</strong>로 트래픽이 집중되며 수개월간 잠재된 버그 표면화</li>
         <li><strong class="bd">오진:</strong> ①DB 데드락→로그 없음 ②Conn Leak→fetchOne() 분석 후 배제 ③QueryDSL→JPQL 재현 성공, 배제</li>
-        <li><strong class="bd">근본 원인:</strong> OSIV + JPA/MyBatis 혼용 → 1요청이 2커넥션 동시 점유 → Pool 고갈 시 <span class="hl">HikariCP Deadlock</span></li>
+        <li><strong class="bd">근본 원인:</strong> OSIV + JPA/MyBatis 혼용 → 1요청이 2커넥션 동시 점유 → Pool 고갈 시 <span class="hl"><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis">HikariCP Deadlock</a></span></li>
         <li><strong class="bd">해결:</strong> ①풀 증가(재발) ②OSIV OFF(Lazy Loading 전면 수정) ③<span class="hl">JPA/MyBatis 트랜잭션 혼용 제거</span> — ③ 채택</li>
       </ul>
 
       <div class="sec" style="margin-top:5px;">Redis Look-aside Cache — 왜 이 패턴인가</div>
       <ul class="bl">
         <li><strong class="bd">문제:</strong> 외부 API 평균 5,132ms (최대 9,412ms) → 사용자 이탈 임계치(3초) 초과</li>
-        <li><strong class="bd">판단:</strong> 사용자 주소 예측 불가→Warm-up 불가 → <span class="hl">Look-aside</span> 선택. 임시저장 시 동일 주소 반복 조회→높은 히트율 기대</li>
+        <li><strong class="bd">판단:</strong> 사용자 주소 예측 불가→Warm-up 불가 → <span class="hl"><a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf">Look-aside</a></span> 선택. 임시저장 시 동일 주소 반복 조회→높은 히트율 기대</li>
         <li><strong class="bd">성과:</strong> 평균 응답 <strong class="bd">74.7%↓</strong> (5,132→1,299ms, Cache Hit 57ms), API 호출 <strong class="bd">76%↓</strong>. 동적 TTL: 외부 API 갱신(목요일 23:30)까지 남은 초 계산. Admin은 <strong>noCache</strong>로 우회</li>
       </ul>
 
-      <div class="sec" style="margin-top:4px;">DB Replication Lag — 일관성 vs 성능</div>
+      <div class="sec" style="margin-top:4px;"><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag">DB Replication Lag</a> — 일관성 vs 성능</div>
       <ul class="bl">
         <li><strong class="bd">현상:</strong> INSERT 직후 SELECT→Slave "데이터 없음". <strong>모든 읽기를 Master로 보내면 Replication 의미 상실</strong> → 4패턴(RYOW·Monotonic·Txn·<span class="hl">Routing</span>) 비교, AOP 세밀 제어 가능한 AbstractRoutingDataSource 채택</li>
         <li><strong class="bd">3단계:</strong> ①@Transactional Master 라우팅(빠른 적용) → ②<strong class="bd">@UseMasterDB</strong>+AOP(세밀 제어) → ③핵심 서비스 Master 직접 연결 (네이버페이 DAN24 참고)</li>
@@ -1901,7 +1901,7 @@ a:hover{text-decoration:underline;}
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
         <li><strong class="bd">신한은행 에스크로 계좌</strong> 잔고 정합성 검증 배치 — 금융 데이터 무결성 필수</li>
-        <li><strong class="bd">Metadata Deadlock:</strong> Job 동시 실행 시 BATCH_JOB_INSTANCE 테이블 Deadlock (Spring Batch Issue #1448, 2013년부터 10년간 미해결 버그). SELECT → INSERT 패턴에서 shared lock 경합</li>
+        <li><strong class="bd"><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock">Metadata Deadlock</a>:</strong> Job 동시 실행 시 BATCH_JOB_INSTANCE 테이블 Deadlock (Spring Batch Issue #1448, 2013년부터 10년간 미해결 버그). SELECT → INSERT 패턴에서 shared lock 경합</li>
         <li><strong class="bd">MVCC 데이터 누락:</strong> Tasklet이 22분(1,320초)간 단일 트랜잭션 → MySQL REPEATABLE READ 스냅샷이 <strong class="bd">배치 실행 중 입금된 데이터를 누락</strong>. Chunk 전환 후 트랜잭션 0.01초 단위 커밋 → 누락 확률 1,320/0.01 = <strong>132,000배 축소(1/132,000)</strong>. 금융에서는 이마저도 불허 → 관리자 오탐 알림 반복</li>
       </ul>
 
@@ -1909,7 +1909,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><strong class="bd">Deadlock 3가지 선택지:</strong> ①재시도 로직(회피) ②Job 순차 실행(성능 포기) ③<span class="hl">Isolation Level READ_COMMITTED로 변경</span><br>
           <span class="sm">→ Spring Batch 5에서 수정되었으나, Boot 2.7→3.x + Java 11→17 동시 업그레이드는 과도한 리스크. Metadata는 <strong>최종 상태만 정확하면 됨</strong> → 격리 수준 완화가 합리적</span></li>
-        <li><strong class="bd">성능 2가지 선택지:</strong> ①Tasklet 내 멀티스레딩(상태 관리 복잡) ②<span class="hl">Chunk + Partitioning(프레임워크 네이티브)</span><br>
+        <li><strong class="bd">성능 2가지 선택지:</strong> ①Tasklet 내 멀티스레딩(상태 관리 복잡) ②<span class="hl"><a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Chunk + Partitioning</a>(프레임워크 네이티브)</span><br>
           <span class="sm">→ 데이터 정합성 근거(MVCC 해소)로 팀 리더께 근거를 공유하여 리팩터링 승인 획득. 투자자 데이터 간 독립성이 있어 Partitioning 적합</span></li>
       </ul>
 
