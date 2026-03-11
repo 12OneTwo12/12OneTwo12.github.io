@@ -341,8 +341,9 @@ a:hover{text-decoration:underline;}
       <div class="ib" style="flex:1;">
         <strong>솔직히 돌이켜보면:</strong><br>
         모든 전환은 "이 기술 써보고 싶다"가 아니라 <strong>운영하다 보니 안 되겠다</strong> 싶어서 시작한 것들이었습니다.
-        저는 MSA 5개 서비스 설계·구현, 인프라 구축, 성능 최적화를 맡았습니다.<br><br>
-        <strong>다시 한다면:</strong> 모니터링을 전환 초기부터 구축했을 것 같고, 모듈러 모놀리식 단계를 더 오래 유지했을 것 같습니다. DMS CDC 대신 Debezium도 검토했을 것 같습니다(비용 때문에).
+        저는 MSA 5개 서비스 설계·구현, 인프라 구축, 성능 최적화를 맡았습니다.
+        모니터링은 입사 직후 제가 먼저 제안해서 구축했는데, MSA 전환 자체는 이미 진행 중인 상태에서 합류한 거라 의사결정 과정에는 없었습니다.<br><br>
+        <strong>솔직히 말씀드리면:</strong> MSA 의사결정 초기부터 함께했다면 아무리 생각해봐도 <strong>"과연 우리 서비스가 이 복잡성을 감수할 정도의 규모인가?"</strong>라는 질문을 던졌을 것 같습니다. 물론 제가 없던 시점의 맥락을 다 알 순 없고, 당시에는 합리적인 판단이었을 수도 있습니다. 다만 운영하면서 <strong>"그렇진 않다"라는 답이 점점 명확해졌고</strong>, 결국 1년 뒤에 모듈러 모놀리식을 제안한 게 그 결론이었습니다. MSA를 처음부터 끝까지 직접 겪어본 덕분에 나름의 감을 잡을 수 있었다고 생각합니다.
       </div>
     </div>
   </div>
@@ -531,10 +532,9 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:10px;">
         <strong>이 경험에서 배운 것:</strong>
-        솔직히 전환 전략 자체보다 <strong>실패했을 때 어떻게 돌아갈 것인가</strong>가 더 중요하다는 걸 느꼈습니다.
-        모든 단계에서 레거시로 즉시 롤백할 수 있는 상태를 유지했고, 이 안전망이 있었기에
-        과감하게 밀어붙일 수 있었던 것 같습니다.
-        MSA를 처음부터 끝까지 직접 겪어보니, <strong>문제를 해결하면 그만큼의 운영 복잡성이 따라온다</strong>는 걸 몸으로 느꼈습니다.
+        전환 전략보다 <strong>실패했을 때 어떻게 돌아갈 것인가</strong>가 더 중요하다는 걸 느꼈습니다.
+        레거시로 즉시 롤백할 수 있는 상태를 항상 유지했고, 이 안전망이 있었기에 과감하게 밀어붙일 수 있었습니다.
+        근데 전환하고 나니까 <strong>"문제 하나 해결하면 운영 복잡성이 하나 따라온다"</strong>는 게 진짜였습니다. 배포 한 번 하려면 14개 서비스 중 영향 범위 확인하고, 장애 전파 경로 추적하고 — 2~3명이서 이걸 감당하는 게 맞나 싶은 순간이 점점 많아졌습니다.
       </div>
     </div>
 
@@ -797,11 +797,11 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:6px;">
         <strong>돌아보면:</strong>
-        입사했을 때 MSA 전환은 이미 진행 중이었고, 합류해서 주요 도메인 전환을 마무리했습니다 (일부 레거시 잔존).
-        근데 전환 과정에서 <strong>2~3명 팀에 14개 MSA는 솔직히 과하다</strong>는 확신이 점점 생겼고,
-        비용 위기가 터지면서 <strong>모듈러 모놀리식을 직접 제안해서 전환을 주도</strong>했습니다.
-        다시 시작한다면 모듈러 모놀리식 단계를 더 오래 유지하고, 모니터링을 전환 초기부터 구축했을 것 같습니다.
-        MSA를 처음부터 끝까지 직접 겪어본 덕분에, "언제 채택하고 언제 되돌려야 하는지"에 대한 나름의 감을 잡을 수 있었다고 생각합니다.
+        합류했을 때 MSA 전환은 이미 진행 중이었고, 주요 도메인 전환을 마무리했습니다.
+        근데 운영하면서 <strong>"과연 우리 서비스가 이 복잡성을 감수할 정도의 규모인가?"</strong>라는 질문이 계속 떠올랐습니다.
+        배포 한 번에 영향 범위 확인하고, 서비스 간 장애 전파 추적하고 — 아무리 생각해봐도 <strong>"그렇진 않다"라는 답이 나왔습니다.</strong>
+        비용 위기가 터지면서 <strong>모듈러 모놀리식을 제안해서 전환을 주도</strong>했는데, 비용 위기가 아니었어도 결국 같은 제안을 했을 것 같습니다.
+        MSA를 처음부터 끝까지 직접 겪어본 건 — 결과적으로 <strong>좋은 아키텍처가 이론이 아니라 팀 상황에 맞춰야 한다</strong>는 걸 몸으로 배운 경험이었다고 생각합니다.
       </div>
     </div>
   </div>
@@ -1926,9 +1926,9 @@ a:hover{text-decoration:underline;}
       <div class="ib" style="margin-top:10px;">
         <strong>무모했지만 가장 많이 성장한 시기였습니다:</strong>
         DevOps께서 퇴사하고 나서 자원해서 <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD)을 받았고, 그 후 <strong>19개 EC2·10개 노드를 7개월간 혼자 운영</strong>했습니다.
-        솔직히 무모했는데, 이때의 경험이 있었기에 부톡에서 K8s를 <strong>직접 설계하고 제안</strong>할 수 있었다고 생각합니다.
-        HikariCP Deadlock, Replication 지연, Batch Deadlock을 겪으면서 <strong>"모니터링 없이 트러블슈팅하는 건 한계가 있다"</strong>는 걸 몸으로 느꼈고, 부톡 입사 첫 주에 Observability부터 제안한 것도 이때의 경험 덕분입니다.
-        금융 도메인에서 MVCC 누락이나 Dual Write 검증을 직접 겪어본 덕분에, 부톡 MSA 무중단 전환에서도 <strong>과도기 데이터 안전장치</strong>를 먼저 설계할 수 있었습니다.
+        솔직히 무모했는데, 이때 끝이 보이지 않는 느낌으로 인프라 장애랑 씨름한 경험이 있었기에 부톡에서 K8s를 <strong>직접 설계하고 제안</strong>할 수 있었다고 생각합니다.
+        여기서 가장 뼈저리게 느낀 건 <strong>"모니터링 없이 트러블슈팅하는 건 한계가 있다"</strong>는 거였습니다. HikariCP Deadlock도, Replication 지연도, 에러가 터지고 나서야 SSH로 로그 뒤지면서 원인 찾는 식이었거든요. 부톡 입사 첫 주에 SPOF를 발견하고 Observability부터 제안한 것도 이때 <strong>"이렇게 일하면 안 된다"</strong>는 걸 몸으로 느꼈기 때문입니다.
+        금융 도메인에서 MVCC 누락이나 정합성 검증을 직접 겪어본 덕분에, 부톡 MSA 무중단 전환에서도 <strong>과도기 데이터 안전장치를 먼저 설계</strong>할 수 있었습니다.
       </div>
     </div>
 
@@ -2270,28 +2270,28 @@ a:hover{text-decoration:underline;}
       <h3 style="margin-bottom:8px;">개발 철학</h3>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"우리 팀이 감당할 수 있는 복잡성인가?"</div>
-        <p class="bt" style="margin-top:2px;">MSA→모듈러 모놀리식 제안, 16개 멀티레포→모노레포 전환. <strong class="bd">기술 트렌드보다 팀 규모에 맞는 아키텍처를 선택하는 게 맞다고 생각합니다.</strong></p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"과연 우리 서비스가 이 복잡성을 감수할 정도인가?"</div>
+        <p class="bt" style="margin-top:2px;">돌이켜보면 각 전환마다 항상 같은 질문을 던졌던 것 같습니다. MSA 운영하면서도, 모듈러 모놀리식을 제안할 때도. <strong class="bd">기술적인 우아함보다 우리 조직과 서비스의 현실을 냉정하게 진단하는 게 먼저라고 생각합니다.</strong></p>
       </div>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"3번 틀려도 근본 원인을 찾으려 합니다."</div>
-        <p class="bt" style="margin-top:2px;">HikariCP Deadlock은 DB데드락→Conn Leak→QueryDSL까지 3번 오진한 후에야 OSIV+ORM 혼용이라는 진짜 원인을 찾았습니다. <strong class="bd">증상만 가리면 다음 장애를 예약하는 거라는 걸 뼈저리게 느꼈습니다.</strong></p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"에러가 안 터지는 버그가 제일 무섭습니다."</div>
+        <p class="bt" style="margin-top:2px;">HikariCP Deadlock을 3번 오진하고 나서야 OSIV+ORM 혼용이라는 진짜 원인을 찾았습니다. <strong class="bd">증상만 가리면 다음 장애를 예약하는 거라는 걸 뼈저리게 느꼈고,</strong> 모니터링 도입 후 CS 접수 0건인 버그를 발견하면서 더 확신하게 됐습니다.</p>
       </div>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"기술적 결정은 결국 비용과 비즈니스로 판단합니다."</div>
-        <p class="bt" style="margin-top:2px;">ELK vs LGTM — 솔직히 가장 큰 이유는 비용($92~200 vs $12~37/월)이었습니다. <strong class="bd">기술적으로 더 좋은 것보다, 우리 상황에서 합리적인 게 뭔지를 고민하려고 합니다.</strong></p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"솔직하게 말하면, 비용 문제였습니다."</div>
+        <p class="bt" style="margin-top:2px;">ELK vs LGTM — 가장 큰 이유는 비용($92~200 vs $12~37/월)이었습니다. GKE도 $72/월이 Self-managed보다 비싸지만 DevOps 없이 컨트롤 플레인 관리는 감당이 안 됐습니다. <strong class="bd">기술적으로 더 좋은 것보다, 우리가 감당할 수 있는 게 뭔지가 항상 먼저입니다.</strong></p>
       </div>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"실패하면 기록하고, 다시 판단합니다."</div>
-        <p class="bt" style="margin-top:2px;">:common 모듈 비대화→폐기하고 재설계. Manticore→ES 재평가. <strong class="bd">이런 과정을 블로그에 기록하고, 2년+ 스터디와 Spring Security PR로 커뮤니티에 돌려드리려고 합니다.</strong></p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"완벽하게 만들려고 하지 않은 것이 성공의 핵심이었던 것 같습니다."</div>
+        <p class="bt" style="margin-top:2px;">:common 모듈을 만들었다가 비대화되길래 작업 폐기하고 재설계했고, Manticore Search도 벡터 검색이 필요해지면서 ES로 재평가했습니다. <strong class="bd">처음부터 완벽하게 하려고 하면 오히려 시작을 못 하는 것 같습니다. 빠르게 시작하고, 틀리면 고치는 게 현실적이라고 생각합니다.</strong></p>
       </div>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"AI로 에러 대응을 자동화하고, 저는 아키텍처에 집중합니다."</div>
-        <p class="bt" style="margin-top:2px;">Error Autopilot으로 에러 인지→분석→PR을 완전 자동화한 경험에서, <strong class="bd">AI가 반복 작업을 처리하는 동안 근본 원인 분석과 아키텍처 설계에 시간을 쓰는 것</strong>이 1인 백엔드의 현실적인 전략이라고 느꼈습니다.</p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"AI가 반복 작업을 처리하는 동안 저는 근본 원인을 봅니다."</div>
+        <p class="bt" style="margin-top:2px;">1인 백엔드로 야간 장애 대응하는 데 한계가 있어서 Error Autopilot을 만들었습니다. <strong class="bd">AI가 에러 분석하고 PR 만드는 동안 저는 근본 원인이랑 아키텍처를 보려고 합니다.</strong> 다만 AI가 제안하면 무조건 수락하지 않고, 항상 질문하고 반박합니다 — 무조건 수락하면 제게 남는 게 없다는 걸 느꼈기 때문입니다.</p>
       </div>
 
       <div class="rb" style="margin-top:auto;padding:8px 16px;text-align:center;">
