@@ -404,7 +404,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>일부 서비스는 이미 MSA로 분리되어 있었으나, <strong class="bd">핵심 도메인(매물, 매칭, 중개사)은 레거시에 강결합</strong></li>
+        <li>일부 서비스는 이미 MSA로 분리 완료 상태. <strong class="bd">핵심 도메인(매물, 매칭 등)은 레거시에 강결합</strong></li>
         <li>하나의 도메인 변경이 전체 배포·장애 전파를 유발 · 공통 코드 16개 레포에 중복 관리</li>
       </ul>
 
@@ -420,9 +420,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li>강결합 도메인(매물, 매칭, 중개사) 동시 분리 + 나머지 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">점진적 전환</a></li>
         <li><span class="bd">Dual Write + 검증 배치</span>로 과도기 데이터 정합성 보장</li>
-        <li><strong class="bd">Bounded Context 기반 서비스 분리:</strong> 도메인 간 경계를 Bounded Context 단위로 나누고, 각 Context가 자신의 Aggregate Root를 통해서만 상태를 변경하도록 설계했습니다. 예를 들어 매물 상태 변경은 반드시 Estate Aggregate를 거쳐야 하고, 매칭 서비스가 직접 매물 테이블을 수정하는 건 허용하지 않았습니다. 이 경계가 나중에 모듈러 모놀리식으로 전환할 때 ModuleApi 인터페이스와 Schema 분리의 기준이 됐습니다</li>
-        <li><strong class="bd">헥사고날은 도메인 복잡도에 따라 선택적으로 적용:</strong> 핵심 도메인(estate, match, agent)은 도메인 로직이 복잡하고 외부 통신 방식이 전환 과정에서 바뀔 가능성이 높아서 Port/Adapter로 기술 의존을 차단했고, notification·event 같은 단순 도메인은 레이어드로 충분하다고 판단해서 굳이 적용하지 않았습니다. 솔직히 책임 분리가 명확한 레이어드가 도메인을 제대로 이해하지 않고 만든 헥사고날보다 낫다고 생각합니다</li>
-        <li><strong class="bd">CQS:</strong> 복제 테이블 조회 전용 → 쓰기(정합성)·읽기(속도) 분리가 자연스러워 CQS 도출</li>
+        <li><strong class="bd">DDD + 헥사고날 + CQS:</strong> Bounded Context 단위로 서비스를 분리하고, Aggregate Root를 통해서만 상태 변경을 허용(예: 매물 상태 변경은 반드시 Estate Aggregate를 거침). 핵심 도메인은 헥사고날, 단순 도메인은 레이어드로 선택 적용. 복제 테이블 조회 전용 → CQS 도출. 이 경계가 모듈러 전환 시 ModuleApi·Schema 분리의 기준</li>
       </ul>
 
       <div class="sec">성과</div>
@@ -492,6 +490,15 @@ a:hover{text-decoration:underline;}
           <li>매물 도메인 분리를 시작하려고 레거시 코드를 열어보니, <strong>매칭 로직이 매물 테이블을 직접 JOIN하는 양방향 강결합</strong>이 있었습니다</li>
           <li>gRPC(protobuf 학습 비용)나 Zero-Payload(실시간 불가) 등을 검토했지만, 팀 회의에서 <strong>"이건 기술이 아니라 전략의 문제"</strong>라는 결론이 나왔습니다</li>
           <li>결국 강결합 도메인은 동시에 분리(부분적 빅뱅)하고, 나머지는 점진적으로 + <strong>Dual Write로 과도기 정합성을 보장</strong>하기로 했습니다</li>
+        </ul>
+      </div>
+
+      <div class="ib" style="margin-top:6px;">
+        <strong>"DDD와 헥사고날 — 돌이켜보면"</strong>
+        <ul style="margin:3px 0 0;padding-left:14px;line-height:1.6;">
+          <li>DDD(Bounded Context, Aggregate Root)는 도메인 모델링에 설계 비용이 많이 들고, 도메인을 제대로 이해하지 못한 상태에서 적용하면 오히려 복잡하기만 한 구조가 됩니다. 핵심 도메인은 도메인 간 결합이 강해서 그 비용을 들일 만했지만, 모든 서비스에 동일하게 적용할 필요는 없었습니다</li>
+          <li>헥사고날도 마찬가지로, 외부 의존으로부터 도메인을 보호하는 유연성을 얻는 대신 Port/Adapter/UseCase 보일러플레이트라는 복잡성을 감수해야 하고, 그만큼 인력과 시간이 더 듭니다. 핵심 도메인 중에서도 <strong>일부는 그 복잡성만큼의 이점을 못 가져간 부분이 있어서, 솔직히 오버엔지니어링이었다는 생각이 듭니다</strong></li>
+          <li>결국 책임 분리가 명확한 레이어드가 도메인을 제대로 이해하지 않고 만든 헥사고날보다 낫다고 생각합니다. <strong>아키텍처 패턴보다 도메인 이해가 먼저입니다</strong></li>
         </ul>
       </div>
     </div>
