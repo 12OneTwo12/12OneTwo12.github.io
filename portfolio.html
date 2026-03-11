@@ -1925,8 +1925,10 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:10px;">
         <strong>무모했지만 가장 많이 성장한 시기였습니다:</strong>
-        DevOps가 퇴사하고 나서 자원해서 <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD)을 받았고, 그 후 <strong>19개 EC2·10개 노드를 7개월간 혼자 운영</strong>했습니다.
-        솔직히 무모했는데, 이때의 경험이 있었기에 부톡에서 K8s를 <strong>직접 설계하고 CTO님께 제안</strong>할 수 있었다고 생각합니다.
+        DevOps께서 퇴사하고 나서 자원해서 <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD)을 받았고, 그 후 <strong>19개 EC2·10개 노드를 7개월간 혼자 운영</strong>했습니다.
+        솔직히 무모했는데, 이때의 경험이 있었기에 부톡에서 K8s를 <strong>직접 설계하고 제안</strong>할 수 있었다고 생각합니다.
+        헬로핀테크에서 겪은 HikariCP Deadlock, Replication 지연, Batch Deadlock은 <strong>"모니터링 없이 트러블슈팅하는 것의 한계"</strong>를 체감하게 해줬고, 부톡 입사 첫 주에 Observability부터 제안한 배경이기도 합니다.
+        금융 도메인의 데이터 정합성 경험(MVCC 누락, Dual Write 검증)은 부톡의 MSA 무중단 전환에서 <strong>과도기 데이터 안전장치를 설계</strong>하는 데 직접적으로 연결됐습니다.
       </div>
     </div>
 
@@ -2314,6 +2316,8 @@ a:hover{text-decoration:underline;}
       <ul class="bl" style="margin-bottom:14px;line-height:1.5;">
         <li><strong class="bd"><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction">Git Flow 도입</a>:</strong> Cherry-pick 충돌 반복 → 실제 테스트 MR로 팀원이 직접 경험 후 합의 도출 → dev / staging / main 분리</li>
         <li><strong class="bd">Pn룰 코드리뷰:</strong> P1(반드시 수정) ~ P5(참고) 5단계로 리뷰 강도 명시화, 리뷰어-작성자 간 기대치 정렬</li>
+        <li><strong class="bd">MSA 전환 전략 합의:</strong> 초기 Strangler Fig 방식을 제안했으나, 레거시 코드 분석 후 핵심 도메인 강결합 문제를 팀에 공유. 팀 회의에서 "이건 기술이 아니라 전략의 문제"라는 결론을 함께 도출하고, 부분적 빅뱅 + Dual Write 방식으로 전환</li>
+        <li><strong class="bd">모듈러 모놀리식 전환 제안:</strong> GCP 크레딧 만료 예상 비용과 팀 규모 대비 MSA 운영 부담을 데이터로 정리하여 제안. 비용 시뮬레이션(월 ₩310만→₩197만)과 Pod 리소스 분석을 근거로 팀 합의 후 전환 진행</li>
       </ul>
 
       <h3 style="margin-bottom:6px;">Contact</h3>
