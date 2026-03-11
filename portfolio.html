@@ -243,16 +243,16 @@ a:hover{text-decoration:underline;}
   <div class="body" style="margin-top:10px;">
     <p class="bt" style="margin-bottom:10px;">
       입사해보니 EC2 단일 서버에 모든 게 올라가 있었습니다. 여기서부터 MSA + K8s를 거쳐 다시 모듈러 모놀리식까지 <strong class="bd">3단계 아키텍처 전환</strong>을 직접 제안하고 실행했습니다.
-      CTO님(아키텍처 리뷰·방향 결정) + 백엔드 2명(본인 + 동료) + 프론트 2명, <strong class="bd">2~5명이 전부인 팀</strong>에서 MSA 전환과 K8s 구축을 동시에 병행했습니다.
+      초기에는 CTO님(아키텍처 리뷰·방향 결정) + 백엔드 2명 + 프론트 2명이었지만, 8월 경영 악화로 CTO님 포함 주요 인원이 퇴사하면서 <strong class="bd">백엔드 1명(본인) + 프론트 1명</strong> 체제가 됐습니다. 이후 K8s 구축, 모듈러 전환, API 최적화 등은 이 인원으로 진행했습니다.
     </p>
 
     <div class="tl">
       <div class="ti"><div class="tdt">2025.03</div><div class="td"></div><div class="tt"><strong>EC2 단일 서버</strong><br>Docker Compose<br>OOM Kill · SPOF<br>롤백 30분+</div></div>
-      <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>Observability</strong><br>Docker Compose 기반<br>Logback→Loki 직접 전송<br>Prometheus Polling</div></div>
-      <div class="ti"><div class="tdt">2025.06</div><div class="td"></div><div class="tt"><strong>Migration & IaC</strong><br>200GB DB 무중단 이전<br>AWS DMS CDC<br>Terraform 도입</div></div>
-      <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>GKE 도입</strong><br>MSA 증가 → 단일 인스턴스 한계<br>GitOps 배포 체계 및 개발서버 도입<br>OTel Sidecar 전환</div></div>
+      <div class="ti"><div class="tdt">2025.04</div><div class="td"></div><div class="tt"><strong>Observability 제안·설계·도입</strong><br>Docker Compose 기반<br>Logback→Loki 직접 전송<br>Prometheus Polling</div></div>
+      <div class="ti"><div class="tdt">2025.06</div><div class="td"></div><div class="tt"><strong>IDC→Cloud Migration & IaC</strong><br>200GB DB 무중단 이전<br>AWS DMS CDC<br>서버 이전 및 Terraform 도입</div></div>
+      <div class="ti"><div class="tdt">2025.08</div><div class="td"></div><div class="tt"><strong>GKE 제안·설계·도입</strong><br>MSA 증가 → 단일 인스턴스 한계<br>GitOps 배포 체계 및 개발서버 도입<br>OTel Sidecar 전환</div></div>
       <div class="ti"><div class="tdt">2025.11</div><div class="td"></div><div class="tt"><strong>MSA 주요 전환</strong><br>주요 도메인 강결합 문제<br>Dual Write + 검증 배치<br>부분적 빅뱅방식</div></div>
-      <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>모듈러 모놀리식</strong><br>12서비스→1앱 통합<br>인프라 비용 36% 절감<br>월 310만원→197만원</div></div>
+      <div class="ti"><div class="tdt">2026.02</div><div class="td"></div><div class="tt"><strong>모듈러 모놀리식 설계·도입</strong><br>12서비스→1앱 통합<br>인프라 비용 36% 절감<br>월 310만원→197만원</div></div>
     </div>
 
     <div style="display:flex;gap:10px;margin-top:8px;">
