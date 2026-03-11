@@ -424,11 +424,6 @@ a:hover{text-decoration:underline;}
         <li><strong class="bd">DDD + 헥사고날 + CQS:</strong> Bounded Context 단위로 서비스를 분리하고, Aggregate Root를 통해서만 상태 변경을 허용(예: 매물 상태 변경은 반드시 Estate Aggregate를 거침). 핵심 도메인은 헥사고날, 단순 도메인은 레이어드로 선택 적용. 복제 테이블 조회 전용 → CQS 도출. 이 경계가 모듈러 전환 시 ModuleApi·Schema 분리의 기준</li>
       </ul>
 
-      <div class="sec">성과</div>
-      <ul class="bl">
-        <li>주요 도메인 <strong class="bd">무중단 MSA 전환</strong> — 다운타임 0분, 데이터 유실 0건 (일부 레거시 잔존)</li>
-        <li><strong class="bd">도메인 독립 배포</strong> → 서비스별 독립 배포·롤백 · 장애 격리 달성 (단일 서비스 장애가 전체에 전파되지 않는 구조)</li>
-      </ul>
     </div>
 
     <div class="c" style="flex:1.1;">
@@ -484,7 +479,13 @@ a:hover{text-decoration:underline;}
         <div style="text-align:center;font-size:10.5px;color:#c5221f;font-weight:600;margin-top:2px;">↑ 양방향 순환 의존 — 하나만 분리 시 나머지 작동 불가</div>
       </div>
 
-      <div class="ib" style="margin-top:6px;">
+      <div class="sec">성과</div>
+      <ul class="bl">
+        <li>주요 도메인 <strong class="bd">무중단 MSA 전환</strong> — 다운타임 0분, 데이터 유실 0건 (일부 레거시 잔존)</li>
+        <li><strong class="bd">도메인 독립 배포</strong> → 서비스별 독립 배포·롤백 · 장애 격리 달성 (단일 서비스 장애가 전체에 전파되지 않는 구조)</li>
+      </ul>
+
+      <div class="ib" style="margin-top:14px;">
         <strong>"DDD와 헥사고날 — 돌이켜보면"</strong>
         <ul style="margin:3px 0 0;padding-left:14px;line-height:1.6;">
           <li>DDD는 도메인을 제대로 이해하지 못한 상태에서 적용하면 오히려 복잡하기만 한 구조가 된다고 생각하는데, 핵심 도메인은 결합이 강하고 경계가 명확해야 해서 그 비용을 들일 만했지만 단순한 도메인까지 같은 비용을 쓸 필요는 없다고 판단해서 레이어드로 나눴습니다</li>
