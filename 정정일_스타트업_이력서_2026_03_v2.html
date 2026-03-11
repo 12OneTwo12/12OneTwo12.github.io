@@ -473,9 +473,9 @@
         <section class="section" style="margin-bottom: 10px;">
             <h2 class="section-title">Profile</h2>
             <p class="profile-text">
-                <strong>근본 원인을 추적하되, 필요하면 결정을 되돌리는 판단력</strong>을 갖춘 3년차 백엔드 개발자입니다.<br>
-                주요 도메인 MSA 무중단 전환 → 모듈러 모놀리식 재전환, K8s 인프라·모니터링, LLM 기반 AI 매물 추천까지 직접 제안하고 실행했습니다.<br>
-                <strong>핵심 API P95 99% 개선</strong>(4초→50ms), <strong>장애 인지 98% 단축</strong>(1시간→1분), <strong>인프라 비용 36% 절감</strong>을 달성했습니다.
+                EC2 단일 서버에서 MSA, 다시 모듈러 모놀리식까지 — <strong>팀 규모에 맞는 아키텍처를 고민하는</strong> 3년차 백엔드 개발자입니다.<br>
+                주요 도메인 MSA 무중단 전환 → 모듈러 모놀리식 재전환, K8s 인프라·모니터링, LLM 기반 AI 매물 추천까지 팀과 합의하여 제안하고 실행했습니다.<br>
+                <strong>핵심 API P95 4,045ms→50ms</strong>, <strong>장애 인지 1시간→1분 이내</strong>, <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만)을 달성했습니다.
             </p>
         </section>
 
@@ -530,12 +530,12 @@
                             <!-- 임펙트 상대적으로 약해서 주석처리 (멀티모듈 전환) <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li> -->
                             <li>MSA 전환 중 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace">MySQL Collation 불일치로 프로시저 8배 성능 저하</a> 진단 → <strong>109개 테이블 MyISAM→InnoDB 전환</strong>, utf8mb4 통일로 근본 해결</li>
                             <li>운영 복잡도·인프라 비용 최적화를 위해 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a> 설계·실행 (3→1명 운영 체제 전환)</li>
-                            <li>주요 API(부동산 매물 상세조회, <strong>피크 568 req/s</strong>) 병목 진단 → <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">쿼리 최적화·병렬 처리·Redis 캐싱으로 P95 99% 개선</a>(4,045ms→50ms)</li>
+                            <li>주요 API(부동산 매물 상세조회) 병목 진단 → <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">쿼리 최적화·병렬 처리·Redis 캐싱으로 P95 4,045ms→50ms</a>(Grafana 운영 메트릭 기준)</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li>주요 도메인 <strong>무중단</strong> MSA 전환 (일부 레거시 잔존), 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
-                            <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만, 연 ₩1,350만), <a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">CI 84% 단축</a>(45분→7분), 공통 변경 PR: 16개→<strong>1개</strong></li>
+                            <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 월 ₩310만→₩197만</strong>(연 ₩1,350만 절감), <a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">CI 45분→7분</a>, 공통 변경 PR: 16개→<strong>1개</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -546,7 +546,7 @@
                         <span class="project-title">Kubernetes 인프라 및 모니터링 시스템 구축</span>
                         <span class="project-period">2025.04 – 2025.08 · 1명</span>
                     </div>
-                    <div class="project-summary"><span>단일 VM에서 Kubernetes로 전환 및 Grafana LGTM Stack 모니터링 시스템 구축</span><span class="project-role">인프라 설계/구축 전담</span></div>
+                    <div class="project-summary"><span>단일 VM에서 Kubernetes로 전환 및 Grafana LGTM Stack 모니터링 시스템 구축</span><span class="project-role">인프라 설계·구축 주도 (DevOps 부재)</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -563,8 +563,8 @@
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li><strong>장애 인지 시간 98% 단축</strong>(1시간→1분), 롤백 83% 단축(12분→2분), 배포 67% 단축(15분→5분), 개발서버 도입</li>
-                            <li><strong>무중단 배포</strong> 체계, <strong>자동 스케일링·회복 탄력성</strong> 확보, JVM Cold Start <strong>85% 개선</strong>(1.2초→150ms)</li>
+                            <li><strong>장애 인지 시간 1시간→1분 이내</strong>, 롤백 12분→2분, 배포 15분→5분, 개발서버 도입</li>
+                            <li><strong>무중단 배포</strong> 체계, <strong>자동 스케일링·회복 탄력성</strong> 확보, JVM Cold Start <strong>1.2초→150ms</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -575,7 +575,7 @@
                         <span class="project-title">자연어 기반 AI 부동산 매물 추천 시스템 (<a href="https://bootalk.co.kr/ai/chat" style="color: #0066cc;">서비스</a>)</span>
                         <span class="project-period">2025.08 – 현재 · 3명 팀</span>
                     </div>
-                    <div class="project-summary"><span>자연어 기반 AI 부동산 매물 추천 시스템 설계·개발·아키텍처 개선</span><span class="project-role">백엔드 전담</span></div>
+                    <div class="project-summary"><span>자연어 기반 AI 부동산 매물 추천 시스템 설계·개발·아키텍처 개선</span><span class="project-role">백엔드 설계·개발 (프론트·기획과 협업)</span></div>
                     <div class="project-content">
                         <ul class="detail-list">
                             <li>자연어 매물 검색 부재 → LLM + ES Geo-search 파이프라인 + Spring Batch 일배치로 역·학교·병원 등 위치 데이터 인덱싱 자동화 → <strong>AI 매물 추천</strong> 런칭</li>
@@ -606,7 +606,7 @@
                         <span class="project-title">백오피스 서버 마이그레이션 및 성능 최적화, 트러블슈팅</span>
                         <span class="project-period">2023.04 – 2025.03 · 2~6명 팀</span>
                     </div>
-                    <div class="project-summary"><span>PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선 및 장애 대응</span><span class="project-role">성능 최적화 및 트러블슈팅 담당</span></div>
+                    <div class="project-summary"><span>PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선 및 장애 대응</span><span class="project-role">성능 최적화 및 트러블슈팅 주도</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -618,11 +618,11 @@
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis">HikariCP Deadlock 해결</a> – OSIV+JPA+MyBatis 2 Connection 점유 원인 파악, 영향 최소화 위해 <strong>JPA 일원화</strong> 선택</li>
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag">Replication 지연 해결</a> – 쓰기 직후 조회만 Master 라우팅하는 AOP로 <strong>일관성/성능 균형</strong> 확보</li>
                             <li>주택 시세 외부 API(평균 5.1초) 병목 → <a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf">Look-aside Cache 적용</a>, <strong>호출 76% 감소</strong>, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
-                            <li><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction">Git Flow 도입 제안</a> – Cherry-pick 충돌 사례 시각화로 팀 설득, Pn룰 코드리뷰 도입</li>
+                            <li><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction">Git Flow 도입 제안</a> – Cherry-pick 충돌 사례를 테스트 MR로 시각화하여 팀 합의 도출, Pn룰 코드리뷰 정착</li>
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li><strong>API 응답속도 87% 개선</strong>(10.3초→1.3초), Deadlock 및 Replication 지연 문제 완전 해결</li>
+                            <li><strong>API 응답속도 10.3초→1.3초</strong>, Deadlock 및 Replication 지연 문제 완전 해결</li>
                         </ul>
                     </div>
                 </div>
@@ -633,7 +633,7 @@
                         <span class="project-title">서비스 인프라 운영 및 유지보수</span>
                         <span class="project-period">2023.12 – 2024.09 · 1명</span>
                     </div>
-                    <div class="project-summary"><span>DevOps 공백 기간 클라우드 기반 서버 인프라 운영</span><span class="project-role">인프라 운영 전담</span></div>
+                    <div class="project-summary"><span>DevOps 공백 기간 클라우드 기반 서버 인프라 운영</span><span class="project-role">인프라 운영 주도 (퇴사자 인수인계 후)</span></div>
                     <div class="project-content">
                         <ul class="detail-list">
                             <li>DevOps 공백 6개월간 <strong>19개 인스턴스</strong> 전담 운영(10노드, 3웹서버, 9WAS, 2DB), <strong>Redis Session Clustering</strong> 도입으로 세션 유실 해결 → 운영 공백 기간 <strong>안정적 인프라 유지</strong> 및 <strong>사용자 경험 개선</strong></li>
@@ -647,7 +647,7 @@
                         <span class="project-title">Spring Batch 마이그레이션 및 성능 최적화</span>
                         <span class="project-period">2023.05 – 2024.12 · 4~6명 팀</span>
                     </div>
-                    <div class="project-summary"><span>PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선</span><span class="project-role">배치 시스템 전환 및 성능 최적화 설계 담당</span></div>
+                    <div class="project-summary"><span>PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선</span><span class="project-role">배치 전환 설계 주도</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -661,7 +661,7 @@
                         </ul>
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li>마이그레이션 완료 및 <strong>배치 처리시간 64% 단축</strong>(13.3분→4.8분), 트랜잭션 락 점유: 22분 → <strong>0.01초</strong></li>
+                            <li>마이그레이션 완료 및 <strong>배치 처리시간 13.3분→4.8분</strong>, 트랜잭션 락 점유: 22분 → <strong>0.01초</strong></li>
                         </ul>
                     </div>
                 </div>

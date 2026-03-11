@@ -125,7 +125,7 @@ a:hover{text-decoration:underline;}
   <div class="sub" style="margin-top:8px;font-size:20px;">Backend Developer Portfolio</div>
   <div style="font-size:13px;color:#888;margin-top:16px;line-height:1.6;">
     EC2 단일 서버에서 MSA, 그리고 다시 모듈러 모놀리식까지<br>
-    주요 도메인 MSA 무중단 전환 · API P95 4초→50ms(99%↓) · JVM Cold Start 85%↓ · 배치 64%↓ · 장애 인지 1시간→1분 · CKA<br>
+    주요 도메인 MSA 무중단 전환 · API P95 4,045ms→50ms · JVM Cold Start 1.2초→150ms · 배치 13.3분→4.8분 · 장애 인지 1시간→1분 · CKA<br>
     2~3명이 전부인 팀에서 직접 부딪히며 배운 것들을 정리했습니다
   </div>
   <div style="font-size:12px;color:#999;margin-top:28px;">
@@ -148,7 +148,7 @@ a:hover{text-decoration:underline;}
       <span></span><span style="padding-left:16px;color:#666;">2-2. 모놀리식 → MSA 전환 <span class="sm">— 무중단 아키텍처 전환, 부분적 빅뱅 전략</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-3. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-4. MSA → 모듈러 모놀리식 전환 <span class="sm">— 12서비스→1앱, 인프라 비용 36%↓</span></span>
-      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ API P95 99% 개선 <span class="sm">— 4,045ms→50ms, 쿼리·병렬·캐싱 3단계</span></span>
+      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ API P95 4,045ms→50ms <span class="sm">— 쿼리·병렬·캐싱 3단계</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ MySQL Collation 진단 & DB 마이그레이션 <span class="sm">— 109개 테이블, 8배 성능 저하 해결</span></span>
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ CI/CD 빌드 최적화 <span class="sm">— 45분→7분, 과거 내가 만든 병목부터 해결</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-5. DevOps 없이 K8s 직접 구축 <span class="sm">— GKE, GitHub Actions, JVM 최적화</span></span>
@@ -157,7 +157,7 @@ a:hover{text-decoration:underline;}
       <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 온프레미스 → AWS 무중단 마이그레이션 <span class="sm">— 200GB CDC, Terraform IaC</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-6. 자연어 AI 매물 추천 시스템 <span class="sm">— DAG 아키텍처, ES 도메인 스코어링, Spring Batch</span></span>
       <span></span><span style="padding-left:16px;color:#666;">2-7. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-8. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 64% 단축</span></span>
+      <span></span><span style="padding-left:16px;color:#666;">2-8. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 13.3분→4.8분</span></span>
       <span class="bd">3.</span><span>Side Project</span>
       <span></span><span style="padding-left:16px;color:#666;">3-1. Upvy <span class="sm">— AI 숏폼 영상 플랫폼, 1인 개발 · App Store/Play Store 출시</span></span>
       <span></span><span style="padding-left:16px;color:#666;">3-2. Error Autopilot <span class="sm">— AI 에러 자동 대응 시스템, MCP → OpenClaw 진화</span></span>
@@ -219,8 +219,8 @@ a:hover{text-decoration:underline;}
       <ul style="padding-left:18px;font-size:14px;color:#555;line-height:2.2;margin:0 0 36px;">
         <li>주요 도메인 MSA 무중단 전환 (다운타임 0분, 데이터 유실 0건, 일부 레거시 잔존)</li>
         <li>장애 인지 시간 1시간 이상→1분 이내 (모니터링 도입, CS 의존 탈피)</li>
-        <li>핵심 API P95 4,045ms→50ms (쿼리 최적화·병렬·캐싱, Grafana 메트릭 기준)</li>
-        <li>JVM Cold Start 85% 개선 (1.2초→150ms) · 배치 64% 단축 (13분→4.8분)</li>
+        <li>핵심 API P95 4,045ms→50ms (쿼리 최적화·병렬·캐싱, Grafana 운영 메트릭 기준)</li>
+        <li>JVM Cold Start 1.2초→150ms · 배치 처리시간 13.3분→4.8분</li>
         <li>품질 게이트 도입 — Detekt + JaCoCo(PR 변경분 50%↑) + ReviewDog 자동 리뷰</li>
       </ul>
 
@@ -330,18 +330,18 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">인프라</td><td>EC2 단일 인스턴스 (SPOF)</td><td class="w">GKE 2 Cluster (dev/prod)</td></tr>
         <tr><td class="bd">서비스</td><td>MSA 전환 중 (단일 EC2 집중)</td><td class="w">모듈러 모놀리식 (12→1앱 통합)</td></tr>
         <tr><td class="bd">장애 인지</td><td>CS 접수 의존 (1시간+)</td><td class="w">실시간 알림 (1분 이내)</td></tr>
-        <tr><td class="bd">롤백</td><td>수동 배포 12분 (SSH + 재빌드)</td><td class="w">GitOps 선언적 롤백 2분 (83% 단축)</td></tr>
+        <tr><td class="bd">롤백</td><td>수동 배포 12분 (SSH + 재빌드)</td><td class="w">GitOps 선언적 롤백 2분</td></tr>
         <tr><td class="bd">모니터링</td><td>CloudWatch (기본)</td><td class="w">Grafana LGTM Stack ($12~37/월)</td></tr>
-        <tr><td class="bd">배포</td><td>SSH + Docker Compose (15분)</td><td class="w">GitHub Actions + ArgoCD (5분, 67% 단축)</td></tr>
+        <tr><td class="bd">배포</td><td>SSH + Docker Compose (15분)</td><td class="w">GitHub Actions + ArgoCD (5분)</td></tr>
         <tr><td class="bd">마이그레이션</td><td>온프레미스 서버</td><td class="w">200GB DB, AWS DMS CDC 무중단 이전</td></tr>
         <tr><td class="bd">IaC</td><td>수동 콘솔 설정</td><td class="w">Terraform 코드화, 재현성 확보</td></tr>
-        <tr><td class="bd">인프라 비용</td><td>GCP 크레딧 (월 ₩310만)</td><td style="color:#137333;font-weight:600;">모듈러 전환 후 월 ₩197만 (36%↓, 연 ₩1,350만 절감)</td></tr>
-        <tr><td class="bd">API 성능</td><td>P95 4,045ms (레거시 쿼리)</td><td class="w">P95 50ms (99%↓, Grafana 메트릭 기준)</td></tr>
+        <tr><td class="bd">인프라 비용</td><td>GCP 크레딧 (월 ₩310만)</td><td style="color:#137333;font-weight:600;">모듈러 전환 후 월 ₩197만 (연 ₩1,350만 절감)</td></tr>
+        <tr><td class="bd">API 성능</td><td>P95 4,045ms (레거시 쿼리)</td><td class="w">P95 50ms (Grafana 메트릭 기준)</td></tr>
       </table>
       <div class="ib" style="flex:1;">
         <strong>솔직히 돌이켜보면:</strong><br>
         모든 전환은 "이 기술 써보고 싶다"가 아니라 <strong>운영하다 보니 안 되겠다</strong> 싶어서 시작한 것들이었습니다.
-        저는 MSA 5개 서비스 설계·구현, 인프라 전담, 성능 최적화를 맡았습니다.<br><br>
+        저는 MSA 5개 서비스 설계·구현, 인프라 구축, 성능 최적화를 맡았습니다.<br><br>
         <strong>다시 한다면:</strong> 모니터링을 전환 초기부터 구축했을 것 같고, 모듈러 모놀리식 단계를 더 오래 유지했을 것 같습니다. DMS CDC 대신 Debezium도 검토했을 것 같습니다(비용 때문에).
       </div>
     </div>
@@ -702,7 +702,7 @@ a:hover{text-decoration:underline;}
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주)</td></tr>
         <tr><td class="l">기간</td><td class="v">2026.01 ~ 2026.02 (2개월)</td></tr>
-        <tr><td class="l">역할</td><td class="v">아키텍처 재설계 제안 및 전환 전담</td></tr>
+        <tr><td class="l">역할</td><td class="v">아키텍처 재설계 제안 및 전환 주도 (대표·프론트 개발자와 합의)</td></tr>
         <tr><td class="l">기술스택</td><td class="v">Kotlin, Spring Boot, Gradle 멀티모듈</td></tr>
       </table>
 
@@ -781,9 +781,9 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li><strong class="bd">Pod 75% 감소</strong> (26+개→5~7개) — 12 JVM → 1 JVM + notification 별도, <strong>인프라 비용 36% 절감</strong> (월 ₩310만→₩197만, 연 ₩1,350만 절감). 동일 트래픽(피크 568 req/s) · 동일 요금제 기준, Compute Engine 일비용 ₩96,505→₩58,768</li>
+        <li><strong class="bd">Pod 75% 감소</strong> (26+개→5~7개) — 12 JVM → 1 JVM + notification 별도, <strong>인프라 비용 월 ₩310만→₩197만</strong>(연 ₩1,350만 절감). 동일 트래픽·동일 요금제 기준, Compute Engine 일비용 ₩96,505→₩58,768</li>
         <li>FeignClient → <strong class="bd">ModuleApi 9개 인터페이스</strong> 설계 — 네트워크 호출 제거, .data!! 언래핑 일괄 제거</li>
-        <li>CI/CD <strong class="bd">84% 단축</strong> (45분→7분, 66파일 수정) — 상세 내용은 p.15 CI/CD 빌드 최적화 슬라이드 참조</li>
+        <li>CI/CD <strong class="bd">45분→7분</strong> (66파일 수정) — 상세 내용은 p.15 CI/CD 빌드 최적화 슬라이드 참조</li>
         <li>11개 Schema·EntityManager·TM 분리 유지 — 필요 시 다시 MSA로 분리 가능</li>
       </ul>
 
@@ -810,7 +810,7 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 7-2: API 성능 최적화 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(4-1) 핵심 API P95 99% 개선 — 4,045ms → 50ms</div>
+  <div class="st">(4-1) 핵심 API P95 4,045ms → 50ms</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">12</span>
   <div class="tc" style="margin-top:6px;flex:1;">
@@ -818,7 +818,7 @@ a:hover{text-decoration:underline;}
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — 부동산 매물 상세조회 API (피크 568 req/s, 일 4,900만 건)</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.12 ~ 2026.01 (약 10일 집중 작업)</td></tr>
-        <tr><td class="l">역할</td><td class="v">병목 진단, 쿼리 최적화, 캐싱 설계 전담</td></tr>
+        <tr><td class="l">역할</td><td class="v">병목 진단, 쿼리 최적화, 캐싱 설계 주도</td></tr>
         <tr><td class="l">측정 도구</td><td class="v">Prometheus + Grafana 운영 메트릭 (P50/P95/P99), Tempo 분산 트레이싱</td></tr>
       </table>
 
@@ -851,13 +851,13 @@ a:hover{text-decoration:underline;}
             <span style="display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;">3</span>
             <strong class="bd" style="font-size:12px;">Redis Cache-Aside 캐싱</strong>
           </div>
-          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;"><span class="bd">TTL Jitter로 Cache Stampede 방지</span>, 비동기 저장 (SupervisorJob), Redis 장애 시 DB 폴백<br>결과: 기본정보 P95 <strong>4,045ms→50ms (99%↓)</strong> / 편의시설 P95 <strong>4,840ms→168ms (97%↓)</strong></div>
+          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;"><span class="bd">TTL Jitter로 Cache Stampede 방지</span>, 비동기 저장 (SupervisorJob), Redis 장애 시 DB 폴백<br>결과: 기본정보 P95 <strong>4,045ms→50ms</strong> / 편의시설 P95 <strong>4,840ms→168ms</strong></div>
         </div>
       </div>
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>핵심 API P95 <strong class="bd">4,045ms → 50ms</strong> (568 req/s 운영 트래픽, Grafana P95 메트릭 기준)</li>
+        <li>핵심 API P95 <strong class="bd">4,045ms → 50ms</strong> (Grafana 운영 메트릭 기준, 피크 568 req/s)</li>
         <li>Micrometer 기반 <strong class="bd">캐시 히트율 모니터링 대시보드</strong> 구축, P95 임계치 초과 시 <strong class="bd">Grafana Alert</strong></li>
       </ul>
     </div>
@@ -892,7 +892,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="dg" style="margin-top:8px;">
-        <div class="dl">배치 N+1 해결 — Reader 2,400배 개선</div>
+        <div class="dl">배치 N+1 해결 — Reader 35.6초 → 15ms</div>
         <div style="display:flex;gap:8px;align-items:start;">
           <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:6px;background:#fff;">
             <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:3px;">BEFORE</div>
@@ -901,7 +901,7 @@ a:hover{text-decoration:underline;}
           <div style="display:flex;align-items:center;padding-top:16px;font-size:16px;color:#999;">→</div>
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:6px;background:#fff;">
             <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:3px;">AFTER</div>
-            <div style="font-size:10.5px;color:#555;text-align:center;line-height:1.4;">1페이지 <strong>15ms</strong> (2,400배)<br>쿼리수 <strong>2개</strong> (2,000배)<br>전체 <strong>~21분</strong></div>
+            <div style="font-size:10.5px;color:#555;text-align:center;line-height:1.4;">1페이지 <strong>35.6초→15ms</strong><br>쿼리수 <strong>~4,001→2개</strong><br>전체 <strong>~50분→21분</strong></div>
           </div>
         </div>
       </div>
@@ -1120,7 +1120,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>CI 빌드 시간 <strong class="bd">84% 단축</strong> (45분 31초 → 7분 8초), <strong class="bd">66개 파일 수정</strong></li>
+        <li>CI 빌드 시간 <strong class="bd">45분 31초 → 7분 8초</strong>, <strong class="bd">66개 파일 수정</strong></li>
         <li>최적화 과정에서 <strong class="bd">숨겨진 버그 2건 발견</strong> — @Qualifier Bean 충돌, URL 마이그레이션 후 orphan 테스트</li>
       </ul>
 
@@ -1179,7 +1179,7 @@ a:hover{text-decoration:underline;}
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주)</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.05 ~ 2025.08 (3개월)</td></tr>
-        <tr><td class="l">역할</td><td class="v">인프라 아키텍처 설계 및 구축 전담 (GKE 도입 제안 → CI/CD → OTel Sidecar 전환)</td></tr>
+        <tr><td class="l">역할</td><td class="v">인프라 아키텍처 설계·구축 주도 (GKE 도입 제안 → CI/CD → OTel Sidecar 전환, DevOps 부재 환경)</td></tr>
         <tr><td class="l">기술스택</td><td class="v">GKE, ArgoCD, GitHub Actions, Terraform</td></tr>
         <tr><td class="l">인프라 규모</td><td class="v">GKE 2 Cluster (dev/prod) · 14개 서비스 Pod</td></tr>
       </table>
@@ -1200,8 +1200,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>롤백 <strong class="bd">83% 단축</strong> (12분→2분), 배포 <strong class="bd">67% 단축</strong> (15분→5분) → GitOps 기반 선언적 배포·롤백</li>
-        <li>JVM Cold Start <strong class="bd">85% 개선</strong> (1.2~1.4초→150~230ms) → startupProbe + WarmupHealthIndicator</li>
+        <li>롤백 <strong class="bd">12분→2분</strong>, 배포 <strong class="bd">15분→5분</strong> → GitOps 기반 선언적 배포·롤백</li>
+        <li>JVM Cold Start <strong class="bd">1.2~1.4초→150~230ms</strong> → startupProbe + WarmupHealthIndicator</li>
       </ul>
 
       <div class="ib" style="margin-top:10px;">
@@ -1246,7 +1246,7 @@ a:hover{text-decoration:underline;}
         <strong><a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" style="color:#1a73e8;text-decoration:none;">JVM Cold Start가 생각보다 쉽지 않았습니다</a>:</strong>
         K8s 배포 후 첫 API 응답이 1,190~1,390ms (7~14배↑)나 나왔거든요. BlaBlaCar 사례를 참고해서
         <strong>WarmupHealthIndicator로 주요 API를 10회씩 사전 호출</strong>했는데 초기 CPU limit 1000m에서는 별 효과가 없었습니다.
-        알고 보니 <strong>JIT 컴파일에 ~3배 CPU가 필요</strong>했고, limit을 1800m으로 올리니까 <strong>150~230ms (85% 개선)</strong>가 됐습니다.
+        알고 보니 <strong>JIT 컴파일에 ~3배 CPU가 필요</strong>했고, limit을 1800m으로 올리니까 <strong>150~230ms</strong>가 됐습니다.
       </div>
 
       <div class="rb" style="margin-top:8px;">
@@ -1349,7 +1349,7 @@ a:hover{text-decoration:underline;}
       <div class="sec">성과</div>
       <ul class="bl">
         <li>장애 인지 시간 <strong class="bd">1시간 이상→1분 이내</strong> (모니터링 도입 전 CS 100% 의존 → Telegram 실시간 알림으로 선제 대응)</li>
-        <li>Grafana LGTM Stack으로 <strong class="bd">ELK 대비 월 $92~200→$12~37</strong> 비용 절감</li>
+        <li>Grafana LGTM Stack으로 <strong class="bd">월 $12~37</strong>에 운영 (ELK 기준 $92~200)</li>
         <li>Telegram 알림 + Runbook 연동 → 장애 유형별 <strong class="bd">표준 대응 절차</strong> 확보</li>
       </ul>
 
@@ -1543,7 +1543,7 @@ a:hover{text-decoration:underline;}
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주)</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.08 ~ 현재</td></tr>
-        <tr><td class="l">역할</td><td class="v">자연어 AI 매물 추천 시스템 전담 설계·개발·아키텍처 개선</td></tr>
+        <tr><td class="l">역할</td><td class="v">자연어 AI 매물 추천 시스템 설계·개발·아키텍처 개선 (프론트·기획과 협업, 백엔드 주도)</td></tr>
         <tr><td class="l">기술스택</td><td class="v">OpenAI GPT (JSON mode), Elasticsearch function_score, Kahn's Algorithm, Spring Batch, SSE</td></tr>
       </table>
 
@@ -1826,7 +1826,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><strong class="bd">문제:</strong> 외부 API 평균 5,132ms (최대 9,412ms) → 사용자 이탈 임계치(3초) 초과</li>
         <li><strong class="bd">판단:</strong> 사용자 주소 예측 불가→Warm-up 불가 → <span class="hl"><a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf">Look-aside</a></span> 선택. 임시저장 시 동일 주소 반복 조회→높은 히트율 기대</li>
-        <li><strong class="bd">성과:</strong> 평균 응답 <strong class="bd">74.7%↓</strong> (5,132→1,299ms, Cache Hit 57ms), API 호출 <strong class="bd">76%↓</strong>. 동적 TTL: 외부 API 갱신(목요일 23:30)까지 남은 초 계산. Admin은 <strong>noCache</strong>로 우회</li>
+        <li><strong class="bd">성과:</strong> 평균 응답 <strong class="bd">5,132→1,299ms</strong> (Cache Hit 시 57ms), API 호출 76% 감소. 동적 TTL: 외부 API 갱신(목요일 23:30)까지 남은 초 계산. Admin은 <strong>noCache</strong>로 우회</li>
       </ul>
 
       <div class="sec" style="margin-top:4px;"><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag">DB Replication Lag</a> — 일관성 vs 성능</div>
@@ -1882,7 +1882,7 @@ a:hover{text-decoration:underline;}
     </div>
   </div>
   <div class="rb" style="margin-top:4px;font-size:11px;">
-    <strong>종합 성과 (개별 검증 가능):</strong> ① HikariCP Deadlock 해결 → Pool 40/40 포화 제거 · ② 평균 응답 <strong>74.7%↓</strong> (5,132→1,299ms, Cache Hit 시 57ms), 호출 <strong>76%↓</strong> · ③ Replication Lag → 핵심 서비스 정합성 확보. 3가지 복합 적용 후 전체 API 응답 <strong>10.3초→1.3초</strong>
+    <strong>종합 성과 (개별 검증 가능):</strong> ① HikariCP Deadlock 해결 → Pool 40/40 포화 제거 · ② 평균 응답 <strong>5,132→1,299ms</strong> (Cache Hit 시 57ms), 호출 76% 감소 · ③ Replication Lag → 핵심 서비스 정합성 확보. 3가지 복합 적용 후 전체 API 응답 <strong>10.3초→1.3초</strong>
   </div>
 </div></div>
 
@@ -1918,8 +1918,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>배치 처리 시간 <strong class="bd">64% 단축</strong> (13.3분 → 4.8분) → 후속 배치 충돌 해소, 새벽 운영 안정화</li>
-        <li>Row당 처리 시간 <strong class="bd">80% 단축</strong> (3.74초 → 0.72초) · 트랜잭션 락 점유 <strong class="bd">22분 → 0.01초</strong></li>
+        <li>배치 처리 시간 <strong class="bd">13.3분 → 4.8분</strong> → 후속 배치 충돌 해소, 새벽 운영 안정화</li>
+        <li>Row당 처리 시간 <strong class="bd">3.74초 → 0.72초</strong> · 트랜잭션 락 점유 <strong class="bd">22분 → 0.01초</strong></li>
         <li>Metadata Deadlock <strong class="bd">완전 해결</strong> → Job 동시 실행 안정성 확보</li>
       </ul>
 
@@ -1994,7 +1994,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="rb" style="margin-top:6px;">
-        <strong>종합 성과:</strong> 배치 처리 <strong>64% 단축</strong> (13.3분→4.8분) · Row당 <strong>80% 단축</strong> · 락 점유 <strong>22분→0.01초</strong> · Metadata Deadlock <strong>완전 해결</strong> · 금융 서비스 새벽 배치 안정성 확보
+        <strong>종합 성과:</strong> 배치 처리 <strong>13.3분→4.8분</strong> · Row당 <strong>3.74초→0.72초</strong> · 락 점유 <strong>22분→0.01초</strong> · Metadata Deadlock <strong>완전 해결</strong> · 금융 서비스 새벽 배치 안정성 확보
       </div>
     </div>
   </div>
@@ -2288,8 +2288,8 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div style="border-left:3px solid #333;padding:4px 0 4px 12px;margin-bottom:6px;">
-        <div style="font-size:12.5px;font-weight:700;color:#222;">"AI는 적극 활용하되, 대체 안 되는 역량을 키우려 합니다."</div>
-        <p class="bt" style="margin-top:2px;">MCP 에러 자동 대응 파이프라인을 직접 만들어보면서, <strong class="bd">아키텍처 설계와 근본 원인 분석</strong>처럼 AI가 쉽게 대체하기 어려운 부분에 더 집중해야겠다고 느꼈습니다.</p>
+        <div style="font-size:12.5px;font-weight:700;color:#222;">"AI로 에러 대응을 자동화하고, 저는 아키텍처에 집중합니다."</div>
+        <p class="bt" style="margin-top:2px;">Error Autopilot으로 에러 인지→분석→PR을 완전 자동화한 경험에서, <strong class="bd">AI가 반복 작업을 처리하는 동안 근본 원인 분석과 아키텍처 설계에 시간을 쓰는 것</strong>이 1인 백엔드의 현실적인 전략이라고 느꼈습니다.</p>
       </div>
 
       <div class="rb" style="margin-top:auto;padding:8px 16px;text-align:center;">
@@ -2328,14 +2328,14 @@ a:hover{text-decoration:underline;}
         <tr><th>프로젝트</th><th>핵심 판단 & 성과</th></tr>
         <tr><td class="bd">MSA 전환</td><td>강결합→부분적 빅뱅 전략 선택, 무중단 전환, 8개월 불일치 0건</td></tr>
         <tr><td class="bd">멀티모듈</td><td>:common 비대화 실패→재설계, 16→1 레포</td></tr>
-        <tr><td class="bd">모듈러 모놀리식</td><td>"MSA는 과했다" 판단, 인프라 비용 36%↓, CI 84%↓</td></tr>
-        <tr><td class="bd">API 성능 최적화</td><td>Non-sargable→Sargable 전환, P95 4초→50ms(99%↓)</td></tr>
+        <tr><td class="bd">모듈러 모놀리식</td><td>"MSA는 과했다" 판단, 인프라 월 ₩310만→₩197만, CI 45분→7분</td></tr>
+        <tr><td class="bd">API 성능 최적화</td><td>Non-sargable→Sargable 전환, P95 4,045ms→50ms</td></tr>
         <tr><td class="bd">MySQL Collation</td><td>3가설 검증→utf8mb3 원인 규명, 109테이블 InnoDB 전환</td></tr>
-        <tr><td class="bd">K8s & 모니터링</td><td>LGTM 비용 87%↓, 장애 인지 1시간→1분 이내</td></tr>
+        <tr><td class="bd">K8s & 모니터링</td><td>LGTM $12~37/월 운영, 장애 인지 1시간→1분 이내</td></tr>
         <tr><td class="bd">DB 마이그레이션</td><td>5가지 방식 비교→CDC 선택, 무중단 200GB</td></tr>
-        <tr><td class="bd">매물 추천</td><td>Manticore→ES 재평가, 자연어 검색 출시, DAG 전환(LLM 3→2회), 도메인 스코어링, N+1 제거(300→7쿼리)</td></tr>
+        <tr><td class="bd">매물 추천</td><td>Manticore→ES 재평가, 자연어 검색 출시, DAG 전환(LLM 3→2회), 도메인 스코어링, N+1 해결(35.6초→15ms)</td></tr>
         <tr><td class="bd">백오피스</td><td>Pod 축소→잠재 버그 표면화, OSIV+JPA/MyBatis 데드락 규명</td></tr>
-        <tr><td class="bd">Batch</td><td>MVCC 누락 발견→Chunk 전환, 64%↓</td></tr>
+        <tr><td class="bd">Batch</td><td>MVCC 누락 발견→Chunk 전환, 13.3분→4.8분</td></tr>
         <tr><td class="bd">Upvy</td><td>1인 풀스택, WebFlux+R2DBC, AI 파이프라인, App Store/Play Store 출시</td></tr>
         <tr><td class="bd">Error Autopilot</td><td>MCP→OpenClaw 진화, 에러 인지→PR 완전 자동화</td></tr>
       </table>
