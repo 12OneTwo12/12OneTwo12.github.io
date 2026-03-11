@@ -404,7 +404,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>일부 서비스는 이미 MSA로 분리 완료 상태. <strong class="bd">핵심 도메인(매물, 매칭 등)은 레거시에 강결합</strong></li>
+        <li>합류했을 때 느슨한 서비스(알림·이벤트)는 이미 분리가 끝나 있었는데, <strong class="bd">핵심 도메인(매물, 매칭, 중개사)은 양방향 강결합</strong>으로 손도 못 댄 상태였습니다</li>
+        <li>매물 도메인 분리를 시작하려고 레거시 코드를 열어보니, <strong class="bd">매칭 로직이 매물 테이블을 직접 JOIN</strong>하는 구조 → Strangler Fig(점진적 전환)가 불가능한 구조</li>
         <li>하나의 도메인 변경이 전체 배포·장애 전파를 유발 · 공통 코드 16개 레포에 중복 관리</li>
       </ul>
 
@@ -481,16 +482,6 @@ a:hover{text-decoration:underline;}
           <div class="db er ds" style="padding:8px 10px;font-weight:700;">중개사<br><span style="font-weight:400;font-size:10.5px;">매물 관리</span></div>
         </div>
         <div style="text-align:center;font-size:10.5px;color:#c5221f;font-weight:600;margin-top:2px;">↑ 양방향 순환 의존 — 하나만 분리 시 나머지 작동 불가</div>
-      </div>
-
-      <div class="ib" style="margin-top:6px;">
-        <strong>"왜 점진적 전환이 안 됐는가"</strong>
-        <ul style="margin:3px 0 0;padding-left:14px;line-height:1.6;">
-          <li>합류했을 때 느슨한 서비스(알림·이벤트)는 이미 분리가 끝나 있었는데, <strong>핵심 도메인은 손도 못 댄 상태</strong>였습니다</li>
-          <li>매물 도메인 분리를 시작하려고 레거시 코드를 열어보니, <strong>매칭 로직이 매물 테이블을 직접 JOIN하는 양방향 강결합</strong>이 있었습니다</li>
-          <li>gRPC(protobuf 학습 비용)나 Zero-Payload(실시간 불가) 등을 검토했지만, 팀 회의에서 <strong>"이건 기술이 아니라 전략의 문제"</strong>라는 결론이 나왔습니다</li>
-          <li>결국 강결합 도메인은 동시에 분리(부분적 빅뱅)하고, 나머지는 점진적으로 + <strong>Dual Write로 과도기 정합성을 보장</strong>하기로 했습니다</li>
-        </ul>
       </div>
 
       <div class="ib" style="margin-top:6px;">
