@@ -712,7 +712,7 @@ a:hover{text-decoration:underline;}
 
       <div class="rb" style="margin-top:6px;">
         <strong>판단:</strong> MSA를 유지하자니 Pod 오버헤드가 해결이 안 되고, 완전 모놀리식으로 돌아가자니 모듈 경계가 사라집니다.
-        <strong>비용은 줄이면서 모듈 경계는 유지</strong>하는 <span class="bd">모듈러 모놀리식</span>이 답이라고 판단했습니다
+        <strong>비용은 줄이면서 모듈 경계는 유지</strong>하는 <span class="hl"><a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식</a></span>이 답이라고 판단했습니다
       </div>
 
       <div class="sec">전환 과정의 3가지 기술 함정</div>
@@ -796,7 +796,7 @@ a:hover{text-decoration:underline;}
         <strong>돌아보면:</strong>
         입사했을 때 MSA 전환은 이미 진행 중이었고, 합류해서 주요 도메인 전환을 마무리했습니다 (일부 레거시 잔존).
         근데 전환 과정에서 <strong>2~3명 팀에 14개 MSA는 솔직히 과하다</strong>는 확신이 점점 생겼고,
-        비용 위기가 터지면서 <strong><a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식</a>을 직접 제안해서 전환을 주도</strong>했습니다.
+        비용 위기가 터지면서 <strong>모듈러 모놀리식을 직접 제안해서 전환을 주도</strong>했습니다.
         다시 시작한다면 모듈러 모놀리식 단계를 더 오래 유지하고, 모니터링을 전환 초기부터 구축했을 것 같습니다.
         MSA를 처음부터 끝까지 직접 겪어본 덕분에, "언제 채택하고 언제 되돌려야 하는지"에 대한 나름의 감을 잡을 수 있었다고 생각합니다.
       </div>
@@ -827,7 +827,7 @@ a:hover{text-decoration:underline;}
         <li class="sm" style="color:#888;">원인: 레거시 쿼리가 <code>aggregation_year * 100 + aggregation_month</code> 같은 Non-sargable 연산을 WHERE 절에 사용 → EXPLAIN type: ALL, rows 1,195,038 (전체 테이블 풀스캔)</li>
       </ul>
 
-      <div class="sec">3단계로 나눠서 진행한 최적화</div>
+      <div class="sec"><a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization" style="color:#1a73e8;text-decoration:none;font-weight:700;">3단계로 나눠서 진행한 최적화</a></div>
       <div style="display:flex;flex-direction:column;gap:3px;">
         <div style="border:1px solid #e0e0e0;border-radius:4px;padding:6px 10px;background:#fff;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
@@ -854,7 +854,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>핵심 API P95 <strong class="bd"><a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization">4,045ms → 50ms</a></strong> (568 req/s 운영 트래픽, Grafana P95 메트릭 기준)</li>
+        <li>핵심 API P95 <strong class="bd">4,045ms → 50ms</strong> (568 req/s 운영 트래픽, Grafana P95 메트릭 기준)</li>
         <li>Micrometer 기반 <strong class="bd">캐시 히트율 모니터링 대시보드</strong> 구축, P95 임계치 초과 시 <strong class="bd">Grafana Alert</strong></li>
       </ul>
     </div>
@@ -1094,7 +1094,7 @@ a:hover{text-decoration:underline;}
         <li>테스트 실패 시 45분 대기 후 실패 확인 → 개발 생산성 심각한 저하</li>
       </ul>
 
-      <div class="sec">7단계에 걸쳐 하나씩 잡아나간 최적화</div>
+      <div class="sec"><a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization" style="color:#1a73e8;text-decoration:none;font-weight:700;">7단계에 걸쳐 하나씩 잡아나간 최적화</a></div>
       <div style="display:flex;flex-direction:column;gap:2px;">
         <div style="border:1px solid #f28b82;border-left:3px solid #c5221f;border-radius:4px;padding:5px 10px;background:#fef7f6;">
           <div style="display:flex;align-items:center;gap:6px;">
@@ -1117,7 +1117,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>CI 빌드 시간 <strong class="bd"><a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">84% 단축</a></strong> (45분 31초 → 7분 8초), <strong class="bd">66개 파일 수정</strong></li>
+        <li>CI 빌드 시간 <strong class="bd">84% 단축</strong> (45분 31초 → 7분 8초), <strong class="bd">66개 파일 수정</strong></li>
         <li>최적화 과정에서 <strong class="bd">숨겨진 버그 2건 발견</strong> — @Qualifier Bean 충돌, URL 마이그레이션 후 orphan 테스트</li>
       </ul>
 
@@ -1198,7 +1198,7 @@ a:hover{text-decoration:underline;}
       <div class="sec">성과</div>
       <ul class="bl">
         <li>롤백 <strong class="bd">83% 단축</strong> (12분→2분), 배포 <strong class="bd">67% 단축</strong> (15분→5분) → GitOps 기반 선언적 배포·롤백</li>
-        <li>JVM Cold Start <strong class="bd">85% 개선</strong> (1.2~1.4초→150~230ms) → <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up">startupProbe + WarmupHealthIndicator</a></li>
+        <li>JVM Cold Start <strong class="bd">85% 개선</strong> (1.2~1.4초→150~230ms) → startupProbe + WarmupHealthIndicator</li>
       </ul>
 
       <div class="ib" style="margin-top:10px;">
@@ -1240,7 +1240,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>JVM Cold Start가 생각보다 쉽지 않았습니다:</strong>
+        <strong><a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" style="color:#1a73e8;text-decoration:none;">JVM Cold Start가 생각보다 쉽지 않았습니다</a>:</strong>
         K8s 배포 후 첫 API 응답이 1,190~1,390ms (7~14배↑)나 나왔거든요. BlaBlaCar 사례를 참고해서
         <strong>WarmupHealthIndicator로 주요 API를 10회씩 사전 호출</strong>했는데 초기 CPU limit 1000m에서는 별 효과가 없었습니다.
         알고 보니 <strong>JIT 컴파일에 ~3배 CPU가 필요</strong>했고, limit을 1800m으로 올리니까 <strong>150~230ms (85% 개선)</strong>가 됐습니다.
@@ -1451,7 +1451,7 @@ a:hover{text-decoration:underline;}
         <tr><td class="bd">CDC</td><td>실시간 동기화, 앱 코드 변경 無</td><td>인프라 복잡도</td><td style="color:#137333;font-weight:600;">✅ 채택</td></tr>
       </table>
 
-      <div class="sec">해결: AWS DMS CDC + Terraform IaC</div>
+      <div class="sec"><a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" style="color:#1a73e8;text-decoration:none;font-weight:700;">해결: AWS DMS CDC + Terraform IaC</a></div>
       <ul class="bl">
         <li><span class="bd">AWS DMS CDC</span>로 IDC MariaDB → RDS 실시간 단방향 동기화</li>
         <li>AWS 환경 전체를 <span class="bd">Terraform</span>으로 코드화 (VPC, EC2, RDS, SG, IAM)</li>
@@ -1460,7 +1460,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li><strong class="bd"><a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story">무중단 마이그레이션</a> 달성</strong> — 다운타임 0분, 데이터 유실 0건</li>
+        <li><strong class="bd">무중단 마이그레이션 달성</strong> — 다운타임 0분, 데이터 유실 0건</li>
         <li>Terraform IaC로 <strong class="bd">인프라 재현성 확보</strong> — 동일 환경 즉시 재생성 가능</li>
         <li>IDC SPOF 탈피 → AWS RDS <strong class="bd">자동 백업(7일 보존) + 스케일링</strong> 확보</li>
       </ul>
