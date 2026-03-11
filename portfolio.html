@@ -420,7 +420,9 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li>강결합 도메인(매물, 매칭, 중개사) 동시 분리 + 나머지 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">점진적 전환</a></li>
         <li><span class="bd">Dual Write + 검증 배치</span>로 과도기 데이터 정합성 보장</li>
-        <li><strong class="bd">헥사고날 + CQS:</strong> Port/Adapter로 도메인↔기술 의존 차단(DB·MQ 교체 시 Adapter만 변경). 복제 테이블 조회 전용 → 쓰기(정합성)·읽기(속도) 분리가 자연스러워 CQS 도출</li>
+        <li><strong class="bd">Bounded Context 기반 서비스 분리:</strong> 도메인 간 경계를 Bounded Context 단위로 나누고, 각 Context가 자신의 Aggregate Root를 통해서만 상태를 변경하도록 설계했습니다. 예를 들어 매물 상태 변경은 반드시 Estate Aggregate를 거쳐야 하고, 매칭 서비스가 직접 매물 테이블을 수정하는 건 허용하지 않았습니다. 이 경계가 나중에 모듈러 모놀리식으로 전환할 때 ModuleApi 인터페이스와 Schema 분리의 기준이 됐습니다</li>
+        <li><strong class="bd">헥사고날은 도메인 복잡도에 따라 선택적으로 적용:</strong> 핵심 도메인(estate, match, agent)은 도메인 로직이 복잡하고 외부 통신 방식이 전환 과정에서 바뀔 가능성이 높아서 Port/Adapter로 기술 의존을 차단했고, notification·event 같은 단순 도메인은 레이어드로 충분하다고 판단해서 굳이 적용하지 않았습니다. 솔직히 책임 분리가 명확한 레이어드가 도메인을 제대로 이해하지 않고 만든 헥사고날보다 낫다고 생각합니다</li>
+        <li><strong class="bd">CQS:</strong> 복제 테이블 조회 전용 → 쓰기(정합성)·읽기(속도) 분리가 자연스러워 CQS 도출</li>
       </ul>
 
       <div class="sec">성과</div>
