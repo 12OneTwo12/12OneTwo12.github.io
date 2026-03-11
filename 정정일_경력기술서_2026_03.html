@@ -259,7 +259,7 @@
             <h2 class="section-title">부톡㈜ <span class="period">· 2025.03 – 현재</span></h2>
 
             <div class="company-block">
-                <div class="company-meta">AI 기반 부동산 중개 플랫폼 (누적 회원 21만, 중개 매칭 5만 건) · Backend Developer · 개발팀 4명<br>
+                <div class="company-meta">AI 기반 부동산 중개 플랫폼 (누적 회원 21만, 중개 매칭 5만 건) · Backend Developer · 개발팀 5명<br>
                 <strong>주요 기술:</strong> Kotlin, Spring Cloud, Kubernetes, ArgoCD, Grafana, Loki, Tempo, Prometheus, Redis, MySQL, Elasticsearch</div>
 
                 <!-- 프로젝트 1: MSA 전환 -->
@@ -268,7 +268,7 @@
                         <span class="project-title">모놀리식 → MSA → 모듈러 모놀리식 전환</span>
                         <span class="project-period">2025.04 – 2026.02 · 3→1명</span>
                     </div>
-                    <div class="project-summary" style="display: flex; justify-content: space-between; position: relative;"><span>모놀리식→MSA 무중단 전환, 이후 비용·운영 최적화를 위해 모듈러 모놀리식 재전환</span><span style="position: absolute; right: 0; top: 0; text-align: right; color: #888; flex-shrink: 0;">MSA 14개 서비스 중 5개 설계·구현<br>멀티모듈, 모듈러 전환 전담</span></div>
+                    <div class="project-summary" style="display: flex; justify-content: space-between; position: relative;"><span>모놀리식→MSA 무중단 전환, 이후 비용·운영 최적화를 위해 모듈러 모놀리식 재전환</span><span style="position: absolute; right: 0; top: 0; text-align: right; color: #888; flex-shrink: 0;">MSA 14개 서비스 중 5개 설계·구현<br>멀티모듈, 모듈러 전환 담당</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -281,16 +281,16 @@
                         <ul class="detail-list">
                             <li>매칭→매물 도메인 직접 의존으로 Strangler Fig 실패 → <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion" target="_blank">부분적 빅뱅 전략</a>으로 강결합 도메인 동시 분리, Dual Write + 검증 배치로 무중단 전환 (FeignClient + SQS)</li>
                             <li>공통 코드 16개 레포 분산 → <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module" target="_blank">멀티모듈 전환</a>(Git Subtree로 이력 보존), Spring Boot 2.7→3.1.1 마이그레이션 포함, <strong>선택적 빌드 파이프라인</strong> 구성</li>
-                            <li>MSA 전환 중 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace" target="_blank">Collation 불일치로 프로시저 성능 저하</a> 진단(457ms→42ms) – latin1/utf8 혼재 JOIN 인덱스 무효화 → <strong>109개 테이블 MyISAM→InnoDB 전환</strong>, utf8mb4 통일</li>
+                            <li>MSA 전환 중 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace" target="_blank">MySQL Collation 불일치로 프로시저 8배 성능 저하</a> 진단 → <strong>109개 테이블 MyISAM→InnoDB 전환</strong>, utf8mb4 통일로 근본 해결</li>
                             <li><strong>Jacoco + Detekt + Reviewdog</strong> 도입 제안 — PR 단위 커버리지·정적 분석 자동 리뷰 파이프라인 구축</li>
                             <li>운영 복잡도·비용 최적화 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith" target="_blank">모듈러 모놀리식 재전환</a> – FeignClient→9개 ModuleApi 인터페이스, 11개 독립 스키마 유지, Pod 26+→5~7개 축소</li>
-                            <li>매물 상세조회 API(<strong>피크 568 req/s</strong>) N+1 제거(~4,001→2쿼리) + Cache-Aside(TTL Jitter)로 <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization" target="_blank">P95 99% 개선</a>(4,045ms→50ms)</li>
+                            <li>매물 상세조회 API(<strong>피크 568 req/s</strong>) N+1 제거(~4,001→2쿼리) + Cache-Aside(TTL Jitter)로 <a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization" target="_blank">P95 4,045ms→50ms</a>(Grafana 운영 메트릭 기준)</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
                             <li>주요 도메인 <strong>무중단</strong> MSA 전환 (일부 레거시 잔존), 헥사고날 아키텍처로 <strong>도메인 독립 배포 체계</strong> 구축</li>
-                            <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만, 연 ₩1,350만), <a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization" target="_blank">CI 84% 단축</a>(45분→7분), 공통 변경 PR: 16개→<strong>1개</strong></li>
+                            <li>모듈러 모놀리식 전환으로 <strong>인프라 비용 36% 절감</strong>(월 ₩310만→₩197만, 연 ₩1,350만), <a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization" target="_blank">CI 45분→7분</a>, 공통 변경 PR: 16개→<strong>1개</strong></li>
                         </ul>
 
                         <div class="tech-line"><strong>기술:</strong> Kotlin, Spring Cloud, Redis, Hexagonal Architecture, AWS SQS</div>
@@ -301,9 +301,9 @@
                 <div class="project">
                     <div class="project-header">
                         <span class="project-title">Kubernetes 인프라 및 모니터링 시스템 구축</span>
-                        <span class="project-period">2025.04 – 2025.09 · 1명</span>
+                        <span class="project-period">2025.04 – 2025.08 · 1명</span>
                     </div>
-                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>단일 VM에서 Kubernetes로 전환 및 Grafana LGTM Stack 모니터링 시스템 구축</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">인프라 설계/구축 전담</span></div>
+                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>단일 VM에서 Kubernetes로 전환 및 Grafana LGTM Stack 모니터링 시스템 구축</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">인프라 설계·구축 주도 (DevOps 부재)</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -316,13 +316,13 @@
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s" target="_blank">GKE 도입</a> – kubeadm·EKS·GKE 비교, DevOps 부재 상황에서 Managed K8s 선택. 미문서화 방화벽 발견 → <strong>Cloud NAT</strong>으로 고정 IP 확보</li>
                             <li><a href="https://jeongil.dev/ko/blog/infrastructure/building-a-monitoring-system" target="_blank">Grafana LGTM Stack</a> – ELK($92~200) 대비 비용(<strong>$12~37/월</strong>) 및 운영 부담 기준 선택, OpenTelemetry로 로그·트레이싱·메트릭 통합</li>
                             <li>온프레미스 → <a href="https://jeongil.dev/ko/blog/infrastructure/on-premise-to-aws-migration" target="_blank">AWS 무중단 마이그레이션</a> (Terraform + <strong>AWS DMS CDC</strong> 실시간 동기화)</li>
-                            <li>Cold Start(1,190~1,390ms) → <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" target="_blank">startupProbe 기반 JVM Warm-Up</a>(4개 엔드포인트 × 10회 사전 호출), <strong>150~230ms로 85% 개선</strong></li>
+                            <li>Cold Start(1,190~1,390ms) → <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" target="_blank">startupProbe 기반 JVM Warm-Up</a>(4개 엔드포인트 × 10회 사전 호출), JVM Cold Start <strong>1.2초→150ms</strong></li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li><strong>장애 인지 98% 단축</strong>(1시간→1분), 배포 67% 단축(15분→5분), 롤백 83% 단축(12분→2분)</li>
-                            <li><strong>무중단 배포</strong>·<strong>자동 스케일링</strong> 확보, JVM Cold Start <strong>85% 개선</strong>(1.2초→150ms), 개발서버 도입</li>
+                            <li><strong>장애 인지 시간 1시간→1분 이내</strong>, 롤백 12분→2분, 배포 15분→5분, 개발서버 도입</li>
+                            <li><strong>무중단 배포</strong> 체계, <strong>자동 스케일링·회복 탄력성</strong> 확보, JVM Cold Start <strong>1.2초→150ms</strong></li>
                         </ul>
 
                         <div class="tech-line"><strong>기술:</strong> Kubernetes, GKE, ArgoCD, GitHub Actions, Grafana, Loki, Tempo, Prometheus</div>
@@ -335,7 +335,7 @@
                         <span class="project-title">자연어 기반 AI 부동산 매물 추천 시스템 (<a href="https://bootalk.co.kr/ai/chat" target="_blank" style="color: #0066cc;">서비스</a>)</span>
                         <span class="project-period">2025.08 – 현재 · 3명 팀</span>
                     </div>
-                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>자연어 기반 AI 부동산 매물 추천 시스템 설계·개발·아키텍처 개선</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">백엔드 전담</span></div>
+                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>자연어 기반 AI 부동산 매물 추천 시스템 설계·개발·아키텍처 개선</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">백엔드 설계·개발 (프론트·기획과 협업)</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -378,7 +378,7 @@
                         <span class="project-title">백오피스 서버 마이그레이션 및 성능 최적화, 트러블슈팅</span>
                         <span class="project-period">2023.04 – 2025.03 · 2~6명 팀</span>
                     </div>
-                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선 및 장애 대응</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">성능 최적화 및 트러블슈팅 담당</span></div>
+                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>PHP 레거시 백오피스를 Spring으로 전환하며 성능 개선 및 장애 대응</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">성능 최적화 및 트러블슈팅 주도</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -390,13 +390,13 @@
                         <ul class="detail-list">
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/hikaricp-deadlock-with-jpa-mybatis" target="_blank">HikariCP Deadlock 해결</a> – Pool 40개 전량 점유(active=40, waiting=46). OSIV ON에서 JPA+MyBatis 2 Connection 점유 → Pool 고갈 원인 파악, <strong>영향 범위 최소화</strong> 위해 JPA 일원화 선택</li>
                             <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag" target="_blank">Replication 지연 해결</a> – AbstractRoutingDataSource + <strong>@UseMasterDB</strong> AOP로 쓰기 직후 조회만 Master 라우팅, 일관성/성능 균형 조절</li>
-                            <li>외부 API(평균 5,132ms) 병목 → <a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf" target="_blank">Redis Look-aside Cache</a>(TTL 86,400초), <strong>호출 76% 감소</strong>, 캐시 히트 <strong>57ms</strong>, 평균 5,132ms→<strong>1,299ms (75% 개선)</strong></li>
+                            <li>외부 API(평균 5,132ms) 병목 → <a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf" target="_blank">Redis Look-aside Cache</a>(TTL 86,400초), <strong>호출 76% 감소</strong>, 캐시 히트 시 <strong>57ms (90배 향상)</strong></li>
                             <li><a href="https://jeongil.dev/ko/blog/culture/git-flow-introduction" target="_blank">Git Flow 도입 제안</a> – Cherry-pick 충돌 핫픽스 롤백 사례 시각화로 팀 설득, P1~P5 우선순위 코드리뷰 도입</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li><strong>API 응답속도 87% 개선</strong>(10.3초→1.3초), Deadlock 및 Replication 지연 문제 완전 해결</li>
+                            <li><strong>API 응답속도 10.3초→1.3초</strong>, Deadlock 및 Replication 지연 문제 완전 해결</li>
                         </ul>
 
                         <div class="tech-line"><strong>기술:</strong> Spring Boot, Java 11, JPA, Redis, MySQL</div>
@@ -409,7 +409,7 @@
                         <span class="project-title">서비스 인프라 운영 및 유지보수</span>
                         <span class="project-period">2023.12 – 2024.09 · 1명</span>
                     </div>
-                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>DevOps 공백 기간 클라우드 기반 서버 인프라 운영</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">인프라 운영 전담</span></div>
+                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>DevOps 공백 기간 클라우드 기반 서버 인프라 운영</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">인프라 운영 주도 (퇴사자 인수인계 후)</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -418,7 +418,7 @@
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li>DevOps 입사 전까지 <strong>인프라 운영 전담</strong>(6개월) – <strong>19개 인스턴스</strong>, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB 운영</li>
+                            <li>DevOps 공백 6개월간 <strong>인프라 전담 운영</strong> – <strong>19개 인스턴스</strong>, 10개 노드, 3개 웹 서버, 9개 WAS, 2개 DB 운영</li>
                             <li><strong>Redis Session Clustering</strong> 도입으로 세션을 외부 저장소 분리, 세션 유실 문제 해결 → <strong>사용자 경험 개선</strong></li>
                         </ul>
 
@@ -432,7 +432,7 @@
                         <span class="project-title">Spring Batch 마이그레이션 및 성능 최적화</span>
                         <span class="project-period">2023.05 – 2024.12 · 4~6명 팀</span>
                     </div>
-                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">배치 시스템 전환 및 성능 최적화 설계 담당</span></div>
+                    <div class="project-summary" style="display: flex; justify-content: space-between;"><span>PHP/Crontab 기반 배치를 Spring Batch로 전환 및 성능 개선</span><span style="color: #888; flex-shrink: 0; margin-left: 10px;">배치 전환 설계 주도 (팀 리더 승인 하 실행)</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
@@ -442,13 +442,13 @@
 
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock" target="_blank">Deadlock 해결</a> – BATCH_JOB_INSTANCE SELECT→INSERT 락 전환 시 교착. 4가지 비교 후 <strong>Bean 설정으로 Isolation Level REPEATABLE_READ 변경</strong></li>
+                            <li><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock" target="_blank">Deadlock 해결</a> – BATCH_JOB_INSTANCE SELECT→INSERT 락 전환 시 교착. 4가지 비교 후 <strong>Bean 설정으로 Isolation Level 변경</strong></li>
                             <li>Tasklet 단일 트랜잭션(22분) MVCC 스냅샷 고정 → 중간 입금 불가시. Chunk 전환 후 <a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Partitioning 병렬 처리</a>(GridSize 10, ThreadPool 10) 적용</li>
                         </ul>
 
                         <div class="detail-label">[성과]</div>
                         <ul class="detail-list">
-                            <li>마이그레이션 완료 및 <strong>배치 처리시간 64% 단축</strong>(13.3분→4.8분), 트랜잭션 락 점유: 22분 → <strong>0.01초</strong></li>
+                            <li>마이그레이션 완료 및 <strong>배치 처리시간 13.3분→4.8분</strong>, 트랜잭션 락 점유: 22분 → <strong>0.01초</strong></li>
                         </ul>
 
                         <div class="tech-line"><strong>기술:</strong> Spring Batch, Java 11, JPA, QueryDSL</div>
