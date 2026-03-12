@@ -135,43 +135,13 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 2: CONTENTS ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">CONTENTS</div>
-  <span class="pn">2</span>
-  <div class="body" style="justify-content:center;padding:0 20px;">
-    <div style="display:grid;grid-template-columns:32px 1fr;row-gap:5px;font-size:14.5px;line-height:1.95;">
-      <span class="bd">1.</span><span>Profile <span class="sm">— 경력, 기술 스택, 핵심 성과</span></span>
-      <span class="bd">2.</span><span>프로젝트</span>
-      <span></span><span style="padding-left:16px;color:#666;">2-1. EC2 → MSA → 모듈러 모놀리식 <span class="sm">— 1년간 아키텍처를 3번 바꾼 과정</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-2. 모놀리식 → MSA 전환 <span class="sm">— 무중단 아키텍처 전환, 부분적 빅뱅 전략</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-3. 멀티모듈 전환 <span class="sm">— 16개 레포 → 모노레포, MSA ≠ 멀티레포</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-4. MSA → 모듈러 모놀리식 전환 <span class="sm">— 12서비스→1앱, 인프라 비용 36%↓</span></span>
-      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ API P95 4,045ms→50ms <span class="sm">— 쿼리·병렬·캐싱 3단계</span></span>
-      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ MySQL Collation 진단 & DB 마이그레이션 <span class="sm">— 109개 테이블, 8배 성능 저하 해결</span></span>
-      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ CI/CD 빌드 최적화 <span class="sm">— 45분→7분, 과거 내가 만든 병목부터 해결</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-5. DevOps 없이 K8s 직접 구축 <span class="sm">— GKE, GitHub Actions, JVM 최적화</span></span>
-      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 실제 운영 화면 <span class="sm">— ArgoCD 배포 · k9s 클러스터 · 97 Pods</span></span>
-      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 모니터링 시스템 구축 <span class="sm">— LGTM Stack, OTel Sidecar, 비용 최적화</span></span>
-      <span></span><span style="padding-left:32px;color:#999;font-size:13px;">└ 온프레미스 → AWS 무중단 마이그레이션 <span class="sm">— 200GB CDC, Terraform IaC</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-6. 자연어 AI 매물 추천 시스템 <span class="sm">— DAG 아키텍처, ES 도메인 스코어링, Spring Batch</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-7. 백오피스 성능 최적화 <span class="sm">— HikariCP Deadlock, Look-aside Cache</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">2-8. Spring Batch 성능 최적화 <span class="sm">— Chunk + Partitioning, 13.3분→4.8분</span></span>
-      <span class="bd">3.</span><span>Side Project</span>
-      <span></span><span style="padding-left:16px;color:#666;">3-1. Upvy <span class="sm">— AI 숏폼 영상 플랫폼, 1인 개발 · App Store/Play Store 출시</span></span>
-      <span></span><span style="padding-left:16px;color:#666;">3-2. Error Autopilot <span class="sm">— AI 에러 자동 대응 시스템, MCP → OpenClaw 진화</span></span>
-      <span class="bd">4.</span><span>개발 철학 & Contact</span>
-    </div>
-  </div>
-</div></div>
 
 <!-- ===== SLIDE 3: PROFILE ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st" style="font-size:22px;">PROFILE</div>
   <span class="ss">1. Profile</span>
-  <span class="pn">3</span>
+  <span class="pn">2</span>
   <div class="tc" style="margin-top:40px;flex:1;gap:60px;">
     <div class="c">
       <div style="display:flex;align-items:center;gap:20px;">
@@ -234,12 +204,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE 10: 아키텍처 진화 타임라인 ===== -->
+<!-- ===== SLIDE 3: 아키텍처 진화 타임라인 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(1) EC2 → MSA → 모듈러 모놀리식 — 1년간 아키텍처를 3번 바꾼 과정</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">4</span>
+  <span class="pn">3</span>
   <div class="body" style="margin-top:10px;">
     <p class="bt">
       입사해보니 EC2 단일 서버에 모든 게 올라가 있었고, MSA 전환이 이미 진행 중이었습니다. 여기에 합류해서 MSA 전환부터 K8s 구축, 다시 모듈러 모놀리식 전환까지 <strong class="bd">백엔드와 인프라를 함께</strong> 맡아 진행했습니다.
@@ -349,49 +319,47 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE: 아키텍처 — EC2 입사 시점 ===== -->
+<!-- ===== SLIDE 4: 아키텍처 진화 3단계 비교 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(1) 입사 시점의 인프라 — EC2 단일 서버 (2025.03)</div>
+  <div class="st">(1) 아키텍처 진화 3단계 — EC2 → MSA → 모듈러 모놀리식</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">5</span>
-  <p class="bt" style="margin-top:6px;margin-bottom:4px;">입사했을 때의 상태입니다. 모든 서비스가 EC2 하나에 Docker Compose로 올라가 있었고, 모니터링도 개발서버도 없었습니다.</p>
-  <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-    <img src="https://www.dropbox.com/scl/fi/r7mwqkhbhfh7y5rq5ob39/Bootalk-System-Architecture-2025-03-10.png?rlkey=jf5445dhiimefcqtakwa86i66&st=cyhnpqgc&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
+  <span class="pn">4</span>
+  <div style="flex:1;display:flex;gap:12px;margin-top:10px;">
+    <!-- EC2 -->
+    <div style="flex:1;display:flex;flex-direction:column;border:2px solid #f28b82;border-radius:6px;overflow:hidden;">
+      <div style="background:#fce8e6;padding:4px 8px;text-align:center;font-size:11px;font-weight:700;color:#c5221f;">EC2 단일 서버 (2025.03)</div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:4px;overflow:hidden;">
+        <img src="https://www.dropbox.com/scl/fi/r7mwqkhbhfh7y5rq5ob39/Bootalk-System-Architecture-2025-03-10.png?rlkey=jf5445dhiimefcqtakwa86i66&st=cyhnpqgc&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
+      </div>
+      <div style="padding:4px 8px;text-align:center;font-size:10px;color:#c5221f;background:#fff4f4;">입사 시점 — 단일 서버에 모든 것이 올라가 있었다</div>
+    </div>
+    <!-- MSA -->
+    <div style="flex:1;display:flex;flex-direction:column;border:2px solid #f0c14b;border-radius:6px;overflow:hidden;">
+      <div style="background:#fef7e0;padding:4px 8px;text-align:center;font-size:11px;font-weight:700;color:#8a6d3b;">MSA + K8s (2025.08~11)</div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:4px;overflow:hidden;">
+        <img src="https://www.dropbox.com/scl/fi/yw5hupfypirv7bqecwf06/Bootalk-System-Architecture-2025-09-11.png?rlkey=ht2tat4tqs7rw355bhjklwb36&st=gikrkoha&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
+      </div>
+      <div style="padding:4px 8px;text-align:center;font-size:10px;color:#8a6d3b;background:#fffdf5;">강결합 도메인 동시 분리 — 부분적 빅뱅 + Dual Write</div>
+    </div>
+    <!-- Modular -->
+    <div style="flex:1;display:flex;flex-direction:column;border:2px solid #81c995;border-radius:6px;overflow:hidden;">
+      <div style="background:#e6f4ea;padding:4px 8px;text-align:center;font-size:11px;font-weight:700;color:#137333;">모듈러 모놀리식 (2026.02~현재)</div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:4px;overflow:hidden;">
+        <img src="https://www.dropbox.com/scl/fi/hlv6bulzxp0vuoas22g43/Bootalk-System-Architecture-2025-11-11.png?rlkey=scu4a755kkraovx8bw2u6zdp1&st=egsbmtbv&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
+      </div>
+      <div style="padding:4px 8px;text-align:center;font-size:10px;color:#137333;background:#f2f9f4;">비용 위기 → 12 JVM을 1로 통합, 모듈 경계는 유지</div>
+    </div>
   </div>
 </div></div>
 
-<!-- ===== SLIDE: 아키텍처 — MSA + K8s ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(1) MSA + K8s로 전환한 구조 (2025.08 ~ 2025.11)</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">6</span>
-  <p class="bt" style="margin-top:6px;margin-bottom:4px;">MSA 전환과 GKE 도입을 병행한 시기입니다. 14개 서비스로 분리하고 GitOps 배포 체계를 구축했습니다.</p>
-  <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-     <img src="https://www.dropbox.com/scl/fi/yw5hupfypirv7bqecwf06/Bootalk-System-Architecture-2025-09-11.png?rlkey=ht2tat4tqs7rw355bhjklwb36&st=gikrkoha&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
-  </div>
-</div></div>
 
-<!-- ===== SLIDE: 아키텍처 — Modular Monolith + K8s ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(1) 인프라 비용 문제로 모듈러 모놀리식으로 재전환한 구조 (2026.02 ~ 현재)</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">7</span>
-  <p class="bt" style="margin-top:6px;margin-bottom:4px;">비용 위기 후 모듈러 모놀리식으로 재전환한 현재 구조입니다. 12 JVM → 1 JVM으로 통합하면서 인프라 비용을 36% 절감했습니다.</p>
-  <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-     <img src="https://www.dropbox.com/scl/fi/hlv6bulzxp0vuoas22g43/Bootalk-System-Architecture-2025-11-11.png?rlkey=scu4a755kkraovx8bw2u6zdp1&st=egsbmtbv&raw=1" style="max-width:100%;max-height:100%;object-fit:contain;">
-  </div>
-</div></div>
-
-
-<!-- ===== SLIDE 4: MSA 전환 (1/2) ===== -->
+<!-- ===== SLIDE 5: MSA 전환 (병합) ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(2) 모놀리식 → MSA 전환 프로젝트</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">8</span>
+  <span class="pn">5</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -502,7 +470,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(2) MSA 전환 — 과도기 관리 & 실행 과정</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">9</span>
+  <span class="pn">6</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <div class="sec-s">Dual Write + 검증 배치 — 과도기 데이터 정합성 보장</div>
@@ -591,7 +559,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(3) 16개 레포지토리를 하나로 — 멀티모듈 전환</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">10</span>
+  <span class="pn">7</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -697,7 +665,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4) MSA → 모듈러 모놀리식 전환</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">11</span>
+  <span class="pn">8</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -784,7 +752,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><strong class="bd">Pod 75% 감소</strong> (26+개→5~7개) — 12 JVM → 1 JVM + notification 별도, <strong>인프라 비용 월 ₩310만→₩197만</strong>(연 ₩1,350만 절감). 동일 트래픽·동일 요금제 기준, Compute Engine 일비용 ₩96,505→₩58,768</li>
         <li>FeignClient → <strong class="bd">ModuleApi 9개 인터페이스</strong> 설계 — 네트워크 호출 제거, .data!! 언래핑 일괄 제거</li>
-        <li>CI/CD <strong class="bd">45분→7분</strong> (66파일 수정) — 상세 내용은 p.15 CI/CD 빌드 최적화 슬라이드 참조</li>
+        <li>CI/CD <strong class="bd">45분→7분</strong> — maxParallelForks 병목 진단, JUnit5 스레드 병렬 전환 등 66개 파일 수정 (<a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">상세</a>)</li>
         <li>11개 Schema·EntityManager·TM 분리 유지 — 필요 시 다시 MSA로 분리 가능</li>
       </ul>
 
@@ -813,7 +781,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4-1) 핵심 API P95 4,045ms → 50ms</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">12</span>
+  <span class="pn">9</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -907,58 +875,24 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div style="font-size:10px;color:#888;text-align:center;margin-top:3px;padding:3px;background:#f8f9fa;border-radius:3px;">
-        Grafana 운영 대시보드, Cache Hit Rate, GCP 비용 변화는 다음 페이지에서 확인하실 수 있습니다.
+      <div style="display:flex;gap:4px;margin-top:4px;">
+        <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
+          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">BEFORE — 전체 API P95 (Grafana)</div>
+          <img src="https://www.dropbox.com/scl/fi/335mnm3b9ardbtqqkcxvp/performance-before.png?rlkey=qwd7xz01g26qwexox8at2fubx&st=x5zhqpwh&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;" alt="API P95 Before">
+        </div>
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">AFTER — 최적화 후 P95 (Grafana)</div>
+          <img src="https://www.dropbox.com/scl/fi/01p3zk422klgohvrzznz1/performance-summary.png?rlkey=7yqpdmu40qus5c7ay5tvgm9aw&st=j4a4wg9t&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;" alt="API P95 After">
+        </div>
+        <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
+          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">GCP 비용 Before (일 ₩96,505)</div>
+          <img src="https://www.dropbox.com/scl/fi/9to7251qma6g4z7crjeta/before-moduler-credit.png?rlkey=5ll2xme9maze9ltwha94ss1pl&st=vci6m584&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost Before">
+        </div>
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">GCP 비용 After (일 ₩58,768)</div>
+          <img src="https://www.dropbox.com/scl/fi/xpsueudcdebbiw6v7csad/after-moduler-credit.png?rlkey=7nsgpgge7crevuitprl1fl78w&st=v9ldtz7k&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost After">
+        </div>
       </div>
-    </div>
-  </div>
-</div></div>
-
-<!-- ===== SLIDE: API 성능 & 비용 대시보드 ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(4-1) API 성능 & 비용 — Grafana 운영 대시보드</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">13</span>
-  <div style="flex:1;display:flex;flex-direction:column;gap:8px;margin-top:12px;">
-
-    <div style="display:flex;gap:6px;">
-      <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
-        <div class="dl" style="margin:0;padding:3px 8px;background:#fff4f4;font-size:9.5px;color:#c5221f;font-weight:700;">BEFORE — 전체 API P95 현황 (Grafana)</div>
-        <img src="https://www.dropbox.com/scl/fi/335mnm3b9ardbtqqkcxvp/performance-before.png?rlkey=qwd7xz01g26qwexox8at2fubx&st=x5zhqpwh&raw=1" style="width:100%;max-height:180px;object-fit:contain;display:block;" alt="API P95 Before">
-      </div>
-      <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
-        <div class="dl" style="margin:0;padding:3px 8px;background:#f2f9f4;font-size:9.5px;color:#137333;font-weight:700;">AFTER — 최적화 후 P95 현황 (Grafana)</div>
-        <img src="https://www.dropbox.com/scl/fi/01p3zk422klgohvrzznz1/performance-summary.png?rlkey=7yqpdmu40qus5c7ay5tvgm9aw&st=j4a4wg9t&raw=1" style="width:100%;max-height:180px;object-fit:contain;display:block;" alt="API P95 After">
-      </div>
-    </div>
-
-    <div style="display:flex;gap:6px;">
-      <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
-        <div class="dl" style="margin:0;padding:3px 8px;background:#fff4f4;font-size:9.5px;color:#c5221f;font-weight:700;">캐싱 적용 전 — 외부 API 의존 (Grafana)</div>
-        <img src="https://www.dropbox.com/scl/fi/h8opmv88dssfweymrpg9h/caching-before.png?rlkey=akdbj2qvmllu4402satlf8t7f&st=s0mplh17&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="Caching Before">
-      </div>
-      <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
-        <div class="dl" style="margin:0;padding:3px 8px;background:#f2f9f4;font-size:9.5px;color:#137333;">캐싱 적용 후 — Look-aside Cache 효과 (Grafana)</div>
-        <img src="https://www.dropbox.com/scl/fi/v0efinc70k3streovsbkc/caching-result.png?rlkey=b7llkitaul7jvzqhbds8khg86&st=o415mjfo&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="Caching After">
-      </div>
-    </div>
-
-    <div style="display:flex;gap:6px;">
-      <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
-        <div style="font-size:9.5px;font-weight:700;color:#c5221f;text-align:center;padding:3px;background:#fff4f4;">GCP Billing — MSA 운영 (일 ₩96,505)</div>
-        <img src="https://www.dropbox.com/scl/fi/9to7251qma6g4z7crjeta/before-moduler-credit.png?rlkey=5ll2xme9maze9ltwha94ss1pl&st=vci6m584&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost Before">
-      </div>
-      <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
-        <div style="font-size:9.5px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#f2f9f4;">GCP Billing — 모듈러 전환 후 (일 ₩58,768, 월 36%↓)</div>
-        <img src="https://www.dropbox.com/scl/fi/xpsueudcdebbiw6v7csad/after-moduler-credit.png?rlkey=7nsgpgge7crevuitprl1fl78w&st=v9ldtz7k&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost After">
-      </div>
-    </div>
-
-    <div class="ib" style="font-size:10.5px;">
-      <strong>대시보드를 만들고 나서 가장 달라진 점:</strong> 배포 후 성능 변화를 실시간으로 확인할 수 있게 됐습니다.
-      이전에는 "느린 것 같다"는 CS가 와야 알았는데, 이제는 배포 직후 P95 그래프를 보고 바로 판단할 수 있습니다.
-      실제로 모니터링 도입 후 <strong>CS 접수가 0건인데 사용자에게 영향을 주고 있던 버그</strong>를 발견한 적이 있었습니다. 사용자가 알려주기 전에 먼저 감지할 수 있는 구조가 왜 필요한지 그때 체감했습니다.
     </div>
   </div>
 </div></div>
@@ -968,7 +902,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4-2) MySQL Collation 진단 & 109개 테이블 DB 마이그레이션</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">14</span>
+  <span class="pn">10</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -1083,7 +1017,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(4-3) CI/CD 빌드 최적화 — 45분 → 7분</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">15</span>
+  <span class="pn">11</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -1175,7 +1109,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(5) DevOps 없이 K8s 인프라를 직접 설계하고 구축한 과정</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">16</span>
+  <span class="pn">12</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1245,76 +1179,21 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong><a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" style="color:#1a73e8;text-decoration:none;">JVM Cold Start가 생각보다 쉽지 않았습니다</a>:</strong>
-        K8s 배포 후 첫 API 응답이 1,190~1,390ms (7~14배↑)나 나왔거든요. BlaBlaCar 사례를 참고해서
-        <strong>WarmupHealthIndicator로 주요 API를 10회씩 사전 호출</strong>했는데 초기 CPU limit 1000m에서는 별 효과가 없었습니다.
-        알고 보니 <strong>JIT 컴파일에 ~3배 CPU가 필요</strong>했고, limit을 1800m으로 올리니까 <strong>150~230ms</strong>가 됐습니다.
+        <strong><a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" style="color:#1a73e8;text-decoration:none;">JVM Cold Start가 만만치 않았습니다</a>:</strong>
+        K8s 배포 후 첫 API 응답이 1,190~1,390ms(7~14배↑)나 나왔거든요. BlaBlaCar 사례를 참고해서
+        <strong>WarmupHealthIndicator로 주요 API를 10회씩 사전 호출</strong>했는데 CPU limit 1000m에서는 별 효과가 없었습니다.
+        알고 보니 <strong>JIT 컴파일에 ~3배 CPU가 필요</strong>했고, limit을 1800m으로 올리니까 <strong>150~230ms</strong>까지 떨어졌습니다.
       </div>
 
-      <div class="rb" style="margin-top:8px;">
-        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.20)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
-      </div>
-    </div>
-  </div>
-</div></div>
-
-<!-- ===== SLIDE 8-1.5: K8s 인프라 운영 증빙 ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(5) K8s 인프라 — 실제 운영 중인 프로덕션 환경</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">17</span>
-  <div class="tc" style="margin-top:10px;flex:1;">
-    <div class="c">
-      <div class="sec">ArgoCD — GitOps 기반 선언적 배포</div>
-      <ul class="bl">
-        <li>Git 커밋 → ArgoCD 자동 감지 → GKE 배포. 수동 SSH 배포 완전 제거</li>
-        <li>Rollback: 이전 ReplicaSet으로 2분 이내 즉시 복구 (기존 12분)</li>
-        <li>manifest-ops 레포에서 모든 인프라 설정을 코드로 관리</li>
-      </ul>
-      <div style="border:1px solid #81c995;border-radius:4px;overflow:hidden;margin-top:8px;">
-        <div style="font-size:9.5px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#f2f9f4;">ArgoCD — bootalk-app-prod (Synced · Healthy)</div>
-        <img src="https://www.dropbox.com/scl/fi/uhnc4y255i9c2zs8mer5k/bootalk_argocd.png?rlkey=27kg6wfb9esxv232x2ucbl3sw&st=mdkd3d2a&raw=1" style="width:100%;max-height:250px;object-fit:contain;display:block;background:#1e2127;" alt="ArgoCD Dashboard - bootalk-app-prod Synced Healthy">
-      </div>
-
-      <div class="sec" style="margin-top:16px;">GitHub Actions + ArgoCD GitOps</div>
-      <ul class="bl">
-        <li>GitHub Actions로 PR 단위 빌드·테스트 자동화, Detekt + JaCoCo 품질 게이트 적용</li>
-        <li>ArgoCD가 manifest-ops 레포 변경 감지 → GKE 클러스터에 자동 배포</li>
-        <li>롤백: 이전 ReplicaSet으로 2분 이내 즉시 복구</li>
-      </ul>
-      <div class="ib" style="margin-top:8px;">
-        <strong>GitOps 기반 배포 구조:</strong>
-        GitHub Push → GitHub Actions 빌드·테스트 → GCP Artifact Registry 이미지 푸시 → manifest-ops 레포 업데이트 → ArgoCD 자동 감지·배포.
-        모든 인프라 설정을 Git으로 관리하여 배포 이력 추적 및 선언적 롤백 가능.
-      </div>
-    </div>
-
-    <div class="c">
-      <div class="sec">k9s — 클러스터 실시간 관리</div>
-      <ul class="bl">
-        <li>14개 서비스 Pod 상태, 리소스 사용량, 로그를 터미널에서 실시간 모니터링</li>
-        <li>장애 시 Pod 재시작, 로그 확인, exec 접속까지 k9s 단일 도구로 대응</li>
-      </ul>
-      <div style="border:1px solid #81c995;border-radius:4px;overflow:hidden;margin-top:8px;">
-        <div style="font-size:9.5px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#f2f9f4;">k9s — Pods(all) 97개 실행 중 (prod 클러스터)</div>
-        <img src="https://www.dropbox.com/scl/fi/depiebgemfqhotigpgwbn/bootalk_k9s.png?rlkey=o264gfgxfiadqepkmenfbb3x1&st=bevh3sdb&raw=1" style="width:100%;max-height:250px;object-fit:contain;display:block;background:#0a0e14;" alt="k9s - 97 Pods running on GKE prod cluster">
-      </div>
-
-      <div class="sec" style="margin-top:12px;">클러스터 구성 요약</div>
-      <table class="ct" style="font-size:10px;margin-top:4px;">
-        <tr><th></th><th>dev</th><th>prod</th></tr>
-        <tr><td class="bd">Node Pool</td><td>default (1~2노드)</td><td>default (2~4노드)</td></tr>
-        <tr><td class="bd">서비스 Pod</td><td>14개 (replica 1)</td><td>14개 (replica 2, HPA)</td></tr>
-        <tr><td class="bd">OTel</td><td>Sidecar 패턴</td><td>Sidecar 패턴</td></tr>
-        <tr><td class="bd">총 Pod 수</td><td>~30개</td><td>~97개 (k9s 확인)</td></tr>
-      </table>
-
-      <div class="ib" style="margin-top:16px;">
-        <strong>구축 과정에서 신경 쓴 것들:</strong>
-        Helm Chart로 ArgoCD를 설치하고, Terraform으로 GKE/VPC/Cloud NAT를 코드화하고,
-        Taint/NodeSelector로 워크로드를 격리했습니다.
-        합류했을 때 기존 인프라를 구축했던 분들은 이미 퇴사한 상태였고 문서도 없어서, 왜 이렇게 구성됐는지 아무도 모르는 상황이었습니다. 그래서 <strong>변경 이력이 Git에 남아서 누가, 언제, 왜 바꿨는지 추적할 수 있는 인프라</strong>를 처음부터 만들고 싶었습니다.
+      <div style="display:flex;gap:8px;margin-top:6px;">
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+          <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#e6f4ea;">ArgoCD — prod (Synced · Healthy)</div>
+          <img src="https://www.dropbox.com/scl/fi/uhnc4y255i9c2zs8mer5k/bootalk_argocd.png?rlkey=27kg6wfb9esxv232x2ucbl3sw&st=mdkd3d2a&raw=1" style="width:100%;max-height:120px;object-fit:contain;display:block;background:#1e2127;" alt="ArgoCD Dashboard">
+        </div>
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+          <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#e6f4ea;">k9s — 97 Pods (prod cluster)</div>
+          <img src="https://www.dropbox.com/scl/fi/depiebgemfqhotigpgwbn/bootalk_k9s.png?rlkey=o264gfgxfiadqepkmenfbb3x1&st=bevh3sdb&raw=1" style="width:100%;max-height:120px;object-fit:contain;display:block;background:#0a0e14;" alt="k9s Pods">
+        </div>
       </div>
     </div>
   </div>
@@ -1325,7 +1204,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">(5-1) 장애를 CS보다 먼저 발견하기 위해 구축한 모니터링</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">18</span>
+  <span class="pn">13</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1387,50 +1266,26 @@ a:hover{text-decoration:underline;}
         처음부터 완벽하게 만들려 하기보다, 일단 빠르게 시작하고 점진적으로 개선하자는 방향으로 접근했습니다.
       </div>
 
-      <div style="font-size:10px;color:#888;text-align:center;margin-top:8px;padding:4px;background:#f8f9fa;border-radius:3px;">
-        Grafana Alert Rules, Telegram 알림, Tempo APM 운영 화면은 다음 페이지에서 확인하실 수 있습니다.
+      <div style="display:flex;gap:8px;margin-top:6px;">
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+          <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#e6f4ea;">Grafana Alert Rules</div>
+          <img src="https://velog.velcdn.com/images/12onetwo12/post/ab9019c5-c26f-428f-ad96-cb9e1120d480/image.png" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="Grafana Alert Rules">
+        </div>
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+          <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#e6f4ea;">Telegram 실시간 알림</div>
+          <img src="https://velog.velcdn.com/images/12onetwo12/post/7af340cc-092c-411e-84c5-c9e605ba35e4/image.png" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="Telegram Alert">
+        </div>
       </div>
     </div>
   </div>
 </div></div>
 
-<!-- ===== SLIDE: 모니터링 운영 화면 ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(5-1) 모니터링 — Grafana & Telegram 운영 화면</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">19</span>
-  <div style="flex:1;display:flex;flex-direction:column;gap:10px;margin-top:12px;">
-
-    <div style="display:flex;gap:6px;">
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-        <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">실제 Grafana 알림 규칙 (운영 환경)</div>
-        <img src="https://velog.velcdn.com/images/12onetwo12/post/ab9019c5-c26f-428f-ad96-cb9e1120d480/image.png" style="width:100%;max-height:230px;object-fit:contain;display:block;" alt="Grafana Alert Rules">
-      </div>
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-        <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">Telegram 실시간 알림 (Firing / Resolved)</div>
-        <img src="https://velog.velcdn.com/images/12onetwo12/post/7af340cc-092c-411e-84c5-c9e605ba35e4/image.png" style="width:100%;max-height:230px;object-fit:contain;display:block;" alt="Telegram Alert">
-      </div>
-    </div>
-
-    <div style="border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-      <div class="dl" style="margin:0;padding:3px 8px;background:#f8f9fa;font-size:9.5px;">Tempo APM — API별 병목 지점 분산 트레이싱 (운영 환경)</div>
-      <img src="https://velog.velcdn.com/images/12onetwo12/post/a05fd553-721d-4cf4-ae10-724d178c56b6/image.png" style="width:100%;max-height:320px;object-fit:contain;display:block;" alt="Tempo Trace">
-    </div>
-
-    <div class="ib" style="font-size:10.5px;">
-      <strong>장애 인지 1시간→1분으로 바뀐 흐름:</strong> Grafana Alert Rules에서 조건을 감지하면 → Telegram Bot으로 즉시 Firing 알림이 오고 → Runbook 링크로 표준 대응합니다.
-      Tempo 분산 트레이싱으로 API별 병목 지점을 span 단위로 추적할 수 있어서, 정확한 원인 식별이 가능해졌습니다.
-    </div>
-  </div>
-</div></div>
-
-<!-- ===== SLIDE 9: 온프레미스 → AWS 무중단 마이그레이션 ===== -->
+<!-- ===== SLIDE: 온프레미스 → AWS 무중단 마이그레이션 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(5-2) 온프레미스 → AWS 무중단 마이그레이션</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">20</span>
+  <span class="pn">14</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
@@ -1535,12 +1390,12 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE: 자연어 매물 추천 — 아키텍처 개선 (1/3) ===== -->
+<!-- ===== SLIDE: 자연어 매물 추천 (병합) ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">(6) 자연어 AI 매물 추천 시스템</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">21</span>
+  <span class="pn">15</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
@@ -1565,52 +1420,34 @@ a:hover{text-decoration:underline;}
         <li>Agent Loop(LLM N회)은 부동산 검색에 비용·레이턴시 과함 → <strong class="bd">DAG: LLM 1회로 실행 계획 생성, 코드가 위상정렬 후 병렬 실행</strong></li>
         <li>도구를 원자적으로 분리(poi_search·property_search·property_info) → deps로 의존성, $1.lat로 변수 참조</li>
       </ul>
+
+      <div class="sec">ES function_score 스코어링</div>
+      <table class="ct" style="font-size:9.5px;">
+        <tr><th>가중치</th><th>비율</th><th>방식</th></tr>
+        <tr><td class="bd">거리감쇠</td><td>35%</td><td>Gaussian decay</td></tr>
+        <tr><td class="bd">가격근접도</td><td>35%</td><td>호가 우선 · 실거래가 fallback · Painless</td></tr>
+        <tr><td class="bd">평형매칭</td><td>15%</td><td>요청 평형 ± 범위 일치도</td></tr>
+        <tr><td class="bd">매물부스팅</td><td>10%</td><td>현재 매물 수 기반</td></tr>
+        <tr><td class="bd">신축</td><td>5%</td><td>최근 준공 가산</td></tr>
+      </table>
+
+      <div class="sec" style="margin-top:4px;">결과</div>
+      <table class="ct" style="font-size:9.5px;">
+        <tr><th>지표</th><th>Before</th><th>After</th></tr>
+        <tr><td class="bd">자연어 매물 검색</td><td>불가</td><td class="w"><strong>프로덕션 런칭·운영중</strong></td></tr>
+        <tr><td class="bd">LLM 호출</td><td>3회</td><td class="w">2회 (33%↓)</td></tr>
+        <tr><td class="bd">복수 위치 검색</td><td>미지원</td><td class="w">독립/중간점/가중 전략</td></tr>
+        <tr><td class="bd">추천 방식</td><td>거리순 나열</td><td class="w">5가지 가중치 도메인 스코어링</td></tr>
+      </table>
+      <div class="rb" style="margin-top:4px;font-size:10px;">
+        <strong>규모:</strong> 6개 PR · +4,200줄 · 59개 파일 · <strong>프로덕션:</strong> <a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a>
+      </div>
     </div>
 
     <div class="c" style="flex:1.1;">
       <div class="dg">
-        <div class="dl">아키텍처 3단계 진화</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <!-- Phase 1 -->
-          <div style="border:1.5px solid #f28b82;border-radius:4px;padding:6px 8px;background:#fff;">
-            <div style="font-size:9.5px;font-weight:700;color:#c5221f;margin-bottom:3px;">① 고정 파이프라인 RAG (2025.08~11)</div>
-            <div style="display:flex;align-items:center;gap:2px;font-size:9.5px;flex-wrap:wrap;">
-              <div class="db er ds" style="min-width:auto;padding:2px 6px;">Classifier<br><span style="font-size:9px;">LLM</span></div><div class="da" style="font-size:9px;">→</div>
-              <div class="db er ds" style="min-width:auto;padding:2px 6px;">Strategy</div><div class="da" style="font-size:9px;">→</div>
-              <div class="db er ds" style="min-width:auto;padding:2px 6px;">Extractor<br><span style="font-size:9px;">LLM</span></div><div class="da" style="font-size:9px;">→</div>
-              <div class="db er ds" style="min-width:auto;padding:2px 6px;">ES</div><div class="da" style="font-size:9px;">→</div>
-              <div class="db er ds" style="min-width:auto;padding:2px 6px;">응답<br><span style="font-size:9px;">LLM</span></div>
-            </div>
-            <div style="font-size:9px;color:#c5221f;margin-top:3px;">LLM 3회 · Manticore→ES 전환(벡터 검색 필요) · 코드 하드코딩 분기</div>
-          </div>
-          <!-- Phase 2 -->
-          <div style="border:1.5px solid #f0c14b;border-radius:4px;padding:6px 8px;background:#fff;">
-            <div style="font-size:9.5px;font-weight:700;color:#8a6d3b;margin-bottom:3px;">② Planned Tool Use (2025.12)</div>
-            <div style="display:flex;align-items:center;gap:2px;font-size:9.5px;">
-              <div class="db wn ds" style="min-width:auto;padding:2px 6px;">Plan<br><span style="font-size:9px;">LLM</span></div><div class="da" style="font-size:9px;">→</div>
-              <div class="db wn ds" style="min-width:auto;padding:2px 6px;">Execute</div><div class="da" style="font-size:9px;">→</div>
-              <div class="db wn ds" style="min-width:auto;padding:2px 6px;">Generate<br><span style="font-size:9px;">LLM</span></div>
-            </div>
-            <div style="font-size:9px;color:#8a6d3b;margin-top:3px;">LLM 3→2회 개선 · 하지만 도구 분리 미흡 → DAG 전환 계기</div>
-          </div>
-          <!-- Phase 3 -->
-          <div style="border:1.5px solid #81c995;border-radius:4px;padding:6px 8px;background:#fff;">
-            <div style="font-size:9.5px;font-weight:700;color:#137333;margin-bottom:3px;">③ DAG (2025.12~현재)</div>
-            <div style="display:flex;align-items:center;gap:2px;font-size:9.5px;">
-              <div class="db ok ds" style="min-width:auto;padding:2px 6px;">Plan LLM<br><span style="font-size:9px;">DAG 생성<br>(JSON mode)</span></div><div class="da" style="font-size:9px;">→</div>
-              <div class="db ok ds" style="min-width:auto;padding:2px 6px;">ToolExecutor<br><span style="font-size:9px;">위상정렬<br>병렬 실행</span></div><div class="da" style="font-size:9px;">→</div>
-              <div class="db ok ds" style="min-width:auto;padding:2px 6px;">Generate LLM<br><span style="font-size:9px;">SSE 스트리밍</span></div>
-            </div>
-            <div style="font-size:9px;color:#137333;margin-top:3px;">LLM 2회 고정 · 원자적 도구 조합 · deps로 의존성 · $1.lat 변수 참조</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="dg" style="margin-top:8px;">
         <div class="dl">DAG 아키텍처 & 도구 구성</div>
-
-        <!-- Pipeline flow -->
-        <div style="display:flex;align-items:center;gap:3px;justify-content:center;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:3px;justify-content:center;margin-bottom:6px;">
           <div class="db dk ds" style="padding:3px 6px;">사용자 쿼리</div>
           <div class="da">→</div>
           <div class="db ac ds" style="padding:3px 6px;">Plan LLM<br><span style="font-size:9px;">DAG 생성<br>(JSON mode, 1회)</span></div>
@@ -1619,26 +1456,22 @@ a:hover{text-decoration:underline;}
           <div class="da">→</div>
           <div class="db ac ds" style="padding:3px 6px;">Generate LLM<br><span style="font-size:9px;">SSE 스트리밍<br>(1회)</span></div>
         </div>
-
-        <!-- Tool inventory -->
         <div style="display:flex;gap:4px;justify-content:center;margin-bottom:6px;">
-          <div class="db ok ds" style="flex:1;text-align:center;padding:4px 6px;">
+          <div class="db ok ds" style="flex:1;text-align:center;padding:3px 6px;">
             <strong style="font-size:10px;">poi_search</strong><br>
-            <span style="font-size:9px;color:#666;">장소명 → 좌표<br>kNN 임베딩 검색</span>
+            <span style="font-size:9px;color:#666;">장소명 → 좌표</span>
           </div>
-          <div class="db ok ds" style="flex:1;text-align:center;padding:4px 6px;">
+          <div class="db ok ds" style="flex:1;text-align:center;padding:3px 6px;">
             <strong style="font-size:10px;">property_search</strong><br>
-            <span style="font-size:9px;color:#666;">좌표+조건 → 매물<br>function_score 스코어링</span>
+            <span style="font-size:9px;color:#666;">좌표+조건 → 매물</span>
           </div>
-          <div class="db ok ds" style="flex:1;text-align:center;padding:4px 6px;">
+          <div class="db ok ds" style="flex:1;text-align:center;padding:3px 6px;">
             <strong style="font-size:10px;">property_info</strong><br>
             <span style="font-size:9px;color:#666;">단지 상세 조회</span>
           </div>
         </div>
-
-        <!-- Concrete execution example -->
-        <div style="border-top:1px dashed #ddd;padding-top:5px;">
-          <div style="font-size:8.5px;font-weight:600;color:#666;margin-bottom:4px;">실행 예시: "강남역에서 신논현역 사이 30평대 10억 이하 500세대 이상 신축 아파트 추천해줘"</div>
+        <div style="border-top:1px dashed #ddd;padding-top:4px;">
+          <div style="font-size:8.5px;font-weight:600;color:#666;margin-bottom:3px;">실행 예시: "강남역에서 신논현역 사이 30평대 10억 이하 500세대 이상 신축 아파트 추천해줘"</div>
           <div style="display:flex;gap:3px;margin-bottom:2px;">
             <div style="font-size:8.5px;color:#999;width:42px;text-align:right;padding-top:2px;">Level 0</div>
             <div class="db ac ds" style="flex:1;font-family:monospace;text-align:left;padding:2px 5px;font-size:8.5px;">[1] poi_search("강남역") deps:[]</div>
@@ -1652,82 +1485,23 @@ a:hover{text-decoration:underline;}
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div></div>
 
-<!-- ===== SLIDE: 자연어 매물 추천 — 스코어링 · 도구 분리 · 배치 (2/3) ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(6) 자연어 매물 추천 — 도메인 스코어링 · 도구 설계</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">22</span>
-  <div class="tc" style="margin-top:6px;flex:1;">
-    <div class="c">
-      <div class="sec">ES function_score 스코어링 설계</div>
-      <ul class="bl">
-        <li>거리순 나열뿐이던 결과를 <strong class="bd">도메인 특화 추천</strong>으로 전환</li>
-        <li>가격 근접도: Painless 스크립트, "5억 이상" 오픈 범위 보정, 가격 없으면 중립값 0.3</li>
-        <li class="sm">호가(26.1%) vs 실거래가(8.8%) — 호가가 3배 많아서 호가 우선, 실거래가 fallback</li>
-      </ul>
-
-      <table class="ct" style="font-size:10px;margin-top:6px;">
-        <tr><th>가중치</th><th>비율</th><th>방식</th></tr>
-        <tr><td class="bd">거리감쇠</td><td>35%</td><td>Gaussian decay</td></tr>
-        <tr><td class="bd">가격근접도</td><td>35%</td><td>호가 우선 · 실거래가 fallback · Painless</td></tr>
-        <tr><td class="bd">평형매칭</td><td>15%</td><td>요청 평형 ± 범위 일치도</td></tr>
-        <tr><td class="bd">매물부스팅</td><td>10%</td><td>현재 매물 수 기반</td></tr>
-        <tr><td class="bd">신축</td><td>5%</td><td>최근 준공 가산</td></tr>
-      </table>
-
-      <div class="sec" style="margin-top:8px;">원자적 도구 분리</div>
-      <div class="cmp" style="gap:6px;">
-        <div class="cc bf" style="padding:6px;">
-          <div class="cl">Before</div>
-          <ul>
-            <li>PropertySearchTool 하나에 전부</li>
-            <li>LLM이 도구 조합 불가</li>
-          </ul>
+      <div class="dg" style="margin-top:6px;">
+        <div class="dl">아키텍처 3단계 진화</div>
+        <div style="display:flex;gap:6px;">
+          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:4px 6px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#c5221f;">① 고정 RAG</div>
+            <div style="font-size:9px;color:#c5221f;">LLM 3회 · 하드코딩</div>
+          </div>
+          <div style="flex:1;border:1.5px solid #f0c14b;border-radius:4px;padding:4px 6px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#8a6d3b;">② Planned Tool</div>
+            <div style="font-size:9px;color:#8a6d3b;">LLM 2회 · 도구 미분리</div>
+          </div>
+          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:4px 6px;background:#fff;">
+            <div style="font-size:9px;font-weight:700;color:#137333;">③ DAG (현재)</div>
+            <div style="font-size:9px;color:#137333;">LLM 2회 · 원자적 도구</div>
+          </div>
         </div>
-        <div class="cc af" style="padding:6px;">
-          <div class="cl">After</div>
-          <ul>
-            <li><strong>poi_search</strong> — 장소명→좌표 (신규)</li>
-            <li><strong>property_search</strong> — 좌표+조건→매물</li>
-            <li><strong>property_info</strong> — 단지 상세</li>
-          </ul>
-        </div>
-      </div>
-      <p class="sm" style="margin-top:3px;">→ "강남역이랑 잠실역 사이 아파트" 같은 복합 질의가 DAG deps로 자연스럽게 표현됨</p>
-
-      <div class="sec" style="margin-top:8px;">Spring Batch 데이터 파이프라인</div>
-      <p class="sm" style="margin-bottom:2px;">2-Step 일배치 직접 구축: Step1 매물+역·학교·병원 등 위치 데이터 인덱싱, Step2 시세 부분 업데이트. 임베딩 캐싱으로 불필요한 재계산 방지.</p>
-    </div>
-
-    <div class="c">
-      <div class="sec">복수 POI 지원 (1:N)</div>
-      <ul class="bl">
-        <li>"강남역, 신림역, 송내역 중에서" → 각 역 근처 <strong class="bd">독립 검색</strong></li>
-        <li>3가지 전략: <strong class="bd">독립 검색</strong> / 중간점 검색 / 가중 검색</li>
-        <li>Plan LLM이 질의 의도에 따라 전략 선택 → DAG에 반영</li>
-      </ul>
-      <div class="ib" style="margin-top:4px;font-size:10.5px;">
-        <strong>이중 버그:</strong> "강남역, 신림역, 송내역 중에서" 질의 시 독립 검색 대신 하나의 중심점 검색만 수행.
-        프롬프트(LLM이 독립 step 미생성) + 저장 로직(전체 POI × 전체 아파트 카르테시안 곱) 두 원인을 동시에 수정.
-      </div>
-
-      <div class="sec" style="margin-top:10px;">결과</div>
-      <table class="ct" style="font-size:10.5px;">
-        <tr><th>지표</th><th>Before</th><th>After</th></tr>
-        <tr><td class="bd">자연어 매물 검색</td><td>불가</td><td class="w"><strong>프로덕션 런칭·운영중</strong></td></tr>
-        <tr><td class="bd">LLM 호출</td><td>3회</td><td class="w">2회 (33%↓)</td></tr>
-        <tr><td class="bd">복수 위치 검색</td><td>미지원</td><td class="w">독립/중간점/가중 전략</td></tr>
-        <tr><td class="bd">추천 방식</td><td>거리순 나열</td><td class="w">5가지 가중치 도메인 스코어링</td></tr>
-      </table>
-
-      <div class="rb" style="margin-top:8px;">
-        <strong>규모:</strong> 6개 PR · +4,200줄 · 59개 파일<br>
-        <strong>프로덕션:</strong> <a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a>
       </div>
 
       <div class="ib" style="margin-top:6px;font-size:10.5px;">
@@ -1744,80 +1518,22 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
-<!-- ===== SLIDE: 자연어 매물 추천 — 아키텍처 개선 스크린샷 (3/3) ===== -->
+<!-- ===== SLIDE 12+13: 백오피스 + Spring Batch (병합) ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(6) 자연어 매물 추천 — 핵심 코드 & 서비스 화면</div>
+  <div class="st">(7) 헬로핀테크 — 백오피스 성능 최적화 & Spring Batch</div>
   <span class="ss">2. 프로젝트</span>
-  <span class="pn">23</span>
-  <div style="flex:1;display:flex;flex-direction:column;margin-top:8px;gap:6px;">
-
-    <!-- 상단: 코드 스크린샷 -->
-    <div style="display:flex;gap:6px;flex:1;">
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#f8f9fa;color:#666;">processChat() — DAG 파이프라인 오케스트레이터</div>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#1e1e1e;padding:4px;">
-          <img src="https://www.dropbox.com/scl/fi/lre62c3n3n9jtb65ccsui/ai-bootalk-code-1.png?rlkey=hdy7fy83x0ea919410zoe5nk8&st=v51wgvj1&raw=1" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="processChat 코드">
-        </div>
-        <div style="font-size:8.5px;color:#666;padding:3px 6px;background:#f8f9fa;line-height:1.4;">
-          Step 1: <strong>executePlan()</strong> → Step 2: <strong>executeDag()</strong> → Step 3: <strong>streamChatCompletion()</strong>
-        </div>
-      </div>
-
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#f8f9fa;color:#666;">executeDag() — 위상정렬 · 레벨별 병렬 실행</div>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#1e1e1e;padding:4px;">
-          <img src="https://www.dropbox.com/scl/fi/8ogt2n9bb4jigyyflsie8/ai-bootalk-code-2.png?rlkey=0ufnluj059zljbdf6b20kh6x4&st=82ltg6ee&raw=1" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="executeDag 코드">
-        </div>
-        <div style="font-size:8.5px;color:#666;padding:3px 6px;background:#f8f9fa;line-height:1.4;">
-          <strong>levels.withIndex()</strong> 레벨 순회 → <strong>async(Dispatchers.IO)</strong> 병렬 → <strong>resolveVariables()</strong> $1.lat 해소
-        </div>
-      </div>
-    </div>
-
-    <!-- 하단: 서비스 화면 -->
-    <div style="display:flex;gap:6px;flex:1;">
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#f8f9fa;color:#666;">복합 조건 자연어 검색 결과</div>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:4px;">
-          <img src="https://www.dropbox.com/scl/fi/433657pr8jefq963mdcas/ai-estate-result-1.png?rlkey=52nvd21u3u6l16zbgv7srgwh1&st=7k1pknsk&raw=1" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="복합 조건 자연어 검색 결과">
-        </div>
-      </div>
-
-      <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#f8f9fa;color:#666;">다중 POI 매물 추천 결과</div>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:4px;">
-          <img src="https://www.dropbox.com/scl/fi/aoq9qelnfv6z89rlv2bb1/ai-estate-result-2.png?rlkey=p2gr9mfof5ejpaboji1ojfjvx&st=b0gtakq4&raw=1" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="다중 POI 매물 추천 결과">
-        </div>
-      </div>
-    </div>
-
-    <div class="ib" style="font-size:10px;">
-      <strong>코드 ↔ 아키텍처 ↔ 서비스:</strong>
-      processChat() 3-Step이 슬라이드 21 파이프라인과 1:1 대응. executeDag() 레벨별 병렬 실행이 DAG 실행 예시와 1:1 대응.
-      <strong><a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a></strong> 프로덕션 운영중.
-    </div>
-
-  </div>
-</div></div>
-
-<!-- ===== SLIDE 12: 백오피스 성능 최적화 ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(7) 백오피스 서버 성능 최적화</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">24</span>
+  <span class="pn">16</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">(주)헬로핀테크 — P2P 금융플랫폼 (누적대출 2.5조원)</td></tr>
         <tr><td class="l">기간</td><td class="v">2023.04 ~ 2025.03 (2년)</td></tr>
-        <tr><td class="l">역할</td><td class="v">성능 분석 및 최적화 설계 담당</td></tr>
-        <tr><td class="l">기술스택</td><td class="v">Java, Spring Boot, JPA, MyBatis, Redis, MySQL</td></tr>
-        <tr><td class="l">플랫폼 규모</td><td class="v">누적대출 2.5조원 · 19개 EC2 인스턴스 · 10개 노드 운영</td></tr>
+        <tr><td class="l">역할</td><td class="v">성능 분석·최적화·배치 전환 설계 담당</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">Java, Spring Boot, JPA, MyBatis, Redis, MySQL, Spring Batch</td></tr>
       </table>
 
-      <div class="sec" style="margin-top:8px;">HikariCP Deadlock 해결 — 3번의 오진 끝에 찾은 근본 원인</div>
+      <div class="sec" style="margin-top:6px;">HikariCP Deadlock 해결 — 3번의 오진 끝에 찾은 근본 원인</div>
       <ul class="bl">
         <li><strong class="bd">현상:</strong> 풀 40/40 포화, 46 스레드 대기. <strong>비용 절감 목적의 Pod 5→2 축소</strong>로 트래픽이 집중되며 수개월간 잠재된 버그 표면화</li>
         <li><strong class="bd">오진:</strong> ①DB 데드락→로그 없음 ②Conn Leak→fetchOne() 분석 후 배제 ③QueryDSL→JPQL 재현 성공, 배제</li>
@@ -1825,19 +1541,24 @@ a:hover{text-decoration:underline;}
         <li><strong class="bd">해결:</strong> ①풀 증가(재발) ②OSIV OFF(Lazy Loading 전면 수정) ③<span class="bd">JPA/MyBatis 트랜잭션 혼용 제거</span> — ③ 채택</li>
       </ul>
 
-      <div class="sec" style="margin-top:5px;">Redis Look-aside Cache — 왜 이 패턴인가</div>
+      <div class="sec" style="margin-top:5px;">Redis Look-aside Cache / <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag">Replication Lag</a></div>
       <ul class="bl">
-        <li><strong class="bd">문제:</strong> 외부 API 평균 5,132ms (최대 9,412ms) → 사용자 이탈 임계치(3초) 초과</li>
-        <li><strong class="bd">판단:</strong> 사용자 주소 예측 불가→Warm-up 불가 → <span class="hl"><a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf">Look-aside</a></span> 선택. 임시저장 시 동일 주소 반복 조회→높은 히트율 기대</li>
-        <li><strong class="bd">성과:</strong> 평균 응답 <strong class="bd">5,132→1,299ms</strong> (Cache Hit 시 57ms), API 호출 76% 감소. 동적 TTL: 외부 API 갱신(목요일 23:30)까지 남은 초 계산. Admin은 <strong>noCache</strong>로 우회</li>
+        <li><strong class="bd">Cache:</strong> 외부 API 평균 5,132ms → <span class="hl"><a href="https://jeongil.dev/ko/blog/backend/performance/look-aside-cache-api-perf">Look-aside</a></span> 적용, <strong class="bd">5,132→1,299ms</strong> (Hit 시 57ms), 호출 76%↓</li>
+        <li><strong class="bd">Replication:</strong> INSERT 직후 Slave "없음" → AbstractRoutingDataSource + @UseMasterDB AOP 세밀 라우팅</li>
       </ul>
 
-      <div class="sec" style="margin-top:4px;"><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/db-replication-lag">DB Replication Lag</a> — 일관성 vs 성능</div>
+      <div class="sec" style="margin-top:5px;">Spring Batch — <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock">Metadata Deadlock</a> & MVCC 누락</div>
       <ul class="bl">
-        <li><strong class="bd">현상:</strong> INSERT 직후 SELECT→Slave "데이터 없음". <strong>모든 읽기를 Master로 보내면 Replication 의미 상실</strong> → 4패턴(RYOW·Monotonic·Txn·<span class="bd">Routing</span>) 비교, AOP 세밀 제어 가능한 AbstractRoutingDataSource 채택</li>
-        <li><strong class="bd">3단계:</strong> ①@Transactional Master 라우팅(빠른 적용) → ②<strong class="bd">@UseMasterDB</strong>+AOP(세밀 제어) → ③핵심 서비스 Master 직접 연결 (네이버페이 DAN24 참고)</li>
+        <li><strong class="bd"><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock">Metadata Deadlock</a>:</strong> Job 동시 실행 시 S-Lock 경합 (Spring Batch Issue #1448, 10년간 미해결) → <span class="bd">Isolation READ_COMMITTED</span></li>
+        <li><strong class="bd">MVCC 누락:</strong> Tasklet 22분 단일 트랜잭션 → 배치 중 입금 데이터 누락 → <span class="hl"><a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Chunk + Partitioning</a></span> 전환, 트랜잭션 0.01초 커밋</li>
+        <li><strong class="bd">성과:</strong> 배치 <strong class="bd">13.3분→4.8분</strong> · Row당 <strong class="bd">3.74초→0.72초</strong> · 락 점유 <strong class="bd">22분→0.01초</strong></li>
       </ul>
 
+      <div class="ib" style="margin-top:5px;font-size:11px;line-height:1.5;">
+        <strong>인프라 변경이 잠자던 버그를 깨웠습니다:</strong>
+        Pod 5→2로 축소했더니 수개월간 잠재돼 있던 Deadlock이 표면화됐습니다. <strong>pool-size=1로 로컬에서 재현</strong>하고 DefaultJpaDialect 소스까지 추적했습니다.
+        OSIV가 웹 컨텍스트에서만 활성화되다 보니 — <strong>단위 테스트에서는 아예 재현이 안 돼서</strong> 통합 테스트가 필수였습니다.
+      </div>
     </div>
 
     <div class="c">
@@ -1855,78 +1576,22 @@ a:hover{text-decoration:underline;}
         <div class="dn">OSIV는 웹 요청 컨텍스트에서만 활성화 → 단위 테스트에서는 재현 불가</div>
       </div>
 
-      <div class="dg" style="margin-top:8px;">
-        <div class="dl">Look-aside Cache 패턴</div>
-        <div style="display:flex;gap:16px;justify-content:center;">
-          <div class="dc">
-            <div style="font-size:10px;font-weight:700;color:#c5221f;">Cache Miss</div>
-            <div class="db ds">Request</div><div class="dd">↓</div>
-            <div class="db er ds">Redis: MISS</div><div class="dd">↓</div>
-            <div class="db wn ds">외부 API (5.1s)</div><div class="dd">↓ SET</div>
-            <div class="db ds">Redis 저장</div>
+      <div class="dg" style="margin-top:6px;">
+        <div class="dl">배치 최적화: Tasklet → Chunk + Partitioning</div>
+        <div style="display:flex;gap:8px;align-items:start;">
+          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:6px;background:#fff;">
+            <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:3px;">BEFORE: Tasklet</div>
+            <div style="font-size:10.5px;color:#555;text-align:center;line-height:1.4;">단일 스레드 · 순차 처리<br>전체 메모리 로드 · 단건 INSERT<br><strong style="font-size:12px;color:#c5221f;">13분</strong></div>
           </div>
-          <div style="border-left:1px dashed #ddd;"></div>
-          <div class="dc">
-            <div style="font-size:10px;font-weight:700;color:#137333;">Cache Hit</div>
-            <div class="db ds">Request</div><div class="dd">↓</div>
-            <div class="db ok ds">Redis: HIT (57ms)</div><div class="dd">↓</div>
-            <div class="db ok ds">즉시 응답</div>
-            <div style="height:16px;"></div>
-            <div style="font-size:10px;color:#137333;font-weight:700;">Cache Hit 90x</div>
+          <div style="display:flex;align-items:center;font-size:16px;color:#999;">→</div>
+          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:6px;background:#fff;">
+            <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:3px;">AFTER: Chunk + Partition</div>
+            <div style="font-size:10.5px;color:#555;text-align:center;line-height:1.4;">Partitioner 분할 · 병렬 Chunk<br>Bulk INSERT · 0.01초 커밋<br><strong style="font-size:12px;color:#137333;">5분</strong></div>
           </div>
         </div>
       </div>
 
-      <div class="ib" style="margin-top:5px;font-size:11px;line-height:1.5;">
-        <strong>인프라 변경이 잠자던 버그를 깨웠습니다:</strong>
-        Pod 5→2로 축소했더니 수개월간 잠재돼 있던 Deadlock이 표면화됐습니다. <strong>pool-size=1로 로컬에서 재현</strong>하고 DefaultJpaDialect 소스까지 추적했습니다.
-        OSIV가 웹 컨텍스트에서만 활성화되다 보니 — <strong>단위 테스트에서는 아예 재현이 안 돼서</strong> 통합 테스트가 필수였습니다.
-      </div>
-    </div>
-  </div>
-  <div class="rb" style="margin-top:4px;font-size:11px;">
-    <strong>종합 성과 (개별 검증 가능):</strong> ① HikariCP Deadlock 해결 → Pool 40/40 포화 제거 · ② 평균 응답 <strong>5,132→1,299ms</strong> (Cache Hit 시 57ms), 호출 76% 감소 · ③ Replication Lag → 핵심 서비스 정합성 확보. 3가지 복합 적용 후 전체 API 응답 <strong>10.3초→1.3초</strong>
-  </div>
-</div></div>
-
-<!-- ===== SLIDE 13: Spring Batch ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(8) Spring Batch 성능 최적화</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">25</span>
-  <div class="tc" style="margin-top:10px;flex:1;">
-    <div class="c">
-      <table class="it">
-        <tr><td class="l">소속</td><td class="v">(주)헬로핀테크 — P2P 온라인투자연계 금융플랫폼</td></tr>
-        <tr><td class="l">기간</td><td class="v">2023.05 ~ 2024.12 (1년 8개월)</td></tr>
-        <tr><td class="l">역할</td><td class="v">배치 시스템 전환 및 성능 최적화 설계 담당</td></tr>
-        <tr><td class="l">기술스택</td><td class="v">Java 11, Spring Batch, JPA</td></tr>
-      </table>
-
-      <div class="sec">배경 및 문제</div>
-      <ul class="bl">
-        <li><strong class="bd">신한은행 에스크로 계좌</strong> 잔고 정합성 검증 배치 — 금융 데이터 무결성 필수</li>
-        <li><strong class="bd"><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/spring-batch-job-deadlock">Metadata Deadlock</a>:</strong> Job 동시 실행 시 BATCH_JOB_INSTANCE 테이블 Deadlock (Spring Batch Issue #1448, 2013년부터 10년간 미해결 버그). SELECT → INSERT 패턴에서 shared lock 경합</li>
-        <li><strong class="bd">MVCC 데이터 누락:</strong> Tasklet이 22분(1,320초)간 단일 트랜잭션 → MySQL REPEATABLE READ 스냅샷이 <strong class="bd">배치 실행 중 입금된 데이터를 누락</strong>. Chunk 전환 후 트랜잭션 0.01초 단위 커밋 → 누락 확률 1,320/0.01 = <strong>132,000배 축소(1/132,000)</strong>. 금융에서는 이마저도 불허 → 관리자 오탐 알림 반복</li>
-      </ul>
-
-      <div class="sec">고려한 대안 & 해결</div>
-      <ul class="bl">
-        <li><strong class="bd">Deadlock 3가지 선택지:</strong> ①재시도 로직(회피) ②Job 순차 실행(성능 포기) ③<span class="bd">Isolation Level READ_COMMITTED로 변경</span><br>
-          <span class="sm">→ Spring Batch 5에서 수정되었으나, Boot 2.7→3.x + Java 11→17 동시 업그레이드는 과도한 리스크. Metadata는 <strong>최종 상태만 정확하면 됨</strong> → 격리 수준 완화가 합리적</span></li>
-        <li><strong class="bd">성능 2가지 선택지:</strong> ①Tasklet 내 멀티스레딩(상태 관리 복잡) ②<span class="hl"><a href="https://jeongil.dev/ko/blog/backend/performance/spring-batch-tasklet-to-chunk">Chunk + Partitioning</a>(프레임워크 네이티브)</span><br>
-          <span class="sm">→ 데이터 정합성 근거(MVCC 해소)로 팀 리더께 근거를 공유하여 리팩터링 승인 획득. 투자자 데이터 간 독립성이 있어 Partitioning 적합</span></li>
-      </ul>
-
-      <div class="sec">성과</div>
-      <ul class="bl">
-        <li>배치 처리 시간 <strong class="bd">13.3분 → 4.8분</strong> → 후속 배치 충돌 해소, 새벽 운영 안정화</li>
-        <li>Row당 처리 시간 <strong class="bd">3.74초 → 0.72초</strong> · 트랜잭션 락 점유 <strong class="bd">22분 → 0.01초</strong></li>
-        <li>Metadata Deadlock <strong class="bd">완전 해결</strong> → Job 동시 실행 안정성 확보</li>
-      </ul>
-
-      <div class="ib" style="margin-top:10px;">
+      <div class="ib" style="margin-top:6px;font-size:11px;line-height:1.5;">
         <strong>무모했지만 가장 많이 성장한 시기였습니다:</strong>
         DevOps께서 퇴사하고 나서 자원해서 <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD)을 받았고, 그 후 <strong>19개 EC2·10개 노드를 7개월간 혼자 운영</strong>했습니다.
         솔직히 무모했는데, 이때 끝이 보이지 않는 느낌으로 인프라 장애랑 씨름한 경험이 있었기에 부톡에서 K8s를 <strong>직접 설계하고 제안</strong>할 수 있었다고 생각합니다.
@@ -1934,120 +1599,50 @@ a:hover{text-decoration:underline;}
         금융 도메인에서 MVCC 누락이나 정합성 검증을 직접 겪어본 덕분에, 부톡 MSA 무중단 전환에서도 <strong>과도기 데이터 안전장치를 먼저 설계</strong>할 수 있었습니다.
       </div>
     </div>
-
-    <div class="c">
-      <div class="dg">
-        <div class="dl">배치 최적화: Tasklet → Chunk + Partitioning</div>
-        <div style="display:flex;gap:10px;align-items:start;">
-          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
-            <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE: Tasklet</div>
-            <div class="db er ds" style="width:100%;margin-bottom:3px;">단일 스레드</div>
-            <div class="dd" style="font-size:10.5px;">전체 데이터 메모리 로드</div>
-            <div class="db er ds" style="width:100%;margin-bottom:3px;">순차 처리</div>
-            <div class="dd" style="font-size:10.5px;">한 건씩 INSERT</div>
-            <div class="db er ds" style="width:100%;">단건 쓰기</div>
-            <div style="text-align:center;margin-top:5px;font-size:13px;color:#c5221f;font-weight:700;">13분</div>
-          </div>
-          <div style="display:flex;align-items:center;padding-top:45px;font-size:16px;color:#999;">→</div>
-          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
-            <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AFTER: Chunk + Partition</div>
-            <div class="db ok ds" style="width:100%;margin-bottom:3px;">Partitioner</div>
-            <div class="dd" style="font-size:10.5px;">데이터 분할</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
-              <div class="db ok ds">Thread 1<br><span style="font-size:10.5px;">Chunk R/W</span></div>
-              <div class="db ok ds">Thread 2<br><span style="font-size:10.5px;">Chunk R/W</span></div>
-            </div>
-            <div class="dd" style="font-size:10.5px;">Bulk INSERT</div>
-            <div class="db ok ds" style="width:100%;">일괄 쓰기</div>
-            <div style="text-align:center;margin-top:5px;font-size:13px;color:#137333;font-weight:700;">5분</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="dg" style="margin-top:8px;">
-        <div class="dl">Metadata Deadlock 해결: Isolation Level 변경</div>
-        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div style="display:flex;gap:12px;align-items:start;">
-            <div class="dc">
-              <div class="db er ds">Job A 실행</div>
-              <div class="dd">↓ SELECT</div>
-              <div class="db wn ds">BATCH_JOB_<br>EXECUTION <strong>S-Lock</strong></div>
-              <div class="dd" style="color:#c5221f;">↓ INSERT 시도</div>
-              <div class="db er ds" style="font-size:10.5px;">B의 락 대기 ⏳</div>
-            </div>
-            <div style="display:flex;flex-direction:column;align-items:center;padding-top:42px;gap:2px;">
-              <span style="font-size:16px;color:#c5221f;">⇄</span>
-              <span style="font-size:9px;color:#c5221f;font-weight:600;">교차 대기<br>= Deadlock</span>
-            </div>
-            <div class="dc">
-              <div class="db er ds">Job B 실행</div>
-              <div class="dd">↓ SELECT</div>
-              <div class="db wn ds">BATCH_STEP_<br>EXECUTION <strong>S-Lock</strong></div>
-              <div class="dd" style="color:#c5221f;">↓ INSERT 시도</div>
-              <div class="db er ds" style="font-size:10.5px;">A의 락 대기 ⏳</div>
-            </div>
-          </div>
-          <div class="dd" style="color:#137333;">↓ 해결</div>
-          <div class="db ok ds" style="width:75%;">Isolation Level: <strong>SERIALIZABLE → READ_COMMITTED</strong></div>
-        </div>
-        <div class="dn">Metadata는 최종 상태만 정확하면 됨 — S-Lock(shared lock) 경합 원천 제거</div>
-      </div>
-
-      <div class="ib" style="margin-top:6px;">
-        <strong>Isolation Level 완화는 근거가 있었습니다:</strong> Spring Batch 5에서 동일 방식으로 수정된 걸 확인하고 팀에 공유한 후 병렬 테스트로 검증했습니다.
-        <strong>EntityManager 함정도 있었습니다.</strong> Chunk 전환 중 commit 전에 close하면 <strong>Connection Leak</strong>이 발생했고, R/P/W 트랜잭션을 분리하고 <strong>ConcurrentLinkedQueue</strong>로 스레드 안전하게 데이터를 넘기도록 설계했습니다.
-      </div>
-
-      <div class="rb" style="margin-top:6px;">
-        <strong>종합 성과:</strong> 배치 처리 <strong>13.3분→4.8분</strong> · Row당 <strong>3.74초→0.72초</strong> · 락 점유 <strong>22분→0.01초</strong> · Metadata Deadlock <strong>완전 해결</strong> · 금융 서비스 새벽 배치 안정성 확보
-      </div>
-    </div>
+  </div>
+  <div class="rb" style="margin-top:4px;font-size:11px;">
+    <strong>종합 성과:</strong> ① HikariCP Deadlock 해결 (3번 오진→OSIV+JPA/MyBatis 근본 원인 규명) · ② 응답 <strong>5,132→1,299ms</strong> (Hit 57ms), 호출 76%↓ · ③ Replication Lag 세밀 라우팅 · ④ 배치 <strong>13.3분→4.8분</strong>, Metadata Deadlock 완전 해결
   </div>
 </div></div>
 
-<!-- ===== SLIDE 14: Side Project - Upvy (1/2) 서비스 소개 ===== -->
+<!-- ===== SLIDE: Side Projects — Upvy + Error Autopilot (병합) ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">Side Project — Upvy (교육용 숏폼 영상 플랫폼)</div>
-  <span class="ss">3-1. Upvy</span>
-  <span class="pn">26</span>
-  <div class="tc" style="margin-top:10px;flex:1;">
+  <div class="st">Side Projects — Upvy & Error Autopilot</div>
+  <span class="ss">3. Side Projects</span>
+  <span class="pn">17</span>
+  <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
-      <table class="it">
-        <tr><td class="l">기간</td><td class="v">2025.10 ~ 현재</td></tr>
-        <tr><td class="l">인원</td><td class="v">1인 풀스택 개발 (기획~배포~운영)</td></tr>
-        <tr><td class="l">상태</td><td class="v"><a href="https://apps.apple.com/app/upvy/id6756291696">App Store</a> / <a href="https://play.google.com/store/apps/details?id=com.upvy.app">Play Store</a> 출시 및 운영중</td></tr>
-        <tr><td class="l">테스트</td><td class="v">79% Test Coverage</td></tr>
-      </table>
+      <div class="sec-s">Upvy — 교육용 숏폼 영상 플랫폼</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:4px;">1인 풀스택 · <a href="https://apps.apple.com/app/upvy/id6756291696">App Store</a> / <a href="https://play.google.com/store/apps/details?id=com.upvy.app">Play Store</a> 출시 · 79% Coverage · 2025.10~현재</div>
 
-      <div class="sec">프로젝트 소개</div>
-      <p class="bt">긴 교육 영상에서 AI가 핵심 구간을 자동 추출하여 숏폼으로 변환하는 플랫폼.
-      기획·설계·개발·배포·운영까지 혼자 진행했습니다.</p>
-
-      <div class="sec">기술 선택 & 근거</div>
-      <ul class="bl">
-        <li><strong class="bd">Kotlin + Spring WebFlux + R2DBC</strong><br>
-          <span class="sm">영상 처리의 I/O 바운드 특성 → 비동기/논블로킹이 성능 임계점을 결정</span></li>
-        <li><strong class="bd">React Native (Expo)</strong><br>
-          <span class="sm">iOS/Android 동시 출시 + 1인 개발 → 크로스 플랫폼이 유일한 선택지</span></li>
-        <li><strong class="bd">Vertex AI Gemini + Speech-to-Text</strong><br>
-          <span class="sm">GPT-4 대비 50% 이상 저렴하면서 한국어 성능 우수</span></li>
-        <li><strong class="bd">79% Test Coverage</strong><br>
-          <span class="sm">혼자 개발하면 나 대신 코드를 검증해줄 동료가 없으니까, 테스트가 더 중요하다고 생각합니다</span></li>
-      </ul>
-
-      <div class="dg" style="margin-top:12px;">
-        <div class="dl">FULL STACK ARCHITECTURE</div>
-        <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:10.5px;">
-          <span style="color:#222;font-weight:600;">Backend</span><span style="color:#666;">Kotlin · Spring WebFlux · R2DBC · Coroutines</span>
-          <span style="color:#222;font-weight:600;">Frontend</span><span style="color:#666;">React Native (Expo) · TypeScript</span>
-          <span style="color:#222;font-weight:600;">AI</span><span style="color:#666;">Vertex AI Gemini · Google STT · YouTube Data API</span>
-          <span style="color:#222;font-weight:600;">Infra</span><span style="color:#666;">GKE · ArgoCD · Cloud SQL · Redis</span>
-          <span style="color:#222;font-weight:600;">Monitoring</span><span style="color:#666;">Grafana · Loki · Tempo · Prometheus</span>
+      <div style="display:flex;gap:3px;margin-bottom:6px;">
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+          <img src="https://github.com/user-attachments/assets/cc1c42c4-6684-4058-8043-73440a2191ca" style="width:100%;max-height:130px;object-fit:contain;display:block;" alt="Upvy Main Feed">
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+          <img src="https://github.com/user-attachments/assets/2e390728-2b36-4dcb-8105-1ccfb8d4c192" style="width:100%;max-height:130px;object-fit:contain;display:block;" alt="Upvy Category">
         </div>
       </div>
 
-      <div class="ib" style="margin-top:16px;">
+      <div class="sec-s">기술 선택 근거</div>
+      <ul class="bl" style="font-size:11px;">
+        <li><strong class="bd">Kotlin + Spring WebFlux + R2DBC</strong> — 영상 처리 I/O 바운드 → 비동기/논블로킹이 성능 임계점을 결정</li>
+        <li><strong class="bd">React Native (Expo)</strong> — iOS/Android 동시 출시 + 1인 개발 → 크로스 플랫폼이 유일한 선택지</li>
+        <li><strong class="bd">Vertex AI Gemini + STT</strong> — GPT-4 대비 50%+ 저렴, 한국어 우수</li>
+      </ul>
+
+      <div class="dg" style="margin-top:6px;">
+        <div class="dl">FULL STACK ARCHITECTURE</div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:10px;">
+          <span style="color:#222;font-weight:600;">Backend</span><span style="color:#666;">Kotlin · WebFlux · R2DBC · Coroutines</span>
+          <span style="color:#222;font-weight:600;">Frontend</span><span style="color:#666;">React Native (Expo) · TypeScript</span>
+          <span style="color:#222;font-weight:600;">AI</span><span style="color:#666;">Gemini · Google STT · YouTube Data API</span>
+          <span style="color:#222;font-weight:600;">Infra</span><span style="color:#666;">GKE · ArgoCD · Cloud SQL · Redis</span>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:6px;font-size:10.5px;">
         <strong>왜 사이드 프로젝트를 하냐면:</strong>
         회사에서는 기존 시스템의 제약 안에서 일하게 되는데, 사이드 프로젝트는
         <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>해볼 수 있는 기회라고 생각합니다.
@@ -2056,207 +1651,59 @@ a:hover{text-decoration:underline;}
     </div>
 
     <div class="c" style="flex:1.1;">
-      <div class="sec">실제 서비스 운영 화면</div>
-      <div style="display:flex;gap:4px;">
-        <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">로그인</div>
-          <img src="https://github.com/user-attachments/assets/6832d5d4-f429-4c12-a0da-91b04cd26433" style="width:100%;max-height:200px;object-fit:contain;display:block;" alt="Upvy Login">
-        </div>
-        <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">메인 피드</div>
-          <img src="https://github.com/user-attachments/assets/cc1c42c4-6684-4058-8043-73440a2191ca" style="width:100%;max-height:200px;object-fit:contain;display:block;" alt="Upvy Main Feed">
-        </div>
-        <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">카테고리</div>
-          <img src="https://github.com/user-attachments/assets/2e390728-2b36-4dcb-8105-1ccfb8d4c192" style="width:100%;max-height:200px;object-fit:contain;display:block;" alt="Upvy Category">
-        </div>
-        <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">프로필</div>
-          <img src="https://github.com/user-attachments/assets/f34b31f5-ce10-4484-be17-f489998674f3" style="width:100%;max-height:200px;object-fit:contain;display:block;" alt="Upvy Profile">
-        </div>
-        <div style="flex:1;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">검색</div>
-          <img src="https://github.com/user-attachments/assets/e765bfe9-3be5-4105-8451-5af160c12795" style="width:100%;max-height:200px;object-fit:contain;display:block;" alt="Upvy Search">
-        </div>
-      </div>
+      <div class="sec-s">Error Autopilot — AI 에러 자동 대응</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:4px;">1인 개발 · Upvy 실서비스 적용 · <a href="https://github.com/12OneTwo12/error-autopilot-mcp">GitHub</a> · <a href="https://jeongil.dev/ko/blog/trends/openclaw-error-autopilot">Blog</a> · 2026.01~현재</div>
 
-      <div class="dg" style="margin-top:14px;">
-        <div class="dl">n8n 콘텐츠 자동화 워크플로우 — 실제 운영 화면</div>
-        <img src="https://github.com/user-attachments/assets/d4f8b6c4-2214-41de-bc98-0db64c8d1f72" style="width:100%;max-height:160px;object-fit:contain;display:block;border-radius:3px;" alt="n8n Workflow">
-      </div>
-
-      <div class="ib" style="margin-top:14px;">
-        <strong>n8n을 도입한 이유:</strong>
-        콘텐츠 생성 파이프라인(검색→다운로드→STT→분석→편집→업로드)을
-        코드로만 관리하니까 수정이랑 모니터링이 쉽지 않았습니다.
-        <strong>n8n으로 시각적 워크플로우를 구성</strong>해서 각 단계의 성공/실패를 실시간으로 추적하고,
-        비개발자도 흐름을 이해할 수 있게 만들었습니다.
-      </div>
-    </div>
-  </div>
-</div></div>
-
-<!-- ===== SLIDE 15: Upvy (2/2) AI 파이프라인 ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">Upvy — AI 콘텐츠 파이프라인 & 개발 자동화</div>
-  <span class="ss">3-1. Upvy</span>
-  <span class="pn">27</span>
-  <div class="tc" style="margin-top:10px;flex:1;">
-    <div class="c">
-      <div class="dg">
-        <div class="dl">AI 기반 영상 자동 편집 파이프라인</div>
-        <div style="display:flex;flex-direction:column;gap:6px;align-items:center;padding:6px 0;">
-          <div class="db ac" style="width:75%;padding:8px 10px;">Gemini 검색어 생성<br><span style="font-size:10.5px;color:#999;">AI가 주제별 검색 쿼리 추론</span></div>
-          <div class="dd">↓</div>
-          <div class="db dk" style="width:75%;padding:8px 10px;">YouTube API 검색<br><span style="font-size:10.5px;color:#999;">CC 라이선스만 + yt-dlp 다운로드</span></div>
-          <div class="dd">↓</div>
-          <div class="db" style="width:75%;padding:8px 10px;">Google STT<br><span style="font-size:10.5px;color:#999;">음성 → 타임스탬프 포함 텍스트</span></div>
-          <div class="dd">↓</div>
-          <div class="db ac" style="width:75%;padding:8px 10px;">Gemini 분석<br><span style="font-size:10.5px;color:#999;">핵심 구간 추출 + 적합성 평가</span></div>
-          <div class="dd">↓</div>
-          <div class="db" style="width:75%;padding:8px 10px;">FFmpeg 편집<br><span style="font-size:10.5px;color:#999;">클리핑 + 세로 포맷 변환</span></div>
-          <div class="dd">↓</div>
-          <div class="db ok" style="width:75%;padding:8px 10px;">품질 검수<br><span style="font-size:10.5px;color:#999;">70점+ → 관리자 승인 대기</span></div>
-        </div>
-      </div>
-
-      <div class="ib" style="margin-top:18px;">
-        <strong>파이프라인 설계에서 가장 신경 쓴 부분:</strong>
-        각 단계가 독립적으로 실패하고 재시도할 수 있게 만들었습니다.
-        STT가 실패하면 해당 영상만 스킵하고, Gemini 분석 결과가 70점 미만이면
-        자동으로 폐기해서 <strong>품질 기준 이하의 콘텐츠가 사용자에게 노출되지 않도록</strong> 했습니다.
-      </div>
-    </div>
-
-    <div class="c" style="flex:1.1;">
-      <div class="sec-s">AI 활용 & 개발 자동화</div>
-      <ul class="bl" style="font-size:11px;">
-        <li><strong class="bd"><a href="https://jeongil.dev/ko/blog/trends/ai-agent-co-work/">AI 협업 방법론</a>:</strong> Skills 분리(토큰 50~92%↓), TDD로 AI 출력 검증 구조 정립</li>
-        <li><strong class="bd">AI 코드 검증 자동화:</strong> Jacoco·Detekt·ArchUnit CI 자동 검증 + Gemini PR 리뷰로 교차 검증, 검증 부담 분산</li>
-      </ul>
-
-      <div class="dg" style="margin-top:16px;">
-        <div class="dl">CI/CD 자동화 — 1인 개발의 품질 관리 전략</div>
-        <div style="display:flex;flex-direction:column;gap:6px;align-items:center;padding:6px 0;">
-          <div class="db ac" style="width:85%;padding:8px 10px;">PR 생성 (AI 또는 직접)</div>
-          <div class="dd">↓</div>
-          <div style="display:flex;gap:8px;width:95%;justify-content:center;">
-            <div class="db ds" style="flex:1;padding:8px 4px;">Jacoco<br><span style="font-size:10px;color:#999;">Coverage 79%+</span></div>
-            <div class="db ds" style="flex:1;padding:8px 4px;">Detekt<br><span style="font-size:10px;color:#999;">코드 품질</span></div>
-            <div class="db ds" style="flex:1;padding:8px 4px;">ArchUnit<br><span style="font-size:10px;color:#999;">아키텍처 규칙</span></div>
+      <div class="dg" style="padding:6px 10px;">
+        <div class="dl">V1 → V2 진화</div>
+        <div style="display:flex;gap:8px;">
+          <div style="flex:1;">
+            <div style="font-size:9.5px;font-weight:700;color:#c5221f;margin-bottom:3px;">V1: MCP (반자동)</div>
+            <div style="display:flex;align-items:center;gap:2px;font-size:9.5px;">
+              <div class="db er ds" style="min-width:auto;padding:2px 4px;">에러</div><div class="da" style="font-size:9px;">→</div>
+              <div class="db wn ds" style="min-width:auto;padding:2px 4px;">개발자<br>트리거</div><div class="da" style="font-size:9px;">→</div>
+              <div class="db ac ds" style="min-width:auto;padding:2px 4px;">MCP<br>분석</div><div class="da" style="font-size:9px;">→</div>
+              <div class="db ok ds" style="min-width:auto;padding:2px 4px;">Issue</div>
+            </div>
           </div>
-          <div class="dd">↓</div>
-          <div class="db ac" style="width:85%;padding:8px 10px;">Gemini PR 리뷰 (AI 교차 검증)</div>
-          <div class="dd">↓</div>
-          <div class="db ok" style="width:85%;padding:8px 10px;">Merge → ArgoCD 자동 배포</div>
+          <div style="flex:1;">
+            <div style="font-size:9.5px;font-weight:700;color:#137333;margin-bottom:3px;">V2: OpenClaw (완전 자동)</div>
+            <div style="display:flex;align-items:center;gap:2px;font-size:9.5px;">
+              <div class="db er ds" style="min-width:auto;padding:2px 4px;">에러</div><div class="da" style="font-size:9px;">→</div>
+              <div class="db ds" style="min-width:auto;padding:2px 4px;">Cron</div><div class="da" style="font-size:9px;">→</div>
+              <div class="db ac ds" style="min-width:auto;padding:2px 4px;">분석</div><div class="da" style="font-size:9px;">→</div>
+              <div class="db ds" style="min-width:auto;padding:2px 4px;">수정</div><div class="da" style="font-size:9px;">→</div>
+              <div class="db ok ds" style="min-width:auto;padding:2px 4px;">PR</div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="ib" style="margin-top:18px;">
-        <strong>1인 개발에서 가장 어려운 건 품질 관리라고 생각합니다.</strong>
-        동료 리뷰어가 없으니까 CI 자동 검증(Jacoco·Detekt·ArchUnit)이랑
-        AI PR 리뷰를 교차로 적용해서, <strong>사람이 놓치는 건 도구가, 도구가 놓치는 건 AI가</strong> 잡아주는 구조를 만들었습니다.
-      </div>
-
-      <div class="ib" style="margin-top:16px;">
-        어떻게 하면 AI를 더 잘 활용할 수 있을지 꾸준히 고민하고 있습니다.
-        무조건 수락하면 제게 남는 게 없다는 걸 느꼈기에,
-        <strong>AI가 제안하면 항상 질문하고 반박하면서, 더 좋은 결과물을 만들고 성장하려고 노력하고 있습니다.</strong>
-      </div>
-    </div>
-  </div>
-</div></div>
-
-<!-- ===== SLIDE 16: Error Autopilot ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">Side Project — Error Autopilot (AI 에러 자동 대응 시스템)</div>
-  <span class="ss">3-2. Error Autopilot</span>
-  <span class="pn">28</span>
-  <div class="tc" style="margin-top:6px;flex:1;">
-    <div class="c">
-      <table class="it">
-        <tr><td class="l">기간</td><td class="v">2026.01 ~ 현재</td></tr>
-        <tr><td class="l">인원</td><td class="v">1인 개발 · Upvy 실서비스 적용</td></tr>
-        <tr><td class="l">목표</td><td class="v">에러 감지→분석→수정→PR을 AI가 자동 처리</td></tr>
-        <tr><td class="l">링크</td><td class="v"><a href="https://github.com/12OneTwo12/error-autopilot-mcp">GitHub</a> · <a href="https://jeongil.dev/ko/blog/trends/openclaw-error-autopilot">Blog</a></td></tr>
-      </table>
-
-      <div class="sec">v1: MCP 에러 자동 대응 (반자동)</div>
-      <p class="bt">1인 백엔드로 야간 장애 대응하는 게 한계가 있어서 시작했습니다.
-      Claude Code MCP로 Loki/Tempo 에러 로그를 분석하고,
-      원인 파악 → 코드 수정 → GitHub Issue 자동 생성까지는 했는데,
-      <strong class="bd">개발자가 직접 트리거</strong>해야 하는 한계가 있었습니다.</p>
 
       <div style="display:flex;gap:4px;margin-top:6px;">
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">MCP 에러 분석 트리거</div>
-          <img src="https://github.com/user-attachments/assets/99f4c410-70b6-4e03-8ef8-1bca025e2049" style="width:100%;max-height:160px;object-fit:contain;display:block;" alt="MCP Trigger">
+          <div style="font-size:8px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">OpenClaw 자동 에러 분석</div>
+          <img src="https://www.dropbox.com/scl/fi/iy75r7yid6wed7f6s7acd/E9955AA6-A06F-44D8-A6EB-C1DF4274B16E.jpg?rlkey=m2nssrzfm5uypia6kfvdgiqm6&st=dkcgc5gu&raw=1" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="OpenClaw Auto Analysis">
         </div>
-        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">자동 생성된 GitHub Issue</div>
-          <img src="https://github.com/user-attachments/assets/befff3df-fe3b-495d-aff3-f284afc38c67" style="width:100%;max-height:160px;object-fit:contain;display:block;" alt="Auto Created Issue">
-        </div>
-      </div>
-
-      <div class="dg" style="margin-top:4px;padding:4px 10px;">
-        <div class="dl">MCP 파이프라인 (반자동)</div>
-        <div style="display:flex;align-items:center;gap:3px;justify-content:center;font-size:10.5px;">
-          <div class="db er ds">에러 발생</div><div class="da">→</div>
-          <div class="db wn ds">개발자<br>트리거</div><div class="da">→</div>
-          <div class="db ac ds">MCP<br>분석</div><div class="da">→</div>
-          <div class="db ok ds">Issue<br>생성</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="c" style="flex:1.1;">
-      <div class="sec">v2: OpenClaw으로의 진화 (완전 자동)</div>
-      <p class="bt"><strong class="bd">"도구를 쓰는 것과 파이프라인을 구축하는 건 다르다"</strong>는 걸 느끼고 발전시켰습니다.
-      Cron 폴링으로 에러를 자동 감지하고, AI가 분석→코드 수정→PR까지 사람 개입 없이 처리합니다.</p>
-
-      <div style="display:flex;gap:4px;margin-top:8px;">
-        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">OpenClaw 자동 에러 분석</div>
-          <img src="https://www.dropbox.com/scl/fi/iy75r7yid6wed7f6s7acd/E9955AA6-A06F-44D8-A6EB-C1DF4274B16E.jpg?rlkey=m2nssrzfm5uypia6kfvdgiqm6&st=dkcgc5gu&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="OpenClaw Auto Analysis">
-        </div>
-        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">Loki 로그 분석 → PR 자동 생성</div>
-          <img src="https://www.dropbox.com/scl/fi/n7oc7ys210wu8h71f18sc/9E45A3DA-F469-4CE7-9A07-5E761F19FC6C.jpg?rlkey=nmn6yvo8hx4ng1ufp07mn88ge&st=oi8i9kxn&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="OpenClaw Loki Analysis">
-        </div>
-      </div>
-
-      <div class="dg" style="margin-top:4px;padding:4px 10px;">
-        <div class="dl">OpenClaw 파이프라인 (완전 자동)</div>
-        <div style="display:flex;align-items:center;gap:3px;justify-content:center;font-size:10.5px;">
-          <div class="db er ds">에러 발생</div><div class="da">→</div>
-          <div class="db ds">Cron<br>감지</div><div class="da">→</div>
-          <div class="db ac ds">OpenClaw<br>분석</div><div class="da">→</div>
-          <div class="db ds">코드<br>수정</div><div class="da">→</div>
-          <div class="db ok ds">PR 생성<br><span style="font-size:9.5px;">Human Review</span></div>
-        </div>
-      </div>
-
-      <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
-        <strong>Heartbeat 하이브리드를 왜 만들었냐면:</strong> Cron 폴링(주기적 감지)만으로는 놓치는 에러가 있고, 텔레그램 Forward(즉시 감지)만으로는 커버가 안 되는 부분이 있었습니다.
-        둘을 결합해서 <strong>감지 사각지대를 없앴습니다.</strong>
-      </div>
-
-      <div style="display:flex;gap:4px;margin-top:8px;">
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f2f9f4;color:#137333;font-weight:600;">자동 생성된 PR — 코드 수정 포함</div>
-          <img src="https://www.dropbox.com/scl/fi/ke6gteppxzxh6bdald7c2/7E88D40F-92B8-4268-84DA-2A547451F7DC.jpg?rlkey=qqn2xrzzeiepm0kqw7ckwpdko&st=9bl69075&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="Auto Created PR">
-        </div>
-        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-          <div style="font-size:8.5px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">Heartbeat + Forward 하이브리드 감지</div>
-          <img src="https://www.dropbox.com/scl/fi/5spvynh7iwdx81v95amuy/73A570CA-50F4-4B16-A461-82715D359A29.jpg?rlkey=n958h679jpjvjhn78h8qgv4bu&st=zo71v7mj&raw=1" style="width:100%;max-height:150px;object-fit:contain;display:block;" alt="Heartbeat Hybrid">
+          <div style="font-size:8px;text-align:center;padding:2px;background:#f2f9f4;color:#137333;font-weight:600;">자동 생성된 PR</div>
+          <img src="https://www.dropbox.com/scl/fi/ke6gteppxzxh6bdald7c2/7E88D40F-92B8-4268-84DA-2A547451F7DC.jpg?rlkey=qqn2xrzzeiepm0kqw7ckwpdko&st=9bl69075&raw=1" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="Auto Created PR">
         </div>
       </div>
 
-      <div class="rb" style="margin-top:4px;font-size:11px;">
-        <strong>진화 과정:</strong> MCP(반자동, 2026.01) → Error Autopilot MCP(체계화) → <strong>OpenClaw(완전 자동, 2026.02~)</strong>
-        <br><span class="sm">에러 인지→분석→이슈/PR을 완전 자동화하여 1인 백엔드의 야간 장애 대응 한계를 극복</span>
+      <div class="ib" style="margin-top:6px;font-size:10.5px;">
+        <strong>"도구를 쓰는 것과 파이프라인을 구축하는 건 다르다"</strong>는 걸 느끼고 발전시켰습니다.
+        Cron 폴링 + 텔레그램 Forward 하이브리드로 감지 사각지대를 없앴고,
+        AI가 분석→코드 수정→PR까지 사람 개입 없이 처리합니다.
+      </div>
+
+      <div class="rb" style="margin-top:6px;font-size:10.5px;">
+        <strong>진화:</strong> MCP(반자동) → OpenClaw(완전 자동) — 1인 백엔드의 야간 장애 대응 한계 극복
+      </div>
+
+      <div class="ib" style="margin-top:6px;font-size:10.5px;">
+        어떻게 하면 AI를 더 잘 활용할 수 있을지 꾸준히 고민하고 있습니다.
+        무조건 수락하면 제게 남는 게 없다는 걸 느꼈기에,
+        <strong>AI가 제안하면 항상 질문하고 반박하면서, 더 좋은 결과물을 만들고 성장하려고 노력하고 있습니다.</strong>
       </div>
     </div>
   </div>
@@ -2267,7 +1714,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
-  <span class="pn">29</span>
+  <span class="pn">18</span>
   <div class="tc" style="margin-top:10px;flex:1;">
     <div class="cw">
       <h3 style="margin-bottom:8px;">개발 철학</h3>
