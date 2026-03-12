@@ -733,7 +733,7 @@ a:hover{text-decoration:underline;}
             <span style="display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;">2</span>
             <strong class="bd" style="font-size:12px;">순환 의존성 폭발</strong>
           </div>
-          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;">원인: FeignClient(HTTP) 런타임 순환 가능 → ModuleApi(메서드 호출) 전환 시 <strong>컴파일 타임 순환 참조</strong> 표면화<br>해결: <span class="bd">@Lazy 프록시 50곳 적용</span> + <span class="bd">SmartInitializingSingleton으로 startup 검증</span> — @Lazy가 빈 누락을 런타임으로 숨기는 부작용 방지<br><span class="sm" style="color:#8a6d3b;">일단은 비용 절감을 위한 빠른 전환이 우선이었고, 순환 의존의 근본 해소는 모듈 경계를 재설계할 때 2차 과제로 남겨뒀습니다</span></div>
+          <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;">원인: FeignClient(HTTP) 런타임 순환 가능 → ModuleApi(메서드 호출) 전환 시 <strong>컴파일 타임 순환 참조</strong> 표면화<br>해결: <span class="bd">@Lazy는 ModuleApi 인터페이스에만 허용</span>(50곳) — ArchUnit CI 검증으로 모듈 간 직접 참조를 차단하고, ModuleApi를 통한 접근만 허용. <span class="bd">SmartInitializingSingleton으로 startup 시 빈 존재 검증</span>하여 @Lazy가 누락을 숨기는 부작용 방지</div>
         </div>
         <div style="border:1px solid #f28b82;border-left:3px solid #c5221f;border-radius:4px;padding:6px 10px;background:#fef7f6;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
