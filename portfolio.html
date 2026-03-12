@@ -650,7 +650,7 @@ a:hover{text-decoration:underline;}
       <div class="ib" style="margin-top:6px;">
         <strong>버전 통합이 가장 고통스러웠습니다:</strong>
         16개 레포의 Spring Boot 2.7→3.1, Kotlin 1.7→1.8, <strong>javax→jakarta 패키지 전면 교체</strong>, QueryDSL 버전 충돌까지.
-        이걸 겪고 나서 <strong>Version Catalog</strong>을 도입했습니다 — 두 번 다시 겪고 싶지 않았거든요.
+        이걸 겪고 나서 <strong>Version Catalog</strong>을 도입했습니다 — 두 번 다시 겪고 싶지 않았습니다.
       </div>
 
       <div class="rb" style="margin-top:6px;">
@@ -758,7 +758,7 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:8px;">
         <strong>③이 왜 가장 위험했냐면:</strong><br>
-        각 서비스가 자기 Schema 전용 TransactionManager를 갖고 있었거든요.
+        각 서비스가 자기 Schema 전용 TransactionManager를 갖고 있었습니다.
         앱을 통합하니까 @Primary로 지정된 하나의 TM이 <strong>명시적 TM이 없는 모든 @Transactional을 가져가버렸습니다.</strong>
         결과적으로 agent 도메인의 쿼리가 estate의 DB 커넥션으로 실행되면서 <strong>커밋/롤백 범위가 달라져 데이터 정합성이 깨졌습니다.</strong>
         이게 단위 테스트에서는 단일 TM 환경이라 재현이 안 돼서 — 통합 테스트 + 실제 다중 DataSource 환경에서만 발견할 수 있었습니다.
@@ -1180,7 +1180,7 @@ a:hover{text-decoration:underline;}
 
       <div class="ib" style="margin-top:10px;">
         <strong><a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up" style="color:#1a73e8;text-decoration:none;">JVM Cold Start가 만만치 않았습니다</a>:</strong>
-        K8s 배포 후 첫 API 응답이 1,190~1,390ms(7~14배↑)나 나왔거든요. BlaBlaCar 사례를 참고해서
+        K8s 배포 후 첫 API 응답이 1,190~1,390ms(7~14배↑)까지 올라갔습니다. BlaBlaCar 사례를 참고해서
         <strong>WarmupHealthIndicator로 주요 API를 10회씩 사전 호출</strong>했는데 CPU limit 1000m에서는 별 효과가 없었습니다.
         알고 보니 <strong>JIT 컴파일에 ~3배 CPU가 필요</strong>했고, limit을 1800m으로 올리니까 <strong>150~230ms</strong>까지 떨어졌습니다.
       </div>
@@ -1374,7 +1374,7 @@ a:hover{text-decoration:underline;}
       <div class="ib" style="margin-top:8px;">
         <strong>왜 CDC를 선택했냐면:</strong>
         DB Replication은 스키마 변경이 어렵고, Dual Write는 앱 코드가 복잡해지고, MQ 기반은 메시지 유실 위험이 있고, ETL 배치는 실시간이 안 됩니다.
-        CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하니까 앱 코드 수정 없이 실시간 동기화가 되거든요. AWS DMS가 RDS 호환성이 가장 높아서 선택했습니다.
+        CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하니까 앱 코드 수정 없이 실시간 동기화가 됩니다. AWS DMS가 RDS 호환성이 가장 높아서 선택했습니다.
       </div>
 
       <div class="ib" style="margin-top:6px;">
@@ -1595,7 +1595,7 @@ a:hover{text-decoration:underline;}
         <strong>무모했지만 가장 많이 성장한 시기였습니다:</strong>
         DevOps께서 퇴사하고 나서 자원해서 <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD)을 받았고, 그 후 <strong>19개 EC2·10개 노드를 7개월간 혼자 운영</strong>했습니다.
         솔직히 무모했는데, 이때 끝이 보이지 않는 느낌으로 인프라 장애랑 씨름한 경험이 있었기에 부톡에서 K8s를 <strong>직접 설계하고 제안</strong>할 수 있었다고 생각합니다.
-        여기서 가장 뼈저리게 느낀 건 <strong>"모니터링 없이 트러블슈팅하는 건 한계가 있다"</strong>는 거였습니다. HikariCP Deadlock도, Replication 지연도, 에러가 터지고 나서야 SSH로 로그 뒤지면서 원인 찾는 식이었거든요. 부톡 입사 첫 주에 SPOF를 발견하고 Observability부터 제안한 것도 이때 <strong>"이렇게 일하면 안 된다"</strong>는 걸 몸으로 느꼈기 때문입니다.
+        여기서 가장 뼈저리게 느낀 건 <strong>"모니터링 없이 트러블슈팅하는 건 한계가 있다"</strong>는 거였습니다. HikariCP Deadlock도, Replication 지연도, 에러가 터지고 나서야 SSH로 로그 뒤지면서 원인 찾는 식이었습니다. 부톡 입사 첫 주에 SPOF를 발견하고 Observability부터 제안한 것도 이때 <strong>"이렇게 일하면 안 된다"</strong>는 걸 몸으로 느꼈기 때문입니다.
         금융 도메인에서 MVCC 누락이나 정합성 검증을 직접 겪어본 덕분에, 부톡 MSA 무중단 전환에서도 <strong>과도기 데이터 안전장치를 먼저 설계</strong>할 수 있었습니다.
       </div>
     </div>
