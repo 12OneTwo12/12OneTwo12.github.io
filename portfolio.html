@@ -878,19 +878,29 @@ a:hover{text-decoration:underline;}
       <div style="display:flex;gap:4px;margin-top:4px;">
         <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
           <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">BEFORE — 전체 API P95 (Grafana)</div>
-          <img src="https://www.dropbox.com/scl/fi/335mnm3b9ardbtqqkcxvp/performance-before.png?rlkey=qwd7xz01g26qwexox8at2fubx&st=x5zhqpwh&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;" alt="API P95 Before">
+          <img src="https://www.dropbox.com/scl/fi/335mnm3b9ardbtqqkcxvp/performance-before.png?rlkey=qwd7xz01g26qwexox8at2fubx&st=x5zhqpwh&raw=1" style="width:100%;max-height:70px;object-fit:contain;display:block;" alt="API P95 Before">
         </div>
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
           <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">AFTER — 최적화 후 P95 (Grafana)</div>
-          <img src="https://www.dropbox.com/scl/fi/01p3zk422klgohvrzznz1/performance-summary.png?rlkey=7yqpdmu40qus5c7ay5tvgm9aw&st=j4a4wg9t&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;" alt="API P95 After">
+          <img src="https://www.dropbox.com/scl/fi/01p3zk422klgohvrzznz1/performance-summary.png?rlkey=7yqpdmu40qus5c7ay5tvgm9aw&st=j4a4wg9t&raw=1" style="width:100%;max-height:70px;object-fit:contain;display:block;" alt="API P95 After">
         </div>
         <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
+          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">캐싱 전 — 외부 API 의존 (Grafana)</div>
+          <img src="https://www.dropbox.com/scl/fi/h8opmv88dssfweymrpg9h/caching-before.png?rlkey=akdbj2qvmllu4402satlf8t7f&st=s0mplh17&raw=1" style="width:100%;max-height:70px;object-fit:contain;display:block;" alt="Caching Before">
+        </div>
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">캐싱 후 — Look-aside 효과 (Grafana)</div>
+          <img src="https://www.dropbox.com/scl/fi/v0efinc70k3streovsbkc/caching-result.png?rlkey=b7llkitaul7jvzqhbds8khg86&st=o415mjfo&raw=1" style="width:100%;max-height:70px;object-fit:contain;display:block;" alt="Caching After">
+        </div>
+      </div>
+      <div style="display:flex;gap:4px;margin-top:3px;">
+        <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
           <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">GCP 비용 Before (일 ₩96,505)</div>
-          <img src="https://www.dropbox.com/scl/fi/9to7251qma6g4z7crjeta/before-moduler-credit.png?rlkey=5ll2xme9maze9ltwha94ss1pl&st=vci6m584&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost Before">
+          <img src="https://www.dropbox.com/scl/fi/9to7251qma6g4z7crjeta/before-moduler-credit.png?rlkey=5ll2xme9maze9ltwha94ss1pl&st=vci6m584&raw=1" style="width:100%;max-height:70px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost Before">
         </div>
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
           <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">GCP 비용 After (일 ₩58,768)</div>
-          <img src="https://www.dropbox.com/scl/fi/xpsueudcdebbiw6v7csad/after-moduler-credit.png?rlkey=7nsgpgge7crevuitprl1fl78w&st=v9ldtz7k&raw=1" style="width:100%;max-height:80px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost After">
+          <img src="https://www.dropbox.com/scl/fi/xpsueudcdebbiw6v7csad/after-moduler-credit.png?rlkey=7nsgpgge7crevuitprl1fl78w&st=v9ldtz7k&raw=1" style="width:100%;max-height:70px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost After">
         </div>
       </div>
     </div>
@@ -1266,14 +1276,18 @@ a:hover{text-decoration:underline;}
         처음부터 완벽하게 만들려 하기보다, 일단 빠르게 시작하고 점진적으로 개선하자는 방향으로 접근했습니다.
       </div>
 
-      <div style="display:flex;gap:8px;margin-top:6px;">
+      <div style="display:flex;gap:6px;margin-top:6px;">
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
           <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#e6f4ea;">Grafana Alert Rules</div>
-          <img src="https://velog.velcdn.com/images/12onetwo12/post/ab9019c5-c26f-428f-ad96-cb9e1120d480/image.png" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="Grafana Alert Rules">
+          <img src="https://velog.velcdn.com/images/12onetwo12/post/ab9019c5-c26f-428f-ad96-cb9e1120d480/image.png" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="Grafana Alert Rules">
         </div>
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
           <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#e6f4ea;">Telegram 실시간 알림</div>
-          <img src="https://velog.velcdn.com/images/12onetwo12/post/7af340cc-092c-411e-84c5-c9e605ba35e4/image.png" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="Telegram Alert">
+          <img src="https://velog.velcdn.com/images/12onetwo12/post/7af340cc-092c-411e-84c5-c9e605ba35e4/image.png" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="Telegram Alert">
+        </div>
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+          <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#e6f4ea;">Tempo APM 분산 트레이싱</div>
+          <img src="https://velog.velcdn.com/images/12onetwo12/post/a05fd553-721d-4cf4-ae10-724d178c56b6/image.png" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="Tempo Trace">
         </div>
       </div>
     </div>
@@ -1504,15 +1518,50 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:6px;font-size:10.5px;">
-        <strong>돌아보면,</strong> 가장 큰 전환점은 PropertySearchTool을 원자적으로 쪼갠 것이었습니다.
-        쪼개기 전에는 "강남역이랑 잠실역 사이" 같은 질의를 하드코딩으로 처리하려 했는데, 경우의 수가 계속 늘어났습니다.
-        도구를 쪼개니까 DAG deps만으로 자연스럽게 표현이 됐습니다.
+      <div style="display:flex;gap:6px;margin-top:6px;">
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#f8f9fa;color:#666;">processChat() — DAG 파이프라인 오케스트레이터</div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#1e1e1e;padding:4px;">
+            <img src="https://www.dropbox.com/scl/fi/lre62c3n3n9jtb65ccsui/ai-bootalk-code-1.png?rlkey=hdy7fy83x0ea919410zoe5nk8&st=v51wgvj1&raw=1" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="processChat 코드">
+          </div>
+          <div style="font-size:8px;color:#666;padding:2px 6px;background:#f8f9fa;line-height:1.4;">
+            Step 1: <strong>executePlan()</strong> → Step 2: <strong>executeDag()</strong> → Step 3: <strong>streamChatCompletion()</strong>
+          </div>
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#f8f9fa;color:#666;">executeDag() — 위상정렬 · 레벨별 병렬 실행</div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#1e1e1e;padding:4px;">
+            <img src="https://www.dropbox.com/scl/fi/8ogt2n9bb4jigyyflsie8/ai-bootalk-code-2.png?rlkey=0ufnluj059zljbdf6b20kh6x4&st=82ltg6ee&raw=1" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="executeDag 코드">
+          </div>
+          <div style="font-size:8px;color:#666;padding:2px 6px;background:#f8f9fa;line-height:1.4;">
+            <strong>levels.withIndex()</strong> 레벨 순회 → <strong>async(Dispatchers.IO)</strong> 병렬 → <strong>resolveVariables()</strong> 변수 해소
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:6px;margin-top:6px;">
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#e6f4ea;color:#137333;">복합 조건 자연어 검색 결과</div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:4px;">
+            <img src="https://www.dropbox.com/scl/fi/433657pr8jefq963mdcas/ai-estate-result-1.png?rlkey=52nvd21u3u6l16zbgv7srgwh1&st=7k1pknsk&raw=1" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="복합 조건 자연어 검색 결과">
+          </div>
+        </div>
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="font-size:9px;font-weight:700;text-align:center;padding:3px;background:#e6f4ea;color:#137333;">다중 POI 매물 추천 결과</div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:4px;">
+            <img src="https://www.dropbox.com/scl/fi/aoq9qelnfv6z89rlv2bb1/ai-estate-result-2.png?rlkey=p2gr9mfof5ejpaboji1ojfjvx&st=b0gtakq4&raw=1" style="width:100%;max-height:100%;object-fit:contain;display:block;" alt="다중 POI 매물 추천 결과">
+          </div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:4px;font-size:10px;">
+        <strong>코드 ↔ 서비스:</strong> processChat() 3-Step이 위 파이프라인과 1:1 대응. 가장 큰 전환점은 PropertySearchTool을 원자적으로 쪼갠 것 — 쪼개니까 DAG deps만으로 자연스럽게 표현이 됐습니다.
       </div>
 
       <div style="margin-top:auto;font-size:10px;color:#999;">
         <a href="https://github.com/uitiorg/btalk2.1_backend/issues/393">GitHub #393</a> (DAG 전환) ·
-        <a href="https://github.com/uitiorg/btalk2.1_backend/issues/400">GitHub #400</a> (스코어링 · 배치)
+        <a href="https://github.com/uitiorg/btalk2.1_backend/issues/400">GitHub #400</a> (스코어링 · 배치) ·
+        <strong><a href="https://bootalk.co.kr/ai/chat">bootalk.co.kr/ai/chat</a></strong> 프로덕션 운영중
       </div>
     </div>
   </div>
@@ -1618,10 +1667,16 @@ a:hover{text-decoration:underline;}
 
       <div style="display:flex;gap:3px;margin-bottom:6px;">
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-          <img src="https://github.com/user-attachments/assets/cc1c42c4-6684-4058-8043-73440a2191ca" style="width:100%;max-height:130px;object-fit:contain;display:block;" alt="Upvy Main Feed">
+          <img src="https://github.com/user-attachments/assets/6832d5d4-f429-4c12-a0da-91b04cd26433" style="width:100%;max-height:110px;object-fit:contain;display:block;" alt="Upvy Login">
         </div>
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-          <img src="https://github.com/user-attachments/assets/2e390728-2b36-4dcb-8105-1ccfb8d4c192" style="width:100%;max-height:130px;object-fit:contain;display:block;" alt="Upvy Category">
+          <img src="https://github.com/user-attachments/assets/cc1c42c4-6684-4058-8043-73440a2191ca" style="width:100%;max-height:110px;object-fit:contain;display:block;" alt="Upvy Main Feed">
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+          <img src="https://github.com/user-attachments/assets/2e390728-2b36-4dcb-8105-1ccfb8d4c192" style="width:100%;max-height:110px;object-fit:contain;display:block;" alt="Upvy Category">
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+          <img src="https://github.com/user-attachments/assets/f34b31f5-ce10-4484-be17-f489998674f3" style="width:100%;max-height:110px;object-fit:contain;display:block;" alt="Upvy Profile">
         </div>
       </div>
 
@@ -1642,11 +1697,39 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:6px;font-size:10.5px;">
-        <strong>왜 사이드 프로젝트를 하냐면:</strong>
-        회사에서는 기존 시스템의 제약 안에서 일하게 되는데, 사이드 프로젝트는
-        <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>해볼 수 있는 기회라고 생각합니다.
-        WebFlux와 R2DBC도 여기서 먼저 써보고, 회사 프로젝트에 적용할지 판단했습니다.
+      <div style="border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;margin-top:4px;">
+        <div style="font-size:8px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">n8n 콘텐츠 자동화 워크플로우 — 실제 운영</div>
+        <img src="https://github.com/user-attachments/assets/d4f8b6c4-2214-41de-bc98-0db64c8d1f72" style="width:100%;max-height:80px;object-fit:contain;display:block;border-radius:3px;" alt="n8n Workflow">
+      </div>
+
+      <div class="dg" style="margin-top:4px;padding:5px 8px;">
+        <div class="dl" style="margin-bottom:4px;font-size:9px;">AI 영상 자동 편집 파이프라인</div>
+        <div style="display:flex;align-items:center;gap:2px;justify-content:center;font-size:9px;">
+          <div class="db ac ds" style="min-width:auto;padding:2px 4px;">Gemini<br>검색어 생성</div><div class="da" style="font-size:8px;">→</div>
+          <div class="db dk ds" style="min-width:auto;padding:2px 4px;">YouTube<br>API+yt-dlp</div><div class="da" style="font-size:8px;">→</div>
+          <div class="db ds" style="min-width:auto;padding:2px 4px;">Google<br>STT</div><div class="da" style="font-size:8px;">→</div>
+          <div class="db ac ds" style="min-width:auto;padding:2px 4px;">Gemini<br>핵심구간 추출</div><div class="da" style="font-size:8px;">→</div>
+          <div class="db ds" style="min-width:auto;padding:2px 4px;">FFmpeg<br>편집</div><div class="da" style="font-size:8px;">→</div>
+          <div class="db ok ds" style="min-width:auto;padding:2px 4px;">품질검수<br>70점+</div>
+        </div>
+        <div style="font-size:8px;color:#888;text-align:center;margin-top:2px;">각 단계 독립 실패·재시도 가능 · 70점 미만 자동 폐기 · 관리자 승인 후 노출</div>
+      </div>
+
+      <div class="dg" style="margin-top:4px;padding:4px 8px;">
+        <div class="dl" style="margin-bottom:3px;font-size:9px;">CI/CD 자동화 — 1인 개발 품질 관리</div>
+        <div style="display:flex;align-items:center;gap:2px;justify-content:center;font-size:9px;">
+          <div class="db ac ds" style="min-width:auto;padding:2px 4px;">PR 생성</div><div class="da" style="font-size:8px;">→</div>
+          <div class="db ds" style="min-width:auto;padding:2px 4px;">Jacoco<br>79%+</div>
+          <div class="db ds" style="min-width:auto;padding:2px 4px;">Detekt</div>
+          <div class="db ds" style="min-width:auto;padding:2px 4px;">ArchUnit</div><div class="da" style="font-size:8px;">→</div>
+          <div class="db ac ds" style="min-width:auto;padding:2px 4px;">Gemini<br>PR 리뷰</div><div class="da" style="font-size:8px;">→</div>
+          <div class="db ok ds" style="min-width:auto;padding:2px 4px;">Merge<br>ArgoCD</div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:4px;font-size:10px;">
+        <strong>사이드 프로젝트는 새 기술을 먼저 검증하는 곳입니다.</strong>
+        WebFlux·R2DBC도 여기서 먼저 써보고, 회사 프로젝트에 적용할지 판단했습니다.
       </div>
     </div>
 
@@ -1680,13 +1763,27 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div style="display:flex;gap:4px;margin-top:6px;">
+        <div style="flex:1;border:1px solid #fce8e6;border-radius:4px;overflow:hidden;">
+          <div style="font-size:8px;text-align:center;padding:2px;background:#fce8e6;color:#c5221f;font-weight:600;">V1 MCP 트리거</div>
+          <img src="https://github.com/user-attachments/assets/99f4c410-70b6-4e03-8ef8-1bca025e2049" style="width:100%;max-height:90px;object-fit:contain;display:block;" alt="MCP Trigger">
+        </div>
+        <div style="flex:1;border:1px solid #fce8e6;border-radius:4px;overflow:hidden;">
+          <div style="font-size:8px;text-align:center;padding:2px;background:#fce8e6;color:#c5221f;font-weight:600;">V1 자동 생성 Issue</div>
+          <img src="https://github.com/user-attachments/assets/befff3df-fe3b-495d-aff3-f284afc38c67" style="width:100%;max-height:90px;object-fit:contain;display:block;" alt="Auto Created Issue">
+        </div>
+      </div>
+      <div style="display:flex;gap:4px;margin-top:4px;">
         <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
-          <div style="font-size:8px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">OpenClaw 자동 에러 분석</div>
-          <img src="https://www.dropbox.com/scl/fi/iy75r7yid6wed7f6s7acd/E9955AA6-A06F-44D8-A6EB-C1DF4274B16E.jpg?rlkey=m2nssrzfm5uypia6kfvdgiqm6&st=dkcgc5gu&raw=1" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="OpenClaw Auto Analysis">
+          <div style="font-size:8px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">V2 OpenClaw 자동 분석</div>
+          <img src="https://www.dropbox.com/scl/fi/iy75r7yid6wed7f6s7acd/E9955AA6-A06F-44D8-A6EB-C1DF4274B16E.jpg?rlkey=m2nssrzfm5uypia6kfvdgiqm6&st=dkcgc5gu&raw=1" style="width:100%;max-height:90px;object-fit:contain;display:block;" alt="OpenClaw Auto Analysis">
+        </div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;">
+          <div style="font-size:8px;text-align:center;padding:2px;background:#f8f9fa;color:#666;">V2 Loki 로그 분석</div>
+          <img src="https://www.dropbox.com/scl/fi/n7oc7ys210wu8h71f18sc/9E45A3DA-F469-4CE7-9A07-5E761F19FC6C.jpg?rlkey=nmn6yvo8hx4ng1ufp07mn88ge&st=oi8i9kxn&raw=1" style="width:100%;max-height:90px;object-fit:contain;display:block;" alt="OpenClaw Loki Analysis">
         </div>
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
-          <div style="font-size:8px;text-align:center;padding:2px;background:#f2f9f4;color:#137333;font-weight:600;">자동 생성된 PR</div>
-          <img src="https://www.dropbox.com/scl/fi/ke6gteppxzxh6bdald7c2/7E88D40F-92B8-4268-84DA-2A547451F7DC.jpg?rlkey=qqn2xrzzeiepm0kqw7ckwpdko&st=9bl69075&raw=1" style="width:100%;max-height:120px;object-fit:contain;display:block;" alt="Auto Created PR">
+          <div style="font-size:8px;text-align:center;padding:2px;background:#f2f9f4;color:#137333;font-weight:600;">V2 자동 생성 PR</div>
+          <img src="https://www.dropbox.com/scl/fi/ke6gteppxzxh6bdald7c2/7E88D40F-92B8-4268-84DA-2A547451F7DC.jpg?rlkey=qqn2xrzzeiepm0kqw7ckwpdko&st=9bl69075&raw=1" style="width:100%;max-height:90px;object-fit:contain;display:block;" alt="Auto Created PR">
         </div>
       </div>
 
