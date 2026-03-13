@@ -832,45 +832,41 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>Prometheus + Grafana 운영 메트릭 (P50/P95/P99), Tempo 분산 트레이싱 진단한 결과 <strong class="bd">특정 주요 API에 병목이 발생</strong>하고 있었습니다.</li>
-        <li>매물 상세조회 API — 앱 핵심 화면 기능, <strong class="bd">피크 568 req/s</strong> (매물 편의시설 525 req/s), P95 응답시간 <strong class="bd">4,045ms</strong></li>
-        <li>거래량 랭킹 P95 2.4s / 단가 랭킹 P50 7.2s / 세대수 랭킹 P50 6.3s</li>
-        <li class="sm" style="color:#888;">원인: 레거시 쿼리가 <code>aggregation_year * 100 + aggregation_month</code> 같은 Non-sargable 연산을 WHERE 절에 사용 → EXPLAIN type: ALL, rows 1,195,038 (전체 테이블 풀스캔)</li>
+        <li>모니터링 구축(p.12) 이후 습관적으로 Grafana를 확인하고 있었습니다. 평균 응답시간은 양호했지만, <strong class="bd">P95(상위 5% 느린 요청)로 눈을 돌려보니 상황이 달랐습니다.</strong></li>
+        <li>매물 상세조회 API — 앱 핵심 화면, 피크 <strong class="bd">568 req/s</strong>. P95가 <strong class="bd">4,045ms</strong>. 랭킹 API는 단가 P50 <strong class="bd">7.2s</strong>, 세대수 P50 <strong class="bd">6.3s</strong>로 대부분의 요청조차 수 초대였습니다.</li>
+        <li>"캐시를 도입하면 낫지 않을까" 싶었지만, <strong class="bd">EXPLAIN과 Tempo 트레이스로 실측해보니 병목이 예상과 다른 곳에 있었습니다.</strong></li>
       </ul>
 
-      <div class="sec"><a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization" style="color:#1a73e8;text-decoration:none;font-weight:700;">3단계로 나눠서 진행한 최적화</a></div>
+      <div class="sec"><a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization" style="color:#1a73e8;text-decoration:none;font-weight:700;">병목 원인별로 나눠 진행한 최적화</a></div>
       <div style="display:flex;flex-direction:column;gap:2px;">
         <div style="border:1px solid #e0e0e0;border-radius:4px;padding:4px 10px;background:#fff;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:1px;">
             <span style="display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:9px;font-weight:700;flex-shrink:0;">1</span>
             <strong class="bd" style="font-size:11.5px;">쿼리 최적화</strong>
           </div>
-          <div style="font-size:10.5px;color:#555;padding-left:22px;line-height:1.4;">EXPLAIN 분석 → type: ALL(풀스캔, rows 1,195,038) 발견 → <span class="bd">Non-sargable → Sargable 변환</span>, 조회 패턴별 분기<br>결과: 거래량 P95 <strong>2.4s→95ms (21배)</strong> / 단가 <strong>7.2s→126ms (57배)</strong> / 세대수 <strong>6.3s→125ms (51배)</strong></div>
+          <div style="font-size:10.5px;color:#555;padding-left:22px;line-height:1.4;">EXPLAIN을 찍어보니 120만 건 풀스캔. 인덱스가 있는데도. WHERE 절의 <code style="font-size:10px;">year * 100 + month</code> <span class="bd">컬럼 연산으로 인해 인덱스가 무효화되고 있었습니다(Non-sargable).</span> 컬럼 연산 제거 + 조회 패턴별 분기로 rows 1,195,038 → 14,122. 기본정보 6-table JOIN 쿼리도 함께 최적화<br><br>거래량 랭킹 P95 <strong>2.4s→95ms</strong> / 단가 랭킹 P95 <strong>7.2s→126ms</strong></div>
         </div>
         <div style="border:1px solid #e0e0e0;border-radius:4px;padding:4px 10px;background:#fff;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:1px;">
             <span style="display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:9px;font-weight:700;flex-shrink:0;">2</span>
             <strong class="bd" style="font-size:11.5px;">병렬 처리 (Kotlin Coroutines)</strong>
           </div>
-          <div style="font-size:10.5px;color:#555;padding-left:22px;line-height:1.4;">독립 DB 조회를 <span class="bd">async/await 병렬화</span>, 알림 발송 <span class="bd">비동기 fire-and-forget</span><br>결과: 알림 P95 <strong>4.9s→2s (59%↓)</strong> / DB 조회 <strong>150ms→100ms (30%↓)</strong></div>
+          <div style="font-size:10.5px;color:#555;padding-left:22px;line-height:1.4;">Tempo span waterfall을 보니 <span class="bd">의존성 없는 호출들이 직렬로 늘어서 있었습니다.</span> 이메일과 알림톡은 서로 영향이 없는데 순서대로 실행 중. <span class="bd">supervisorScope</span>로 실패 격리하면서 병렬화<br><br>알림 P95 <strong>4.9s→2s (59%↓)</strong><br>쿼리 최적화와 합산해 기본정보 P95 <strong>4,045ms→50ms</strong> · 편의시설 P95 <strong>4,840ms→168ms</strong></div>
         </div>
         <div style="border:1px solid #e0e0e0;border-radius:4px;padding:4px 10px;background:#fff;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:1px;">
             <span style="display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;border-radius:50%;background:#333;color:#fff;font-size:9px;font-weight:700;flex-shrink:0;">3</span>
             <strong class="bd" style="font-size:11.5px;">Redis Cache-Aside 캐싱</strong>
           </div>
-          <div style="font-size:10.5px;color:#555;padding-left:22px;line-height:1.4;"><span class="bd">TTL Jitter로 Cache Stampede 방지</span>, 비동기 저장 (SupervisorJob), Redis 장애 시 DB 폴백<br>결과: 기본정보 P95 <strong>4,045ms→50ms</strong> / 편의시설 P95 <strong>4,840ms→168ms</strong></div>
+          <div style="font-size:10.5px;color:#555;padding-left:22px;line-height:1.4;">아파트 주변 학교나 지하철이 매 요청마다 바뀌지 않으나, <span class="bd">매번 12건의 DB 조회</span>요청. 변경 주기에 따라 <span class="bd">TTL 6시간~14일 세분화</span> + Stampede 방지 Jitter 적용. Redis 장애 시 DB 폴백<br><br>P50: 기본정보 <strong>183ms→43ms</strong> / 편의시설 <strong>497ms→119ms</strong> · 피크 트래픽 DB 부하 감소</div>
         </div>
       </div>
 
       <div class="sec">성과</div>
       <ul class="bl">
         <li>핵심 API P95 <strong class="bd">4,045ms → 50ms</strong> (Grafana 운영 메트릭 기준, 피크 568 req/s)</li>
-        <li>Micrometer 기반 <strong class="bd">캐시 히트율 모니터링 대시보드</strong> 구축, P95 임계치 초과 시 <strong class="bd">Grafana Alert</strong></li>
+        <li>Micrometer 기반 <strong class="bd">캐시 히트율 모니터링 대시보드</strong> 구축, P95 임계치 초과 시 <strong class="bd">Grafana Alert</strong> 설정</li>
       </ul>
-      <div class="ib" style="margin-top:4px;font-size:10px;line-height:1.4;">
-        <strong>대시보드 도입 후 달라진 점:</strong> "느리다"는 CS가 와야 알던 구조에서, 배포 직후 P95 그래프로 즉시 판단. 모니터링 도입 후 <strong>CS 0건인데 사용자에게 영향을 주던 버그</strong>를 발견한 적이 있습니다.
-      </div>
     </div>
 
     <div class="c" style="flex:1.1;">
@@ -908,21 +904,26 @@ a:hover{text-decoration:underline;}
 
       <div style="display:flex;gap:4px;margin-top:6px;">
         <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
-          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">BEFORE — 전체 API P95 (Grafana)</div>
+          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">쿼리 최적화 전 — 전체 API P95</div>
           <img src="https://www.dropbox.com/scl/fi/335mnm3b9ardbtqqkcxvp/performance-before.png?rlkey=qwd7xz01g26qwexox8at2fubx&st=x5zhqpwh&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="API P95 Before">
         </div>
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
-          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">AFTER — 최적화 후 P95 (Grafana)</div>
+          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">쿼리 최적화 후 — 전체 API P95</div>
           <img src="https://www.dropbox.com/scl/fi/01p3zk422klgohvrzznz1/performance-summary.png?rlkey=7yqpdmu40qus5c7ay5tvgm9aw&st=j4a4wg9t&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="API P95 After">
         </div>
         <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
-          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">캐싱 전 — 외부 API 의존 (Grafana)</div>
+          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">캐싱 적용 전 — 기본정보·편의시설 P95</div>
           <img src="https://www.dropbox.com/scl/fi/h8opmv88dssfweymrpg9h/caching-before.png?rlkey=akdbj2qvmllu4402satlf8t7f&st=s0mplh17&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="Caching Before">
         </div>
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
-          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">캐싱 후 — Look-aside 효과 (Grafana)</div>
+          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">캐싱 적용 후 — 기본정보·편의시설 P95</div>
           <img src="https://www.dropbox.com/scl/fi/v0efinc70k3streovsbkc/caching-result.png?rlkey=b7llkitaul7jvzqhbds8khg86&st=o415mjfo&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="Caching After">
         </div>
+      </div>
+
+      <div class="ib" style="margin-top:6px;font-size:10px;line-height:1.5;">
+        <strong>"느린 곳을 찾는 게 고치는 것보다 어려웠다":</strong>
+        사용한 기법은 전부 기본적인 것들이었습니다 — Non-sargable 수정, N+1 해결, Cache-Aside. 어디가 느린지 정확히 찾는 과정이 가장 어려웠고, 원인을 찾고 나니 해결은 명확했습니다. 이전에 구축한 모니터링(p.12)이 없었으면 시작도 못 했을 겁니다. 실제로 <strong>CS 0건인데 사용자에게 영향을 주던 버그</strong>를 모니터링으로 발견한 적이 있습니다. 작업 후 <strong>P95 임계치 초과 시 Grafana Alert을 설정</strong>해, 다음부터는 시스템이 먼저 알려주도록 했습니다.
       </div>
     </div>
   </div>
