@@ -380,19 +380,19 @@ a:hover{text-decoration:underline;}
         <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.11 (8개월)</td></tr>
         <tr><td class="l">역할</td><td class="v">부분적 빅뱅 전략 설계, 14개 서비스 중 5개(estate · agent · match 포함) 설계 및 구현 담당</td></tr>
         <tr><td class="l">기술스택</td><td class="v">Kotlin, Spring Cloud, AWS SQS, CQRS, Hexagonal</td></tr>
-        <tr><td class="l">서비스 규모</td><td class="v">14개 MSA · 3 SNS / 42 SQS · GKE 2 Cluster</td></tr>
+        <tr><td class="l">서비스 규모</td><td class="v">14개 MSA · 3 SNS / 42 SQS · Schema-per-Service · GKE 2 Cluster</td></tr>
       </table>
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>팀에 합류했을 때 느슨한 서비스(알림·이벤트)는 이미 분리돼 있었으나 <strong class="bd">핵심 도메인(매물, 중개사-사용자 매칭, 중개사)은 양방향 강결합</strong>으로 전환을 하지 못한 상태였습니다</li>
+        <li>팀에 합류했을 때 느슨한 서비스(알림·이벤트)는 이미 분리돼 있었으나 <strong class="bd">핵심 도메인(매물, 중개사-사용자 매칭)은 양방향 강결합</strong>으로 전환을 하지 못한 상태였습니다</li>
         <li><strong class="bd">매칭 로직이 매물 테이블을 직접 JOIN하고 매물 관련 기능도 매칭에 의존성이 존재하는 구조</strong> → Strangler Fig(점진적 전환)이 불가</li>
       </ul>
 
       <div class="sec">고려한 전환 전략</div>
       <table class="ct" style="font-size:10.5px;margin-bottom:4px;">
         <tr><th style="width:28%;">전략</th><th>장점</th><th>단점</th><th style="width:14%;">판단</th></tr>
-        <tr><td class="bd">점진적 전환<br></td><td>리스크 낮음</td><td>강결합 도메인에선 불가</td><td class="er" style="color:#c5221f;font-weight:600;">❌ 탈락</td></tr>
+        <tr><td class="bd">Strangler Fig<br>(점진적)</td><td>리스크 낮음</td><td>강결합 도메인에선 불가</td><td class="er" style="color:#c5221f;font-weight:600;">❌ 탈락</td></tr>
         <tr><td class="bd">Full 빅뱅</td><td>한 번에 완료</td><td>2~3명 팀에서 감당 불가</td><td class="er" style="color:#c5221f;font-weight:600;">❌ 탈락</td></tr>
         <tr><td class="bd">부분적 빅뱅<br>(하이브리드)</td><td>강결합만 동시 분리,<br>나머지는 점진적</td><td>과도기 관리 필요</td><td style="color:#137333;font-weight:600;">✅ 채택</td></tr>
       </table>
@@ -402,10 +402,6 @@ a:hover{text-decoration:underline;}
         <li><a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion"><strong>강결합 도메인(매물, 매칭, 중개사) 동시 분리</strong></a> + 이후 도메인은 점진적 전환</li>
         <li><span class="bd">Dual Write + 검증 배치</span>로 과도기 데이터 정합성 보장</li>
         <li><strong class="bd">DDD + 헥사고날 + CQS:</strong> Bounded Context 단위로 서비스를 분리하고, Aggregate Root를 통해서만 상태 변경을 허용(예: 매물 상태 변경은 반드시 Estate Aggregate를 거침). 핵심 도메인은 헥사고날, 단순 도메인은 레이어드로 선택 적용. 복제 테이블 조회 전용 → CQS 도출. 이 경계가 모듈러 전환 시 ModuleApi·Schema 분리의 기준</li>
-      </ul>
-      <div class="sec">비즈니스 목표와 기술부채 사이의 트레이드오프</div>
-      <ul class="bl">
-        <li>핵심 도메인 전환 이후 일부 기능은 레거시에 의도적으로 잔존시켰습니다 — <strong class="bd">전부 전환하는 것보다 비즈니스 기능 개발에 역량을 집중하는 것이 회사 상황에서 더 높은 우선순위</strong>라고 판단했습니다</li>
       </ul>
 
     </div>
@@ -517,18 +513,22 @@ a:hover{text-decoration:underline;}
 
       <div class="sec-s" style="margin-top:10px;">실제 마이그레이션 타임라인</div>
       <table class="ct" style="font-size:10px;">
-        <tr><th>시기</th><th>작업</th><th>검증</th></tr>
+        <tr><th>시기</th><th>작업</th><th>비고</th></tr>
         <tr><td>4~5월</td><td>헥사고날 아키텍처 설계, Port/Adapter 경계 정의</td><td>CTO님 아키텍처 리뷰</td></tr>
-        <tr><td>5~7월</td><td>estate, agent, match 3개 핵심 도메인 동시 분리</td><td>Dual Write 검증 배치</td></tr>
-        <tr><td>7~9월</td><td>notification, event, community 점진적 분리</td><td>통합 테스트 + 카나리 배포</td></tr>
-        <tr><td>9~11월</td><td>레거시 트래픽 이전 + Dual Write 종료</td><td>성능 벤치마크 비교</td></tr>
+        <tr><td>6월</td><td>estate 도메인 MSA 전환 도중 강결합 문제 발생</td><td>부분적 빅뱅 방식 설계<br>테스트 필요성의 심각성 인지하고<br> 개발서버 구성 후 진행하기로 협의</td></tr>
+        <tr><td>8월</td><td>K8s 도입 및 운영·개발 서버 Cluster 구성</td><td>개발 서버 구성 완료(p.12 참조)</td></tr>
+        <tr><td>9~11월</td><td>estate, agent, match 3개 핵심 도메인 동시 분리</td><td>Dual Write 검증 배치</td></tr>
+        <tr><td>11월</td><td>레거시 트래픽 이전 + Dual Write 종료</td><td>이전 완료</td></tr>
       </table>
 
-      <div class="ib" style="margin-top:10px;">
-        <strong>이 경험에서 배운 것:</strong>
-        전환 전략보다 <strong>실패했을 때 어떻게 돌아갈 것인가</strong>가 더 중요하다는 걸 느꼈습니다.
-        레거시로 즉시 롤백할 수 있는 상태를 항상 유지했고, 이 안전망이 있었기에 과감하게 밀어붙일 수 있었습니다.
-        근데 전환하고 나니까 <strong>"문제 하나 해결하면 운영 복잡성이 하나 따라온다"</strong>는 게 진짜였습니다. 배포 한 번 하려면 14개 서비스 중 영향 범위 확인하고, 장애 전파 경로 추적하고 — 2~3명이서 이걸 감당하는 게 맞나 싶은 순간이 점점 많아졌습니다.
+      <div class="sec">비즈니스 목표와 기술부채 사이의 트레이드오프</div>
+      <ul class="bl">
+        <li>핵심 도메인 전환 이후 일부 기능은 레거시에 의도적으로 잔존시켰습니다 — <strong class="bd">전부 전환하는 것보다 비즈니스 기능 개발에 역량을 집중하는 것이 회사 상황에서 더 높은 우선순위</strong>라고 판단했습니다</li>
+        <li><strong class="bd">"지금 안전하게 할 수 있는 것"과 "나중에 해도 되는 것"을 분리</strong>하는 게 회사와 팀을 위한 선택이라고 생각합니다.</li>
+      </ul>
+
+      <div class="rb" style="margin-top:8px;">
+        <strong>과도기 안전장치 종합:</strong> Dual Write 검증 배치 (매시간 실행) · Telegram 자동 알림 · 레거시 즉시 롤백 가능 상태 상시 유지
       </div>
     </div>
 
@@ -554,26 +554,22 @@ a:hover{text-decoration:underline;}
       <div class="dg">
         <table class="ct" style="font-size:10px;margin:0;">
           <tr><th style="width:28%;">통신 방식</th><th>사용 구간</th><th style="width:22%;">선택 이유</th></tr>
-          <tr><td class="bd">Feign (동기)</td><td>estate↔agent, match→estate, agent→user</td><td>즉시 응답 필요<br><span style="font-size:10px;color:#999;">gRPC는 IDL 기반 타입 안전성이 장점이나, 2~3명 팀에서 protobuf 학습 비용 대비 효과↓ · Spring Cloud 생태계 즉시 사용 · 디버깅 편의성 우선</span></td></tr>
+          <tr><td class="bd">Feign (동기)</td><td>estate↔agent, match→estate, agent→user</td><td>즉시 응답 필요<br><span style="font-size:10px;color:#999;"></span></td></tr>
           <tr><td class="bd">SQS (비동기)</td><td>매물등록→매칭, 알림, 이벤트 기록</td><td>결과 대기 불필요</td></tr>
-          <tr><td class="bd" style="color:#8a6d3b;">Legacy 의존</td><td>chat→legacy, match→legacy</td><td style="color:#8a6d3b;">향후 제거 대상</td></tr>
+          <tr><td class="bd" style="color:#8a6d3b;">Legacy 의존</td><td>chat→legacy</td><td style="color:#8a6d3b;">향후 제거 대상</td></tr>
         </table>
       </div>
 
       <div class="ib" style="margin-top:10px;">
-        <strong>일부러 남겨둔 기술 부채:</strong>
-        일부 기능의 레거시 의존성은 일부러 안 건드렸습니다.
-        8개월 안에 전부 깔끔하게 하고 싶은 마음이야 있었지만,
-        <strong>"지금 안전하게 할 수 있는 것"과 "나중에 해도 되는 것"을 분리</strong>하는 게
-        2~3명 팀에서는 현실적이라고 판단했습니다.
+        <strong>Feign Client를 선택한 이유:</strong>
+        gRPC는 IDL 기반 타입 안전성이 장점이나, 기존 팀 컨벤션이 직관적인 Feign Client 였기 때문에 팀 컨벤션을 지켰습니다. · Spring Cloud 생태계 즉시 사용 · 디버깅 편의성 우선이 선택 근거였다 생각합니다.
       </div>
 
-      <div class="rb" style="margin-top:8px;">
-        <strong>과도기 안전장치 종합:</strong> Dual Write 검증 배치 (매시간 실행) · Telegram 자동 알림 · 레거시 즉시 롤백 가능 상태 상시 유지
-      </div>
-
-      <div class="rb" style="margin-top:8px;">
-        <strong>온프레미스 → AWS 무중단 마이그레이션</strong>은 별도 슬라이드(p.14)에서 상세 설명 — 200GB MariaDB, AWS DMS CDC, Terraform IaC
+      <div class="ib" style="margin-top:10px;">
+        <strong>이 경험에서 배운 것:</strong><br>
+        <strong>실패했을 때 어떻게 돌아갈 것인가, 어떻게 테스트할것인가</strong>까지 전환 전략 이라는 것을 느꼈습니다.
+        당연하게 있을거라 생각했던 개발서버의 부재로 인해 영향 범위 파악과 테스트의 어려움을 겪으면서, 테스트 환경의 중요성을 절감했습니다.
+        레거시로 즉시 롤백할 수 있는 상태를 항상 유지했고, 이 안전망들이 있었기에 전환을 안정적으로 진행할 수 있었다고 생각합니다.
       </div>
     </div>
   </div>
