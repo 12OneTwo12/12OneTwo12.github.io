@@ -824,16 +824,16 @@ a:hover{text-decoration:underline;}
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
-        <tr><td class="l">소속</td><td class="v">부톡(주) — 부동산 매물 상세조회 API (피크 568 req/s, 일 4,900만 건)</td></tr>
-        <tr><td class="l">기간</td><td class="v">2025.12 ~ 2026.01 (약 10일 집중 작업)</td></tr>
-        <tr><td class="l">역할</td><td class="v">병목 진단, 쿼리 최적화, 캐싱 설계 주도</td></tr>
+        <tr><td class="l">소속</td><td class="v">부톡(주) — 부동산 매물 상세조회 API</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.12 ~ 2026.01</td></tr>
+        <tr><td class="l">인원 및 역할</td><td class="v">2명 · 병목 진단, 쿼리 최적화, 캐싱 설계 주도</td></tr>
         <tr><td class="l">측정 도구</td><td class="v">Prometheus + Grafana 운영 메트릭 (P50/P95/P99), Tempo 분산 트레이싱</td></tr>
       </table>
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>매물 상세조회 API — 앱 핵심 화면, <strong class="bd">피크 568 req/s</strong> (편의시설 525 req/s)</li>
-        <li>P95 응답시간 <strong class="bd">4,045ms</strong> — Tempo 트레이싱으로 DB 쿼리 + 외부 API가 95% 차지 확인</li>
+        <li>Prometheus + Grafana 운영 메트릭 (P50/P95/P99), Tempo 분산 트레이싱 진단한 결과 <strong class="bd">특정 주요 API에 병목이 발생</strong>하고 있었습니다.</li>
+        <li>매물 상세조회 API — 앱 핵심 화면 기능, <strong class="bd">피크 568 req/s</strong> (매물 편의시설 525 req/s), P95 응답시간 <strong class="bd">4,045ms</strong></li>
         <li>거래량 랭킹 P95 2.4s / 단가 랭킹 P50 7.2s / 세대수 랭킹 P50 6.3s</li>
         <li class="sm" style="color:#888;">원인: 레거시 쿼리가 <code>aggregation_year * 100 + aggregation_month</code> 같은 Non-sargable 연산을 WHERE 절에 사용 → EXPLAIN type: ALL, rows 1,195,038 (전체 테이블 풀스캔)</li>
       </ul>
