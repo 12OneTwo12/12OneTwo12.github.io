@@ -711,6 +711,14 @@ a:hover{text-decoration:underline;}
           <div style="font-size:11px;color:#555;padding-left:24px;line-height:1.5;">원인: Schema별 TM 존재 → @Primary TM이 bare @Transactional 전부 흡수 → 다른 Schema 커넥션으로 실행<br>위험: <strong>테스트 통과, 프로덕션 정합성 깨짐</strong> — <span class="bd">121개 @Transactional에 명시적 TM 지정</span></div>
         </div>
       </div>
+
+      <div class="ib" style="margin-top:6px;font-size:10.5px;">
+        <strong>③이 왜 가장 위험했냐면:</strong>
+        각 서비스가 자기 Schema 전용 TransactionManager를 갖고 있었습니다.
+        앱을 통합하니까 @Primary로 지정된 하나의 TM이 <strong>명시적 TM이 없는 모든 @Transactional을 가져가버렸습니다.</strong>
+        결과적으로 agent 도메인의 쿼리가 estate의 DB 커넥션으로 실행되면서 <strong>커밋/롤백 범위가 달라져 데이터 정합성이 깨졌습니다.</strong>
+        이게 단위 테스트에서는 단일 TM 환경이라 재현이 안 돼서 — 통합 테스트 + 실제 다중 DataSource 환경에서만 발견할 수 있었습니다.
+      </div>
     </div>
 
     <div class="c" style="flex:1.1;">
@@ -750,21 +758,25 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li><strong class="bd">Pod 75% 감소</strong> (26+개→5~7개) — 12 JVM → 1 JVM + notification 별도, <strong>인프라 비용 월 ₩310만→₩197만</strong>(연 ₩1,350만 절감). 동일 트래픽·동일 요금제 기준, Compute Engine 일비용 ₩96,505→₩58,768</li>
+        <li><strong class="bd">Pod 75% 감소</strong> (26+개→5~7개) — 12 JVM → 1 JVM + notification 별도</li>
         <li>FeignClient → <strong class="bd">ModuleApi 9개 인터페이스</strong> 설계 — 네트워크 호출 제거, .data!! 언래핑 일괄 제거</li>
         <li>CI/CD <strong class="bd">45분→7분</strong> — maxParallelForks 병목 진단, JUnit5 스레드 병렬 전환 등 66개 파일 수정 (<a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">상세</a>)</li>
         <li>11개 Schema·EntityManager·TM 분리 유지 — 필요 시 다시 MSA로 분리 가능</li>
       </ul>
 
-      <div class="ib" style="margin-top:8px;">
-        <strong>③이 왜 가장 위험했냐면:</strong><br>
-        각 서비스가 자기 Schema 전용 TransactionManager를 갖고 있었습니다.
-        앱을 통합하니까 @Primary로 지정된 하나의 TM이 <strong>명시적 TM이 없는 모든 @Transactional을 가져가버렸습니다.</strong>
-        결과적으로 agent 도메인의 쿼리가 estate의 DB 커넥션으로 실행되면서 <strong>커밋/롤백 범위가 달라져 데이터 정합성이 깨졌습니다.</strong>
-        이게 단위 테스트에서는 단일 TM 환경이라 재현이 안 돼서 — 통합 테스트 + 실제 다중 DataSource 환경에서만 발견할 수 있었습니다.
+      <div style="display:flex;gap:6px;margin-top:4px;">
+        <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
+          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">GCP Billing — MSA 운영 (일 ₩96,505)</div>
+          <img src="https://www.dropbox.com/scl/fi/9to7251qma6g4z7crjeta/before-moduler-credit.png?rlkey=5ll2xme9maze9ltwha94ss1pl&st=vci6m584&raw=1" style="width:100%;max-height:70px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost Before">
+        </div>
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">모듈러 전환 후 (일 ₩58,768, 월 36%↓)</div>
+          <img src="https://www.dropbox.com/scl/fi/xpsueudcdebbiw6v7csad/after-moduler-credit.png?rlkey=7nsgpgge7crevuitprl1fl78w&st=v9ldtz7k&raw=1" style="width:100%;max-height:70px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost After">
+        </div>
       </div>
+      <div style="font-size:9.5px;color:#555;text-align:center;margin-top:2px;"><strong>인프라 비용 월 ₩310만→₩197만</strong> (연 ₩1,350만 절감)</div>
 
-      <div class="ib" style="margin-top:6px;">
+      <div class="ib" style="margin-top:8px;">
         <strong>돌아보면:</strong>
         합류했을 때 MSA 전환은 이미 진행 중이었고, 주요 도메인 전환을 마무리했습니다.
         근데 운영하면서 <strong>"과연 우리 서비스가 이 복잡성을 감수할 정도의 규모인가?"</strong>라는 질문이 계속 떠올랐습니다.
@@ -883,16 +895,6 @@ a:hover{text-decoration:underline;}
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
           <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">캐싱 후 — Look-aside 효과 (Grafana)</div>
           <img src="https://www.dropbox.com/scl/fi/v0efinc70k3streovsbkc/caching-result.png?rlkey=b7llkitaul7jvzqhbds8khg86&st=o415mjfo&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="Caching After">
-        </div>
-      </div>
-      <div style="display:flex;gap:4px;margin-top:3px;">
-        <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
-          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">GCP 비용 Before (일 ₩96,505)</div>
-          <img src="https://www.dropbox.com/scl/fi/9to7251qma6g4z7crjeta/before-moduler-credit.png?rlkey=5ll2xme9maze9ltwha94ss1pl&st=vci6m584&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost Before">
-        </div>
-        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
-          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">GCP 비용 After (일 ₩58,768)</div>
-          <img src="https://www.dropbox.com/scl/fi/xpsueudcdebbiw6v7csad/after-moduler-credit.png?rlkey=7nsgpgge7crevuitprl1fl78w&st=v9ldtz7k&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;background:#fff;" alt="GCP Cost After">
         </div>
       </div>
     </div>
@@ -1703,8 +1705,12 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:4px;font-size:10px;">
-        <strong>사이드 프로젝트는 새 기술을 먼저 검증하는 곳입니다.</strong>
+        <strong>왜 사이드 프로젝트를 하냐면:</strong>
+        회사에서는 기존 시스템의 제약 안에서 일하게 되는데, 사이드 프로젝트는
+        <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>해볼 수 있는 기회라고 생각합니다.
         WebFlux·R2DBC도 여기서 먼저 써보고, 회사 프로젝트에 적용할지 판단했습니다.
+        1인 개발에서 가장 어려운 건 품질 관리라고 생각합니다. 동료 리뷰어가 없으니까 CI 자동 검증(Jacoco·Detekt·ArchUnit)이랑
+        AI PR 리뷰를 교차로 적용해서, <strong>사람이 놓치는 건 도구가, 도구가 놓치는 건 AI가</strong> 잡아주는 구조를 만들었습니다.
       </div>
     </div>
 
