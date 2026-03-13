@@ -378,7 +378,7 @@ a:hover{text-decoration:underline;}
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼 (누적 회원 21만+, 중개 매칭 5만+)</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.11 (8개월)</td></tr>
-        <tr><td class="l">역할</td><td class="v">부분적 빅뱅 전략 설계, 14개 서비스 중 5개(estate · agent · match 포함) 설계 및 구현 담당</td></tr>
+        <tr><td class="l">인원 및 역할</td><td class="v">3명 · 부분적 빅뱅 전략 설계, 14개 서비스 중 5개(estate · agent · match 포함) 설계 및 구현 담당</td></tr>
         <tr><td class="l">기술스택</td><td class="v">Kotlin, Spring Cloud, AWS SQS, CQRS, Hexagonal</td></tr>
         <tr><td class="l">서비스 규모</td><td class="v">14개 MSA · 3 SNS / 42 SQS · Schema-per-Service · GKE 2 Cluster</td></tr>
       </table>
@@ -585,23 +585,23 @@ a:hover{text-decoration:underline;}
     <div class="c" style="flex:.9;">
       <table class="it">
         <tr><td class="l">소속</td><td class="v">부톡(주)</td></tr>
-        <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.05 (2개월)</td></tr>
-        <tr><td class="l">역할</td><td class="v">멀티모듈 구조 설계 및 전환 담당</td></tr>
+        <tr><td class="l">기간</td><td class="v">2025.07 ~ 2025.08 (2개월)</td></tr>
+        <tr><td class="l">인원 및 역할</td><td class="v">1명 · 멀티모듈 구조 설계 및 전환 담당</td></tr>
         <tr><td class="l">기술스택</td><td class="v">Kotlin, Gradle Multi-Module, Git Subtree</td></tr>
       </table>
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
         <li>2~3명이 <strong class="bd">16개 개별 레포</strong> 관리 — 공통 변경 시 16개 PR 필요</li>
-        <li>서비스 간 라이브러리 버전 불일치 → 런타임 장애 반복</li>
         <li>동일 유틸리티 코드가 16개 레포에 복사·붙여넣기</li>
+        <li>서비스 간 코드 버전 불일치시 → 런타임 장애 발생</li>
       </ul>
 
       <div class="sec">고려한 대안 & 해결</div>
       <ul class="bl">
-        <li><strong class="bd">레포 전략:</strong> 멀티레포 유지 vs <span class="hl"><a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">모노레포 전환</a></span> — 공통 Exception 수정에 16개 PR이 필요한 현실을 빌드/PR 데이터로 CTO께 제안, 입사 1개월 만에 승인 (<strong>230,909줄 통합 PR</strong>)</li>
-        <li><strong class="bd">히스토리:</strong> 새 레포 생성(히스토리 손실) vs <span class="bd">Git Subtree(보존)</span> — git blame 추적 가능, 이후 버그 원인 파악에 결정적 역할</li>
-        <li><strong class="bd">공통 모듈 실패 → 재설계:</strong> 초기에 인프라 코드(JPA Config, Security)까지 :common에 포함했으나 <strong>비대화 확인 후 작업 폐기</strong> → <span class="bd">순수 Types/Enums/Utils만 허용</span>하는 규칙으로 재설계 (우아한형제들 기술블로그 참고)</li>
+        <li><strong class="bd">레포 전략:</strong> 멀티레포 유지 vs <span class="hl"><a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">모노레포 전환</a></span> — 공통 Exception 수정에 16개 PR이 필요한 빌드/PR을 근거로 CTO께 멀티모듈 모노레포 MSA 제안하고 팀원과 협의하여 진행 결정</li>
+        <li><strong class="bd">히스토리:</strong> Git submodule vs <span class="bd">Git Subtree</span> — 단일 레포에서 관리할 목적이기 때문에 Subtree 선택, 깃 히스토리 유지</li>
+        <li><strong class="bd">공통 모듈 실패 → 재설계:</strong> 초기에 인프라 코드(JPA Config, Security)까지 :common에 포함했으나 <strong>비대화 문제 인식</strong> → <span class="bd">순수 Types/Enums/Utils만 허용</span>하는 규칙으로 재설계</li>
         <li><strong class="bd">품질 게이트:</strong> <span class="bd">Detekt + ReviewDog + JaCoCo</span> — PR 단위 변경분 50% 커버리지 기준, 정적 분석 자동 리뷰 코멘트</li>
       </ul>
 
@@ -622,9 +622,14 @@ a:hover{text-decoration:underline;}
             <li>공통 변경 PR: <strong>1개</strong></li>
             <li>공통 의존성: <strong>중앙 관리</strong></li>
             <li>버전 불일치 장애: <strong>0회</strong></li>
-            <li>CI 빌드 시간: <strong>70% 단축 (27분→8분)</strong></li>
+            <li>CI 빌드: <strong>파이프라인 코드 통일, 배포는 MSA환경의 개별 배포 유지</strong></li>
           </ul>
         </div>
+      </div>
+      <div class="ib" style="margin-top:6px;">
+        <strong>버전 통합이 가장 난관이였습니다.</strong>
+        16개 레포가 개별적으로 버전관리가 됐기때문에 이 작업을 하는김에 통일하고자 했습니다. Spring Boot 2.7→3.1, Kotlin 1.7→1.8, <strong>javax→jakarta 패키지 전면 교체</strong>, QueryDSL 버전 충돌까지 겹쳐 가장 난관이였습니다.
+        그러나 이 과정이 선행 됐기 때문에 차후 "모듈러 모놀리식"으로 전환할 때 비교적 수월하게 전환할 수 있었습니다.
       </div>
     </div>
 
@@ -635,10 +640,9 @@ a:hover{text-decoration:underline;}
           <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
             <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">BEFORE: 16개 개별 레포</div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
-              <div class="db er ds">agent-repo</div><div class="db er ds">estate-repo</div><div class="db er ds">ai-repo</div>
-              <div class="db er ds">match-repo</div><div class="db er ds">chat-repo</div><div class="db er ds">user-repo</div>
+              <div class="db er ds">agent-repo</div><div class="db er ds">ai-repo</div>
               <div class="db er ds">notif-repo</div><div class="db er ds">data-repo</div><div class="db er ds">event-repo</div>
-              <div class="db er ds">commu-repo</div><div class="db er ds">price-repo</div><div class="db er ds">store-repo</div>
+              <div class="db er ds">commu-repo</div><div class="db er ds">price-repo</div><div class="db er ds">store-repo</div><div class="db er ds">...</div>
             </div>
             <div style="text-align:center;font-size:10.5px;color:#c5221f;margin-top:3px;">+ batch, legacy, config, common</div>
             <div class="dd" style="font-size:10.5px;color:#c5221f;">각각 독립 build.gradle · 버전 개별 관리</div>
@@ -648,34 +652,38 @@ a:hover{text-decoration:underline;}
             <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AFTER: Monorepo</div>
             <div class="db dk ds" style="width:100%;margin-bottom:3px;">:common — Types, Enums만</div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
-              <div class="db ok ds">:agent</div><div class="db ok ds">:estate</div><div class="db ok ds">:ai</div>
-              <div class="db ok ds">:match</div><div class="db ok ds">:chat</div><div class="db ok ds">:user</div>
-              <div class="db ok ds">:notif</div><div class="db ok ds">:data</div><div class="db ok ds">:event</div>
+              <div class="db ok ds">:agent</div><div class="db ok ds">:ai</div>
+              <div class="db ok ds">:notif</div><div class="db ok ds">:data</div><div class="db ok ds">:event</div><div class="db ok ds">...</div>
             </div>
             <div style="display:flex;gap:2px;margin-top:3px;">
               <div class="db dk ds" style="flex:1;">:batch</div>
               <div class="db ds" style="flex:1;border-style:dashed;color:#8a6d3b;">legacy (별도 레포)</div>
             </div>
-            <div class="dd" style="font-size:10.5px;color:#137333;">Version Catalog 단일 관리 · Git Subtree 히스토리 보존</div>
+            <div class="dd" style="font-size:10.5px;color:#137333;">Git Subtree 히스토리 보존</div>
           </div>
         </div>
       </div>
 
       <div class="ib" style="margin-top:8px;">
         <strong>MSA ≠ Multi-Repo라고 생각합니다</strong><br>
-        "MSA면 당연히 멀티레포지"라는 관행에 솔직히 의문이 들었습니다. 넷플릭스처럼 수백 명이면 모를까,
-        <strong>2~3명이 16개 레포를 관리하는 건 그냥 노동에 가까웠습니다.</strong>
-        빌드 시간과 PR 개수 데이터를 근거로 CTO님께 제안해서 승인을 받았습니다.
+        "MSA면 당연히 멀티레포"로 시작하는 경우들이 있는 것 같습니다. 제 개인적인 견해로는 넷플릭스처럼 회사와 팀이 충분히 크면 개별 관리가 필요하다고 생각하지만 <strong>2~3명이 16개 레포를 관리하는 건 오버헤드라고 판단했습니다.</strong>
+        PR 개수 데이터를 근거로 CTO님께 제안하고 팀원과 협의과정에서 팀원분도 공통 코드를 수정할때의 번거로움을 공감하셨기 때문에 진행하기로 결정됐습니다.
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>버전 통합이 가장 고통스러웠습니다:</strong>
-        16개 레포의 Spring Boot 2.7→3.1, Kotlin 1.7→1.8, <strong>javax→jakarta 패키지 전면 교체</strong>, QueryDSL 버전 충돌까지.
-        이걸 겪고 나서 <strong>Version Catalog</strong>을 도입했습니다 — 두 번 다시 겪고 싶지 않았습니다.
+        <strong>모노레포로 한다면 MSA의 장점중 하나인 "Language/Framework 자유"가 사라지는 것 아니냐는 우려가 있을 수 있습니다.</strong>
+        이 점에 대해서는 제 개인적으로 어느정도 동의합니다. 다만 팀원 전체의 기술 선호도가 유사하고, 당장 다른 언어나 프레임워크를 도입할 계획이 없었기 때문에 저희 팀 상황에서는 모노레포가 더 적합하다고 판단했습니다. 또 MSA 배포 구조는 유지하면서 동일한 언어와 프레임워크를 사용하는 서비스에 한에 모노레포로 관리하는 형태이기 때문에, 차후 다른 언어나 프레임워크를 도입할 계획이라면 해당 서비스만 개별적으로 레포를 관리하여 MSA에 합류 시키기만 하면 된다고 판단했습니다.
       </div>
 
-      <div class="rb" style="margin-top:6px;">
-        <strong>Gradle Version Catalog:</strong> 모든 서비스의 의존성 버전을 <strong>libs.versions.toml</strong> 단일 파일로 관리 → 버전 불일치 장애 원천 차단, Detekt + ReviewDog으로 코드 품질 자동 검증
+      <div style="display:flex;gap:6px;margin-top:4px;">
+        <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
+          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">멀티레포 관리</div>
+          <img src="https://www.dropbox.com/scl/fi/png7ikqadlvjhn0ofhwwt/multi-repo.png?rlkey=o17iimw1ogvjj0tudzt8lkylv&st=u1bvw7or&raw=1" style="width:100%;max-height:180px;object-fit:contain;display:block;background:#fff;" alt="multi repo">
+        </div>
+        <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
+          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">멀티모듈 모노레포 관리</div>
+          <img src="https://www.dropbox.com/scl/fi/r386vq0ii613v69k596lw/multi-module.png?rlkey=0e71s90kbt32cu7l8878dj3jh&st=qz4nhggg&raw=1" style="width:100%;max-height:180px;object-fit:contain;display:block;background:#fff;" alt="multi module mono repo">
+        </div>
       </div>
     </div>
   </div>
