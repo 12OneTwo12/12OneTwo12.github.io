@@ -379,15 +379,14 @@ a:hover{text-decoration:underline;}
         <tr><td class="l">소속</td><td class="v">부톡(주) — AI 기반 부동산 중개 플랫폼 (누적 회원 21만+, 중개 매칭 5만+)</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.04 ~ 2025.11 (8개월)</td></tr>
         <tr><td class="l">역할</td><td class="v">부분적 빅뱅 전략 설계, 14개 서비스 중 5개(estate · agent · match 포함) 설계 및 구현 담당</td></tr>
-        <tr><td class="l">기술스택</td><td class="v">Kotlin, Spring Cloud, Feign Client, AWS SQS, CQRS, Hexagonal</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">Kotlin, Spring Cloud, AWS SQS, CQRS, Hexagonal</td></tr>
         <tr><td class="l">서비스 규모</td><td class="v">14개 MSA · 3 SNS / 42 SQS · Schema-per-Service · GKE 2 Cluster</td></tr>
       </table>
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>합류했을 때 느슨한 서비스(알림·이벤트)는 이미 분리가 끝나 있었는데, <strong class="bd">핵심 도메인(매물, 매칭, 중개사)은 양방향 강결합</strong>으로 손도 못 댄 상태였습니다</li>
-        <li>매물 도메인 분리를 시작하려고 레거시 코드를 열어보니, <strong class="bd">매칭 로직이 매물 테이블을 직접 JOIN</strong>하는 구조 → Strangler Fig(점진적 전환)가 불가능한 구조</li>
-        <li>하나의 도메인 변경이 전체 배포·장애 전파를 유발 · 공통 코드 16개 레포에 중복 관리</li>
+        <li>팀에 합류했을 때 느슨한 서비스(알림·이벤트)는 이미 분리돼 있었으나 <strong class="bd">핵심 도메인(매물, 중개사-사용자 매칭)은 양방향 강결합</strong>으로 전환을 하지 못한 상태였습니다</li>
+        <li><strong class="bd">매칭 로직이 매물 테이블을 직접 JOIN하고 매물 관련 기능도 매칭에 의존성이 존재하는 구조</strong> → Strangler Fig(점진적 전환)이 불가</li>
       </ul>
 
       <div class="sec">고려한 전환 전략</div>
@@ -400,9 +399,13 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">해결: 부분적 빅뱅 + Dual Write</div>
       <ul class="bl">
-        <li>강결합 도메인(매물, 매칭, 중개사) 동시 분리 + 나머지 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">점진적 전환</a></li>
+        <li><a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion"><strong>강결합 도메인(매물, 매칭, 중개사) 동시 분리</strong></a> + 이후 도메인은 점진적 전환</li>
         <li><span class="bd">Dual Write + 검증 배치</span>로 과도기 데이터 정합성 보장</li>
         <li><strong class="bd">DDD + 헥사고날 + CQS:</strong> Bounded Context 단위로 서비스를 분리하고, Aggregate Root를 통해서만 상태 변경을 허용(예: 매물 상태 변경은 반드시 Estate Aggregate를 거침). 핵심 도메인은 헥사고날, 단순 도메인은 레이어드로 선택 적용. 복제 테이블 조회 전용 → CQS 도출. 이 경계가 모듈러 전환 시 ModuleApi·Schema 분리의 기준</li>
+      </ul>
+      <div class="sec">의도적 기술부채</div>
+      <ul class="bl">
+        <li><strong class="bd">비즈니스 목표와 기술부채 사이의 트레이드오프</strong>를 생각해 지금 전부를 MSA로 전환하기 보다 비즈니스에 역량을 쏟기위해 레거시에 일부 기능이 레거시 잔존해 있는걸 허용한 상태입니다.</li>
       </ul>
 
     </div>
@@ -420,7 +423,7 @@ a:hover{text-decoration:underline;}
               <div class="db ds" style="border-style:dashed;">기존 MSA 서비스들</div>
             </div>
             <div class="dd">↓</div>
-            <div class="db wn ds" style="width:100%;">도메인 간 DB 테이블 공유</div>
+            <div class="db wn ds" style="width:100%;">DB Schema-per-Service</div>
           </div>
           <div style="display:flex;align-items:center;padding-top:50px;font-size:18px;color:#999;">→</div>
           <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
@@ -438,7 +441,7 @@ a:hover{text-decoration:underline;}
               </div>
             </div>
             <div style="display:flex;gap:2px;">
-              <div class="db wn ds" style="flex:1;font-size:10.5px;">Schema별 DB 분리</div>
+              <div class="db wn ds" style="flex:1;font-size:10.5px;">DB</div>
               <div class="db ac ds" style="flex:1;font-size:10.5px;">3 SNS / 42 SQS</div>
             </div>
           </div>
@@ -462,16 +465,26 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>주요 도메인 <strong class="bd">무중단 MSA 전환</strong> — 다운타임 0분, 데이터 유실 0건 (일부 레거시 잔존)</li>
-        <li><strong class="bd">도메인 독립 배포</strong> → 서비스별 독립 배포·롤백 · 장애 격리 달성 (단일 서비스 장애가 전체에 전파되지 않는 구조)</li>
+        <li>주요 도메인 <strong class="bd">무중단 MSA 전환</strong> — 다운타임 0분, 데이터 유실 0건</li>
+        <li><strong class="bd">도메인 독립 배포</strong> → 서비스별 독립 배포·롤백 · 장애 격리 달성</li>
       </ul>
 
       <div class="ib" style="margin-top:14px;">
         <strong>"DDD와 헥사고날 — 돌이켜보면"</strong>
         <ul style="margin:3px 0 0;padding-left:14px;line-height:1.6;">
-          <li>DDD는 도메인을 제대로 이해하지 못한 상태에서 적용하면 오히려 복잡하기만 한 구조가 된다고 생각하는데, 핵심 도메인은 결합이 강하고 경계가 명확해야 해서 그 비용을 들일 만했지만 단순한 도메인까지 같은 비용을 쓸 필요는 없다고 판단해서 레이어드로 나눴습니다</li>
-          <li>헥사고날도 유연성을 얻는 대신 복잡성을 감수해야 하고, 그 복잡성은 결국 인력과 시간을 더 요구하는 건데, <strong>도메인이 충분히 복잡하고 외부 의존이 자주 바뀔 수 있는 곳이 아니면 그 비용을 감수할 이유가 없다고 느꼈습니다.</strong> 핵심 도메인 중에서도 일부는 솔직히 오버엔지니어링이었다는 생각이 듭니다</li>
-          <li>이걸 겪고 나서 느낀 건, <strong>어떤 아키텍처 패턴을 쓰느냐보다 도메인을 얼마나 이해하고 있느냐가 먼저라는 거였습니다</strong></li>
+          <li>
+            DDD는 도메인을 충분히 이해하지 못한 상태에서 적용하면 오히려 불필요한 복잡성만 늘어난다고 생각합니다.
+            저희 서비스의 핵심 도메인은 결합이 강하고 경계가 명확해야 했기 때문에 그 비용을 들일 만한 가치가 있었지만,
+            알림과 같은 단순한 영역까지 동일한 복잡도를 가져갈 필요는 없다고 판단해 해당 부분은 레이어드 아키텍처로 구성했습니다.
+          </li><br>
+          <li>
+            헥사고날 아키텍처도 유연성을 얻는 대신 복잡성을 감수해야 하고, 그 복잡성은 결국 더 많은 인력과 시간을 요구합니다.
+            <strong>도메인이 충분히 복잡하고 외부 의존성이 자주 변경되는 환경이 아니라면 그 비용을 감수할 이유는 크지 않다고 느꼈습니다.</strong>
+            핵심 도메인 중에서도 일부는 지금 돌아보면 오버엔지니어링이었다는 생각이 듭니다.
+          </li><br>
+          <li>
+            이 과정을 겪고 나서 느낀 것은 <strong>어떤 아키텍처 패턴을 선택하느냐보다, 도메인을 얼마나 깊이 이해하고 있느냐가 더 중요하다는 점이었습니다.</strong>
+          </li>
         </ul>
       </div>
     </div>
@@ -500,7 +513,6 @@ a:hover{text-decoration:underline;}
           <div class="dd">↓ 불일치 시</div>
           <div class="db wn" style="width:80%;">Telegram 알림 + 자동 보정</div>
         </div>
-        <div style="text-align:center;margin-top:4px;padding:4px 8px;background:#e6f4ea;border:1px solid #81c995;border-radius:3px;font-size:10.5px;color:#137333;font-weight:600;">✅ 실제 운영 결과: 검증 배치 8개월간 불일치 0건 검출 — 매시간 자동 비교(누적 약 5,800회 실행), 의도적 불일치 주입 테스트로 배치 탐지 정상 동작 검증 완료</div>
       </div>
 
       <div class="sec-s" style="margin-top:10px;">실제 마이그레이션 타임라인</div>
