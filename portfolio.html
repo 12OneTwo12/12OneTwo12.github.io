@@ -717,9 +717,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>모니터링 구축(p.12) 이후 습관적으로 Grafana를 확인하고 있었습니다. 평균 응답시간은 양호했지만, <strong class="bd">P95(상위 5% 느린 요청)로 눈을 돌려보니 상황이 달랐습니다.</strong></li>
-        <li>매물 상세조회 API — 앱 핵심 화면, 피크 <strong class="bd">568 req/s</strong>. P95가 <strong class="bd">4,045ms</strong>. 랭킹 API는 단가 P50 <strong class="bd">7.2s</strong>, 세대수 P50 <strong class="bd">6.3s</strong>로 대부분의 요청조차 수 초대였습니다.</li>
-        <li>"캐시를 도입하면 낫지 않을까" 싶었지만, <strong class="bd">EXPLAIN과 Tempo 트레이스로 실측해보니 병목이 예상과 다른 곳에 있었습니다.</strong></li>
+        <li>Grafana 운영 메트릭을 확인하던 중, 평균 응답시간은 양호하지만 <strong class="bd">P95 기준으로 매물 상세조회 API가 4,045ms</strong>(피크 568 req/s), 랭킹 API는 P50 기준 <strong class="bd">7.2s, 6.3s</strong>로 대부분의 요청이 수 초대인 것을 발견했습니다.</li>
+        <li>캐시 도입을 먼저 검토했지만, <strong class="bd">EXPLAIN과 Tempo 트레이스로 실측해보니 병목 원인이 달랐습니다.</strong></li>
       </ul>
 
       <div class="sec"><a href="https://jeongil.dev/ko/blog/backend/performance/backend-api-performance-optimization" style="color:#1a73e8;text-decoration:none;font-weight:700;">병목 원인별로 나눠 진행한 최적화</a></div>
@@ -806,12 +805,10 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:6px;font-size:10px;line-height:1.5;">
-        <strong>"느린 곳을 찾는 게 고치는 것보다 어려웠다고 생각합니다."</strong>
-        성능 최적화를 위해 사용한 기법은 전부 기본적인 것들이었습니다. Non-sargable 수정, N+1 해결, Cache-Aside. 어디가 느린지 정확히 찾는 과정이 가장 중요했고, 원인을 찾고 나니 해결은 명확했습니다.
-        말하는 “여기"라는건 API자체 뿐만 아니라 코드의 특정 부분, 데이터베이스 쿼리, 네트워크 병목, 외부 API 호출일 수도 있었습니다.
-        이전에 구축한 모니터링(p.12)이 없었으면 병목 지점을 특정할 수 없었을 거고 그렇다면 시작도 못 했을 것 같습니다. 작업 후 <strong>P95 임계치 초과 시 Grafana Alert을 설정</strong>해, 다음부터는 시스템이 먼저 알려주도록 했습니다.
-        모니터링의 중요함을 이때 다시 느꼈는데 관련된 내용은 p.12에 보다 자세히 작성해뒀습니다.
+      <div class=”ib”>
+        <strong>”느린 곳을 찾는 게 고치는 것보다 어려웠다고 생각합니다.”</strong>
+        사용한 기법은 전부 기본적인 것들이었습니다 — Non-sargable 수정, N+1 해결, Cache-Aside. 어디가 느린지 정확히 찾는 과정이 가장 중요했고, 원인을 찾고 나니 해결은 명확했습니다.
+        이전에 구축한 모니터링(p.9)이 없었으면 병목 지점을 특정할 수 없었을 거고 시작도 못 했을 것 같습니다. 작업 후 <strong>P95 임계치 초과 시 Grafana Alert을 설정</strong>해, 다음부터는 시스템이 먼저 알려주도록 했습니다.
       </div>
     </div>
   </div>
@@ -902,8 +899,8 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        이전 회사(p.16)에서 DevOps 퇴사 후 19개 인스턴스를 7개월간 혼자 운영하면서 자연스럽게 인프라에 대한 이해와 경험을 쌓게 됐고, 그 과정에서 단일 서버에 서비스가 집중되는 구조의 한계를 직접 겪어봤기 때문에 K8s가 적합한 솔루션이라고 판단하게 됐습니다.
-        처음부터 완벽한 구조를 만들려 하지 않고 dev 클러스터부터 단계적으로 구축해나간 것이 좋은 접근이었다고 생각합니다. 이때 만든 개발 환경이 이후 MSA 전환(p.5), Collation 마이그레이션(p.10) 등에서 운영 장애 없이 작업할 수 있었던 안전망이 됐습니다.
+        <strong>안전하게 테스트할 수 있는 환경을 먼저 만드는 것이 가장 빠른 길이라고 느꼈습니다.</strong>
+        19개 인스턴스를 7개월간 혼자 운영하면서(p.11) 단일 서버 집중 구조의 한계를 직접 겪어봤기 때문에 K8s가 적합하다고 판단하게 됐고, dev 클러스터부터 단계적으로 구축해나간 것이 이후 MSA 전환, Collation 마이그레이션 등에서 <strong>운영 장애 없이 작업할 수 있었던 안전망</strong>이 됐습니다.
       </div>
     </div>
   </div>
@@ -1137,9 +1134,10 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:6px;font-size:11px;line-height:1.5;">
-        이 시기에 DevOps께서 퇴사하면서 <strong>19개 인스턴스(내외부망 분리)를 7개월간 혼자 운영</strong>하기도 했습니다. 부족한 지식으로라도 버텨보겠다는 마인드로 자원했는데, 결과적으로 가장 많이 성장한 시기였다고 생각합니다. 이때 인프라 장애랑 직접 씨름하면서 자연스럽게 K8s에 대한 이해를 쌓게 됐고, ELK가 잘 갖춰진 환경에서 트러블슈팅하면서 모니터링의 소중함을 체감했습니다.
-        금융 도메인에서 MVCC 누락이나 정합성 검증을 직접 겪어본 덕분에, 부톡에서도 <strong>과도기 안전장치를 먼저 설계</strong>할 수 있었다고 생각합니다.
+      <div class="ib" style="margin-top:6px;">
+        <strong>직접 부딪혀본 경험이 이후 모든 판단의 기준이 됐습니다.</strong>
+        DevOps께서 퇴사하면서 <strong>19개 인스턴스(내외부망 분리)를 7개월간 혼자 운영</strong>하기도 했는데, 부족한 지식으로라도 버텨보겠다는 마인드로 자원했고 결과적으로 가장 많이 성장한 시기였다고 생각합니다. 인프라 장애랑 직접 씨름하면서 K8s에 대한 이해를 쌓게 됐고, ELK가 잘 갖춰진 환경에서 트러블슈팅하면서 모니터링의 소중함을 체감했습니다.
+        금융 도메인에서 MVCC 누락이나 정합성 검증을 직접 겪어본 덕분에, 이후 MSA 전환에서도 <strong>과도기 안전장치를 먼저 설계</strong>하는 습관이 생겼다고 생각합니다.
       </div>
     </div>
   </div>
