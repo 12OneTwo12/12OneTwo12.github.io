@@ -1036,7 +1036,7 @@ a:hover{text-decoration:underline;}
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c" style="flex:.9;">
       <table class="it">
-        <tr><td class="l">소속</td><td class="v">부톡(주) — 모듈러 모놀리식 전환 과정에서 발생</td></tr>
+        <tr><td class="l">소속</td><td class="v">부톡(주) — 모듈러 모놀리식 전환 직후 발생</td></tr>
         <tr><td class="l">기간</td><td class="v">2026.02 (약 1주 집중 작업)</td></tr>
         <tr><td class="l">역할</td><td class="v">빌드 병목 진단, 66개 파일 수정, 테스트 병렬화 설계</td></tr>
         <tr><td class="l">기술스택</td><td class="v">Gradle, JUnit5, MockK, Spring TestContext, GitHub Actions</td></tr>
@@ -1044,41 +1044,40 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>모듈러 모놀리식 전환으로 12개 서비스가 <strong class="bd">하나의 Gradle 프로젝트로 통합</strong> → CI 빌드 시간 <strong class="bd">45분 31초</strong>, 153개 task 전체 실행</li>
-        <li>테스트 실패 시 45분 대기 후 실패 확인 → 개발 생산성 심각한 저하</li>
+        <li>12개 MSA 서비스를 하나의 Spring Boot 앱으로 통합(p.8)한 직후, CI를 돌려봤을 때 "Build test reports" 단계가 끝나질 않았습니다. 로그를 확인해보니 <strong class="bd">45분 31초, 153개 task 전부 실행 후 FAILED</strong>.</li>
+        <li>MSA에서는 변경된 서비스만 테스트하면 2분이었지만, 통합 후에는 <strong class="bd">15개 모듈 전체 테스트가 한꺼번에</strong> 돌아가는 구조. 여기에 환경에 맞지 않는 설정들이 겹쳐 있었습니다.</li>
       </ul>
 
-      <div class="sec"><a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization" style="color:#1a73e8;text-decoration:none;font-weight:700;">7단계에 걸쳐 하나씩 잡아나간 최적화</a></div>
+      <div class="sec"><a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization" style="color:#1a73e8;text-decoration:none;font-weight:700;">원인을 추적하고 하나씩 잡아나간 최적화</a></div>
       <div style="display:flex;flex-direction:column;gap:2px;">
         <div style="border:1px solid #f28b82;border-left:3px solid #c5221f;border-radius:4px;padding:5px 10px;background:#fef7f6;">
           <div style="display:flex;align-items:center;gap:6px;">
             <span style="display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;border-radius:50%;background:#c5221f;color:#fff;font-size:9px;font-weight:700;flex-shrink:0;">1</span>
-            <strong class="bd" style="font-size:11.5px;">maxParallelForks 제거</strong>
-            <span style="font-size:10px;color:#c5221f;font-weight:600;">← 핵심 병목</span>
+            <strong class="bd" style="font-size:11.5px;">프로세스 병렬 → 스레드 병렬 전환</strong>
+            <span style="font-size:10px;color:#c5221f;font-weight:600;">← 핵심 병목 (약 15분)</span>
           </div>
-          <div style="font-size:10.5px;color:#555;padding-left:22px;line-height:1.5;">멀티모듈 시절 <strong>내가 직접 설정한</strong> maxParallelForks가 Spring TestContext 캐시를 무효화하여 오히려 느려지는 현상. 프로세스 병렬(빌드)과 스레드 병렬(테스트)은 전략이 다르다는 것을 체감</div>
+          <div style="font-size:10.5px;color:#555;padding-left:22px;line-height:1.5;">멀티모듈 시절 빌드를 빠르게 하려고 <strong>제가 직접 설정한</strong> <code>maxParallelForks</code>가 원인이었습니다. 별도 JVM 프로세스를 생성해 <strong>Spring TestContext 캐시를 공유할 수 없는 구조</strong>. 빌드(컴파일)에는 맞았지만 테스트에는 독이었습니다. JVM 1개로 줄이고 JUnit5 스레드 병렬로 전환해 캐시 공유를 복구했습니다.</div>
         </div>
-        <div style="border:1px solid #e0e0e0;border-radius:4px;padding:4px 10px;background:#fff;">
-          <div style="font-size:10.5px;color:#555;"><strong class="bd">②</strong> JUnit5 스레드 병렬 전환 · <strong class="bd">③</strong> Spring Lazy Init · <strong class="bd">④</strong> Smoke Test 태그 분리 · <strong class="bd">⑤</strong> Gradle 빌드 캐싱</div>
+        <div style="border:1px solid #e0e0e0;border-radius:4px;padding:5px 10px;background:#fff;">
+          <div style="font-size:10.5px;color:#555;"><strong class="bd">②</strong> Spring Lazy Init — 특정 서비스 하나만 테스트하는데 15개 모듈의 빈을 전부 초기화하고 있었습니다. <code>lazy-initialization</code> 한 줄 추가로 필요한 빈만 로딩하도록 변경. 모듈당 10~20초씩, 합산 <strong>약 5분</strong> 단축</div>
         </div>
-        <div style="border:1px solid #e0e0e0;border-radius:4px;padding:4px 10px;background:#fff;">
-          <div style="font-size:10.5px;color:#555;"><strong class="bd">⑥</strong> MockK thread-safety 수정 — 스레드 병렬로 인해 <code>every {}</code> 블록이 레이스 컨디션 발생</div>
+        <div style="border:1px solid #e0e0e0;border-radius:4px;padding:5px 10px;background:#fff;">
+          <div style="font-size:10.5px;color:#555;"><strong class="bd">③</strong> Smoke Test 분리 — 13개 모듈의 contextLoads()가 이미 통합 테스트에서 검증하는 것과 완전히 중복이었습니다. @Tag("smoke")로 CI에서만 제외하고 로컬 검증용으로는 유지 (<strong>약 5분</strong>)</div>
         </div>
-        <div style="border:1px solid #e0e0e0;border-radius:4px;padding:4px 10px;background:#fff;">
-          <div style="font-size:10.5px;color:#555;"><strong class="bd">⑦</strong> @ResourceLock("spring-restdocs") — 33개 테스트 클래스에 적용, REST Docs 간헐적 실패 해결</div>
+        <div style="border:1px solid #e0e0e0;border-radius:4px;padding:5px 10px;background:#fff;">
+          <div style="font-size:10.5px;color:#555;"><strong class="bd">④</strong> CI 캐싱 — "CI는 당연히 클린 빌드"라는 생각으로 <code>git clean -ffdx</code> + <code>--no-daemon</code>이 설정돼 있었습니다. 그런데 저희는 self-hosted 러너(MacBook Pro)라 환경이 유지되는 구조. 캐시를 재활용하는 게 맞았습니다 (<strong>약 5분</strong>)</div>
+        </div>
+        <div style="border:1px solid #e0e0e0;border-radius:4px;padding:5px 10px;background:#fff;">
+          <div style="font-size:10.5px;color:#555;"><strong class="bd">⑤⑥</strong> ①의 부작용 — 스레드 병렬로 바꾸니 MockK <code>every {}</code>에서 레이스 컨디션이 터지고, REST Docs 스니펫 파일이 충돌하면서 간헐적으로 깨지기 시작했습니다. 클래스 병렬/메서드 순차 전략 + @ResourceLock(33개 클래스)으로 안정화</div>
         </div>
       </div>
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>CI 빌드 시간 <strong class="bd">45분 31초 → 7분 8초</strong>, <strong class="bd">66개 파일 수정</strong></li>
-        <li>최적화 과정에서 <strong class="bd">숨겨진 버그 2건 발견</strong> — @Qualifier Bean 충돌, URL 마이그레이션 후 orphan 테스트</li>
+        <li>CI 빌드 시간 <strong class="bd">45분 31초 → 7분 8초</strong> · <strong class="bd">66개 파일 수정</strong></li>
+        <li>최적화 과정에서 <strong class="bd">숨겨진 버그 2건 발견</strong> — @Qualifier Bean 충돌, 아무것도 검증하지 않던 orphan 테스트</li>
       </ul>
 
-      <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
-        <strong>과거의 내가 만든 병목:</strong>
-        MSA 멀티모듈 시절에 빌드 빠르게 하려고 제가 직접 설정한 <code>maxParallelForks</code>가, 모듈러 모놀리식으로 통합하고 나니까 오히려 <strong>가장 큰 병목</strong>이 돼버렸습니다. "빌드 최적화랑 테스트 최적화는 다르다"는 걸 뼈저리게 느꼈습니다.
-      </div>
     </div>
 
     <div class="c" style="flex:1.1;">
@@ -1110,10 +1109,10 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
-        <strong>최적화하다가 숨겨진 버그 2건을 발견했습니다:</strong>
-        ① <strong>@Qualifier Bean 충돌</strong> — 12개 서비스 통합하니까 동명 Bean이 충돌했는데, 테스트에서만 재현돼서 기존에는 발견이 안 됐던 겁니다.
-        ② <strong>URL 마이그레이션 후 orphan 테스트</strong> — MSA 시절에 URL이 바뀌었는데 테스트는 구 URL 그대로라 항상 통과만 하고 실제로는 아무것도 검증 안 하는 유령 테스트였습니다.
-        빌드 최적화를 안 했으면 <strong>프로덕션에서 터질 때까지 몰랐을 버그</strong>들이었습니다.
+        <strong>돌이켜보면:</strong>
+        모듈러 모놀리식 전환의 "완료 조건"을 코드 컴파일과 테스트 통과까지만 잡았던 게 실수였습니다. MSA에서 맞았던 설정이 통합 후에는 병목이 되고, 통과하던 테스트가 실은 아무것도 검증하지 않는 유령 테스트였습니다.
+        특히 같은 "병렬"이라도 빌드(컴파일)와 테스트는 최적 전략이 다르다는 걸, 과거의 제가 넣은 설정이 병목이 돼버린 경험을 통해 체감했습니다.
+        <strong>코드가 돌아간다고 끝이 아니라, 코드를 돌리는 환경까지 전환 범위에 포함시켰어야 했습니다.</strong>
       </div>
     </div>
   </div>
