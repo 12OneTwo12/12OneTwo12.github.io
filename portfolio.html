@@ -1109,7 +1109,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:4px;font-size:11px;line-height:1.5;">
-        <strong>돌이켜보면:</strong>
+        <strong>이 경험에서 배운 것:</strong>
         모듈러 모놀리식으로 전환하면서 "코드가 컴파일되고 테스트가 통과하면 끝"이라고 생각했는데, CI 환경까지 같이 봤어야 했다는 걸 느꼈습니다.
         특히 제가 직접 넣었던 설정이 가장 큰 병목이 됐던 게 인상 깊었습니다. 빌드를 빠르게 하려고 넣은 <code>maxParallelForks</code>가 테스트에서는 오히려 독이 되는 걸 보면서, 같은 "병렬"이라도 대상에 따라 전략이 달라야 한다는 걸 체감했습니다. 통과하던 테스트가 실은 아무것도 검증하지 않는 유령 테스트였다는 것도 이 과정에서 알게 됐습니다.
       </div>
@@ -1202,9 +1202,8 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:6px;">
-        <strong>돌이켜보면:</strong>
-        이전 회사(p.16)에서 ELK 기반 모니터링이 잘 갖춰진 환경에서 일하면서 모니터링의 소중함을 알게 됐습니다. 부톡에 입사해보니 모니터링이 전무한 상태여서, 첫 주에 SPOF를 발견하고 Observability부터 제안한 것도(p.13) 그 경험이 있었기 때문이라고 생각합니다.
-        K8s 도입 시 prod에 바로 적용하지 않고 개발 환경을 먼저 구축한 것도 같은 맥락이었습니다. 실제로 이때 만든 개발 환경 덕분에 이후 MSA 전환(p.5), Collation 마이그레이션(p.10) 등 거의 모든 작업을 운영 장애 없이 진행할 수 있었고, <strong>안전하게 실험할 수 있는 환경을 먼저 만드는 것이 결국 가장 빠른 길이었다</strong>고 느꼈습니다.
+        이전 회사(p.16)에서 DevOps 퇴사 후 19개 인스턴스를 7개월간 혼자 운영하면서 자연스럽게 인프라에 대한 이해와 경험을 쌓게 됐고, 그 과정에서 단일 서버에 서비스가 집중되는 구조의 한계를 직접 겪어봤기 때문에 K8s가 적합한 솔루션이라고 판단하게 됐습니다.
+        처음부터 완벽한 구조를 만들려 하지 않고 dev 클러스터부터 단계적으로 구축해나간 것이 좋은 접근이었다고 생각합니다. 이때 만든 개발 환경이 이후 MSA 전환(p.5), Collation 마이그레이션(p.10) 등에서 운영 장애 없이 작업할 수 있었던 안전망이 됐습니다.
       </div>
     </div>
   </div>
@@ -1268,7 +1267,7 @@ a:hover{text-decoration:underline;}
       </table>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>돌이켜보면:</strong>
+        <strong>모니터링에 대한 제 생각:</strong>
         모니터링은 단순히 장애를 빨리 발견하는 도구가 아니라, <strong>사용자가 말하지 않는 문제를 발견하는 수단</strong>이라고 생각합니다. CS로 문의하는 사용자는 극히 일부이고, 나머지는 조용히 이탈합니다. 모니터링 도입 후 CS 접수 0건인 버그를 여러 건 발견하면서 이 생각이 확신으로 바뀌었습니다.
         이후 성능 최적화(p.9)에서 P95 병목을 찾을 수 있었던 것도, JVM Cold Start(p.12)를 발견한 것도 전부 이때 구축한 모니터링이 있었기 때문이라고 생각합니다. <strong>모니터링이 모든 것의 시작이었던 것 같습니다.</strong>
       </div>
@@ -1305,8 +1304,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>IDC 물리서버에 <strong class="bd">레거시 서비스 + 200GB DB가 공존</strong> — 하드웨어 접촉 불량으로 장애 반복, SPOF</li>
-        <li>스케일링 불가 · 백업 수동 관리 · 서버 장애 시 레거시 의존 서비스 전체 영향</li>
+        <li>IDC 물리서버에 <strong class="bd">레거시 서비스 + 200GB DB가 공존</strong>하고 있었는데, 하드웨어 접촉 불량으로 예기치 않은 서버 다운이 반복되고 있었습니다. 서버가 내려가면 이 서버에 의존하는 서비스 전체가 영향을 받는 SPOF 구조였습니다.</li>
+        <li>대부분의 서비스는 이미 클라우드에서 운영 중이었고, 클라우드 크레딧도 있었기 때문에 이 서버도 AWS로 이관하기로 결정했습니다.</li>
       </ul>
 
       <div class="sec">5가지 마이그레이션 방식 비교</div>
@@ -1329,8 +1328,7 @@ a:hover{text-decoration:underline;}
       <div class="sec">성과</div>
       <ul class="bl">
         <li><strong class="bd">무중단 마이그레이션 달성</strong> — 다운타임 0분, 데이터 유실 0건</li>
-        <li>Terraform IaC로 <strong class="bd">인프라 재현성 확보</strong> — 동일 환경 즉시 재생성 가능</li>
-        <li>IDC SPOF 탈피 → AWS RDS <strong class="bd">자동 백업(7일 보존) + 스케일링</strong> 확보</li>
+        <li>Terraform IaC로 <strong class="bd">인프라 재현성 확보</strong> · IDC SPOF 탈피 → RDS 자동 백업 + 스케일링</li>
       </ul>
     </div>
 
@@ -1379,15 +1377,9 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>왜 CDC를 선택했냐면:</strong>
-        DB Replication은 스키마 변경이 어렵고, Dual Write는 앱 코드가 복잡해지고, MQ 기반은 메시지 유실 위험이 있고, ETL 배치는 실시간이 안 됩니다.
-        CDC는 <strong>DB 레벨에서 변경을 캡처</strong>하니까 앱 코드 수정 없이 실시간 동기화가 됩니다. AWS DMS가 RDS 호환성이 가장 높아서 선택했습니다.
-      </div>
-
-      <div class="ib" style="margin-top:6px;">
-        <strong>DNS 전환 구간이 가장 긴장됐습니다:</strong>
-        DNS 전파 기간 동안 사용자가 IDC 아니면 AWS로 자연스럽게 분산되는데, <strong>양쪽 다 IDC DB를 Source of Truth로 사용</strong>해서
-        정합성을 보장했습니다. 전파 완료를 확인한 후에야 DB 참조를 RDS로 전환했고 — 돌이켜보면 <strong>팀과 사전 계획을 꼼꼼히 세운 것</strong>이 이 과정에서 가장 중요했던 것 같습니다.
+        CDC를 선택한 이유는 앱 코드 수정 없이 DB 레벨에서 실시간 동기화가 가능했기 때문입니다. 다른 방식들은 코드 복잡도가 올라가거나 실시간성이 보장되지 않아서 운영 중인 서비스에 적용하기 부담스러웠습니다.
+        DNS 전환 구간이 가장 긴장됐는데, 전파 기간 동안 사용자가 IDC 또는 AWS로 분산되는 상황에서 <strong>양쪽 다 IDC DB를 Source of Truth로 사용</strong>해 정합성을 보장했습니다.
+        팀원분들과 함께 Terraform 테스트, CDC 동기화 검증, 롤백 시나리오까지 사전에 꼼꼼히 준비했기 때문에 당일 전환을 무중단으로 마칠 수 있었다고 생각합니다. 한 번에 모든 것을 전환하기보다 <strong>단계적 접근이 리스크 감소에 효과적이라는 걸 다시금 느꼈습니다.</strong>
       </div>
 
       <div class="rb" style="margin-top:6px;">
