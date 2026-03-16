@@ -1618,11 +1618,8 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:6px;font-size:11px;line-height:1.5;">
-        <strong>가장 많이 성장한 시기였습니다:</strong>
-        DevOps께서 퇴사하고 나서 자원해서 <strong>1개월 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD)을 받았고, 그 후 <strong>19개 EC2·10개 노드를 7개월간 혼자 운영</strong>했습니다.
-        이때 인프라 장애랑 씨름한 경험이 있었기에 부톡에서 K8s를 <strong>직접 설계하고 제안</strong>할 수 있었다고 생각합니다.
-        여기서 가장 크게 느낀 건 <strong>잘 갖춰진 모니터링(ELK)이 트러블슈팅에 얼마나 중요한지</strong>였습니다. HikariCP Deadlock이나 Replication 지연 같은 문제를 ELK 로그와 메트릭으로 추적하면서 모니터링의 소중함을 체감했고, 부톡 입사 첫 주에 SPOF를 발견하고 Observability부터 제안한 것도 이 경험이 있었기 때문입니다.
-        금융 도메인에서 MVCC 누락이나 정합성 검증을 직접 겪어본 덕분에, 부톡 MSA 무중단 전환에서도 <strong>과도기 데이터 안전장치를 먼저 설계</strong>할 수 있었습니다.
+        HikariCP Deadlock을 3번 오진하면서 느낀 건, <strong>증상이 아니라 구조를 봐야 한다</strong>는 것이었습니다. 풀 사이즈를 늘리면 당장은 해결되지만 근본 원인이 남아있으면 반드시 재발합니다. OSIV + JPA/MyBatis 혼용이라는 구조적 원인을 찾고 나서야 완전히 해결할 수 있었습니다.
+        금융 도메인에서 MVCC 누락이나 정합성 검증을 직접 겪어본 덕분에, 부톡 MSA 무중단 전환에서도 <strong>과도기 데이터 안전장치를 먼저 설계</strong>할 수 있었다고 생각합니다.
       </div>
     </div>
   </div>
@@ -1631,12 +1628,97 @@ a:hover{text-decoration:underline;}
   </div>
 </div></div>
 
+<!-- ===== SLIDE: 헬로핀테크 인프라 운영 — DevOps 공백기 ===== -->
+<div class="slide"><div class="si">
+  <div class="bar"></div>
+  <div class="st">(7-1) DevOps 공백기 — 19개 인스턴스를 혼자 운영하며 배운 것</div>
+  <span class="ss">2. 프로젝트</span>
+  <span class="pn">17</span>
+  <div class="tc" style="margin-top:10px;flex:1;">
+    <div class="c">
+      <table class="it">
+        <tr><td class="l">소속</td><td class="v">(주)헬로핀테크 — P2P 금융플랫폼 (누적대출 2.5조원)</td></tr>
+        <tr><td class="l">기간</td><td class="v">2023.12 ~ 2024.09 (약 7개월)</td></tr>
+        <tr><td class="l">역할</td><td class="v">DevOps 퇴사 후 자원, 1개월 집중 멘토링 후 인프라 전담 운영</td></tr>
+        <tr><td class="l">인프라 규모</td><td class="v">19개 EC2 인스턴스 · 10개 노드 (3 웹서버, 9 WAS, 2 DB) · 내외부망 분리</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">AWS EKS, Jenkins, ArgoCD, Redis Clustering, ELK</td></tr>
+      </table>
+
+      <div class="sec">배경</div>
+      <ul class="bl">
+        <li>DevOps께서 퇴사하시면서 인프라를 맡을 사람이 없어졌습니다. 당시 백엔드 개발자였지만 인프라가 방치되면 서비스 전체가 위험하다고 판단해 자원했고, 퇴사 전 <strong class="bd">1개월간 집중 멘토링</strong>(K8s, EKS, Jenkins, ArgoCD)을 받았습니다.</li>
+        <li>이후 <strong class="bd">19개 EC2 인스턴스, 10개 노드로 구성된 프로덕션 인프라를 약 7개월간 혼자 운영</strong>했습니다.</li>
+      </ul>
+
+      <div class="sec">운영 중 해결한 주요 이슈</div>
+      <ul class="bl">
+        <li><strong class="bd">Redis Session Clustering 도입:</strong> 세션 유실 문제가 반복되고 있었는데, Redis 기반 세션 클러스터링을 도입해 해결했습니다.</li>
+        <li><strong class="bd">HikariCP Deadlock · Replication Lag:</strong> 이 시기에 겪었던 장애들이 p.16에서 다룬 트러블슈팅의 배경이 됐습니다. ELK가 잘 갖춰져 있었기 때문에 로그와 메트릭으로 원인을 추적할 수 있었습니다.</li>
+        <li><strong class="bd">운영 안정성 유지:</strong> DevOps 공백 기간 동안 서비스 가용성을 유지하면서 백엔드 개발 업무도 병행했습니다.</li>
+      </ul>
+
+      <div class="sec">이 경험이 부톡에서의 판단으로 이어진 것들</div>
+      <table class="ct" style="font-size:10.5px;">
+        <tr><th style="width:38%;">헬로핀테크에서 겪은 것</th><th>부톡에서의 판단</th></tr>
+        <tr><td>단일 서버 집중 구조의 한계</td><td class="w">K8s 도입 제안 · Pod 격리로 OOM Kill 해소 (p.12)</td></tr>
+        <tr><td>ELK 기반 모니터링의 소중함 체감</td><td class="w">입사 첫 주 SPOF 발견 → Observability 제안 (p.13)</td></tr>
+        <tr><td>금융 도메인 정합성 검증 경험</td><td class="w">MSA 전환 시 Dual Write 안전장치 먼저 설계 (p.5)</td></tr>
+        <tr><td>개발 서버 없이 운영 테스트한 고충</td><td class="w">K8s 도입 시 dev 클러스터 먼저 구축 (p.12)</td></tr>
+      </table>
+    </div>
+
+    <div class="c">
+      <div class="dg">
+        <div class="dl">인프라 운영 규모</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db dk" style="width:85%;">프로덕션 인프라 (19개 EC2 · 10개 노드 · 내외부망 분리)</div>
+          <div style="display:flex;gap:4px;width:90%;">
+            <div class="db ds" style="flex:1;">웹서버 ×3</div>
+            <div class="db ds" style="flex:1;">WAS ×9</div>
+            <div class="db ds" style="flex:1;">DB ×2</div>
+          </div>
+          <div class="dd">↓</div>
+          <div class="db ac" style="width:85%;">EKS Cluster · Jenkins CI/CD · ArgoCD 배포</div>
+          <div class="dd">↓</div>
+          <div class="db ok" style="width:85%;">ELK 모니터링 · Redis Session Clustering</div>
+        </div>
+        <div class="dn">DevOps 공백 7개월간 백엔드 개발과 인프라 운영 병행</div>
+      </div>
+
+      <div class="dg" style="margin-top:10px;">
+        <div class="dl">헬로핀테크 경험 → 부톡 성과 연결</div>
+        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
+          <div class="db dk" style="width:85%;">헬로핀테크 (2023~2025)</div>
+          <div style="display:flex;gap:4px;width:90%;">
+            <div class="db ds" style="flex:1;font-size:10px;">19개 EC2<br>7개월 운영</div>
+            <div class="db ds" style="flex:1;font-size:10px;">ELK 모니터링<br>트러블슈팅</div>
+            <div class="db ds" style="flex:1;font-size:10px;">금융 정합성<br>MVCC 경험</div>
+          </div>
+          <div class="dd">↓ 경험이 판단의 기준이 됐습니다</div>
+          <div class="db ok" style="width:85%;">부톡 (2025~현재)</div>
+          <div style="display:flex;gap:4px;width:90%;">
+            <div class="db ok ds" style="flex:1;font-size:10px;">K8s 제안·구축<br>(p.12)</div>
+            <div class="db ok ds" style="flex:1;font-size:10px;">LGTM 모니터링<br>(p.13)</div>
+            <div class="db ok ds" style="flex:1;font-size:10px;">MSA 안전장치<br>(p.5)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ib" style="margin-top:10px;">
+        솔직히 당시에는 부족한 지식으로라도 어떻게든 버텨보겠다는 마인드였는데, 결과적으로 <strong>가장 많이 성장한 시기였다고 생각합니다.</strong>
+        이때 인프라 장애랑 직접 씨름하면서 자연스럽게 K8s에 대한 이해와 경험을 쌓게 됐고, ELK가 잘 갖춰진 환경에서 트러블슈팅하면서 모니터링의 소중함을 체감했습니다.
+        부톡에 입사해보니 모니터링이 전무한 상태여서 첫 주에 Observability부터 제안한 것도, 개발 환경을 prod보다 먼저 구축한 것도, MSA 전환 시 과도기 안전장치를 먼저 설계한 것도 전부 이 시기의 경험에서 나온 판단이었다고 생각합니다.
+      </div>
+    </div>
+  </div>
+</div></div>
+
 <!-- ===== SLIDE: Side Projects — Upvy + Error Autopilot (병합) ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
   <div class="st">Side Projects — Upvy & Error Autopilot</div>
   <span class="ss">3. Side Projects</span>
-  <span class="pn">17</span>
+  <span class="pn">18</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="c">
       <div class="sec-s">Upvy — 교육용 숏폼 영상 플랫폼</div>
@@ -1792,7 +1874,7 @@ a:hover{text-decoration:underline;}
   <div class="bar"></div>
   <div class="st">개발 철학 & Contact</div>
   <span class="ss">4. Contact</span>
-  <span class="pn">18</span>
+  <span class="pn">19</span>
   <div class="tc" style="margin-top:6px;flex:1;">
     <div class="cw">
       <h3 style="margin-bottom:5px;">개발 철학</h3>
