@@ -1099,9 +1099,9 @@ a:hover{text-decoration:underline;}
       </ul>
 
       <div class="ib" style="margin-top:5px;font-size:11px;line-height:1.5;">
-        <strong>인프라 변경이 잠자던 버그를 깨웠습니다:</strong>
-        Pod 5→2로 축소했더니 수개월간 잠재돼 있던 Deadlock이 표면화됐습니다. <strong>pool-size=1로 로컬에서 재현</strong>하고 DefaultJpaDialect 소스까지 추적했습니다.
-        OSIV가 웹 컨텍스트에서만 활성화되다 보니 — <strong>단위 테스트에서는 아예 재현이 안 돼서</strong> 통합 테스트가 필수였습니다.
+        <strong>비용 절감 목적으로 Pod 5→2로 축소했더니 수개월간 숨어있던 Deadlock이 터졌습니다.</strong>
+        <strong>pool-size=1로 로컬에서 재현</strong>하고 DefaultJpaDialect 소스까지 추적해서 원인을 찾았습니다.
+        OSIV가 웹 컨텍스트에서만 활성화되다 보니 <strong>단위 테스트에서는 아예 재현이 안 돼서</strong> 통합 테스트가 필수였습니다.
       </div>
     </div>
 
@@ -1138,7 +1138,7 @@ a:hover{text-decoration:underline;}
       <div class="ib" style="margin-top:6px;">
         <strong>직접 부딪혀본 경험이 이후 모든 판단의 기준이 됐습니다.</strong>
         DevOps께서 퇴사하면서 <strong>19개 인스턴스(내외부망 분리)를 7개월간 혼자 운영</strong>하기도 했는데, 부족한 지식으로라도 버텨보겠다는 마인드로 자원했고 결과적으로 가장 많이 성장한 시기였다고 생각합니다. 인프라 장애랑 직접 씨름하면서 K8s에 대한 이해를 쌓게 됐고, ELK가 잘 갖춰진 환경에서 트러블슈팅하면서 모니터링의 소중함을 체감했습니다.
-        금융 도메인에서 MVCC 누락이나 정합성 검증을 직접 겪어본 덕분에, 이후 MSA 전환에서도 <strong>과도기 안전장치를 먼저 설계</strong>하는 습관이 생겼다고 생각합니다.
+        금융 도메인에서 MVCC 누락이나 정합성 검증을 직접 겪어본 덕분에, 이후 MSA 전환에서도 <strong>과도기 데이터 안전장치를 먼저 설계</strong>할 수 있었다고 생각합니다.
       </div>
     </div>
   </div>
@@ -1333,7 +1333,7 @@ a:hover{text-decoration:underline;}
 
       <div style="border-left:3px solid #333;padding:2px 0 2px 10px;margin-bottom:4px;">
         <div style="font-size:11.5px;font-weight:700;color:#222;">"직접 부딪혀본 경험이 결국 가장 큰 자산이 됐다고 생각합니다."</div>
-        <p class="bt" style="margin-top:1px;">이전 회사에서 DevOps 공백기에 19개 인스턴스를 혼자 운영하면서 자연스럽게 인프라에 대한 이해를 쌓게 됐고, 이 경험이 부톡에서 K8s 도입을 제안하고, 모니터링을 구축하고, MSA 전환 시 안전장치를 먼저 설계하는 판단의 기준이 됐습니다.</p>
+        <p class="bt" style="margin-top:1px;">이전 회사에서 DevOps 공백기에 19개 인스턴스를 혼자 운영하면서 자연스럽게 인프라에 대한 이해를 쌓게 됐고, ELK가 잘 갖춰진 환경에서 트러블슈팅하면서 모니터링의 소중함을 체감했습니다. 이 경험들이 쌓여서 이후의 기술적 판단을 내릴 수 있는 기준이 됐다고 생각합니다.</p>
       </div>
 
       <div class="rb" style="margin-top:auto;padding:6px 14px;text-align:center;">
