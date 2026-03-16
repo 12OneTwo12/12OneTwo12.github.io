@@ -1227,9 +1227,8 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>장애 인지가 사용자 CS에 100% 의존 — <strong class="bd">CS가 들어오면 이미 늦은 겁니다</strong>. 실제로 모니터링 도입 후 CS 접수 0건인 버그를 여러 건 발견했습니다</li>
-        <li>CloudWatch 기본 모니터링만 운영 — 비용 증가, 복잡한 검색, 통합 옵저빌리티 불가</li>
-        <li>장애 발생 후 원인 추적 수단 없음 → SSH 접속 후 수동 로그 확인</li>
+        <li>장애 인지가 사용자 CS에 100% 의존하는 구조였습니다. 하지만 실제로 CS로 문의하는 사용자는 극히 일부이고, <strong class="bd">대부분은 불편함을 겪으면 그냥 앱을 꺼버리는 경우가 많다고 생각합니다.</strong> CS가 들어온 시점에는 이미 더 많은 사용자가 이탈한 뒤가 아닐까 싶었습니다.</li>
+        <li>CloudWatch 기본 모니터링만 운영 — 비용 증가, 복잡한 검색, 통합 옵저빌리티 불가. 장애 시 SSH 접속 후 수동 로그 확인</li>
       </ul>
 
       <div class="sec">고려한 대안 & 해결</div>
@@ -1246,11 +1245,10 @@ a:hover{text-decoration:underline;}
         <li>Telegram 알림 + Runbook 연동 → 장애 유형별 <strong class="bd">표준 대응 절차</strong> 확보</li>
       </ul>
 
-      <div class="rb" style="margin-top:10px;border-left:3px solid #137333;background:#f2f9f4;">
+      <div class="rb" style="margin-top:8px;border-left:3px solid #137333;background:#f2f9f4;">
         <strong style="color:#137333;">모니터링이 발견한 실제 버그 — CS 접수 0건:</strong><br>
         월세 검색 기능에서 서비스 A가 'monthly'(7자)로 전달하는데, DB 프로시저의 VARCHAR(5) 필드에서 잘려 검색 실패.
-        <strong>사용량이 적은 기능이라 오랜 기간 아무도 몰랐던 버그</strong>를 모니터링 시스템이 발견 — CS 접수 0건인 장애의 전형적 사례.
-        <strong style="color:#137333;">이런 걸 직접 겪고 나니까 모니터링이 왜 필요한지 뼈저리게 느꼈습니다.</strong>
+        <strong>사용량이 적은 기능이라 오랜 기간 아무도 몰랐던 버그</strong>를 모니터링 시스템이 발견했습니다. CS 접수 0건이었지만, 그 뒤에 얼마나 많은 사용자가 조용히 이탈했는지는 알 수 없습니다.
       </div>
     </div>
 
@@ -1270,8 +1268,9 @@ a:hover{text-decoration:underline;}
       </table>
 
       <div class="ib" style="margin-top:8px;">
-        <strong>왜 DaemonSet이 아니라 Sidecar인가:</strong>
-        DaemonSet은 노드 1개당 Collector 1개라 전체 노드에 동일 설정이 적용됩니다. 저희처럼 <strong>서비스마다 계측 수준이 다른 환경</strong>(AI 서비스는 트레이싱 강화, 레거시는 로그만)에서는 Sidecar가 맞았습니다. Helm 차트에 포함해두면 서비스 추가 시 자동 적용되고, 오버헤드도 Pod당 50m CPU/64Mi로 충분히 감당 가능했습니다.
+        <strong>돌이켜보면:</strong>
+        모니터링은 단순히 장애를 빨리 발견하는 도구가 아니라, <strong>사용자가 말하지 않는 문제를 발견하는 수단</strong>이라고 생각합니다. CS로 문의하는 사용자는 극히 일부이고, 나머지는 조용히 이탈합니다. 모니터링 도입 후 CS 접수 0건인 버그를 여러 건 발견하면서 이 생각이 확신으로 바뀌었습니다.
+        이후 성능 최적화(p.9)에서 P95 병목을 찾을 수 있었던 것도, JVM Cold Start(p.12)를 발견한 것도 전부 이때 구축한 모니터링이 있었기 때문이라고 생각합니다. <strong>모니터링이 모든 것의 시작이었던 것 같습니다.</strong>
       </div>
 
       <div style="display:flex;gap:6px;margin-top:8px;">
