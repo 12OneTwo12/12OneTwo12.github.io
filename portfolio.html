@@ -595,7 +595,8 @@ a:hover{text-decoration:underline;}
       <div class="sec"><a href="https://jeongil.dev/ko/blog/infrastructure/docker-compose-to-k8s">배경 및 문제</a></div>
       <ul class="bl">
         <li>입사 시점부터 전담 DevOps 없이 백엔드 개발자가 인프라까지 병행하는 환경이었습니다. 모든 MSA 서비스가 <strong class="bd">단일 EC2에 Docker Compose로 집중</strong>돼 OOM Kill, SPOF 상태. 개발 서버도 없어 <strong class="bd">운영 환경에서 직접 테스트</strong>하는 구조였습니다.</li>
-        <li>이 구조로는 MSA 서비스가 늘어날수록 한계가 명확했고, 개인 클러스터 운영 경험을 바탕으로 K8s 도입을 제안해 직접 구축을 주도했습니다.</li>
+        <li>모니터링은 CloudWatch 기본 수준만 운영 중이었고, <strong class="bd">장애가 발생해도 사용자 CS를 통해서만 인지</strong>할 수 있는 상태였습니다.</li>
+        <li>이 구조로는 MSA 서비스가 늘어날수록 한계가 명확했고, 개인 클러스터 운영 경험을 바탕으로 K8s 도입과 모니터링 구축을 제안해 직접 주도했습니다.</li>
       </ul>
 
       <div class="sec">판단 과정 & 해결</div>
@@ -611,12 +612,6 @@ a:hover{text-decoration:underline;}
         <li>롤백 <strong class="bd">12분→2분</strong>, 배포 <strong class="bd">15분→5분</strong> · 개발 서버 구축 · <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story">IDC→AWS 무중단 마이그레이션</a>(DMS CDC)</li>
         <li>장애 인지 <strong class="bd">1시간→1분 이내</strong> (CS 의존 → Telegram 실시간 알림) · <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up">JVM Cold Start</a> <strong class="bd">1.2초→150ms</strong></li>
       </ul>
-
-      <div class="rb" style="margin-top:6px;border-left:3px solid #f0c14b;background:#fffdf5;">
-        <strong style="color:#8a6d3b;">개발 서버를 먼저 만들었기에 발견한 장애 2건:</strong><br>
-        <strong>①</strong> dev 환경이 <strong>운영 SQS 이벤트를 가져가버려</strong> 통계 데이터가 오염됐습니다 — SQS URL이 코드에 하드코딩돼 있었습니다. 긴급 중단 후 환경변수 분리로 해결했습니다.<br>
-        <strong>②</strong> 모든 외부 API 타임아웃 — 파트너사가 기존 IDC IP만 방화벽에 열어놨는데, <strong>문서화가 안 돼 있어서</strong> 아무도 몰랐습니다. Cloud NAT로 고정 IP를 확보해서 해결했습니다.
-      </div>
 
     </div>
 
@@ -661,10 +656,12 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:4px;font-size:10.5px;">
-        이전 회사(p.11)에서 19개 인스턴스를 7개월간 운영하면서 단일 서버 집중 구조의 한계를 직접 겪어봤기 때문에 K8s가 적합하다고 판단하게 됐습니다. 처음부터 완벽한 구조를 만들려 하지 않고 <strong>dev 클러스터부터 단계적으로 구축</strong>해나간 것이 이후 MSA 전환, Collation 마이그레이션 등에서 운영 장애 없이 작업할 수 있었던 안전망이 됐습니다.
+        <strong>"안전하게 테스트할 수 있는 환경을 먼저 만드는 것이 가장 빠른 길이라고 느꼈습니다."</strong>
+        이전 회사(p.11)에서 19개 인스턴스를 7개월간 운영하면서 단일 서버 집중 구조의 한계를 직접 겪어봤기 때문에 K8s가 적합하다고 판단하게 됐고, dev 클러스터부터 단계적으로 구축해나갔습니다. 실제로 dev 환경을 먼저 만들었기에 운영 SQS 이벤트를 가져가버리는 하드코딩 문제나, 파트너사 방화벽 문서화 부재로 인한 타임아웃 같은 장애를 운영이 아닌 개발 환경에서 사전에 발견할 수 있었습니다.
       </div>
       <div class="ib" style="margin-top:4px;font-size:10.5px;">
-        모니터링은 단순히 장애를 빨리 발견하는 도구가 아니라, <strong>사용자가 말하지 않는 문제를 발견하는 수단</strong>이라고 생각합니다. CS로 문의하는 사용자는 극히 일부이고, 나머지는 조용히 이탈합니다. 이전 회사에서 ELK가 잘 갖춰진 환경에서 트러블슈팅하면서 모니터링의 소중함을 체감했기 때문에, 입사 첫 주에 Observability부터 제안하게 됐습니다.
+        <strong>"CS가 들어온 시점에는 이미 더 많은 사용자가 이탈한 뒤라고 생각합니다."</strong>
+        모니터링은 장애를 빨리 발견하는 도구가 아니라 <strong>사용자가 말하지 않는 문제를 발견하는 수단</strong>이라고 생각합니다. 이전 회사에서 ELK가 잘 갖춰진 환경에서 트러블슈팅하면서 모니터링의 소중함을 체감했기 때문에, 입사 첫 주에 Observability부터 제안하게 됐습니다.
       </div>
     </div>
   </div>
