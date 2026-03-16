@@ -1177,7 +1177,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec-s">기술 선택 근거</div>
       <ul class="bl" style="font-size:11px;">
-        <li><strong class="bd">Kotlin + Spring WebFlux + R2DBC</strong> — 영상 처리 I/O 바운드 → 비동기/논블로킹이 성능 임계점을 결정</li>
+        <li><strong class="bd">Kotlin+Spring WebFlux+R2DBC</strong> — 영상 처리 I/O 바운드 → 비동기/논블로킹이 성능 임계점을 결정</li>
         <li><strong class="bd">React Native (Expo)</strong> — iOS/Android 동시 출시 + 1인 개발 → 크로스 플랫폼이 유일한 선택지</li>
         <li><strong class="bd">Vertex AI Gemini + STT</strong> — GPT-4 대비 50%+ 저렴, 한국어 우수</li>
       </ul>
@@ -1351,7 +1351,8 @@ a:hover{text-decoration:underline;}
       <ul class="bl" style="margin-bottom:5px;line-height:1.35;">
         <li>기술 블로그 <a href="https://jeongil.dev">jeongil.dev</a> <span class="sm">— 아키텍처 의사결정, 트러블슈팅</span></li>
         <li style="margin-top:1px;">오픈소스 — Spring Security <a href="https://github.com/spring-projects/spring-security/pull/16216">PR#16216</a></li>
-        <li style="margin-top:1px;"><a href="https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c">백엔드 아티클 스터디</a> <span class="sm">2023.08~진행중</span> · 빅데이터 기반 MLOps <span class="sm">2022.07~12</span></li>
+        <li style="margin-top:1px;"><a href="https://minnim1010.notion.site/6af63324e8614108bf32b0c2f5a1c87c">백엔드 아티클 스터디</a> <span class="sm">2023.08~진행중</span></li>
+        <li style="margin-top:1px;">빅데이터 기반 MLOps <span class="sm">2022.07~12</span></li>
       </ul>
 
       <h3 style="margin-top:10px;margin-bottom:3px;">팀 개발 문화 — 제안하고 합의한 경험</h3>
@@ -1372,14 +1373,11 @@ a:hover{text-decoration:underline;}
       <h3 style="margin:10px 0 3px;">프로젝트 임팩트 요약</h3>
       <table class="ct" style="font-size:8.5px;">
         <tr><th>프로젝트</th><th>핵심 판단 & 성과</th></tr>
-        <tr><td class="bd">MSA 전환</td><td>강결합→부분적 빅뱅 전략, 무중단 전환, 8개월 불일치 0건</td></tr>
-        <tr><td class="bd">멀티모듈</td><td>:common 비대화 실패→재설계, 16→1 레포</td></tr>
-        <tr><td class="bd">모듈러 모놀리식</td><td>"MSA는 과했다" 판단, 월 ₩310만→₩197만, CI 45분→7분</td></tr>
-        <tr><td class="bd">API 성능</td><td>Non-sargable→Sargable, P95 4,045ms→50ms</td></tr>
-        <tr><td class="bd">MySQL Collation</td><td>3가설 검증→utf8mb3 원인 규명, 109테이블 InnoDB</td></tr>
-        <tr><td class="bd">K8s & 모니터링</td><td>LGTM $12~37/월, 장애 인지 1시간→1분 이내</td></tr>
-        <tr><td class="bd">DB 마이그레이션</td><td>5가지 비교→CDC, 무중단 200GB</td></tr>
-        <tr><td class="bd">매물 추천</td><td>ES 재평가, DAG 전환(LLM 3→2회), 스코어링, N+1(35.6초→15ms)</td></tr>
+        <tr><td class="bd">MSA 전환</td><td>강결합→부분적 빅뱅, 무중단 전환, Dual Write 검증 배치</td></tr>
+        <tr><td class="bd">K8s & 모니터링</td><td>GKE+LGTM $12~37/월, 장애 인지 1시간→1분, IDC→AWS 무중단 200GB</td></tr>
+        <tr><td class="bd">모듈러 모놀리식</td><td>"MSA는 과했다" 판단, 16레포→모노레포, 월 ₩310만→₩197만, CI 45분→7분</td></tr>
+        <tr><td class="bd">API·DB 최적화</td><td>Non-sargable→Sargable P95 4,045ms→50ms, Collation 109테이블 InnoDB</td></tr>
+        <tr><td class="bd">매물 추천</td><td>ES 재평가, DAG 전환(LLM 3→2회), 도메인 스코어링</td></tr>
         <tr><td class="bd">백오피스·Batch</td><td>OSIV+JPA/MyBatis 데드락 규명, MVCC→Chunk 13.3분→4.8분</td></tr>
         <tr><td class="bd">Upvy</td><td>1인 풀스택, WebFlux+R2DBC, App Store/Play Store 출시</td></tr>
         <tr><td class="bd">Error Autopilot</td><td>MCP→OpenClaw, 에러 인지→PR 완전 자동화</td></tr>
