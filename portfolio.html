@@ -1148,7 +1148,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>롤백 <strong class="bd">12분→2분</strong>, 배포 <strong class="bd">15분→5분</strong> · 개발 서버 구축으로 테스트 환경 확보</li>
+        <li>롤백 <strong class="bd">12분→2분</strong>, 배포 <strong class="bd">15분→5분</strong> · 개발 서버 구축 · <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story">IDC→AWS 200GB 무중단 마이그레이션</a>(DMS CDC)</li>
         <li><a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up">JVM Cold Start</a> <strong class="bd">1.2초→150ms</strong> → Grafana 메트릭에서 배포 직후 첫 API가 7~14배 느린 패턴을 발견. startupProbe + WarmupHealthIndicator로 해결</li>
       </ul>
 
@@ -1281,109 +1281,6 @@ a:hover{text-decoration:underline;}
           <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;padding:3px;background:#e6f4ea;">Tempo APM 분산 트레이싱</div>
           <img src="https://velog.velcdn.com/images/12onetwo12/post/a05fd553-721d-4cf4-ae10-724d178c56b6/image.png" style="width:100%;max-height:185px;object-fit:contain;display:block;" alt="Tempo Trace">
         </div>
-      </div>
-    </div>
-  </div>
-</div></div>
-
-<!-- ===== SLIDE: 온프레미스 → AWS 무중단 마이그레이션 ===== -->
-<div class="slide"><div class="si">
-  <div class="bar"></div>
-  <div class="st">(5-2) 온프레미스 → AWS 무중단 마이그레이션</div>
-  <span class="ss">2. 프로젝트</span>
-  <span class="pn">14</span>
-  <div class="tc" style="margin-top:10px;flex:1;">
-    <div class="c" style="flex:.9;">
-      <table class="it">
-        <tr><td class="l">소속</td><td class="v">부톡(주)</td></tr>
-        <tr><td class="l">기간</td><td class="v">2025.06</td></tr>
-        <tr><td class="l">역할</td><td class="v">마이그레이션 전략 설계 · Terraform IaC · DMS CDC 구성 · DNS 전환 실행</td></tr>
-        <tr><td class="l">기술스택</td><td class="v">AWS DMS CDC, Terraform, RDS MariaDB 10.6, Route53</td></tr>
-        <tr><td class="l">데이터 규모</td><td class="v">200GB MariaDB · IDC 물리서버 → AWS RDS</td></tr>
-      </table>
-
-      <div class="sec">배경 및 문제</div>
-      <ul class="bl">
-        <li>IDC 물리서버에 <strong class="bd">레거시 서비스 + 200GB DB가 공존</strong>하고 있었는데, 하드웨어 접촉 불량으로 예기치 않은 서버 다운이 반복되고 있었습니다. 서버가 내려가면 이 서버에 의존하는 서비스 전체가 영향을 받는 SPOF 구조였습니다.</li>
-        <li>대부분의 서비스는 이미 클라우드에서 운영 중이었고, 클라우드 크레딧도 있었기 때문에 이 서버도 AWS로 이관하기로 결정했습니다.</li>
-      </ul>
-
-      <div class="sec">5가지 마이그레이션 방식 비교</div>
-      <table class="ct" style="font-size:10.5px;margin-bottom:4px;">
-        <tr><th style="width:22%;">방식</th><th>장점</th><th>단점</th><th style="width:12%;">판단</th></tr>
-        <tr><td class="bd">DB Replication</td><td>네이티브 지원, 간단</td><td>실시간성 한계, 스키마 변경 어려움</td><td style="color:#c5221f;font-weight:600;">❌</td></tr>
-        <tr><td class="bd">Dual Write</td><td>직접 제어 가능</td><td>정합성 리스크, 코드 복잡도 ↑</td><td style="color:#c5221f;font-weight:600;">❌</td></tr>
-        <tr><td class="bd">MQ 기반</td><td>비동기, 느슨한 결합</td><td>메시지 유실·순서 보장 어려움</td><td style="color:#c5221f;font-weight:600;">❌</td></tr>
-        <tr><td class="bd">ETL 배치</td><td>구현 단순</td><td>실시간 불가, 배치 간격 데이터 갭</td><td style="color:#c5221f;font-weight:600;">❌</td></tr>
-        <tr><td class="bd">CDC</td><td>실시간 동기화, 앱 코드 변경 無</td><td>인프라 복잡도</td><td style="color:#137333;font-weight:600;">✅ 채택</td></tr>
-      </table>
-
-      <div class="sec"><a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story" style="color:#1a73e8;text-decoration:none;font-weight:700;">해결: AWS DMS CDC + Terraform IaC</a></div>
-      <ul class="bl">
-        <li><span class="bd">AWS DMS CDC</span>로 IDC MariaDB → RDS 실시간 단방향 동기화</li>
-        <li>AWS 환경 전체를 <span class="bd">Terraform</span>으로 코드화 (VPC, EC2, RDS, SG, IAM)</li>
-        <li><strong class="bd">DNS 전환:</strong> 새벽 저트래픽 시간 DNS 변경 → 전파 기간 중 IDC DB를 Source of Truth로 유지 → 전파 완료 후 RDS 전환 → CDC 종료</li>
-      </ul>
-
-      <div class="sec">성과</div>
-      <ul class="bl">
-        <li><strong class="bd">무중단 마이그레이션 달성</strong> — 다운타임 0분, 데이터 유실 0건</li>
-        <li>Terraform IaC로 <strong class="bd">인프라 재현성 확보</strong> · IDC SPOF 탈피 → RDS 자동 백업 + 스케일링</li>
-      </ul>
-    </div>
-
-    <div class="c" style="flex:1.1;">
-      <div class="dg">
-        <div class="dl">CDC 기반 무중단 마이그레이션 아키텍처</div>
-        <div style="display:flex;gap:8px;align-items:start;">
-          <!-- IDC -->
-          <div style="flex:1;border:1.5px solid #f28b82;border-radius:4px;padding:8px;background:#fff;">
-            <div style="font-size:10px;font-weight:700;color:#c5221f;text-align:center;margin-bottom:5px;">IDC (기존 환경)</div>
-            <div class="db er ds" style="width:100%;margin-bottom:3px;">물리서버 (레거시 서비스 + DB)</div>
-            <div class="dd">↓</div>
-            <div class="db er ds" style="width:100%;">MariaDB 200GB<br><span style="font-size:10.5px;">Source of Truth</span></div>
-          </div>
-          <!-- Arrow with CDC -->
-          <div style="display:flex;flex-direction:column;align-items:center;padding-top:28px;gap:2px;">
-            <div style="font-size:10.5px;font-weight:700;color:#1a56db;">AWS DMS</div>
-            <div style="font-size:16px;color:#1a56db;">→</div>
-            <div style="font-size:10.5px;color:#1a56db;">CDC 실시간</div>
-          </div>
-          <!-- AWS -->
-          <div style="flex:1;border:1.5px solid #81c995;border-radius:4px;padding:8px;background:#fff;">
-            <div style="font-size:10px;font-weight:700;color:#137333;text-align:center;margin-bottom:5px;">AWS Cloud (Terraform)</div>
-            <div class="db ok ds" style="width:100%;margin-bottom:3px;">EC2 (레거시 서비스 이전)</div>
-            <div class="dd">↓</div>
-            <div class="db ok ds" style="width:100%;">RDS MariaDB 10.6<br><span style="font-size:10.5px;">200GB · gp3 · 자동 백업 7일</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="dg" style="margin-top:8px;">
-        <div class="dl">DNS 전환 타임라인 (무중단 핵심)</div>
-        <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
-          <div style="display:flex;gap:4px;width:90%;">
-            <div class="db dk ds" style="flex:1;">① 사전 준비<br><span style="font-size:10.5px;">Terraform · CDC 테스트 · 롤백 검증</span></div>
-            <div class="db ac ds" style="flex:1;">② CDC 활성화<br><span style="font-size:10.5px;">IDC→RDS 실시간 동기화 시작</span></div>
-          </div>
-          <div class="dd">↓</div>
-          <div class="db wn ds" style="width:90%;">③ DNS 전환 (새벽 저트래픽 시간)<br><span style="font-size:10.5px;">DNS 캐시에 따라 사용자가 IDC 또는 AWS로 자연스럽게 분산 → 양쪽 모두 IDC DB를 Source of Truth로 사용</span></div>
-          <div class="dd">↓ DNS 전파 완료 확인</div>
-          <div style="display:flex;gap:4px;width:90%;">
-            <div class="db ok ds" style="flex:1;">④ DB 참조 전환<br><span style="font-size:10.5px;">앱 → RDS 직접 연결</span></div>
-            <div class="db ok ds" style="flex:1;">⑤ CDC 종료 · IDC 중단<br><span style="font-size:10.5px;">마이그레이션 완료</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ib" style="margin-top:8px;">
-        CDC를 선택한 이유는 앱 코드 수정 없이 DB 레벨에서 실시간 동기화가 가능했기 때문입니다. 다른 방식들은 코드 복잡도가 올라가거나 실시간성이 보장되지 않아서 운영 중인 서비스에 적용하기 부담스러웠습니다.
-        DNS 전환 구간이 가장 긴장됐는데, 전파 기간 동안 사용자가 IDC 또는 AWS로 분산되는 상황에서 <strong>양쪽 다 IDC DB를 Source of Truth로 사용</strong>해 정합성을 보장했습니다.
-        팀원분들과 함께 Terraform 테스트, CDC 동기화 검증, 롤백 시나리오까지 사전에 꼼꼼히 준비했기 때문에 당일 전환을 무중단으로 마칠 수 있었다고 생각합니다. 한 번에 모든 것을 전환하기보다 <strong>단계적 접근이 리스크 감소에 효과적이라는 걸 다시금 느꼈습니다.</strong>
-      </div>
-
-      <div class="rb" style="margin-top:6px;">
-        <strong>Terraform IaC:</strong> VPC · EC2 · RDS · Security Group · IAM 등 인프라 전체 코드화 — <strong>동일 환경 즉시 재현 가능</strong>
       </div>
     </div>
   </div>
