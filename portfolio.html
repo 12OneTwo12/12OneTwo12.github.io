@@ -935,7 +935,7 @@ a:hover{text-decoration:underline;}
 <!-- ===== SLIDE 7-3: MySQL Collation & DB 마이그레이션 ===== -->
 <div class="slide"><div class="si">
   <div class="bar"></div>
-  <div class="st">(4-2) MySQL Collation 진단 & 109개 테이블 DB 마이그레이션</div>
+  <div class="st">(4-2) 프로시저 8배 성능 저하 → Collation 진단 & 109개 테이블 DB 마이그레이션</div>
   <span class="ss">2. 프로젝트</span>
   <span class="pn">10</span>
   <div class="tc" style="margin-top:10px;flex:1;">
@@ -944,104 +944,84 @@ a:hover{text-decoration:underline;}
         <tr><td class="l">소속</td><td class="v">부톡(주) — MSA 전환 과정에서 발견</td></tr>
         <tr><td class="l">기간</td><td class="v">2025.07</td></tr>
         <tr><td class="l">역할</td><td class="v">성능 저하 원인 진단, 121개 테이블 마이그레이션, 109개 엔진 전환</td></tr>
-        <tr><td class="l">기술스택</td><td class="v">MySQL, EXPLAIN, SET profiling, MyISAM → InnoDB</td></tr>
+        <tr><td class="l">기술스택</td><td class="v">MySQL 8.0, EXPLAIN, SET profiling, MyISAM → InnoDB</td></tr>
       </table>
 
-      <div class="sec">현상 — <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace">"같은 쿼리인데 8배 느리다"</a></div>
+      <div class="sec"><a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace">배경 및 문제</a></div>
       <ul class="bl">
-        <li>MSA 전환 중 프로시저 파라미터를 bigint → varchar로 변경했더니 <strong class="bd">56ms → 457ms (8배 느려짐)</strong></li>
-        <li>개별 쿼리는 1~2ms인데, 프로시저 안에서는 200ms+ → <strong class="bd">335배 차이</strong></li>
+        <li>MSA 전환 과정에서 서비스 간 식별자 체계를 통일하기 위해 <code style="font-size:10.5px;">item_id</code> 컬럼 타입을 bigint → varchar(30)으로 변경했습니다. 개발 서버에 먼저 적용하고 테스트하던 중, <strong class="bd">매물 상세조회 프로시저가 56ms에서 457ms로 8배 느려진 것</strong>을 발견했습니다.</li>
+        <li>프로시저 안의 쿼리를 개별로 실행하면 1~2ms인데, 프로시저로 묶으면 200ms+. 같은 쿼리인데 실행 방식만 다를 뿐이었습니다.</li>
       </ul>
 
-      <div class="sec">3단계 가설 검증</div>
-      <div style="display:flex;flex-direction:column;gap:4px;">
-        <div style="border:1px solid #f28b82;border-radius:4px;padding:5px 10px;background:#fef7f6;">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span style="font-size:10px;font-weight:700;color:#c5221f;">가설 1: 인덱스 문제</span>
-            <span style="font-size:10px;color:#c5221f;">❌ 인덱스 정상 확인</span>
-          </div>
-        </div>
-        <div style="border:1px solid #f28b82;border-radius:4px;padding:5px 10px;background:#fef7f6;">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span style="font-size:10px;font-weight:700;color:#c5221f;">가설 2: 서브쿼리 문제</span>
-            <span style="font-size:10px;color:#c5221f;">❌ 서브쿼리 제거해도 동일</span>
-          </div>
-        </div>
-        <div style="border:1px solid #81c995;border-radius:4px;padding:5px 10px;background:#f2f9f4;">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span style="font-size:10px;font-weight:700;color:#137333;">가설 3: EXPLAIN 경고 발견</span>
-            <span style="font-size:10px;color:#137333;">✅ Collation 불일치</span>
-          </div>
-          <div style="font-size:10.5px;color:#555;margin-top:2px;padding-left:4px;">"Cannot use ref access on index due to <strong>type or collation conversion</strong>"</div>
-        </div>
-      </div>
-
-      <div class="sec" style="margin-top:6px;">근본 원인</div>
+      <div class="sec">원인 추적 과정</div>
       <ul class="bl">
-        <li>테이블: <strong class="bd">utf8mb3</strong> (3바이트) vs 프로시저 파라미터: <strong class="bd">utf8mb4</strong> (4바이트)</li>
-        <li>Collation 불일치 → MySQL이 <strong class="bd">인덱스를 사용하지 못하고 Full Table Scan</strong> (45,453 rows)</li>
-        <li>PREPARE STATEMENT 검증: bigint 바인딩 0.6ms vs varchar 바인딩 <strong class="bd">202ms (335배 차이)</strong></li>
+        <li>인덱스 누락, 서브쿼리 구조 등을 먼저 의심하고 확인해봤지만 전부 정상이었습니다. 서브쿼리를 LEFT JOIN으로 바꿔봐도 오히려 느려졌습니다.</li>
+        <li>개별 쿼리는 빠른데 프로시저만 느려서, <strong class="bd">EXPLAIN에 변수를 바인딩해서 실행</strong>해봤습니다. 그때 경고가 나왔습니다 — <em>"Cannot use ref access on index due to type or collation conversion"</em></li>
+        <li>테이블은 <strong class="bd">utf8mb3_general_ci</strong>, MySQL 8.0 세션 기본값은 <strong class="bd">utf8mb4_0900_ai_ci</strong>. Collation이 다르면 MySQL은 인덱스를 포기하고 매 행마다 변환합니다. <strong class="bd">45,453건 Full Table Scan</strong>이 매 쿼리에서 발생하고 있었습니다.</li>
       </ul>
 
-      <div class="sec" style="margin-top:6px;">해결: 2단계 마이그레이션</div>
+      <div class="sec" style="margin-top:6px;">해결</div>
       <ul class="bl">
-        <li><strong class="bd">1단계 (긴급):</strong> utf8mb3 지역변수로 임시 해결 → 457ms → <strong>42ms</strong></li>
-        <li><strong class="bd">2단계 (근본):</strong> 전체 DB utf8mb4 통일 + 엔진 전환</li>
+        <li><strong class="bd">긴급 대응:</strong> 프로시저 내부에 utf8mb3 collation을 명시한 지역변수를 선언해 파라미터 대신 사용 → <strong>457ms → 42ms</strong> 즉시 복구</li>
+        <li><strong class="bd">근본 해결:</strong> DB 전체를 utf8mb4로 통일하기로 했습니다. ALTER문을 실행하는데 첫 테이블부터 <em>"max key length is 1000 bytes"</em> — <strong class="bd">109개 테이블이 MyISAM</strong>이었습니다. MyISAM은 인덱스 키 1,000B 고정 제한이라 utf8mb4에서 VARCHAR(255) 인덱스 수용 불가. InnoDB(3,072B)로 엔진 전환과 문자셋 변환을 한 번에 처리하며 트랜잭션·Row-level Lock까지 확보했습니다.</li>
       </ul>
 
       <div class="sec" style="margin-top:6px;">성과</div>
       <ul class="bl">
-        <li>프로시저 성능 <strong class="bd">8배 회복</strong> (457ms → 42ms)</li>
-        <li><strong class="bd">121개 테이블</strong> utf8mb4_general_ci 통일</li>
-        <li><strong class="bd">109개 테이블</strong> MyISAM → InnoDB 전환 (인덱스 키 제한 1000B → 3072B)</li>
+        <li>프로시저 성능 <strong class="bd">457ms → 42ms</strong> (약 11배 개선)</li>
+        <li><strong class="bd">121개 테이블</strong> utf8mb4_general_ci 통일 · <strong class="bd">109개 테이블</strong> MyISAM → InnoDB 전환</li>
       </ul>
     </div>
 
     <div class="c" style="flex:1.1;">
       <div class="dg">
-        <div class="dl">성능 저하 원인 분석 — SET profiling</div>
+        <div class="dl">SET profiling — 프로시저 내부 병목 측정</div>
         <div style="display:flex;flex-direction:column;gap:3px;align-items:center;">
           <div class="db dk" style="width:80%;">프로시저 호출 (총 636ms)</div>
-          <div class="dd">↓ 내부 실행 분석</div>
+          <div class="dd">↓ 내부 쿼리별 실행 시간</div>
           <div style="display:flex;gap:4px;width:85%;">
             <div class="db er ds" style="flex:1;">INSERT<br><strong>225ms</strong></div>
             <div class="db er ds" style="flex:1;">INSERT<br><strong>202ms</strong></div>
             <div class="db er ds" style="flex:1;">SELECT<br><strong>209ms</strong></div>
           </div>
-          <div class="dd" style="font-size:10.5px;color:#c5221f;">↑ 개별 실행 시 각 1~2ms인데, 프로시저 내부에서 200ms+</div>
+          <div class="dd" style="font-size:10.5px;color:#c5221f;">↑ 개별 실행 시 각 1~2ms — 프로시저 내부에서만 200ms+</div>
           <div class="dd">↓ 원인</div>
-          <div class="db wn" style="width:80%;">utf8mb3(테이블) ≠ utf8mb4(파라미터)<br><span style="font-size:10.5px;">→ 매 쿼리마다 Collation 변환 + 인덱스 무효화</span></div>
+          <div class="db wn" style="width:80%;">utf8mb3(테이블) ≠ utf8mb4(프로시저 파라미터)<br><span style="font-size:10.5px;">→ 매 쿼리마다 Collation 변환 + Full Table Scan</span></div>
+          <div class="dd">↓ 해결 후</div>
+          <div style="display:flex;gap:4px;width:85%;">
+            <div class="db ok ds" style="flex:1;">SELECT<br><strong>0.55ms</strong></div>
+            <div class="db ok ds" style="flex:1;">INSERT<br><strong>4.25ms</strong></div>
+            <div class="db ok ds" style="flex:1;">INSERT<br><strong>0.71ms</strong></div>
+            <div class="db ok ds" style="flex:1;">SELECT<br><strong>1.40ms</strong></div>
+          </div>
         </div>
       </div>
 
       <div class="dg" style="margin-top:8px;">
-        <div class="dl">DB 마이그레이션 규모</div>
+        <div class="dl">DB 마이그레이션 전후 비교</div>
         <table class="ct" style="font-size:10px;margin:0;">
           <tr><th>항목</th><th style="color:#c5221f;">Before</th><th style="color:#137333;">After</th></tr>
           <tr><td class="bd">Character Set</td><td>utf8mb3 + utf8mb4 혼재</td><td class="w">utf8mb4 통일 (121개 테이블)</td></tr>
-          <tr><td class="bd">Collation</td><td>불일치 (인덱스 무효화)</td><td class="w">utf8mb4_general_ci 통일</td></tr>
-          <tr><td class="bd">Storage Engine</td><td>MyISAM 109개 혼재</td><td class="w">InnoDB 전환 (트랜잭션 지원)</td></tr>
-          <tr><td class="bd">인덱스 키 제한</td><td>MyISAM 1,000 bytes</td><td class="w">InnoDB 3,072 bytes</td></tr>
+          <tr><td class="bd">Collation</td><td>불일치 → 인덱스 무효화</td><td class="w">utf8mb4_general_ci 통일</td></tr>
+          <tr><td class="bd">Storage Engine</td><td>MyISAM 109개 혼재</td><td class="w">전체 InnoDB 전환</td></tr>
+          <tr><td class="bd">인덱스 키 제한</td><td>MyISAM 1,000B (고정)</td><td class="w">InnoDB 3,072B (DYNAMIC)</td></tr>
+          <tr><td class="bd">Lock 방식</td><td>테이블 레벨 Lock</td><td class="w">Row 레벨 Lock</td></tr>
           <tr><td class="bd">프로시저 성능</td><td>457ms</td><td class="w">42ms</td></tr>
         </table>
       </div>
 
-      <div class="ib" style="margin-top:8px;">
-        <strong>MySQL 공식 문서 + 버그 트래커를 뒤져봤습니다:</strong>
-        MySQL Bug #83856, #83857에서 Collation 변환이 인덱스를 무효화하는 게 알려진 동작이라는 걸 확인했고,
-        <strong>SET profiling</strong>으로 프로시저 내부 각 쿼리의 실행 시간을 직접 측정해서, 개별 쿼리(1~2ms)와 프로시저 내부(200ms+)의 <strong>335배 차이</strong>를 데이터로 보여드렸습니다.
-      </div>
-
       <div class="ib" style="margin-top:6px;">
-        <strong>왜 MyISAM → InnoDB까지 전환했냐면:</strong>
-        MyISAM의 인덱스 키 제한이 1,000 bytes인데, utf8mb4(문자당 4bytes)로 전환하면
-        <strong>VARCHAR(255) 컬럼의 인덱스가 아예 생성이 안 되는 문제</strong>를 미리 발견했습니다.
-        InnoDB(3,072 bytes)로 바꾸면 이 제약이 풀리고, 트랜잭션 지원이랑 행 단위 잠금 같은 이점도 같이 가져갈 수 있었습니다.
+        <strong>프로시저만 고치고 넘어갈 수도 있었습니다.</strong>
+        하지만 임시 해결 시 utf8mb3 deprecated 경고가 계속 출력됐고, MySQL 버전 업그레이드 시 더 큰 문제가 될 거라 판단해 근본 마이그레이션을 결정했습니다. 성능 저하 하나를 파고들었더니, deprecated된 utf8mb3, 레거시 엔진 MyISAM, 일관되지 않은 Collation까지 기술 부채가 겹겹이 쌓여 있었습니다.
       </div>
 
-      <div class="rb" style="margin-top:6px;">
-        <strong>utf8mb4_general_ci 선택 근거:</strong>
-        utf8mb4_0900_ai_ci(MySQL 8.0 기본값)이 유니코드 정렬 정확도는 높지만, 기존 운영 데이터가 모두 general_ci 기반이고 Collation 변경 시 인덱스 재생성이 필요하여 <strong>운영 안정성 우선</strong>으로 general_ci 통일 결정
+      <div class="ib" style="margin-top:4px;">
+        <strong>개발 서버가 있었기에 사전에 발견할 수 있었습니다.</strong>
+        K8s 도입(p.12) 시 구축해둔 개발 서버에 먼저 적용하고 테스트하는 과정에서 발견했기 때문에, 운영 환경에는 영향 없이 해결할 수 있었습니다.
+      </div>
+
+      <div class="rb" style="margin-top:4px;">
+        <strong>utf8mb4_general_ci 선택:</strong> 기존 운영 데이터가 모두 general_ci 기반이고, 0900_ai_ci로 변경 시 정렬 결과가 달라질 수 있어 <strong>운영 안정성 우선</strong>으로 general_ci 통일
       </div>
     </div>
   </div>
