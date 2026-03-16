@@ -797,24 +797,21 @@ a:hover{text-decoration:underline;}
           <img src="https://www.dropbox.com/scl/fi/01p3zk422klgohvrzznz1/performance-summary.png?rlkey=7yqpdmu40qus5c7ay5tvgm9aw&st=j4a4wg9t&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="API P95 After">
         </div>
         <div style="flex:1;border:1px solid #f28b82;border-radius:4px;overflow:hidden;">
-          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">캐싱 적용 전 — 기본정보·편의시설 P95</div>
+          <div style="font-size:9px;font-weight:700;color:#c5221f;text-align:center;padding:2px;background:#fff4f4;">캐싱 적용 전 — P95</div>
           <img src="https://www.dropbox.com/scl/fi/h8opmv88dssfweymrpg9h/caching-before.png?rlkey=akdbj2qvmllu4402satlf8t7f&st=s0mplh17&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="Caching Before">
         </div>
         <div style="flex:1;border:1px solid #81c995;border-radius:4px;overflow:hidden;">
-          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">캐싱 적용 후 — 기본정보·편의시설 P95</div>
+          <div style="font-size:9px;font-weight:700;color:#137333;text-align:center;padding:2px;background:#f2f9f4;">캐싱 적용 후 — P95</div>
           <img src="https://www.dropbox.com/scl/fi/v0efinc70k3streovsbkc/caching-result.png?rlkey=b7llkitaul7jvzqhbds8khg86&st=o415mjfo&raw=1" style="width:100%;max-height:100px;object-fit:contain;display:block;" alt="Caching After">
         </div>
       </div>
 
-      <div class=”rb” style=”margin-top:6px;font-size:10px;”>
-        <strong><a href=”https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace”>MySQL Collation 진단 & 109개 테이블 DB 마이그레이션:</a></strong>
-        MSA 전환 중 프로시저가 8배 느려진 현상 발견. EXPLAIN에 변수를 바인딩해보니 utf8mb3↔utf8mb4 Collation 불일치로 인덱스가 무효화돼 Full Table Scan이 발생하고 있었습니다. 임시 해결(지역변수) 후 121개 테이블 utf8mb4 통일 + <strong>109개 MyISAM→InnoDB 전환</strong>으로 근본 해결. 프로시저 <strong>457ms→42ms</strong>
-      </div>
-
-      <div class=”ib” style=”margin-top:4px;font-size:10px;line-height:1.5;”>
-        <strong>”느린 곳을 찾는 게 고치는 것보다 어려웠다고 생각합니다.”</strong>
-        사용한 기법은 전부 기본적인 것들이었습니다. Non-sargable 수정, N+1 해결, Cache-Aside. 어디가 느린지 정확히 찾는 과정이 가장 중요했고, 원인을 찾고 나니 해결은 명확했습니다.
-        이전에 구축한 모니터링이 없었으면 병목 지점을 특정할 수 없었을 거고 시작도 못 했을 것 같습니다.
+      <div class="ib" style="margin-top:6px;font-size:10px;line-height:1.5;">
+        <strong>"느린 곳을 찾는 게 고치는 것보다 어려웠다고 생각합니다."</strong>
+        성능 최적화를 위해 사용한 기법은 전부 기본적인 것들이었습니다. Non-sargable 수정, N+1 해결, Cache-Aside. 어디가 느린지 정확히 찾는 과정이 가장 중요했고, 원인을 찾고 나니 해결은 명확했습니다.
+        말하는 “여기"라는건 API자체 뿐만 아니라 코드의 특정 부분, 데이터베이스 쿼리, 네트워크 병목, 외부 API 호출일 수도 있었습니다.
+        이전에 구축한 모니터링(p.12)이 없었으면 병목 지점을 특정할 수 없었을 거고 그렇다면 시작도 못 했을 것 같습니다. 작업 후 <strong>P95 임계치 초과 시 Grafana Alert을 설정</strong>해, 다음부터는 시스템이 먼저 알려주도록 했습니다.
+        모니터링의 중요함을 이때 다시 느꼈는데 관련된 내용은 p.12에 보다 자세히 작성해뒀습니다.
       </div>
     </div>
   </div>
@@ -852,7 +849,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">성과</div>
       <ul class="bl">
-        <li>롤백 <strong class="bd">12분→2분</strong>, 배포 <strong class="bd">15분→5분</strong> · 개발 서버 구축 · <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story">IDC→AWS 200GB 무중단 마이그레이션</a>(DMS CDC)</li>
+        <li>롤백 <strong class="bd">12분→2분</strong>, 배포 <strong class="bd">15분→5분</strong> · 개발 서버 구축 · <a href="https://jeongil.dev/ko/blog/infrastructure/from-on-premises-to-cloud-a-zero-downtime-migration-story">IDC→AWS 무중단 마이그레이션</a>(DMS CDC)</li>
         <li>장애 인지 <strong class="bd">1시간→1분 이내</strong> (CS 의존 → Telegram 실시간 알림) · <a href="https://jeongil.dev/ko/blog/backend/performance/k8s-jvm-warm-up">JVM Cold Start</a> <strong class="bd">1.2초→150ms</strong></li>
       </ul>
 
