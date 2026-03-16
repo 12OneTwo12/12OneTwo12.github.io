@@ -696,6 +696,9 @@ a:hover{text-decoration:underline;}
         notification-service는 알림톡/메일/SMS와 같은 알림을 발송하는 역할을 맡고있는 서비스로 특성상 <strong>트래픽 패턴이 다른 서비스와 크게 다르다 판단</strong>했습니다. 특정 시간에 대량 발송이 필요한 경우가 있기도 해 <strong>독립적으로 스케일링</strong>할 수 있어야 했습니다.
         또 batch-service는 batch 작업중에 실행 시간이 오래 걸리고 무거운 작업이 있을 수 있는데, 이런 작업이 <strong>다른 서비스의 성능에 영향을 주지 않도록 격리</strong>하는 게 좋다고 생각했습니다.
       </div>
+      <div class="ib" style="margin-top:4px;">
+        CI/CD <strong>45분→7분</strong> 최적화(<a href="https://jeongil.dev/ko/blog/backend/performance/ci-test-build-optimization">상세</a>) 과정에서도 느낀 건, 모듈러 전환의 "완료 조건"을 코드 컴파일과 테스트 통과까지만 잡았던 게 실수였다는 점입니다. 제가 직접 넣었던 <code>maxParallelForks</code>가 가장 큰 병목이 됐고, 통과하던 테스트가 실은 아무것도 검증하지 않는 유령 테스트였다는 것도 이 과정에서 알게 됐습니다. <strong>코드가 돌아간다고 끝이 아니라, 코드를 돌리는 환경까지 전환 범위에 포함시켰어야 했습니다.</strong>
+      </div>
     </div>
   </div>
 </div></div>
@@ -750,6 +753,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li>핵심 API P95 <strong class="bd">4,045ms → 50ms</strong> (Grafana 운영 메트릭 기준, 피크 568 req/s)</li>
         <li>Micrometer 기반 <strong class="bd">캐시 히트율 모니터링 대시보드</strong> 구축, P95 임계치 초과 시 <strong class="bd">Grafana Alert</strong> 설정</li>
+        <li>MSA 전환 중 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace">MySQL Collation 불일치</a>로 프로시저 8배 성능 저하 발견 → 121개 테이블 utf8mb4 통일 + <strong class="bd">109개 MyISAM→InnoDB 전환</strong> (<strong class="bd">457ms→42ms</strong>)</li>
       </ul>
     </div>
 
@@ -805,7 +809,7 @@ a:hover{text-decoration:underline;}
         </div>
       </div>
 
-      <div class="ib" style="margin-top:6px;font-size:12px;line-height:1.5;">
+      <div class="ib" style="margin-top:6px;font-size:10.5px;line-height:1.5;">
         <strong>"느린 곳을 찾는 게 고치는 것보다 어려웠다고 생각합니다."</strong>
         성능 최적화를 위해 사용한 기법은 전부 기본적인 것들이었습니다. Non-sargable 수정, N+1 해결, Cache-Aside. 어디가 느린지 정확히 찾는 과정이 가장 중요했고, 원인을 찾고 나니 해결은 명확했습니다.
         말하는 “여기"라는건 API자체 뿐만 아니라 코드의 특정 부분, 데이터베이스 쿼리, 네트워크 병목, 외부 API 호출일 수도 있었습니다.
@@ -900,9 +904,11 @@ a:hover{text-decoration:underline;}
         <strong>모니터링이 발견한 실제 버그 (CS 접수 0건):</strong> 월세 검색에서 'monthly'(7자)가 VARCHAR(5)에서 잘려 검색 실패. 사용량이 적어 아무도 몰랐던 버그를 시스템이 발견했습니다.
       </div>
 
-      <div class="ib" style="margin-top:6px;">
-        <strong>안전하게 테스트할 수 있는 환경을 먼저 만드는 것이 가장 빠른 길이라고 느꼈습니다.</strong>
-        19개 인스턴스를 7개월간 혼자 운영하면서(p.11) 단일 서버 집중 구조의 한계를 직접 겪어봤기 때문에 K8s가 적합하다고 판단하게 됐고, dev 클러스터부터 단계적으로 구축해나간 것이 이후 MSA 전환, Collation 마이그레이션 등에서 <strong>운영 장애 없이 작업할 수 있었던 안전망</strong>이 됐습니다.
+      <div class="ib" style="margin-top:4px;font-size:10.5px;">
+        이전 회사(p.11)에서 19개 인스턴스를 7개월간 운영하면서 단일 서버 집중 구조의 한계를 직접 겪어봤기 때문에 K8s가 적합하다고 판단하게 됐습니다. 처음부터 완벽한 구조를 만들려 하지 않고 <strong>dev 클러스터부터 단계적으로 구축</strong>해나간 것이 이후 MSA 전환, Collation 마이그레이션 등에서 운영 장애 없이 작업할 수 있었던 안전망이 됐습니다.
+      </div>
+      <div class="ib" style="margin-top:4px;font-size:10.5px;">
+        모니터링은 단순히 장애를 빨리 발견하는 도구가 아니라, <strong>사용자가 말하지 않는 문제를 발견하는 수단</strong>이라고 생각합니다. CS로 문의하는 사용자는 극히 일부이고, 나머지는 조용히 이탈합니다. 이전 회사에서 ELK가 잘 갖춰진 환경에서 트러블슈팅하면서 모니터링의 소중함을 체감했기 때문에, 입사 첫 주에 Observability부터 제안하게 됐습니다.
       </div>
     </div>
   </div>
