@@ -401,7 +401,7 @@ a:hover{text-decoration:underline;}
       <ul class="bl">
         <li><a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion"><strong>강결합 도메인(매물, 매칭, 중개사) 동시 분리</strong></a> + 이후 도메인은 점진적 전환</li>
         <li><span class="bd">Dual Write + 검증 배치</span>로 과도기 데이터 정합성 보장</li>
-        <li><strong class="bd">DDD + 헥사고날 + CQS:</strong> Bounded Context 단위로 서비스를 분리하고, Aggregate Root를 통해서만 상태 변경을 허용(예: 매물 상태 변경은 반드시 Estate Aggregate를 거침). 핵심 도메인은 헥사고날, 단순 도메인은 레이어드로 선택 적용. 복제 테이블 조회 전용 → CQS 도출. 이 경계가 모듈러 전환 시 ModuleApi·Schema 분리의 기준</li>
+        <li><strong class="bd">DDD + 헥사고날 + CQS:</strong> 매물·매칭·중개사 각각의 경계를 나누고, 상태 변경은 각 도메인 내에서만 가능하도록 설계했습니다. 핵심 도메인은 헥사고날, 알림 같은 단순 도메인은 레이어드로 선택 적용. 복제 테이블 조회 전용 → CQS 도출. 이 경계가 이후 모듈러 전환 시 ModuleApi·Schema 분리의 기준이 됐습니다</li>
       </ul>
 
     </div>
@@ -929,7 +929,7 @@ a:hover{text-decoration:underline;}
 
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
-        <li>기존 매물 검색은 <strong class="bd">필터 기반</strong> — "강남역 근처 30평대 10억 이하 신축 아파트" 같은 <strong class="bd">자연어 검색 불가</strong></li>
+        <li>회사에서 AI 기반 매물 추천 기능을 비즈니스 핵심 방향으로 잡으면서 개발을 맡게 됐습니다. 기존 매물 검색은 <strong class="bd">필터 기반</strong> — "강남역 근처 30평대 10억 이하 신축 아파트" 같은 <strong class="bd">자연어 검색 불가</strong></li>
         <li>모호한 표현은 규칙 파싱 불가 → <strong class="bd">LLM으로 자연어→구조화 변환</strong> 선택</li>
         <li><strong class="bd">검색 엔진:</strong> Manticore Search → RAG 벡터 검색 필요로 <strong class="bd">ES 재평가·전환</strong> (ngram_len=2 도메인 데이터 기반)</li>
         <li>LLM + ES + Spring Batch 일배치로 <strong class="bd">3개월 만에 프로덕션 런칭</strong></li>
@@ -1230,7 +1230,7 @@ a:hover{text-decoration:underline;}
         <strong>새로운 기술 스택을 처음부터 설계하고 직접 운영</strong>해볼 수 있는 기회라고 생각합니다.
         WebFlux·R2DBC도 여기서 먼저 써보고, 회사 프로젝트에 적용할지 판단했습니다.
         1인 개발에서 가장 어려운 건 품질 관리라고 생각합니다. 동료 리뷰어가 없으니까 CI 자동 검증(Jacoco·Detekt·ArchUnit)이랑
-        AI PR 리뷰를 교차로 적용해서, <strong>사람이 놓치는 건 도구가, 도구가 놓치는 건 AI가</strong> 잡아주는 구조를 만들었습니다.
+        AI PR 리뷰를 교차로 적용해서 혼자서도 품질을 유지할 수 있는 구조를 만들었습니다.
       </div>
     </div>
 
@@ -1299,9 +1299,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="ib" style="margin-top:6px;font-size:10.5px;">
-        어떻게 하면 AI를 더 잘 활용할 수 있을지 꾸준히 고민하고 있습니다.
-        무조건 수락하면 제게 남는 게 없다는 걸 느꼈기에,
-        <strong>AI가 제안하면 항상 질문하고 반박하면서, 더 좋은 결과물을 만들고 성장하려고 노력하고 있습니다.</strong>
+        AI를 활용하되 무조건 수락하지는 않으려고 합니다. 제안을 받으면 왜 이렇게 했는지 질문하고, 다른 방법은 없는지 따져보면서 결과물을 만들어가고 있습니다.
       </div>
     </div>
   </div>
@@ -1324,7 +1322,7 @@ a:hover{text-decoration:underline;}
 
       <div style="border-left:3px solid #333;padding:2px 0 2px 10px;margin-bottom:4px;">
         <div style="font-size:11.5px;font-weight:700;color:#222;">"근본 원인을 찾지 않으면 같은 문제가 반복된다고 느꼈습니다."</div>
-        <p class="bt" style="margin-top:1px;">HikariCP Deadlock을 3번 오진하고 나서야 OSIV+ORM 혼용이라는 구조적 원인을 찾았습니다. MySQL Collation도 프로시저만 고치고 넘어갈 수 있었지만 근본 마이그레이션을 선택했습니다. <strong class="bd">증상만 가리면 다음 장애를 예약하는 거라는 걸 뼈저리게 느꼈습니다.</strong></p>
+        <p class="bt" style="margin-top:1px;">HikariCP Deadlock을 3번 오진하고 나서야 OSIV+ORM 혼용이라는 구조적 원인을 찾았습니다. MySQL Collation도 프로시저만 고치고 넘어갈 수 있었지만 근본 마이그레이션을 선택했습니다. <strong class="bd">풀 사이즈를 늘려서 당장 해결한 적도 있었지만, 결국 같은 문제가 다시 터졌습니다.</strong></p>
       </div>
 
       <div style="border-left:3px solid #333;padding:2px 0 2px 10px;margin-bottom:4px;">
