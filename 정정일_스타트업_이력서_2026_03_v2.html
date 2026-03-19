@@ -517,16 +517,16 @@
                         <span class="project-title">모놀리식 → MSA → 모듈러 모놀리식 전환</span>
                         <span class="project-period">2025.04 – 2026.02 · 3→1명</span>
                     </div>
-                    <div class="project-summary" style="position: relative;"><span>모놀리식→MSA 무중단 전환, 이후 비용·운영 최적화를 위해 모듈러 모놀리식 재전환</span><span class="project-role" style="position: absolute; right: 0; top: 0; text-align: right;">MSA 14개 서비스 중 5개 설계·구현<br>멀티모듈, 모듈러 전환 담당</span></div>
+                    <div class="project-summary" style="position: relative;"><span>Java Servlet 모놀리식→Kotlin MSA 무중단 전환, 이후 비용·운영 최적화를 위해 모듈러 모놀리식 재전환</span><span class="project-role" style="position: absolute; right: 0; top: 0; text-align: right;">MSA 14개 서비스 중 5개 설계·구현<br>멀티모듈, 모듈러 전환 담당</span></div>
                     <div class="project-content">
                         <div class="detail-label">[문제]</div>
                         <ul class="detail-list">
-                            <li>Java Servlet 레거시 서버의 핵심 도메인(매물, 중개사-사용자 매칭)이 <strong>강결합</strong>돼 점진적 전환 전략 적용 불가</li>
+                            <li>레거시 서버의 핵심 도메인(매물, 중개사-사용자 매칭)이 <strong>강결합</strong> — ACL 기반 점진적 전환도 검토했으나 레거시 프로시저·복합 JOIN 수정 비용이 과도</li>
                             <li>MSA 전환 후 14개 서비스의 운영 복잡도(배포·모니터링·장애 전파) 증가, <strong>소규모 팀 대비 과도한 운영 오버헤드</strong></li>
                         </ul>
                         <div class="detail-label">[주요 기여]</div>
                         <ul class="detail-list">
-                            <li>초기 점진적 전환 시도 실패 후 <a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리, 과도기 Dual Write + 검증 배치</li>
+                            <li><a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion">부분적 빅뱅 전략 설계</a> – 강결합 도메인 동시 분리, 무중단·롤백 시 데이터 유실 0건 보장 위해 Dual Write + 검증 배치 적용</li>
                             <!-- 임펙트 상대적으로 약해서 주석처리 (멀티모듈 전환) <li>공통 코드 버전 불일치 해소 위해 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-multi-module">멀티모듈 전환</a>(16레포→모노레포, Common 모듈 중앙화), <strong>독립 배포 유지</strong>를 위해 서비스별 빌드 파이프라인 분리</li> -->
                             <li>MSA 전환 중 <a href="https://jeongil.dev/ko/blog/backend/troubleshooting/mysql-collation-performace">MySQL Collation 불일치로 프로시저 8배 성능 저하</a> 진단 → <strong>109개 테이블 MyISAM→InnoDB 전환</strong>, utf8mb4 통일로 근본 해결</li>
                             <li>운영 복잡도·인프라 비용 최적화를 위해 도메인 경계를 유지한 채 <a href="https://jeongil.dev/ko/blog/architecture/msa-to-modular-monolith">모듈러 모놀리식 재전환</a> 설계·실행 (3→1명 운영 체제 전환)</li>

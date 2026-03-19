@@ -385,13 +385,13 @@ a:hover{text-decoration:underline;}
       <div class="sec">배경 및 문제</div>
       <ul class="bl">
         <li>팀에 합류했을 때 느슨한 서비스(알림·이벤트)는 이미 분리돼 있었으나 <strong class="bd">핵심 도메인(매물, 중개사-사용자 매칭)은 양방향 강결합</strong>으로 전환을 하지 못한 상태였습니다</li>
-        <li><strong class="bd">매칭 로직이 매물 테이블을 직접 JOIN하고 매물 관련 기능도 매칭에 의존성이 존재하는 구조</strong> → Strangler Fig(점진적 전환)이 불가</li>
+        <li><strong class="bd">매칭 로직이 매물 테이블을 직접 JOIN하고 매물 관련 기능도 매칭에 의존성이 존재하는 구조</strong> → 레거시에서 신규 MSA를 호출하는 ACL 방식(Strangler Fig)도 검토했으나, Java Servlet 레거시의 프로시저·복합 JOIN 수정 비용이 과도하여 비효율로 판단</li>
       </ul>
 
       <div class="sec">고려한 전환 전략</div>
       <table class="ct" style="font-size:10.5px;margin-bottom:4px;">
         <tr><th style="width:28%;">전략</th><th>장점</th><th>단점</th><th style="width:14%;">판단</th></tr>
-        <tr><td class="bd">Strangler Fig<br>(점진적)</td><td>리스크 낮음</td><td>강결합 도메인에선 불가</td><td class="er" style="color:#c5221f;font-weight:600;">❌ 탈락</td></tr>
+        <tr><td class="bd">Strangler Fig<br>(점진적)</td><td>리스크 낮음</td><td>레거시 프로시저·복합 JOIN 수정 비용 과다</td><td class="er" style="color:#c5221f;font-weight:600;">❌ 탈락</td></tr>
         <tr><td class="bd">Full 빅뱅</td><td>한 번에 완료</td><td>2~3명 팀에서 감당 불가</td><td class="er" style="color:#c5221f;font-weight:600;">❌ 탈락</td></tr>
         <tr><td class="bd">부분적 빅뱅<br>(하이브리드)</td><td>강결합만 동시 분리,<br>나머지는 점진적</td><td>과도기 관리 필요</td><td style="color:#137333;font-weight:600;">✅ 채택</td></tr>
       </table>
@@ -399,7 +399,7 @@ a:hover{text-decoration:underline;}
       <div class="sec">해결: 부분적 빅뱅 + Dual Write</div>
       <ul class="bl">
         <li><a href="https://jeongil.dev/ko/blog/architecture/is-gradual-msa-transition-an-illusion"><strong>강결합 도메인(매물, 매칭, 중개사) 동시 분리</strong></a> + 이후 도메인은 점진적 전환</li>
-        <li><span class="bd">Dual Write + 검증 배치</span>로 과도기 데이터 정합성 보장</li>
+        <li><span class="bd">Dual Write + 검증 배치</span>로 과도기 데이터 정합성 보장 — 동시 전환 중에도 레거시 롤백 시 데이터 유실 0건을 보장하기 위한 선택 (CDC는 2~3명 팀에서 Kafka+Debezium 운영 부담 과다로 제외)</li>
         <li><strong class="bd">DDD + 헥사고날 + CQS:</strong> 매물·매칭·중개사 각각의 경계를 나누고, 상태 변경은 각 도메인 내에서만 가능하도록 설계했습니다. 핵심 도메인은 헥사고날, 알림 같은 단순 도메인은 레이어드로 선택 적용. 복제 테이블 조회 전용 → CQS 도출. 이 경계가 이후 모듈러 전환 시 ModuleApi·Schema 분리의 기준이 됐습니다</li>
       </ul>
 
@@ -444,7 +444,7 @@ a:hover{text-decoration:underline;}
       </div>
 
       <div class="dg" style="margin-top:8px;">
-        <div class="dl">강결합 구조 — Strangler Fig 불가 원인</div>
+        <div class="dl">강결합 구조 — Strangler Fig(ACL) 비효율 판단 근거</div>
         <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0;font-size:10.5px;text-align:center;">
           <div class="db er ds" style="padding:8px 10px;font-weight:700;">매물<br><span style="font-weight:400;font-size:10.5px;">구매 요청</span></div>
           <div style="display:flex;flex-direction:column;align-items:center;gap:2px;color:#c5221f;font-size:10.5px;">
