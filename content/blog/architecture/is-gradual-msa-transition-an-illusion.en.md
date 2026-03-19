@@ -13,9 +13,9 @@ I joined the team recently in March, and like many companies, our team was under
 
 We drew up a blueprint to systematically separate services by domain, apply new technologies, and gradually improve the system.
 
-But reality was different. We especially hit a big wall: **strong coupling between domains**. The ideal scenario of "gradual, piece-by-piece transition" lost its power in the face of our company's powerful and massive legacy system.
+But reality was different. We especially hit a big wall: **strong coupling between domains**. The ideal scenario of "gradual, piece-by-piece transition" turned out to be more expensive than expected for our legacy system.
 
-In this article, I want to share how we faced the strong coupling issues in our legacy services and what considerations led us to find solutions.
+In this article, I want to share why gradual transition was difficult, what alternatives we considered, and what strategy we ultimately chose.
 
 ### **The Challenge We Faced - Core Domain Separation**
 
@@ -33,9 +33,11 @@ Beyond simply calling APIs, they shared database tables and business logic was d
 
 Separating `Apart-Service` meant that modifications to matching-related logic were inevitable.
 
-> **"We wanted to migrate only apartment-related functions, but in the legacy service, apartment information had strong coupling with 'matching' functionality, so we couldn't separate apartments alone. We had to separate matching together too, and these kinds of cases create problems that make gradual transition difficult."**
+We did consider the ACL (Anti-Corruption Layer) approach — having the legacy system call the new MSA APIs, essentially a Strangler Fig pattern. But our legacy was built on Java Servlets with stored procedures and complex JOINs deeply embedded. The matching logic directly JOINed apartment tables for aggregation, and converting those to API calls would have required rewriting a significant portion of the legacy code. In this case, modifying the legacy could end up costing more than building the new MSA from scratch.
 
-This one sentence I had to say in team meetings after analyzing the legacy service most accurately described our situation.
+> **"We wanted to migrate only apartment-related functions, but in the legacy service, apartment information had strong coupling with 'matching' functionality, so we couldn't separate apartments alone. We considered the ACL approach too, but the cost of modifying legacy procedures and complex JOINs was excessive — we had to transition them together."**
+
+This conclusion from our team meeting most accurately described our situation.
 
 ### **Laying Technical Foundation and the Real Problem Revealed**
 
@@ -47,9 +49,9 @@ Of course, we made efforts to establish a technical foundation while proceeding 
 
 Thanks to these efforts, the technical stability of our MSA increased.
 
-> **However, these technologies fundamentally didn't solve the 'difficulty of gradual MSA transition due to domain strong coupling'.**
+> **However, these technologies solve 'inter-service communication', not the fundamental problem of 'domains being too intertwined to extract one at a time'.**
 
-Untangling the tangled thread of domains ultimately depended on our 'strategy'.
+Ultimately, deciding the order, the unit, and the safety net for transition — that was a matter of strategy, not technology.
 
 ### **Finding Realistic Methods**
 
@@ -64,7 +66,9 @@ While this required more resources in the short term, we judged it was the only 
 There were cases where legacy and new MSA had to coexist during the transition period. During this transitional period, we couldn't avoid modifying legacy service code to maintain data consistency and service continuity. We used the following transitional strategies:
 
 *   **Calling new MSA from legacy**: We modified part of the legacy system logic to directly call APIs of the newly separated MSA. This allowed us to gradually use new service functions from necessary parts, rather than moving everything at once.
-*   **Dual data loading and synchronization**: Maintaining data consistency during the transition period was the biggest challenge. We adopted a dual write method, loading data to both legacy DB and new MSA's DB when user requests came in. Of course, this method alone couldn't guarantee 100% data consistency, so we went through the arduous process of periodically running batch jobs to synchronize data between the two databases.
+*   **Dual data loading and synchronization**: Maintaining data consistency during the transition period was the biggest challenge. Even though we were transitioning simultaneously, there was roughly a 2-month transitional period from deployment to full verification. During this time, we needed the ability to immediately roll back to legacy if something went wrong — which meant the legacy DB had to have up-to-date data too.
+
+    We considered CDC (Debezium + Kafka), but operating a Kafka cluster with a 2-3 person team was too much overhead. So we went with application-level dual write, loading data to both legacy DB and new MSA DB on each request. Since this code would be removed once the transition was complete, operating it for the transitional period only was the pragmatic choice. Of course, this alone couldn't guarantee 100% data consistency, so we went through the arduous process of periodically running batch jobs to verify and synchronize data between the two databases.
 
 Since apartment and matching weren't the only cases with such strong coupling, we had to appropriately choose between the two strategies for each case.
 
@@ -88,8 +92,8 @@ When I joined the team, MSA transition had already been decided. But after going
 
 I think MSA is not a silver bullet. Rather, it seems closer to a **tradeoff where you must accept system complexity to solve complex problems**.
 
-Especially when transitioning tightly coupled legacy systems like ours, you need to be prepared to face numerous challenges hidden behind the ideal phrase of 'gradual transition'.
+Especially when transitioning tightly coupled legacy systems like ours, gradual transition isn't impossible — it's just that **the cost can be much higher than expected**. You need to compare the cost of placing an ACL and modifying the legacy versus transitioning simultaneously and managing the transitional period with Dual Write, then choose the approach that fits your team's situation.
 
-If someone is having similar concerns, I think it would be better to coldly diagnose the 'reality' of our organization and services rather than chasing technical elegance or trends, and choose the most suitable strategy.
+If someone is having similar concerns, I think it would be better to honestly assess your team's legacy state and headcount rather than assuming "gradual transition is the answer," and choose the most realistic strategy.
 
 Thank you for reading this long article.
