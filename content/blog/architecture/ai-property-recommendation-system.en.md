@@ -1,5 +1,5 @@
 ---
-title: "Building an AI System That Handles 'Find me a new apartment near Gangnam Station, around 30 pyeong'"
+title: "Building an AI Property Recommendation System — How We Handle 'Recommend me a new apartment near Gangnam Station, around 30 pyeong'"
 tags:
   - ai
   - llm
@@ -11,7 +11,9 @@ date: '2026-03-25'
 
 Hi, I'm Jeongil Jeong, a backend developer at a proptech platform.
 
-Recently, I built an AI feature that recommends properties based on natural language queries. Users type in their conditions in plain language, and the system recommends matching apartments. It looks roughly like this:
+It seems like many companies these days are thinking hard about how to integrate AI into their services in ways that deliver real value. Our company is no different. While exploring how we could use AI to provide a better experience for our users, we ended up building an AI feature that recommends properties based on natural language queries.
+
+Users type in their conditions in plain language, and the system recommends matching apartments. It looks roughly like this:
 
 ![AI chat property recommendation](https://www.dropbox.com/scl/fi/433657pr8jefq963mdcas/ai-estate-result-1.png?rlkey=52nvd21u3u6l16zbgv7srgwh1&st=7k1pknsk&raw=1)
 
