@@ -17,9 +17,7 @@ I recently passed the **ISTQB Certified Tester Foundation Level (CTFL)** certifi
 
 ISTQB stands for International Software Testing Qualifications Board, and it's one of the most internationally recognized certifications in the software testing field. CTFL is the Foundation Level — the entry-level certification in the ISTQB framework.
 
-![istqb-ctfl-certificate](https://www.dropbox.com/scl/fi/i4mclsa0qlhsfin3cqan5/istqb-ctfl.jpg?rlkey=2rns0bvnkmhge1qzvzot9pecq&st=cn4hs20y&raw=1)
-
-## Why Did I Pursue the CTFL?
+## Why Did I Take the CTFL?
 
 Honestly, the motivation wasn't anything grand.
 
@@ -77,3 +75,5 @@ More than the score itself, what I found valuable was the shift in perspective �
 That said, I can't easily recommend it to developers who aren't in or targeting a QA role. The honest conclusion is that the cost-to-benefit ratio feels a bit underwhelming for general developers. If I ever transition into DevOps and find myself building test automation pipelines as part of CI/CD work, something like CT-AuT might start to look more compelling — but that's a decision for future me.
 
 Thank you for reading this long post!
+
+![istqb-ctfl-certificate](https://www.dropbox.com/scl/fi/i4mclsa0qlhsfin3cqan5/istqb-ctfl.jpg?rlkey=2rns0bvnkmhge1qzvzot9pecq&st=cn4hs20y&raw=1)
