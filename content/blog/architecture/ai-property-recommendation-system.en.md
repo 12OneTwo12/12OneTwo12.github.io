@@ -19,7 +19,7 @@ Since we operate in the real estate domain, we naturally ended up building an AI
 
 Users type in their conditions in plain language, and the system recommends matching apartments. Here's what the service looks like:
 
-![AI chat property recommendation](https://www.dropbox.com/scl/fi/433657pr8jefq963mdcas/ai-estate-result-1.png?rlkey=52nvd21u3u6l16zbgv7srgwh1&st=7k1pknsk&raw=1)
+!["Find new apartments near Songdo or Sangdong Station, 30 pyeong, under 1B won, 500+ units"](https://www.dropbox.com/scl/fi/9x56dxoydvfonon6vr7au/ai-estate-result-5.png?rlkey=jp0ayi58mvtr0t68d928qokrt&st=gpe4xoql&raw=1)
 
 In this post, I'd like to share how I built this feature — the technical challenges I faced and the decisions I made along the way.
 
@@ -476,7 +476,7 @@ This kind of context-based judgment was hard to handle with rules. Capturing all
 
 Handling natural language ambiguity that explicit keywords can't capture by leveraging the LLM's contextual understanding. Trying to handle this with rules alone would have been endless.
 
-!["Find new apartments near Songdo or Sangdong Station, 30 pyeong, under 1B won, 500+ units"](https://www.dropbox.com/scl/fi/9x56dxoydvfonon6vr7au/ai-estate-result-5.png?rlkey=jp0ayi58mvtr0t68d928qokrt&st=gpe4xoql&raw=1)
+![AI chat property recommendation](https://www.dropbox.com/scl/fi/433657pr8jefq963mdcas/ai-estate-result-1.png?rlkey=52nvd21u3u6l16zbgv7srgwh1&st=7k1pknsk&raw=1)
 
 ### Post-Filtering — ES Scoring Alone Wasn't Enough
 

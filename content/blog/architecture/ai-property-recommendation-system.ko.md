@@ -19,7 +19,7 @@ date: '2026-03-25'
 
 사용자가 자연어로 조건을 입력하면 조건에 맞는 아파트를 추천해주는 기능인데 서비스 하는 모습은 아래와 같습니다.
 
-![AI 채팅으로 매물 추천](https://www.dropbox.com/scl/fi/433657pr8jefq963mdcas/ai-estate-result-1.png?rlkey=52nvd21u3u6l16zbgv7srgwh1&st=7k1pknsk&raw=1)
+!["송도역 혹은 상동역 근처에 30평대 10억 이하로 살 수 있는 500세대 이상 신축 아파트 찾아 줘"](https://www.dropbox.com/scl/fi/9x56dxoydvfonon6vr7au/ai-estate-result-5.png?rlkey=jp0ayi58mvtr0t68d928qokrt&st=gpe4xoql&raw=1)
 
 이번 글에서는 어떻게 이 기능을 만들었는 지 그리고 기능을 만들면서 겪었던 기술적 챌린지들과 그 과정에서 했던 고민들을 정리해보려 합니다.
 
@@ -475,7 +475,7 @@ private fun calculateCenter(pois: List<PoiCoord>, weights: List<Double>): Pair<D
 
 명시적 키워드만으로는 처리할 수 없는 자연어의 모호함을 LLM의 맥락 이해 능력에 맡기는 거죠. 이런 부분은 규칙으로 처리하려면 끝이 없었을 것 같습니다.
 
-!["송도역 혹은 상동역 근처에 30평대 10억 이하로 살 수 있는 500세대 이상 신축 아파트 찾아 줘"](https://www.dropbox.com/scl/fi/9x56dxoydvfonon6vr7au/ai-estate-result-5.png?rlkey=jp0ayi58mvtr0t68d928qokrt&st=gpe4xoql&raw=1)
+![AI 채팅으로 매물 추천](https://www.dropbox.com/scl/fi/433657pr8jefq963mdcas/ai-estate-result-1.png?rlkey=52nvd21u3u6l16zbgv7srgwh1&st=7k1pknsk&raw=1)
 
 ### 포스트 필터링 — ES 스코어링만으로는 부족하다
 
