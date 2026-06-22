@@ -10,7 +10,9 @@ date: '2026-06-18'
 
 Hello. I'm Jeongil Jeong, a backend developer with three years of experience, currently working at a proptech startup.
 
-Thinking of people wondering whether to start development as a non-CS major, I've put together how I got here, in chronological order. It isn't a glamorous success story. It's closer to a record of someone who survived three years, more or less, on a half-and-half mix of desperation and luck.
+Thinking of people wondering whether to start development as a non-CS major, I've put together how I got here, in chronological order.
+
+It's not that I'm out to brag, "Look at me, what a successful case!" It's closer to a record of someone who survived three years, more or less, on a half-and-half mix of desperation and luck.
 
 ## Beginnings
 
@@ -22,17 +24,21 @@ My parents had one firm conviction.
 
 Without a clear dream, I figured going to college then would only waste money and time. So as soon as I graduated, I did my military service, and right after discharge I jumped into sales. I was twenty-one.
 
-I did sales for about five years. But the structure—where results were settled monthly and reset every month—kept wearing me down. No matter how well I did one month, the next month started from zero again, and every time I felt what I'd built up disappear, I'd wonder, "Am I actually growing?"
+I did sales for about five years. But sales, with its structure where results reset to zero every month, started to leave me a little disillusioned. No matter how well I did one month, the next month started from zero again, and every time I felt what I'd built up disappear, I'd wonder, "Am I actually growing?"
 
 > **Takeaway —** I think I wanted work that kept accumulating, work where I could grow.
 
 ### 2022.07 · Deciding to become a developer
 
-One day I heard my younger brother was preparing to become a developer through a government-funded program, and I looked into the job for the first time. The line "developers have to study for life" struck me—to someone whose work reset every month, that wasn't a downside but an appeal. After a few days of deliberation, I quit and enrolled in a government-funded academy. I was twenty-five.
+One day I heard my younger brother was preparing to become a developer through a government-funded program, and I looked into the developer profession for the first time. The line "developers have to study for life" struck me—to someone whose work reset every month, that wasn't a downside but an appeal. After a few days of deliberation, I quit and enrolled in a government-funded academy. I was twenty-five.
 
 The course was eight hours a day, five days a week, for six months. Even with the same education, how people approached it varied a lot. Because it was free, many came in thinking "let me just give it a listen," while I—responsible for my own living expenses—felt strongly that "this might be my last chance to study something properly." Of the roughly twenty people in my class, only three or four became developers.
 
-My study method was simple: **learn a concept from a lecture → build a small personal project by hand → and only then truly understand it.** On top of that, I joined a study group two or three times a week. If I stopped at just watching lectures, it felt like I only knew it in my head; I felt I internalized something only after building it once with my own hands.
+My study method went: **learn a concept from a lecture → build a small personal project by hand → and only then truly understand it.** On top of that, I joined a study group two or three times a week. If I stopped at just watching lectures, it felt like I only knew it in my head; I felt I internalized something only after building it once with my own hands.
+
+![Library management project](https://www.dropbox.com/scl/fi/23tqkp2uqaaxfhbhcfujc/play-data-1.png?rlkey=rx3wbmg7dnsux94riw8w3r5ge&st=2rtyv778&raw=1)
+
+For example, the academy was still managing its library by hand, so I took on a project to build a library-management program that could handle book rentals via barcodes. By building things that were either interesting or seemed genuinely useful, I internalized the concepts.
 
 > **Takeaway —** Honestly, with anything—not just development—if you want it badly enough, I think you learn it that much faster.
 
@@ -40,15 +46,21 @@ My study method was simple: **learn a concept from a lecture → build a small p
 
 ### 2023.03 · Landing my first job
 
-I started applying before graduating, but reality differed from the academy's marketing. I was rejected at the resume stage over and over, and my confidence was at its lowest. Still, polishing my resume and portfolio with each application and sitting through a few interviews, I found startups that valued experience and enthusiasm. About two or three months after I started applying, I was the first in my class to get hired.
+From December 2022 to January 2023, as I finished the academy, I began my job search in earnest.
+
+I'd started applying to companies before graduating, but reality differed from the academy's marketing. I was rejected at the resume stage over and over, and my confidence was at its lowest. Still, polishing my resume and portfolio with each application and sitting through a few interviews, I found startups that valued experience and enthusiasm. And so, about two or three months after I started applying, I became the first in my class to get hired.
 
 The interview was with one CTO and two dev leads, for about an hour. It began with personality-fit questions, but from the middle it turned technical, and as the follow-ups deepened, I hit a point where I couldn't answer. That's when the CTO said, "This back-and-forth of questions and answers is a good sign—it means there's that much more I want to hear from you." Those words stayed with me even after the interview.
 
 ### 2023 · The day I got badly burned
 
-My first company was a fintech startup of about twenty to thirty people. There was a lot to learn and the days were fun, and wanting to be recognized, I even kept asking my team lead for more work.
+My first company was a fintech startup of about twenty to thirty people. Since it was my first time doing real development work, there was so much to learn that it was genuinely fun. Wanting to be recognized, I even kept asking my team lead for more work.
 
-Honestly, the work itself wasn't hard for me. If you could handle the usual—Java, Spring, JSON, REST APIs, databases, CI/CD—you could do the job. I lacked domain knowledge, but that was something time would solve. When senior developers half-joked, "An ace has joined," I felt recognized and it genuinely made me happy.
+![Sitting at my desk at the company](https://www.dropbox.com/scl/fi/i1l836zhffib22xp4m0bq/hello-2.png?rlkey=64dxfeye07b1pipz7pnhi2ua5&st=x9xyrt6t&raw=1)
+
+Honestly, there wasn't much about the work itself that I found difficult. If you could handle the usual—Java, Spring, JSON, REST APIs, databases, CI/CD—you could do the job. I lacked domain knowledge, but I figured that was something time would solve. And it did.
+
+When senior developers half-joked, "An ace has joined," I felt recognized and it genuinely made me happy.
 
 Then, around the end of my probation, I made one big mistake. I failed to notice that the test data on the dev server contained real customer data, and sent test emails to about 600 customers; the operations team got customer-support calls saying users had been inconvenienced.
 
@@ -58,11 +70,11 @@ When the operations team came over to the dev team and asked, "Did you happen to
 
 Even now that I've left, I still grab a drink now and then with the operations manager who cleaned up after that mess, and we talk about it. He says he really resented me back then... and each time I tell him he truly went through a lot and that I'm nothing but grateful. Haha.
 
-Afterward, the work I took on kept growing. Before I'd been there a year, a junior joined under me and I had to teach a newcomer; I handled settlement and the back office, and was eventually given full server and DB access. Developing new requirements and cleaning up after incidents, over and over, at some point I caught myself thinking, "I've come to know how to do this job."
+Afterward, the work I took on kept growing. Before I'd been there a year, a junior joined under me and I even came to teach a newcomer; I handled settlement and the back office, and was eventually given full server and DB access. Developing new requirements and cleaning up after incidents, over and over, at some point I caught myself thinking, "I've come to know how to do this job."
 
 ### 2023.12 · Taking on DevOps
 
-This is where an event that became a major turning point in my career happened.
+While I was hard at work, an event that became a major turning point in my career happened.
 
 In December 2023, the company's only DevOps engineer was scouted away on better terms, and we faced losing the one person who fully understood our servers. The plan was to hire a successor and run a month of handover, but hiring wasn't feasible given the company's situation, and it ended as, "Then I'll at least leave documentation behind."
 
@@ -74,13 +86,17 @@ So, at the risk of overstepping, I went to him separately and said:
 
 >"If it's not too much to ask, could you teach me a little about the company's infrastructure? During the DevOps gap, if something breaks, someone has to fix it—it'll be a hassle for you, but if you could teach me even a little, I'll somehow hold the line with what little knowledge I have."
 
-Perhaps he thought well of me for that, because he gave me a month of mentoring and handover. Thanks to him, I encountered Kubernetes, AWS EKS, Jenkins, ArgoCD, and ELK for the first time. It wasn't an amount I could absorb in a month, so I wrote down every keyword he tossed my way in a notebook and studied them one by one. Being a fintech company, the internal and external networks were separated, which made it even trickier.
+That's what I said to him.
 
-In the end, I ran the infrastructure alone for about seven months until the next DevOps engineer was hired. Looking back, it was a fairly bold thing to take on.
+Perhaps he thought well of me for that, because he gave me a month of mentoring and handover. Thanks to him, I got to encounter the concepts behind Kubernetes, AWS EKS, Jenkins, ArgoCD, and ELK. It wasn't an amount I could absorb in a month, so I remember writing down every keyword he tossed my way in a notebook and studying them one by one. Being a fintech company, the internal and external networks were separated, which made it all the trickier.
+
+In the end, I came to run the infrastructure alone for about seven months until the next DevOps engineer was hired. Looking back, it was a fairly bold thing to take on.
+
+![At my desktop at the company](https://www.dropbox.com/scl/fi/m8ll55wazhh85mmx36wi8/hello-1.png?rlkey=fn0x6m9z6pgvchaw9jzv3g9ee&st=elc7ad8x&raw=1)
 
 In those seven months there were a few outages I somehow contained, and there were times I couldn't solve something and reached out privately to the engineer who'd left to ask for an SOS.
 
-Even so, I think this was one of the periods I learned the most in my career. Looking back, it was a great stroke of luck—at many companies, developers don't even have access to the infrastructure.
+Even so, I think this was one of the periods I learned the most in my career. Looking back, it was a great stroke of luck—until then, many companies' developers didn't even have access to the infrastructure.
 
 > **Takeaway —** From this point on, being a developer who could also handle infrastructure became a real weapon for me. I could see the service from a wider angle, and I came to understand both the developer's and the DevOps engineer's point of view.
 
@@ -94,7 +110,7 @@ I waited, believing the acquiring company's words—"we'll raise your pay a lot,
 
 Personally, since I was handling settlement, the back office, new feature development, and infrastructure operations all at once, I wanted that to be recognized in kind, and it stung that it wasn't reflected.
 
-Management said they'd choose between "a raise" and "hiring a new DevOps engineer," and that they'd go with hiring DevOps—so could I just wait until that hire was made.
+Management said that between "a raise for me" and "hiring a new DevOps engineer," it would be hard to go beyond the salary table, so they'd go with hiring DevOps—could I just wait until that hire was made.
 
 ### 2024.07 · Handing over DevOps
 
@@ -104,7 +120,7 @@ A new DevOps engineer joined, and I handed over the infrastructure I'd run for s
 
 And so salary-negotiation season came around again.
 
-Management said that with the company struggling, they "couldn't give a definite answer on whether or when negotiations would happen." In a meeting I asked several times, "If you can, say you can; if you can't, say so clearly," but the answer stayed the same.
+Management said that with the company struggling, they "couldn't give a definite answer on whether they'd negotiate at all this year, and if so, when." In a meeting I asked several times, "If you can, say you can; if you can't, say so clearly," but the answer stayed the same.
 
 > **Takeaway —** Rather than clinging to a vague hope, I judged that when there's no clear answer, the right move is to act.
 
@@ -120,15 +136,20 @@ In the end, in August 2025, that company laid off the entire dev team without an
 
 ### 2025.03 · The move
 
+![My desk at Bootalk](https://www.dropbox.com/scl/fi/jxs9j46urgdr4gc1go0l5/bootalk-1.png?rlkey=kpdx62krhgakd9cwus6svwak6&st=6ftmfyps&raw=1)
+
 The new company was a proptech platform connecting people looking to buy or sell homes—apartments, officetels—with licensed real-estate agents. It was at the pre-Series A stage, around fifteen people, with just two backend developers: the CTO and me.
 
 The team happened to be mid-migration from a legacy monolith to MSA. So my first impression was, "There's going to be a lot to do." Sixteen split-up repos, an MSA excessive for the scale, a monolithic service still sitting in an IDC, no proper monitoring system, and services all crammed onto a single instance.
 
-Because it carried quite a lot of technical debt, it was actually interesting to me.
+Because it carried quite a lot of technical debt, I figured there'd be plenty to do, which actually made it interesting to me.
 
 ### 2025.04 · Starting with documentation, then MSA
 
 The very first thing I did after joining was documentation. There was no onboarding doc when I joined, so I documented things by asking the CTO directly about whatever I was curious about. Drawing out the system architecture, I came to understand the service's structure and flow.
+
+![System architecture PR](https://www.dropbox.com/scl/fi/660wm4i69kbcogwkl89di/bootalk-3.png?rlkey=zrjbfyb6a3tj300vio6jsy9d6&st=pris1di3&raw=1)
+![PR adding the Git strategy document](https://www.dropbox.com/scl/fi/e7a5xf482f4j1qwsxk353/bootalk-2.png?rlkey=q52ypl3xy41ondp4imrd707xs&st=znx7wk4k&raw=1)
 
 The CTO said he was both grateful and a little sorry that my first contribution to the company was documentation. The onboarding doc was organized in the company's internal Confluence, set up so that developers who joined later could refer to it.
 
@@ -138,7 +159,11 @@ After that I took part in migrating legacy services to MSA, and trying to split 
 
 ### 2025.06 · Kubernetes and monitoring
 
-At this point the company's services ran on a single instance. But as services grew, they kept dying from memory shortages, or one service would hog the CPU and slow down the ones next to it. The company hadn't even had a dev server, so testing had been done in production. (I was quite shocked by this—I'd assumed a dev environment was a given.) Starting in June, I [moved to Kubernetes (GKE)]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}), stripped out Eureka and the gateway, and set up GitOps with ArgoCD.
+At this point the company's services were set up with all the MSA containers running on a single instance. As services grew, they kept dying from memory shortages, or one service would hog the CPU and slow down the ones next to it. On top of that, the company hadn't even had a dev server, so testing had been done in production. (I was quite shocked by this—I'd assumed a dev environment was a given.) Starting in June, I [moved to Kubernetes (GKE)]({{< relref "/blog/infrastructure/docker-compose-to-k8s" >}}), stripped out Eureka and the gateway, and set up GitOps with ArgoCD.
+
+![bootalk-kubernetes-k9](https://velog.velcdn.com/images/12onetwo12/post/b16bd57a-406b-49d1-b582-735b18ea8c88/image.png)
+
+![bootalk-argocd](https://velog.velcdn.com/images/12onetwo12/post/e91c4082-9184-4bf0-ba0e-46d4823308e2/image.png)
 
 And what I cared about most was monitoring. Until then, **the dev team couldn't detect a system failure first.** Judging CloudWatch alone insufficient, I [built a monitoring stack myself with Loki, Grafana, Tempo, and Prometheus]({{< relref "/blog/infrastructure/building-a-monitoring-system" >}}).
 
@@ -154,11 +179,13 @@ This shook me quite a bit. I'd misread "all but confirmed" as "the investment is
 
 > **Takeaway —** "The investment is all but confirmed" != "We got the investment." Please keep this line in mind.
 
-I decided to stay and round out a year, as long as my paycheck wasn't late.
+I did hear that the failed investment had worsened the company's cash flow, but I decided to hold on for a year, as long as my paycheck wasn't late.
+
+Besides, I'd joined partly because I saw the company's potential, so even though this round of investment had fallen through, I still believed in that potential and strongly wanted to contribute everything I could to the company.
 
 ### 2025.08 · Left on my own
 
-The fallout of the failed investment came back as people. From August to October, starting with the CTO, colleagues left one after another, and somehow, before I'd even been there six months, I came to be **solely responsible for the backend and servers of a platform with 20,000 MAU.**
+But the fallout of the failed investment came back as people. From August to October, starting with the CTO, colleagues left one after another, and somehow, before I'd even been there six months, I came to be **solely responsible for the backend and servers of a platform with 20,000 MAU.**
 
 When the CTO's departure was decided, the CEO—carrying some anxiety—asked me, "Hiring is hard right now; can you really handle both running and developing the service as the only backend developer?"
 
@@ -192,9 +219,7 @@ and when the free tier of GitHub Actions (2,000 minutes/month) hit its limit, I 
 
 ### 2025.12 · Did we really need MSA?
 
-At year's end, I stepped back and faced a bigger question. One backend developer running 13-plus services in a distributed setup while also building features meant far too many bottlenecks, and MSA was excessive in both cost and complexity for the company's scale. There was also a cost-cutting need, since the GCP startup credits ran out in April 2026.
-
-So I decided to seriously reconsider whether MSA was necessary.
+At year's end, I started putting a question to myself. Running 13-plus services in a distributed setup on my own while also building features meant far too many bottlenecks, and MSA was excessive in both cost and complexity for the company's scale. With the GCP startup credits running out in April 2026, there was a cost-cutting need too—so I decided to seriously reconsider whether MSA was necessary.
 
 Reflecting on what I'd felt while doing MSA, I even wrote an MSA series, including a piece titled [Did we really need MSA?]({{< relref "/blog/architecture/msa-series-7-conclusion" >}}).
 
