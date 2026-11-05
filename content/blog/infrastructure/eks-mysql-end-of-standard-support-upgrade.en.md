@@ -1,5 +1,5 @@
 ---
-title: "[EKS Upgrade 1/2] EKS 1.33 Reached End of Standard Support: Why We Upgraded the Control Plane First"
+title: "[EKS Upgrade 1/2] EKS and MySQL After End of Standard Support: Stopping the Extended Support Charges"
 tags:
   - "aws"
   - "eks"

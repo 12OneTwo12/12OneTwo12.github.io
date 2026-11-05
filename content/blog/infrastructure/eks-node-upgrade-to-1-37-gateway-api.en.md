@@ -1,5 +1,5 @@
 ---
-title: "[EKS Upgrade 2/2] Upgrading the Deferred Nodes All the Way to 1.37: From ingress-nginx to Gateway API"
+title: "[EKS Upgrade 2/2] From Node Rollouts to 1.37: Moving from ingress-nginx to Gateway API"
 tags:
   - "aws"
   - "eks"
@@ -10,7 +10,7 @@ tags:
 date: '2026-11-05'
 ---
 
-Previous: [[EKS Upgrade 1/2] EKS 1.33 Reached End of Standard Support: Why We Upgraded the Control Plane First]({{< relref "/blog/infrastructure/eks-mysql-end-of-standard-support-upgrade" >}})
+Previous: [[EKS Upgrade 1/2] EKS and MySQL After End of Standard Support: Stopping the Extended Support Charges]({{< relref "/blog/infrastructure/eks-mysql-end-of-standard-support-upgrade" >}})
 
 Hello, I'm Jeong Jeong-il, a backend developer working at a PropTech platform.
 

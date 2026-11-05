@@ -1,5 +1,5 @@
 ---
-title: "[EKS 업그레이드 2/2편] 미뤄 둔 노드를 올리다 1.37까지 — ingress-nginx에서 Gateway API로"
+title: "[EKS 업그레이드 2/2편] 노드 롤링부터 1.37까지, ingress-nginx에서 Gateway API로"
 tags:
   - "aws"
   - "eks"
@@ -10,7 +10,7 @@ tags:
 date: '2026-11-05'
 ---
 
-전편: [[EKS 업그레이드 1/2편] 표준 지원이 끝난 EKS 1.33, 컨트롤 플레인부터 올린 이유]({{< relref "/blog/infrastructure/eks-mysql-end-of-standard-support-upgrade" >}})
+전편: [[EKS 업그레이드 1/2편] 표준 지원이 끝난 EKS와 MySQL, 연장 지원 요금을 멈추기까지]({{< relref "/blog/infrastructure/eks-mysql-end-of-standard-support-upgrade" >}})
 
 안녕하세요. 프롭테크 플랫폼에서 백엔드 개발자로 근무 중인 정정일입니다.
 
