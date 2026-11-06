@@ -10,10 +10,10 @@ tags:
 date: '2026-11-05'
 description: "미뤄 둔 EKS 노드를 실패 건수를 재며 롤링하고, ingress-nginx를 Gateway API(Istio)로 옮겨 1.37까지 올린 과정"
 images:
-  - "https://www.dropbox.com/scl/fi/7jtibm0aix0hrworqgkus/eks-upgrade-cover-part2.ko.png?rlkey=5th2mgawgs0y0n0ixn6ff3ifq&raw=1"
+  - "https://www.dropbox.com/scl/fi/ga1wn614tl7sn7zm9m9nb/eks-upgrade-cover-part2.png?rlkey=8fht2r1sg9qsc8qu25jxl75or&raw=1"
 ---
 
-![EKS 업그레이드 2/2편 표지](https://www.dropbox.com/scl/fi/7jtibm0aix0hrworqgkus/eks-upgrade-cover-part2.ko.png?rlkey=5th2mgawgs0y0n0ixn6ff3ifq&raw=1)
+![EKS 업그레이드 2/2편 표지](https://www.dropbox.com/scl/fi/ga1wn614tl7sn7zm9m9nb/eks-upgrade-cover-part2.png?rlkey=8fht2r1sg9qsc8qu25jxl75or&raw=1)
 
 전편: [[EKS 업그레이드 1/2편] 표준 지원이 끝난 EKS와 MySQL, 연장 지원 요금을 멈추기까지]({{< relref "/blog/infrastructure/eks-mysql-end-of-standard-support-upgrade" >}})
 
