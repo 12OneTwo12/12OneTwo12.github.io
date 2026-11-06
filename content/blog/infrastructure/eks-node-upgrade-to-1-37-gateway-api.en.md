@@ -26,13 +26,13 @@ What I cared about most throughout was not interrupting the service. Every time 
 
 After the September work, the cluster was at control plane 1.35 and nodes 1.33. The charge had stopped, but there were two reasons it couldn't stay that way.
 
-One was that the node AMI was still the one built in March. Managed node groups don't replace the AMI on their own within the same Kubernetes version, so as long as the nodes aren't replaced, OS, kernel, and containerd patches don't get in.
+One was that the node AMI was still the one built in March. Managed node groups don't replace the AMI on their own within the same Kubernetes version, so as long as the nodes aren't replaced, none of the OS, kernel, or containerd security patches released in the meantime get in.
 
-The other was the version gap. It was already 2, and upgrading the control plane to 1.36 would make it 3. From there, the control plane can't go any further unless the nodes are upgraded first. To do the next upgrade before standard support for 1.35 ends on March 27, 2027, the nodes had to catch up first.
+The other was the version gap. It was already 2, and upgrading the control plane to 1.36 would make it 3. Kubernetes only allows a gap of up to 3, so from there, the control plane can't go any further unless the nodes are upgraded first. To do the next upgrade before standard support for 1.35 ends on March 27, 2027, the nodes had to catch up first.
 
 ## Settings Blocking a Node Rollout
 
-At first I thought, "Couldn't I just attach one more node during the rollout?" Looking into it, a managed node group update already launches new nodes first and then cordons and drains the old ones. The problem wasn't capacity; it was how the pods were set up.
+At first I thought, "Couldn't I just attach one more node during the rollout?" Looking into it, a managed node group update already launches new nodes first and then cordons (stops scheduling new pods on) and drains (evicts pods from) the old ones. The problem wasn't capacity; it was how the pods were set up.
 
 I took the two issues found in September and added one more.
 
@@ -155,6 +155,9 @@ Reading it reminded me of September. With EKS too, the cluster was running witho
 ## Choosing a Replacement
 
 The announcement says there's no drop-in replacement and recommends Gateway API or another Ingress controller. We decided to go with Gateway API, because no more features are being added to the Ingress API and new features are going into Gateway API instead.
+
+> What is Gateway API?
+> It's a standard API that defines how external traffic is connected to services inside a Kubernetes cluster. Where Ingress put all the configuration in one resource and left detailed features to controller-specific annotations, Gateway API separates the entry point that receives traffic (Gateway) from the routing rules (HTTPRoute), and defines features like path rewriting as standard fields. The implementations that actually handle traffic are provided separately by projects such as Istio, Envoy Gateway, and NGINX Gateway Fabric.
 
 ### Choosing a Gateway API Implementation
 
@@ -290,7 +293,12 @@ sequenceDiagram
 
 First, Ready as Kubernetes sees it and healthy as the NLB sees it were different. The NLB considers a new target healthy only after three health checks at 10-second intervals, but Kubernetes saw the new pod as Ready before that and took down the old pod. Second, even after the old pod was removed as a target, the NLB kept sending new connections to it for a while. It was the same kind of problem as the endpoint propagation delay I saw with nginx, this time in the NLB.
 
-I solved the first with the AWS Load Balancer Controller's pod readiness gate. Once a namespace is labeled, a pod only becomes Ready after it's healthy as an NLB target. Rollouts and PDBs then wait based on the NLB rather than Kubernetes. For the second, I increased `terminationDrainDuration` to 30 seconds so Envoy keeps accepting connections after receiving the termination signal. Restarting again gave 0 failures out of 519.
+I solved the first with the AWS Load Balancer Controller's pod readiness gate.
+
+> What is a pod readiness gate?
+> It's a feature that adds one more condition for a pod to become Ready. With the AWS Load Balancer Controller's readiness gate enabled, a container being ready isn't enough; the pod only becomes Ready after it's registered as an NLB target and passes the health checks. Just adding a label to a namespace applies it automatically to the pods in it.
+
+With this, rollouts and PDBs wait based on the NLB rather than Kubernetes. For the second, I increased `terminationDrainDuration` to 30 seconds so Envoy keeps accepting connections after receiving the termination signal. Restarting again gave 0 failures out of 519.
 
 ### Production Node Rollout Results
 
