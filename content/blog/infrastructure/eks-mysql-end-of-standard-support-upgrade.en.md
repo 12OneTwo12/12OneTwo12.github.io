@@ -8,7 +8,12 @@ tags:
   - "rds"
   - "cost"
 date: '2026-10-14'
+description: "How we traced EKS 1.33 and MySQL 8.0 extended support charges on our AWS bill and stopped them by upgrading the control plane first"
+images:
+  - "https://www.dropbox.com/scl/fi/zb7410deigzzynd0re6vj/eks-upgrade-cover-part1.en.png?rlkey=kom5rwfeiczhhz10qrpzvw5ki&raw=1"
 ---
+
+![EKS Upgrade 1/2 cover](https://www.dropbox.com/scl/fi/zb7410deigzzynd0re6vj/eks-upgrade-cover-part1.en.png?rlkey=kom5rwfeiczhhz10qrpzvw5ki&raw=1)
 
 Hello, I'm Jeong Jeong-il, a backend developer working at a PropTech platform.
 
@@ -127,17 +132,9 @@ So I came back to the pricing basis I had read about earlier. If the charge is b
 
 ### Why Only the Control Plane First
 
-```mermaid
-flowchart LR
-    subgraph CP["Control plane (billing basis)"]
-        direction LR
-        A["1.33"] --> B["1.34"] --> C["1.35"]
-    end
-    subgraph NODE["Node kubelet"]
-        N["stays at 1.33"]
-    end
-    C -. "version gap 2<br/>(allowed up to 3)" .- N
-```
+![EKS cluster structure. Only the AWS-managed control plane goes to 1.35 while the dev, spot, and on-demand node groups keep kubelet 1.33. The spot group runs an ingress without a PDB and services with minAvailable 1](https://www.dropbox.com/scl/fi/d4dtevsarplfy3jjq9b4x/eks-upgrade-p1-cluster-structure.en.png?rlkey=akhn9qvjuv8j0ugbkh8epdhv8&raw=1)
+
+*The structure: upgrade only the control plane (the billing basis) first, and leave the node groups, where the ingress and PDBs blocked a rollout, on 1.33*
 
 Even at 1.35, the gap with the nodes would be 2, within the allowed range. So I decided to upgrade only the control plane to 1.35 and leave the nodes at 1.33. A control plane upgrade doesn't touch the nodes, so pods don't restart, and only the standard support charge applies, as before. I decided to upgrade the nodes on a separate schedule after making the ingress redundant and sorting out the PDBs.
 
@@ -185,6 +182,8 @@ While the control plane is being replaced, requests to the API server can fail b
 
 After the control plane upgrade, while checking whether the charge was now calculated at the standard rate, one value was different from what I expected. I checked whether `upgradePolicy.supportType` changed from `EXTENDED` to `STANDARD` after the upgrade, but even after upgrading to 1.34, the value was still `EXTENDED`.
 
+![upgradePolicy queried with aws eks describe-cluster: supportType is EXTENDED](https://www.dropbox.com/scl/fi/916qaas8wh6mvv6ao7xg9/eks-upgrade-term-eks-upgrade-policy.png?rlkey=khxnf95axxo4pb3saob7y57us&raw=1)
+
 It turned out this field isn't a status showing whether the cluster is currently on extended support. It's a policy that decides what happens when standard support ends: with `EXTENDED`, the cluster moves to extended support and you pay for it, and with `STANDARD`, AWS upgrades it automatically. So I confirmed that the charge had stopped using the daily amounts in AWS Cost Explorer, not this value.
 
 Leaving this setting as-is means the charge will come back the same way when standard support for 1.35 ends on March 27, 2027. But switching to `STANDARD` could trigger an automatic upgrade at a time we don't want. So I thought choosing the timing myself was better and kept `EXTENDED`, while documenting separately that the work has to be done before the end of standard support.
@@ -210,14 +209,7 @@ My biggest worry was authentication. Each MySQL account has an authentication pl
 
 However, RDS doesn't use MySQL as-is; it manages its own default parameters. So I directly queried the `mysql8.4` default parameters to see whether RDS really had the same default.
 
-```bash
-aws rds describe-engine-default-parameters \
-  --db-parameter-group-family mysql8.4
-```
-
-```
-mysql_native_password   ON    IsModifiable: false
-```
+![The mysql8.4 defaults queried with aws rds describe-engine-default-parameters: mysql_native_password is ON and not modifiable](https://www.dropbox.com/scl/fi/bw7miezjtpv0979l814n1/eks-upgrade-term-rds-mysql84-auth.png?rlkey=jybjwb8l2ylaey9oh6tvrfq3r&raw=1)
 
 RDS keeps this plugin enabled and fixed. If I had decided based only on the MySQL documentation, I might have done an unnecessary account migration on the production DB first.
 

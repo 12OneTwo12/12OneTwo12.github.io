@@ -8,7 +8,12 @@ tags:
   - "istio"
   - "ingress-nginx"
 date: '2026-11-05'
+description: "미뤄 둔 EKS 노드를 실패 건수를 재며 롤링하고, ingress-nginx를 Gateway API(Istio)로 옮겨 1.37까지 올린 과정"
+images:
+  - "https://www.dropbox.com/scl/fi/7jtibm0aix0hrworqgkus/eks-upgrade-cover-part2.ko.png?rlkey=5th2mgawgs0y0n0ixn6ff3ifq&raw=1"
 ---
+
+![EKS 업그레이드 2/2편 표지](https://www.dropbox.com/scl/fi/7jtibm0aix0hrworqgkus/eks-upgrade-cover-part2.ko.png?rlkey=5th2mgawgs0y0n0ixn6ff3ifq&raw=1)
 
 전편: [[EKS 업그레이드 1/2편] 표준 지원이 끝난 EKS와 MySQL, 연장 지원 요금을 멈추기까지]({{< relref "/blog/infrastructure/eks-mysql-end-of-standard-support-upgrade" >}})
 
@@ -181,24 +186,9 @@ Gateway API는 스펙이기 때문에, 실제로 트래픽을 처리할 구현�
 
 기존에는 인그레스 컨트롤러 하나가 개발과 운영 트래픽을 함께 받고 있었습니다. 이번에는 Istio의 컨트롤 플레인인 istiod는 하나로 두고, 실제로 트래픽을 받는 Gateway(Envoy와 NLB)는 개발과 운영을 나눴습니다.
 
-```mermaid
-flowchart TB
-    subgraph BEFORE["이전"]
-        direction LR
-        U1["사용자"] --> CDN1["CDN"] --> NLB1["NLB"] --> NG["ingress-nginx<br/>(개발·운영 공용)"]
-        NG --> A1["운영 앱"]
-        NG --> D1["개발 앱"]
-    end
-    subgraph AFTER["이후"]
-        direction LR
-        U2["사용자"] --> CDN2["CDN"]
-        CDN2 --> NLBP["운영 NLB"] --> GWP["운영 Gateway"] --> A2["운영 앱"]
-        CDN2 --> NLBD["개발 NLB"] --> GWD["개발 Gateway"] --> D2["개발 앱"]
-        ISTIOD["istiod"] -.-> GWP
-        ISTIOD -.-> GWD
-    end
-    BEFORE ~~~ AFTER
-```
+![이전 구조. 사용자, CDN, NLB 하나, 개발·운영 공용 ingress-nginx를 거쳐 운영 앱과 개발 앱으로](https://www.dropbox.com/scl/fi/4xz4d07azfimmzq5t4dc6/eks-upgrade-p2-ingress-before.ko.png?rlkey=d3zxus2qhzlbhoy8ju4zfi1vc&raw=1)
+
+![이후 구조. CDN에서 운영 NLB와 개발 NLB로 나뉘고 각각 운영 Gateway와 개발 Gateway를 거쳐 앱으로. istiod가 두 Gateway에 설정을 배포](https://www.dropbox.com/scl/fi/0ggkxn172pcq9hroit2e3/eks-upgrade-p2-ingress-after.ko.png?rlkey=k6npon97xxdf7q9ootrvfgacn&raw=1)
 
 개발 쪽 설정을 바꾸다 실수하더라도 그 영향이 운영 트래픽까지 번지지 않게 하고 싶었고, 나중에 Istio를 버전업할 때도 개발 Gateway부터 먼저 바꿔볼 수 있기 때문입니다. 또 NLB 어노테이션이나 노드 배치 같은 AWS 전용 설정은 Gateway마다 ConfigMap 한 곳에만 모아두고, 경로를 정의하는 HTTPRoute에는 넣지 않았습니다. 나중에 다른 클러스터로 옮기게 되더라도 고칠 곳을 줄이기 위해서였습니다.
 
