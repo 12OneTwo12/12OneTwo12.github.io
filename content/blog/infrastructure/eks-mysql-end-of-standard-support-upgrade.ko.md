@@ -8,7 +8,12 @@ tags:
   - "rds"
   - "cost"
 date: '2026-10-14'
+description: "AWS 청구서로 알게 된 EKS 1.33·MySQL 8.0 연장 지원 요금. 원인을 찾고 컨트롤 플레인부터 올려 요금을 멈춘 과정"
+images:
+  - "https://www.dropbox.com/scl/fi/tdqirigzaa9xwz91qix7w/eks-upgrade-cover-part1.ko.png?rlkey=2oxgzwnohpb52ixe203l23zxe&raw=1"
 ---
+
+![EKS 업그레이드 1/2편 표지](https://www.dropbox.com/scl/fi/tdqirigzaa9xwz91qix7w/eks-upgrade-cover-part1.ko.png?rlkey=2oxgzwnohpb52ixe203l23zxe&raw=1)
 
 안녕하세요. 프롭테크 플랫폼에서 백엔드 개발자로 근무 중인 정정일입니다.
 
@@ -127,17 +132,9 @@ service-c-pdb   1               0
 
 ### 컨트롤 플레인만 먼저 올린 이유
 
-```mermaid
-flowchart LR
-    subgraph CP["컨트롤 플레인 (요금 기준)"]
-        direction LR
-        A["1.33"] --> B["1.34"] --> C["1.35"]
-    end
-    subgraph NODE["노드 kubelet"]
-        N["1.33 유지"]
-    end
-    C -. "버전 차이 2<br/>(허용 범위 3)" .- N
-```
+![EKS 클러스터 구조. AWS가 관리하는 컨트롤 플레인만 1.35로 올리고, 노드그룹 dev·spot·on-demand는 kubelet 1.33을 유지. spot에는 PDB 없는 인그레스와 minAvailable 1인 서비스가 있음](https://www.dropbox.com/scl/fi/aqlicikbfhrgwgz1wyhhf/eks-upgrade-p1-cluster-structure.ko.png?rlkey=xb6ctzzoozp1hopy0q18zjjby&raw=1)
+
+*컨트롤 플레인(요금 기준)만 먼저 올리고, 노드 롤링을 막던 인그레스와 PDB가 있는 노드그룹은 1.33에 남겨둔 구조*
 
 1.35까지 올려도 노드와의 차이는 2라 허용 범위 안이었습니다. 그래서 컨트롤 플레인만 1.35까지 올리고 노드는 1.33에 두기로 했습니다. 컨트롤 플레인 업그레이드는 노드를 건드리지 않아 파드가 재시작되지 않고, 요금은 기존과 동일하게 표준 지원 요금만 부과되죠. 노드는 인그레스를 이중화하고 PDB를 정리한 뒤 별도 일정으로 버전업을 진행하기로 결정했습니다.
 
@@ -185,6 +182,8 @@ plan을 보다가 하나 더 걸린 게 있었습니다. EKS와 상관없는 변
 
 컨트롤 플레인의 버전업이 끝난 뒤 요금이 표준 요금으로 산정됐는지 확인하는 과정에서 예상과 다른 값이 하나 있었습니다. 업그레이드 후 `upgradePolicy.supportType`이 `EXTENDED`에서 `STANDARD`로 바뀌는지 확인했는데, 1.34로 올린 뒤에도 값이 `EXTENDED` 그대로였습니다.
 
+![aws eks describe-cluster로 조회한 upgradePolicy. supportType이 EXTENDED](https://www.dropbox.com/scl/fi/916qaas8wh6mvv6ao7xg9/eks-upgrade-term-eks-upgrade-policy.png?rlkey=khxnf95axxo4pb3saob7y57us&raw=1)
+
 찾아보니 이 필드는 지금 연장 지원 중인지를 나타내는 상태값이 아니라, 표준 지원이 끝났을 때 어떻게 할지를 정하는 정책값이었습니다. `EXTENDED`면 연장 지원으로 넘어가 요금을 내고, `STANDARD`면 AWS가 자동으로 업그레이드하는 옵션을 표기해둔 거였죠. 그래서 요금이 멈췄는지는 이 값이 아니라 AWS Cost Explorer의 일별 금액으로 확인했습니다.
 
 이 설정을 그대로 두면 1.35 표준 지원이 끝나는 2027년 3월 27일에 같은 방식으로 요금이 다시 붙게 됩니다. 그렇다고 `STANDARD`로 바꾸면 저희가 원하지 않는 시점에 자동으로 버전업이 일어날 수 있죠. 그래서 저는 시점을 직접 고르는 쪽이 낫다고 보고 `EXTENDED`를 유지했습니다. 대신 표준 지원 기간이 종료되기 전에 작업해야 한다는 사실을 문서로 정리해두고 말이죠.
@@ -210,14 +209,7 @@ EKS를 정리하고 나니 남은 건 RDS였습니다. 앞에서 본 것처럼 M
 
 그런데 RDS는 MySQL을 그대로 쓰는 게 아니라 기본 파라미터를 따로 관리하고 있습니다. 그래서 RDS에서도 정말 같은 기본값인지 `mysql8.4` 기본 파라미터를 직접 조회해봤습니다.
 
-```bash
-aws rds describe-engine-default-parameters \
-  --db-parameter-group-family mysql8.4
-```
-
-```
-mysql_native_password   ON    IsModifiable: false
-```
+![aws rds describe-engine-default-parameters로 조회한 mysql8.4 기본값. mysql_native_password는 ON이고 수정 불가](https://www.dropbox.com/scl/fi/bw7miezjtpv0979l814n1/eks-upgrade-term-rds-mysql84-auth.png?rlkey=jybjwb8l2ylaey9oh6tvrfq3r&raw=1)
 
 RDS는 이 플러그인을 켜둔 채로 고정하고 있었습니다. MySQL 문서만 보고 판단했다면 필요 없는 계정 전환을 운영 DB에서 먼저 했을 수 있었죠.
 

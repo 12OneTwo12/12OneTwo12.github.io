@@ -8,7 +8,12 @@ tags:
   - "istio"
   - "ingress-nginx"
 date: '2026-11-05'
+description: "How we rolled the deferred EKS nodes while counting failed requests, moved from ingress-nginx to Gateway API (Istio), and upgraded to 1.37"
+images:
+  - "https://www.dropbox.com/scl/fi/bzb7up5a7rg6b8gb5638s/eks-upgrade-cover-part2.en.png?rlkey=ffo2jgmq3fczk7552w0o7trbd&raw=1"
 ---
+
+![EKS Upgrade 2/2 cover](https://www.dropbox.com/scl/fi/bzb7up5a7rg6b8gb5638s/eks-upgrade-cover-part2.en.png?rlkey=ffo2jgmq3fczk7552w0o7trbd&raw=1)
 
 Previous: [[EKS Upgrade 1/2] EKS and MySQL After End of Standard Support: Stopping the Extended Support Charges]({{< relref "/blog/infrastructure/eks-mysql-end-of-standard-support-upgrade" >}})
 
@@ -181,24 +186,9 @@ I also set one rule. We wouldn't use Istio-specific extensions (EnvoyFilter) and
 
 Previously, a single ingress controller handled both development and production traffic. This time, I kept one istiod as the control plane, but split the Gateways that actually receive traffic (Envoy and NLB) into development and production.
 
-```mermaid
-flowchart TB
-    subgraph BEFORE["Before"]
-        direction LR
-        U1["User"] --> CDN1["CDN"] --> NLB1["NLB"] --> NG["ingress-nginx<br/>(shared by dev and prod)"]
-        NG --> A1["Production app"]
-        NG --> D1["Development app"]
-    end
-    subgraph AFTER["After"]
-        direction LR
-        U2["User"] --> CDN2["CDN"]
-        CDN2 --> NLBP["Production NLB"] --> GWP["Production Gateway"] --> A2["Production app"]
-        CDN2 --> NLBD["Development NLB"] --> GWD["Development Gateway"] --> D2["Development app"]
-        ISTIOD["istiod"] -.-> GWP
-        ISTIOD -.-> GWD
-    end
-    BEFORE ~~~ AFTER
-```
+![Before: users, CDN, one NLB, and a single ingress-nginx shared by dev and prod, routing to production and dev apps](https://www.dropbox.com/scl/fi/yby2k5s2nktiussd5a5ok/eks-upgrade-p2-ingress-before.en.png?rlkey=29yfdugx26rl88y3amsah9z6c&raw=1)
+
+![After: the CDN splits into a production NLB and a dev NLB, each going through its own Gateway to the apps, with istiod distributing config to both Gateways](https://www.dropbox.com/scl/fi/r1eculszpdcxks960f8nv/eks-upgrade-p2-ingress-after.en.png?rlkey=hxs3wgqnwrv42wm0g3rt844u1&raw=1)
 
 I wanted to keep configuration mistakes on the development side from spreading to production traffic, and when upgrading Istio, we can try it on the development Gateway first. AWS-specific settings (NLB annotations, node placement) are kept in a single ConfigMap per Gateway and not in the HTTPRoutes that define the paths. The idea was to reduce what needs changing if we ever move to another cluster.
 
