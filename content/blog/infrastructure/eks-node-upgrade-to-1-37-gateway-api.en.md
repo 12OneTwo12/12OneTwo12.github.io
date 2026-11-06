@@ -306,7 +306,7 @@ I applied the same settings to the production Gateway and rolled the production 
 
 | Failure | Count | Cause |
 |---|---|---|
-| 35 to 43 s after a Gateway pod terminated | 7 | The NLB kept sending connections to the terminated pod after 30 s. A 30 s drain wasn't enough |
+| 35 to 43 s after a Gateway pod terminated | 6 | The NLB kept sending connections to the terminated pod after 30 s. A 30 s drain wasn't enough |
 | While the LBC leader pod was moving | 6 | The controller leader on the same node was moved, and NLB target deregistration stopped for 20 s until a new leader was elected |
 | App pod termination | 1 | The app-side propagation delay seen with 1.35 |
 
@@ -323,6 +323,12 @@ So I increased the Envoy drain to 90 seconds to cover both the NLB deregistratio
 | Production node groups | about 16 min | 6 of 2,405 |
 
 Failures on the Gateway path went to 0. The remaining 6 were clustered within 7 seconds. The requests recorded in the Gateway access logs showed the client disconnecting first while waiting for a response, and the app logs at the same time showed cache server reconnection failures. As the spot node was drained, a cache server pod was moved, and while the app waited to reconnect, responses went over 3 seconds. I had thought a short cache outage was fine since reads can fall back to the DB, but in practice the responses themselves were delayed for the few seconds spent waiting to reconnect. I think whether a cache can be allowed to stop depends on how quickly the app gives up when it can't use the cache. I've left the cache server's PDB and the app's timeout as next work.
+
+Here are the 1.36 and 1.37 production node rollouts side by side, minute by minute.
+
+![Failed requests per minute during the 1.36 and 1.37 production node rollouts. 1.36 had 13 between minutes 5 and 9 from an app pod terminating, Gateway pods terminating, and the LBC leader moving; 1.37 had 6 at minute 8 from a cache server pod moving](/images/eks-upgrade/node-rollout-failures.en.png)
+
+For reference, even after the rollout was completely done and nothing was happening, the 4-requests-per-second measurement recorded 3 three-second timeouts out of 2,082 requests. That means the measurement path itself has about this much noise, so please read the numbers in the tables above with that margin in mind.
 
 With that, the control plane and all nodes were on 1.37. Standard support for 1.37 runs until December 1, 2027.
 
