@@ -10,10 +10,10 @@ tags:
 date: '2026-10-14'
 description: "How we traced EKS 1.33 and MySQL 8.0 extended support charges on our AWS bill and stopped them by upgrading the control plane first"
 images:
-  - "https://www.dropbox.com/scl/fi/zb7410deigzzynd0re6vj/eks-upgrade-cover-part1.en.png?rlkey=kom5rwfeiczhhz10qrpzvw5ki&raw=1"
+  - "https://www.dropbox.com/scl/fi/gqf0ppjb39xbnxkxl0ri0/eks-upgrade-cover-part1.png?rlkey=sq0q0xrm8w37nnqlwptylv5fk&raw=1"
 ---
 
-![EKS Upgrade 1/2 cover](https://www.dropbox.com/scl/fi/zb7410deigzzynd0re6vj/eks-upgrade-cover-part1.en.png?rlkey=kom5rwfeiczhhz10qrpzvw5ki&raw=1)
+![EKS Upgrade 1/2 cover](https://www.dropbox.com/scl/fi/gqf0ppjb39xbnxkxl0ri0/eks-upgrade-cover-part1.png?rlkey=sq0q0xrm8w37nnqlwptylv5fk&raw=1)
 
 Hello, I'm Jeong Jeong-il, a backend developer working at a PropTech platform.
 

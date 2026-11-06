@@ -10,10 +10,10 @@ tags:
 date: '2026-11-05'
 description: "How we rolled the deferred EKS nodes while counting failed requests, moved from ingress-nginx to Gateway API (Istio), and upgraded to 1.37"
 images:
-  - "https://www.dropbox.com/scl/fi/bzb7up5a7rg6b8gb5638s/eks-upgrade-cover-part2.en.png?rlkey=ffo2jgmq3fczk7552w0o7trbd&raw=1"
+  - "https://www.dropbox.com/scl/fi/ga1wn614tl7sn7zm9m9nb/eks-upgrade-cover-part2.png?rlkey=8fht2r1sg9qsc8qu25jxl75or&raw=1"
 ---
 
-![EKS Upgrade 2/2 cover](https://www.dropbox.com/scl/fi/bzb7up5a7rg6b8gb5638s/eks-upgrade-cover-part2.en.png?rlkey=ffo2jgmq3fczk7552w0o7trbd&raw=1)
+![EKS Upgrade 2/2 cover](https://www.dropbox.com/scl/fi/ga1wn614tl7sn7zm9m9nb/eks-upgrade-cover-part2.png?rlkey=8fht2r1sg9qsc8qu25jxl75or&raw=1)
 
 Previous: [[EKS Upgrade 1/2] EKS and MySQL After End of Standard Support: Stopping the Extended Support Charges]({{< relref "/blog/infrastructure/eks-mysql-end-of-standard-support-upgrade" >}})
 

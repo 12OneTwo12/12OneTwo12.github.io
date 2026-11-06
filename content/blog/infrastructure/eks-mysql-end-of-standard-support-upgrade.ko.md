@@ -10,10 +10,10 @@ tags:
 date: '2026-10-14'
 description: "AWS 청구서로 알게 된 EKS 1.33·MySQL 8.0 연장 지원 요금. 원인을 찾고 컨트롤 플레인부터 올려 요금을 멈춘 과정"
 images:
-  - "https://www.dropbox.com/scl/fi/tdqirigzaa9xwz91qix7w/eks-upgrade-cover-part1.ko.png?rlkey=2oxgzwnohpb52ixe203l23zxe&raw=1"
+  - "https://www.dropbox.com/scl/fi/gqf0ppjb39xbnxkxl0ri0/eks-upgrade-cover-part1.png?rlkey=sq0q0xrm8w37nnqlwptylv5fk&raw=1"
 ---
 
-![EKS 업그레이드 1/2편 표지](https://www.dropbox.com/scl/fi/tdqirigzaa9xwz91qix7w/eks-upgrade-cover-part1.ko.png?rlkey=2oxgzwnohpb52ixe203l23zxe&raw=1)
+![EKS 업그레이드 1/2편 표지](https://www.dropbox.com/scl/fi/gqf0ppjb39xbnxkxl0ri0/eks-upgrade-cover-part1.png?rlkey=sq0q0xrm8w37nnqlwptylv5fk&raw=1)
 
 안녕하세요. 프롭테크 플랫폼에서 백엔드 개발자로 근무 중인 정정일입니다.
 
