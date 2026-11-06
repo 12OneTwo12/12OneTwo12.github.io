@@ -46,13 +46,7 @@ APN2-AmazonEKS-Hours:extendedSupport     $371.00
 
 The item names contained ExtendedSupport, and when I queried them day by day, the same amount was being charged every day starting the day after each version's end of standard support. These were charges that came from the end of the standard support period for specific versions of services we were using.
 
-```mermaid
-flowchart LR
-    A["7/29<br/>EKS 1.33 standard support ends"] --> B["From 7/29<br/>EKS $12 every day"]
-    C["7/31<br/>MySQL 8.0 standard support ends"] --> D["From 8/1<br/>RDS $17.28 every day"]
-    B --> E["Early September<br/>found in the August bill"]
-    D --> E
-```
+![Daily extended support charges. EKS $12 a day from July 29 and MySQL $17.28 a day from August 1, dropping to $0 after the September 2 upgrade](/images/eks-upgrade/extended-support-daily-cost.en.png)
 
 Nothing about our service setup had changed. The standard support for the versions we were using had ended, and AWS had automatically moved them to extended support.
 
