@@ -46,12 +46,18 @@ APN2-AmazonEKS-Hours:extendedSupport     $371.00
 
 항목 이름에 ExtendedSupport가 붙어 있었고, 일별로 다시 조회해보니 각 버전의 표준 지원 종료일 다음 날부터 매일 같은 금액이 찍히고 있었습니다. 저희가 사용하는 서비스의 특정 버전의 표준 지원 기간이 종료돼 발생한 금액이었던 거죠.
 
-![일별 연장 지원 요금. 7월 29일부터 EKS가 매일 $12, 8월 1일부터 MySQL이 매일 $17.28씩 붙다가 9월 2일 버전업 후 0원이 됨](/images/eks-upgrade/extended-support-daily-cost.ko.png)
+![Cost Explorer에서 사용량 유형별로 본 일별 연장 지원 요금. 7월 29일부터 EKS, 8월 1일부터 MySQL 요금이 매일 같은 금액으로 붙다가 9월 2일 이후 사라짐](https://www.dropbox.com/scl/fi/6zfavxrdlsn1uf59419dc/eks-upgrade-cost-explorer-extended-support.png?rlkey=2wcxkmubw9lpznuteqeuxowfb&raw=1)
+
+*Cost Explorer에서 사용량 유형별로 나눠 본 일별 요금. 매일 같은 높이의 막대가 특정 날짜부터 시작됩니다.*
 
 저희 서비스 구성이 바뀐 건 없는데, 쓰던 버전의 표준 지원이 끝나면서 AWS가 자동으로 연장 지원으로 넘긴 것이었습니다.
 
 > AWS 표준 지원이란?
 > EKS나 RDS처럼 오픈소스(쿠버네티스, MySQL 등)를 AWS가 관리형으로 제공하는 서비스에는 버전마다 지원 기간이 정해져 있습니다. 표준 지원(Standard Support) 기간에는 AWS가 해당 버전에 보안 패치와 버그 수정을 제공하고, 추가 요금 없이 평소 요금으로 쓸 수 있습니다. 이 기간이 끝나면 연장 지원(Extended Support)으로 넘어가는데, 연장 지원 기간에도 보안 패치는 계속 제공되지만 업그레이드할 시간을 더 주는 대가로 추가 요금이 붙습니다. 연장 지원까지 끝나면 AWS가 지원되는 버전으로 자동 업그레이드합니다.
+
+![AWS 문서의 EKS 쿠버네티스 버전 릴리스 캘린더. 1.33의 표준 지원 종료일은 2026년 7월 29일, 1.35는 2027년 3월 27일](https://www.dropbox.com/scl/fi/f0rxdp8elfy99g44z4zm8/eks-upgrade-eks-release-calendar.png?rlkey=98bav2nysz3o1548w1t3bu0ro&raw=1)
+
+*AWS 문서의 [EKS 버전 릴리스 캘린더](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-release-calendar). 저희가 쓰던 1.33의 표준 지원은 2026년 7월 29일에 끝났습니다.*
 
 AWS는 표준 지원 종료 전에 안내를 발송해 주는데, 저희 계정에도 안내 메일은 와 있었습니다. 다만 AWS 계정 연락처로 등록된 메일 계정을 당시에는 제가 확인할 수 없었습니다. 이 메일 계정이 담당자가 바뀌는 과정에서 매끄럽게 인수인계가 되지 않았고, 인프라를 혼자 맡다 보니 그 계정을 누가 보고 있는지 확인하는 일이 뒤로 밀려 있었습니다. 돌아보면 제가 챙기지 못한 부분이 있다는 걸 깨달아 마음이 무거웠습니다. 지금은 해당 계정을 넘겨받아 제가 직접 관리하고 있습니다.
 

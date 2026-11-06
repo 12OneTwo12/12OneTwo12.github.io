@@ -140,6 +140,10 @@ For EKS add-ons, AWS provides the compatibility list per version through its API
 
 The biggest of the three was ingress-nginx. The retirement announcement on the official Kubernetes blog explains why.
 
+![The ingress-nginx retirement announcement on the official Kubernetes blog, stating best-effort maintenance until March 2026 and no security fixes afterward](https://www.dropbox.com/scl/fi/d3u3zn7r2tjaeuuk9gwbf/eks-upgrade-k8s-ingress-nginx-retirement.png?rlkey=l2l4a64jt81d3lbyw7ajntxz3&raw=1)
+
+*The [retirement announcement](https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/) on the official Kubernetes blog (November 11, 2025)*
+
 > For years, the project has had only one or two people doing development work, on their own time, after work hours and on weekends.
 >
 > What were once considered helpful options have sometimes come to be considered serious security flaws, such as the ability to add arbitrary NGINX configuration directives via the "snippets" annotations.
@@ -326,11 +330,19 @@ Failures on the Gateway path went to 0. The remaining 6 were clustered within 7 
 
 Here are the 1.36 and 1.37 production node rollouts side by side, minute by minute.
 
-![Failed requests per minute during the 1.36 and 1.37 production node rollouts. 1.36 had 13 between minutes 5 and 9 from an app pod terminating, Gateway pods terminating, and the LBC leader moving; 1.37 had 6 at minute 8 from a cache server pod moving](/images/eks-upgrade/node-rollout-failures.en.png)
+![Failed requests per minute during the 1.36 and 1.37 production node rollouts. 1.36 had 13 between minutes 5 and 9 from an app pod terminating, Gateway pods terminating, and the LBC leader moving; 1.37 had 6 at minute 8 from a cache server pod moving](https://www.dropbox.com/scl/fi/4snbnu2ucgqwq96nydzwo/eks-upgrade-node-rollout-failures.en.png?rlkey=ktna9e8m03jj0sqi78cdsgx5j&raw=1)
 
 For reference, even after the rollout was completely done and nothing was happening, the 4-requests-per-second measurement recorded 3 three-second timeouts out of 2,082 requests. That means the measurement path itself has about this much noise, so please read the numbers in the tables above with that margin in mind.
 
 With that, the control plane and all nodes were on 1.37. Standard support for 1.37 runs until December 1, 2027.
+
+![The cluster list in the EKS console showing Kubernetes version 1.37 with standard support until December 1, 2027](https://www.dropbox.com/scl/fi/oz9ey2r2a1o9zzf35ttts/eks-upgrade-eks-console-cluster-1.37.png?rlkey=nif6isskkqsmkyjb5joscqlkz&raw=1)
+
+![The node group list in the EKS console showing all three node groups, dev, on-demand, and spot, on AMI 1.37.1](https://www.dropbox.com/scl/fi/cs9yjqxdlwx3dirikn6k0/eks-upgrade-eks-console-nodegroups-1.37.png?rlkey=hzdgzbvl5zsl9y7qxtcotoy0z&raw=1)
+
+![kubectl showing server version v1.37.1 and kubelet version v1.37.1 on all six nodes](https://www.dropbox.com/scl/fi/ix3chg975hbagalgiink4/eks-upgrade-kubectl-nodes-1.37.png?rlkey=qjkmz2xnfn86ix1t00h1kmava&raw=1)
+
+*The final state as seen in the EKS console and with kubectl: the control plane, all three node groups, and all six nodes are on 1.37.*
 
 ## Closing
 
