@@ -140,6 +140,10 @@ EKS 애드온은 AWS가 버전별 호환 목록을 API로 알려주지만, Helm�
 
 셋 중 가장 큰 문제는 ingress-nginx였습니다. 쿠버네티스 공식 블로그의 지원 종료 공지를 보면 그 이유가 적혀 있습니다.
 
+![쿠버네티스 공식 블로그의 ingress-nginx 지원 종료 공지. 2026년 3월까지만 유지보수하고 이후 보안 패치도 없다는 내용](https://www.dropbox.com/scl/fi/d3u3zn7r2tjaeuuk9gwbf/eks-upgrade-k8s-ingress-nginx-retirement.png?rlkey=l2l4a64jt81d3lbyw7ajntxz3&raw=1)
+
+*쿠버네티스 공식 블로그의 [지원 종료 공지](https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/) (2025년 11월 11일)*
+
 > For years, the project has had only one or two people doing development work, on their own time, after work hours and on weekends.
 >
 > What were once considered helpful options have sometimes come to be considered serious security flaws, such as the ability to add arbitrary NGINX configuration directives via the "snippets" annotations.
@@ -328,11 +332,19 @@ Gateway 경로에서의 실패는 0건이 됐습니다. 남은 6건은 7초 안�
 
 1.36과 1.37 운영 노드 롤링을 분 단위로 나란히 놓고 보면 이렇습니다.
 
-![1.36과 1.37 운영 노드 롤링 중 분당 실패 요청 수. 1.36은 5~9분 사이 앱 파드 종료, Gateway 파드 종료, LBC 리더 이동으로 13건, 1.37은 8분에 캐시 서버 파드 이동으로 6건](/images/eks-upgrade/node-rollout-failures.ko.png)
+![1.36과 1.37 운영 노드 롤링 중 분당 실패 요청 수. 1.36은 5~9분 사이 앱 파드 종료, Gateway 파드 종료, LBC 리더 이동으로 13건, 1.37은 8분에 캐시 서버 파드 이동으로 6건](https://www.dropbox.com/scl/fi/icvfxguff5wzexrb5vgrm/eks-upgrade-node-rollout-failures.ko.png?rlkey=aqe4wx8den0gae8saq13f233b&raw=1)
 
 참고로 롤링이 다 끝나고 아무 작업도 하지 않던 시간에도 초당 4건 측정에서 2,082건 중 3건이 3초 타임아웃으로 찍혔습니다. 측정하는 경로 자체에도 이 정도의 잡음이 있다는 뜻이라, 위 표의 숫자도 이 정도 오차는 감안해서 봐주시면 될 것 같습니다.
 
 이렇게 컨트롤 플레인과 노드가 모두 1.37이 됐습니다. 1.37의 표준 지원은 2027년 12월 1일까지입니다.
+
+![EKS 콘솔의 클러스터 목록. 쿠버네티스 버전 1.37, 2027년 12월 1일까지 표준 지원](https://www.dropbox.com/scl/fi/oz9ey2r2a1o9zzf35ttts/eks-upgrade-eks-console-cluster-1.37.png?rlkey=nif6isskkqsmkyjb5joscqlkz&raw=1)
+
+![EKS 콘솔의 노드 그룹 목록. dev, on-demand, spot 세 노드그룹 모두 AMI 1.37.1](https://www.dropbox.com/scl/fi/cs9yjqxdlwx3dirikn6k0/eks-upgrade-eks-console-nodegroups-1.37.png?rlkey=hzdgzbvl5zsl9y7qxtcotoy0z&raw=1)
+
+![kubectl로 확인한 서버 버전 v1.37.1과 노드 6대의 kubelet 버전 v1.37.1](https://www.dropbox.com/scl/fi/ix3chg975hbagalgiink4/eks-upgrade-kubectl-nodes-1.37.png?rlkey=qjkmz2xnfn86ix1t00h1kmava&raw=1)
+
+*EKS 콘솔과 kubectl로 확인한 최종 상태. 컨트롤 플레인과 노드그룹 3개, 노드 6대가 모두 1.37입니다.*
 
 ## 마치며
 

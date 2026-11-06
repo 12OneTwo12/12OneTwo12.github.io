@@ -46,12 +46,18 @@ APN2-AmazonEKS-Hours:extendedSupport     $371.00
 
 The item names contained ExtendedSupport, and when I queried them day by day, the same amount was being charged every day starting the day after each version's end of standard support. These were charges that came from the end of the standard support period for specific versions of services we were using.
 
-![Daily extended support charges. EKS $12 a day from July 29 and MySQL $17.28 a day from August 1, dropping to $0 after the September 2 upgrade](/images/eks-upgrade/extended-support-daily-cost.en.png)
+![Daily extended support charges by usage type in Cost Explorer. EKS charges start July 29 and MySQL charges start August 1 at the same amount every day, disappearing after September 2](https://www.dropbox.com/scl/fi/6zfavxrdlsn1uf59419dc/eks-upgrade-cost-explorer-extended-support.png?rlkey=2wcxkmubw9lpznuteqeuxowfb&raw=1)
+
+*Daily charges by usage type in Cost Explorer. Bars of exactly the same height start on specific dates.*
 
 Nothing about our service setup had changed. The standard support for the versions we were using had ended, and AWS had automatically moved them to extended support.
 
 > What is AWS standard support?
 > For services where AWS provides open source software (Kubernetes, MySQL, and so on) as a managed service, like EKS and RDS, each version has a defined support period. During standard support, AWS provides security patches and bug fixes for that version, and you use it at the normal price with no additional charge. When that period ends, the version moves to extended support. Security patches continue during extended support, but an additional charge applies in exchange for giving you more time to upgrade. When extended support also ends, AWS automatically upgrades to a supported version.
+
+![The EKS Kubernetes release calendar in the AWS documentation. Standard support for 1.33 ends July 29, 2026, and for 1.35 on March 27, 2027](https://www.dropbox.com/scl/fi/f0rxdp8elfy99g44z4zm8/eks-upgrade-eks-release-calendar.png?rlkey=98bav2nysz3o1548w1t3bu0ro&raw=1)
+
+*The [EKS Kubernetes release calendar](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-release-calendar) in the AWS documentation. Standard support for 1.33, which we were running, ended on July 29, 2026.*
 
 AWS sends a notice before standard support ends, and the notice had arrived in our account. However, I couldn't access the mailbox registered as the AWS account contact at the time. That mailbox hadn't been handed over smoothly when the person in charge changed, and since I handle infrastructure alone, checking who was reading that mailbox had been pushed back. Looking back, I realized there was something I had failed to take care of, and it weighed on me. I've since taken over that account and manage it directly.
 
