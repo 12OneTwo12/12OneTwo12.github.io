@@ -19,11 +19,11 @@ Previous: [[EKS Upgrade 1/2] EKS and MySQL After End of Standard Support: Stoppi
 
 Hello, I'm Jeong Jeong-il, a backend developer working at a PropTech platform.
 
-In the previous post, I wrote about upgrading only the EKS control plane to 1.35 to stop the extended support charges, while leaving the nodes at 1.33. This post is about upgrading those deferred nodes.
+This post continues from the previous one. It covers upgrading the EKS nodes I had deferred in September, and taking the cluster all the way to 1.37.
 
-The original goal was just to bring the nodes to 1.35. But once the nodes were aligned and I checked the next upgrade, what was blocking the next version wasn't Kubernetes but the ingress controller we had installed ourselves. So I ended up moving the ingress to Gateway API and upgrading the cluster all the way to 1.37.
+Back in September, extended support charges were being billed for EKS and MySQL versions whose AWS standard support had ended. Stopping those charges came first, so I upgraded only the EKS control plane to 1.35 and left the nodes at 1.33. This round of work started with bringing those nodes up to date, but along the way it grew into moving our ingress controller to Gateway API as well.
 
-What I cared about most throughout was not interrupting the service. Every time I rolled the nodes, I kept sending requests from outside and counted the failures. When failures showed up, I found the cause, fixed it, and measured again. Those numbers are the core of this post.
+In this post, I'll go over why the nodes had to be upgraded, how I rolled them without interrupting the service, and why the ingress controller had to be replaced along with what I ran into while migrating it.
 
 ---
 
