@@ -176,7 +176,7 @@ When upgrading the cluster version, EKS add-ons like coredns, kube-proxy, and vp
 | 1.33 → 1.34 | about 8 min | 0 pods restarted, 0 unhealthy pods, 0 ingress restarts, nodes stayed at 1.33 |
 | 1.34 → 1.35 | similar | same result |
 
-While the control plane is being replaced, requests to the API server can fail briefly. ArgoCD, our deployment tool, also talks to the API server constantly, so I paused ArgoCD syncs during the upgrade.
+While the control plane is being replaced, requests to the API server can fail briefly. Argo CD, our deployment tool, also talks to the API server constantly, so I paused Argo CD syncs during the upgrade.
 
 ### What `supportType` Means
 

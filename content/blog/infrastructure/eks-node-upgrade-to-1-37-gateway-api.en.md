@@ -19,7 +19,7 @@ Previous: [[EKS Upgrade 1/2] EKS and MySQL After End of Standard Support: Stoppi
 
 Hello, I'm Jeong Jeong-il, a backend developer working at a PropTech platform.
 
-This post continues from the previous one. It covers upgrading the EKS nodes I had deferred in September, and taking the cluster all the way to 1.37.
+This post continues from the previous one. It covers upgrading the EKS nodes I had deferred back then, and taking the cluster all the way to 1.37.
 
 Back in September, extended support charges were being billed for EKS and MySQL versions whose AWS standard support had ended. Stopping those charges came first, so I upgraded only the EKS control plane to 1.35 and left the nodes at 1.33. This round of work started with bringing those nodes up to date, but along the way it grew into moving our ingress controller to Gateway API as well.
 
@@ -29,7 +29,7 @@ In this post, I'll go over why the nodes had to be upgraded, how I rolled them w
 
 ## Why the Nodes Had to Be Upgraded
 
-After the September work, the cluster was at control plane 1.35 and nodes 1.33. The charge had stopped, but there were two reasons it couldn't stay that way.
+After the work in the previous post, the cluster was at control plane 1.35 and nodes 1.33. The charge had stopped, but there were two reasons it couldn't stay that way.
 
 One was that the node AMI was still the one built in March. Managed node groups don't replace the AMI on their own within the same Kubernetes version, so as long as the nodes aren't replaced, none of the OS, kernel, or containerd security patches released in the meantime get in.
 
@@ -37,33 +37,35 @@ The other was the version gap. It was already 2, and upgrading the control plane
 
 ## Settings Blocking a Node Rollout
 
-At first I thought, "Couldn't I just attach one more node during the rollout?" Looking into it, a managed node group update already launches new nodes first and then cordons (stops scheduling new pods on) and drains (evicts pods from) the old ones. The problem wasn't capacity; it was how the pods were set up.
+A managed node group upgrade launches nodes on the new version first, then cordons (stops scheduling new pods on), drains (evicts pods from), and terminates the old nodes one by one. In other words, every pod on every node goes down and comes back up on another node. So what I had to check before upgrading the nodes was whether the service could stay up while its pods were going down during this process.
 
-I took the two issues found in September and added one more.
+Our cluster wasn't set up that way, so the nodes couldn't be rolled right away. Looking into it, there were three places where the rollout could cause problems.
 
-| Target | State | When the node is drained |
-|---|---|---|
-| Ingress controller | 1 pod, no PDB | All external traffic is cut off until the new pod is up |
-| Services A, B, C | 1 pod + `minAvailable: 1` | Eviction is refused and the update fails |
-| Search engine | 2 pods, no anti-affinity or PDB | If both land on the same node, both go down together |
+- **Ingress controller with a single pod**: The ingress controller that receives all external traffic ran as a single pod with no PDB. Once the node running that pod was drained, every external request would fail until a new pod came up on another node.
+- **Services whose pods could share a node**: They had two pods, so they looked fine, but there was no anti-affinity to keep them on different nodes, and no PDB. At upgrade time they might happen to be on different nodes, but if both landed on the same node, requests would go unhandled for a moment when that node was drained.
 
-`minAvailable: 1` on a single pod is effectively the same as saying "never take this down." These settings had stayed hidden as long as there was no reason to replace nodes.
+- **Single-pod services with `minAvailable: 1`**: These ran as a single pod with a PDB of `minAvailable: 1`. Requiring at least one of a single pod to stay up is effectively saying "never take this down," so a node group update would fail because the drain couldn't evict these pods.
+None of these had caused problems while there was no reason to replace nodes. Of course, as with the single ingress pod, some of them could stop the service the moment a pod or node had trouble, upgrade or not. So each had to be fixed in its own way before upgrading the nodes.
 
 ## Handling Each Service
 
-The easiest fix would be to run two pods for everything, but two of the services were batch-style services that must run as a single instance to avoid duplicate processing.
+Before fixing anything, I set a standard. Services that receive user requests must not have downtime. On the other hand, services that can fall back to the database when they briefly stop, like a cache, and resources used only internally, like monitoring tools, could tolerate short interruptions. With that standard, I handled the three cases one by one.
 
-For those two, I kept a single pod and only changed the PDB to `maxUnavailable: 1`. Eviction during a drain deletes the old pod first, and then the ReplicaSet creates a new one, so there's never a moment when two pods run at the same time. I accepted the roughly one-minute pause until the new pod came up.
+- **Ingress controller with a single pod**: I ran two pods and added node-level anti-affinity and a PDB so the two pods wouldn't land on the same node.
+- **Services whose pods could share a node**: Same as the ingress controller, I added node-level anti-affinity and a PDB.
+- **Single-pod services with `minAvailable: 1`**: The easiest fix would be to run two pods, but some of these were batch-style services that must run as a single instance to avoid processing the same job twice. Adding a pod could cause duplicate processing, so they needed a different approach.
 
-Thinking this through, I learned one more thing. Both services used the default `RollingUpdate` strategy (maxSurge 25%, maxUnavailable 25%). With one pod, maxSurge rounds up to 1 and maxUnavailable rounds down to 0. That means the old pod keeps running until the new one is Ready, so on every deployment, two pods could briefly overlap. So I changed the strategy to `Recreate`. The requirement that only one instance runs at a time had to be enforced by the deployment strategy, not by the PDB.
+For the batch-style services, I kept a single pod and only changed the PDB to `maxUnavailable: 1`. Eviction during a drain deletes the old pod first, and then the ReplicaSet creates a new one, so there's never a moment when two pods run at the same time. I accepted the roughly one-minute pause until the new pod came up.
 
-For the ingress controller and the search engine, I ran two pods each and added node-level anti-affinity and PDBs so the two pods wouldn't land on the same node. For services that can briefly stop because reads can fall back to the source, like a cache, and for internal monitoring tools, I decided to allow short interruptions. The standard I set was that the paths user requests go through must not be interrupted.
+Thinking this through, I learned one more thing. These services used the default `RollingUpdate` strategy (maxSurge 25%, maxUnavailable 25%). With one pod, maxSurge rounds up to 1 and maxUnavailable rounds down to 0. That means the old pod keeps running until the new one is Ready, so on every deployment, two pods could briefly overlap. So I changed the strategy to `Recreate`. The requirement that only one instance runs at a time had to be enforced by the deployment strategy, not by the PDB.
 
 ## Upgrading the Nodes to 1.35 and What I Measured
 
+Changing the settings didn't tell me whether the service would actually stay up. So from here on, every time I rolled anything, I kept sending requests from outside and counted the failures. When failures showed up, I found the cause, fixed it, and measured again.
+
 ### Ingress Shutdown Handling
 
-With two ingress pods, I expected zero downtime. But when I rolled the ingress while sending a request every second from outside, 1 out of 89 requests failed with a 3-second timeout. Matching the failure time against events, it was the moment the old ingress pod received its termination signal.
+With two ingress pods, I expected zero downtime. But when I measured while rolling the ingress, 1 out of 89 requests failed with a 3-second timeout. Matching the failure time against events, it was the moment the old ingress pod received its termination signal.
 
 ```mermaid
 sequenceDiagram
@@ -93,7 +95,7 @@ There was a reason for splitting the measurement in two. Shutdown behavior follo
 
 ### Rehearsal on the Development Node Group
 
-The development node group lives in the same cluster as production, separated by taints, so I could rehearse on the same control plane and add-ons. I left the node group defaults as they were and set a version only on the development node group.
+The development node group lives in the same cluster as production, separated by taints, so I could rehearse on the same control plane and add-ons. I hadn't confirmed whether a node group could go from 1.33 to 1.35 in one step, so I followed the common recommendation and upgraded one minor version at a time. I left the node group defaults as they were and set 1.34 only on the development node group first.
 
 ```hcl
 eks_managed_node_group_defaults = {
@@ -109,27 +111,37 @@ eks_managed_node_groups = {
 
 One thing came up in the rehearsal. In the development environment, the server that hands out configuration to other services was a single pod. That server and the services waiting on it were moved at the same time, so some services couldn't get their configuration and kept restarting. A node group update evicts pods while respecting PDBs, but it doesn't take care of the startup order between services. For production, I confirmed that the configuration server had two pods and a PDB, so one would remain during the drain, and moved on.
 
+The rehearsal was also where I checked the node-side changes in 1.35. In 1.35, the kubelet no longer starts on cgroup v1 nodes with default settings, kube-proxy IPVS mode is deprecated, and it's the last release to support containerd 1.x. On our nodes, `/sys/fs/cgroup` was mounted as `cgroup2`, kube-proxy was in `iptables` mode, and containerd was 2.x, so none of the three affected us.
+
 ### Production Node Groups
 
-Production has a spot node group for stateless services and an on-demand node group for services that use volumes. During the rollout, I sent a request every second to each of the ingress, app, and legacy paths. Measuring only the ingress response wouldn't show failures while app pods were being moved.
+Production has a spot node group for stateless services and an on-demand node group for services that use volumes. During the rollout, I kept sending requests to one path answered directly by the ingress and to two paths that go through the ingress to an app. Measuring only the ingress response wouldn't show failures while app pods were being moved.
 
-| Step | Time | External request failures |
-|---|---|---|
-| spot 1.33 → 1.34 | 17 min 27 s | ingress and legacy 0 of 999, app 1 of 999 |
-| on-demand 1.33 → 1.34 | 7 min 49 s | 0 of 455 |
-| production all at once 1.34 → 1.35 | about 12 min | ingress and legacy 0 of 676, app 4 of 676 |
+| Step | Time | Ingress path failures | App path failures |
+|---|---|---|---|
+| spot 1.33 → 1.34 | 17 min 27 s | 0 of 999 | 1 of 1,998 |
+| on-demand 1.33 → 1.34 | 7 min 49 s | 0 of 455 | 0 of 910 |
+| production all at once 1.34 → 1.35 | about 12 min | 0 of 676 | 4 of 1,352 |
 
 The access logs showed that the failures on the app path were 503s returned by the app itself, not by the ingress. Spring Boot switches readiness to `REFUSING_TRAFFIC` and returns 503 when it starts shutting down, and I believe requests reached the terminating pod before it was removed from the endpoints. It meant the same propagation delay I saw at the ingress also existed for app pods.
 
-Since 1.35 has big node-side changes, I checked it on the development nodes first. `/sys/fs/cgroup` was mounted as `cgroup2`, kube-proxy was in `iptables` mode, and containerd was 2.x, so the removal of cgroup v1, the IPVS deprecation, and the end of containerd 1.x support didn't affect us.
-
-With that, all nodes were on 1.35, and the version gap with the control plane was 0.
+With that, all nodes were on 1.35, and the version gap with the control plane was 0. This finished the node upgrade I had put off in the previous post.
 
 ## Components Blocking 1.37
 
-With the nodes aligned, I wanted to go straight to 1.37. Standard support for 1.37 runs until December 2027, eight months more than 1.35.
+With the nodes aligned, I wanted to go straight to 1.37. Standard support for 1.37 runs until December 2027, eight months more than 1.35, and it also included security-related patches.
 
-Nothing on the Kubernetes side was in the way. EKS upgrade insights showed no use of APIs removed in 1.37, and neither 1.36 nor 1.37 removes any GA or beta APIs. The five EKS add-ons were also compatible with 1.37 at their current versions.
+So first I had to check what changes between 1.35 and 1.37. As with 1.35, I went through the 1.36 and 1.37 release notes and picked out the items that might apply to our cluster.
+
+| Version | Change | Our cluster |
+|---|---|---|
+| 1.36 | No GA or beta API removals | Not affected |
+| 1.36 | Service `externalIPs` field deprecated (removal planned for 1.43) | No Service uses `externalIPs` |
+| 1.37 | No GA or beta API removals | Not affected |
+| 1.37 | Some cAdvisor metrics removed (`container_cpu_load_average_10s`, etc.) | Not used in any dashboard or manifest |
+| 1.37 | kube-proxy IPVS mode logs a deprecation warning (off by default from 1.40, removal planned for 1.43) | We use `iptables` mode |
+
+Unlike 1.35, there was no change big enough to keep nodes from starting, and nothing applied to us. EKS upgrade insights also showed no use of APIs removed in 1.37, and the five EKS add-ons were compatible with 1.37 at their current versions, as long as kube-proxy was bumped at each step. Nothing on the Kubernetes side was in the way.
 
 What got in the way were the components we had installed ourselves.
 
@@ -139,7 +151,7 @@ What got in the way were the components we had installed ourselves.
 | Argo CD | A major upgrade from 2.x to 3.6 was needed for 1.37 to be in its tested range |
 | Node Termination Handler | Even the latest version was only tested up to 1.32 |
 
-For EKS add-ons, AWS provides the compatibility list per version through its API, but for controllers installed with Helm, you have to look up the supported range for each project separately. In September I had only checked the EKS version and hadn't looked at this list.
+For EKS add-ons, AWS provides the compatibility list per version through its API, but for controllers installed with Helm, you have to look up the supported range for each project separately. When I upgraded the control plane to 1.35 in the previous post, I had only checked the changes in each EKS version and the EKS add-on compatibility, not the supported ranges of components we had installed ourselves. I knew the ingress-nginx project had been retired, but this was when I learned the version we were running was already far outside its official support range.
 
 ### Why ingress-nginx Was Retired
 
@@ -159,28 +171,68 @@ The announcement also has this sentence.
 
 > Existing deployments will continue to work, so unless you proactively check, you may not know you are affected until you are compromised.
 
-Reading it reminded me of September. With EKS too, the cluster was running without any problems, so I didn't know standard support had ended until I saw the bill. ingress-nginx doesn't send that kind of signal through the bill, so if I hadn't looked into it this time, I think I would have gone even longer without knowing.
+Reading it reminded me of what happened in the previous post. Back then, too, the cluster was running without any problems, so I didn't know EKS standard support had ended until I saw our AWS costs go up.
+
+ingress-nginx didn't even have that. Nothing changes in cost when support ends, and the service keeps running fine. To be honest, I knew about the retirement, but since nothing was broken, I kept putting it off. Reviewing the 1.37 upgrade is what finally made it impossible to put off any longer.
 
 ## Choosing a Replacement
 
-The announcement says there's no drop-in replacement and recommends Gateway API or another Ingress controller. We decided to go with Gateway API, because no more features are being added to the Ingress API and new features are going into Gateway API instead.
+Next, I had to decide what to replace ingress-nginx with. The announcement says there's no drop-in replacement and recommends either moving to Gateway API or using another Ingress controller. So I compared two broad paths: keep the Ingress resources and swap only the controller, or move from Ingress to Gateway API.
 
 > What is Gateway API?
 > It's a standard API that defines how external traffic is connected to services inside a Kubernetes cluster. Where Ingress put all the configuration in one resource and left detailed features to controller-specific annotations, Gateway API separates the entry point that receives traffic (Gateway) from the routing rules (HTTPRoute), and defines features like path rewriting as standard fields. The implementations that actually handle traffic are provided separately by projects such as Istio, Envoy Gateway, and NGINX Gateway Fabric.
 
+The criterion was how much of our current configuration could carry over as is. Our Ingresses used regex paths and rewrites, CORS with multiple allowed origins, per-path body size limits and timeouts, and per-IP request rate limits.
+
+| Candidate | Approach | Strength | Drawback |
+|---|---|---|---|
+| Traefik | Swap the controller | Reads most ingress-nginx annotations as is | Would need another migration later to reach Gateway API |
+| F5 NGINX Ingress Controller | Swap the controller | Built on nginx, so behavior is closest to what we had | Different annotation names mean rewriting manifests, and another migration later |
+| AWS ALB | Swap the controller | Managed by AWS, so less to operate | CORS would move into app code, rate limits need WAF (extra cost), and timeouts can only be set per ALB |
+| Gateway API | Replace the API itself | The direction Kubernetes recommends, with features defined as standard fields | Every Ingress has to be rewritten as an HTTPRoute |
+
+At first I leaned toward Traefik. It could take our manifests almost unchanged, so the migration looked like the least work. But looking again, two things bothered me.
+
+First, rewriting manifests wasn't as big a deal as I thought. With only a dozen or so Ingresses, rewriting them would take a few hours. What really takes time is matching the behavioral differences between controllers one by one, and that cost was the same whichever candidate we chose.
+
+Second, I had assumed our rewrites would be hard to express in Gateway API. But when I pulled out every rewrite we actually used, all of them just stripped a prefix from the path, which Gateway API can express with a standard feature (more on this in the migration section below). The reason not to go straight to Gateway API was gone.
+
+Still, moving to Traefik wouldn't have been the end of it. The Ingress API itself isn't going away, but its standard covers very little, so features like rewrites and CORS have to be configured through annotations that differ by controller. The reason switching controllers was hard this time was exactly that our settings were tied to ingress-nginx annotations. Traefik works by reading those same ingress-nginx annotations, so even after moving, that structure would remain, and the next time we had to change controllers we'd go through the same thing again.
+
+Gateway API, on the other hand, defines these features as standard fields, so settings within the standard carry over even if you change implementations. That's also why Kubernetes recommends Gateway API as the successor to Ingress and adds new features only there. Rather than moving to Traefik and then to Gateway API someday, going straight to Gateway API was the way to avoid doing the same work twice.
+
+ALB's lower operational burden was appealing, but not enough to justify moving CORS into app code and paying for WAF. So I decided to move straight to Gateway API.
+
 ### Choosing a Gateway API Implementation
 
-Gateway API is a specification, and you have to choose an implementation that actually handles the traffic. Kubernetes doesn't recommend a specific implementation, so I compared them against our own criteria.
+Gateway API is a specification, so I still had to choose an implementation that actually handles the traffic. Kubernetes doesn't recommend a specific implementation, and the official implementation list only shows conformance test results. So I compared them against our own criteria.
 
-| Criterion | What I considered |
-|---|---|
-| Keeping up with new Kubernetes versions | The controller shouldn't block cluster upgrades like this time. At the time I looked, Envoy Gateway didn't state support for 1.37, while Istio 1.31 supports 1.32 through 1.37 |
-| Maintainers and support policy | I wanted to avoid something maintained by one or two people |
-| Future plans | We may consider a service mesh within about a year |
+There were three criteria.
 
-The first criterion mattered most. If I chose an implementation whose stated support only reached the version I was upgrading to now, I thought I'd run into the same thing again at the next upgrade. NGINX Gateway Fabric was also a candidate, but whichever implementation we chose, it would need to be upgraded continuously itself. Given that, I thought Istio was better since we could carry the same component forward to a mesh later. I went in knowing, though, that while we're not using Istio as a mesh, it could be a heavy choice for just the Gateway functionality.
+- **Tracking new Kubernetes versions**: The implementation must not block cluster upgrades the way ingress-nginx did. I looked at how long each took to support a new Kubernetes version, and whether its support period is defined by policy.
+- **Who maintains it**: I wanted to avoid anything maintained by one or two people.
+- **The features we use**: Whether rewrites, CORS, timeouts, body size limits, and per-IP request rate limits are supported as standard features or official configuration.
 
-I also set one rule. We wouldn't use Istio-specific extensions (EnvoyFilter) and would build everything with standard Gateway API resources only. One of the reasons for leaving ingress-nginx was non-standard configuration like snippets piling up, and I didn't want to repeat that after moving.
+I ruled out Cilium (it would mean replacing our CNI), AWS Load Balancer Controller and Traefik (only partial Gateway API conformance), and Kong (its default image is the paid edition), and compared the remaining four.
+
+| Implementation | Time to support a new version (1.34–1.37) | Support period policy | Maintainers | Drawback |
+|---|---|---|---|---|
+| Envoy Gateway | 50–162 days, no official 1.37 support at the time | 6 months per minor | Envoy org (CNCF), multiple companies | Had we picked it, our 1.37 upgrade would be blocked right now |
+| NGINX Gateway Fabric | 7–56 days (no test record for 1.36) | Not stated | F5 alone | No defined support period |
+| kgateway | 44–92 days | A minor about every 3 months | CNCF Sandbox, most maintainers from one company | Per-IP rate limiting needs a separate service |
+| Istio | 26–70 days | Until 6 weeks after the N+2 minor | CNCF graduated, multiple companies | Body size limits and per-IP rate limits fall outside standard features (need EnvoyFilter) |
+
+At first, NGINX Gateway Fabric looked like the strongest candidate. It's built on nginx, so body size limits, timeouts, and rate limits behave the same way they did before, and it supported 1.37 within a week. It would change the least during migration, which also looked like the lightest debugging load for someone handling infrastructure alone.
+
+But looking again, two things bothered me.
+
+First, whichever implementation we chose, we'd have to keep upgrading the implementation itself. What mattered, then, was whether it defines how long each version is supported, and NGINX Gateway Fabric doesn't. Given that we had missed the end of support for both EKS and ingress-nginx this time, I thought one with a stated support policy was the better choice.
+
+Second, we were considering adopting a service mesh within about a year. If we went with NGINX Gateway Fabric and later adopted a mesh, we'd have to run the ingress and the mesh separately or migrate the ingress once more. For the same reason I skipped Traefik earlier, I didn't want to do the same work twice.
+
+So I chose Istio. It tracks new versions consistently fast, has a defined support policy, is maintained by multiple companies, and lets us extend the same component to a mesh later. I chose it knowing that, until we actually use it as a mesh, it can be a somewhat heavy choice for just the Gateway features.
+
+What remained were body size limits and per-IP rate limits. Applying either at the gateway in Istio requires EnvoyFilter, which edits Envoy's internal configuration directly, and Istio's own docs warn that it exposes internal implementation details and calls for extreme care during upgrades. So I set one principle: no EnvoyFilter, only standard Gateway API resources. One of the reasons we were leaving ingress-nginx was the pile of non-standard settings like snippets, and I didn't want to repeat that after moving. The two features that can't be expressed in the standard were moved toward being handled in the app instead of at the gateway.
 
 ### Separating the Development and Production Gateways
 
@@ -198,7 +250,7 @@ I converted each Ingress file into one HTTPRoute file, one to one. I did the con
 
 ### Moving the Rewrites
 
-In nginx, we were stripping prefixes with `rewrite-target: /$2` on regex paths like `/service(/|$)(.*)`. At first I thought this couldn't be moved because Gateway API has no regex substitution, but all of our rewrites were for "stripping the leading prefix." That gives the same result with a `PathPrefix` match and `ReplacePrefixMatch: /`.
+In nginx, we were stripping prefixes with `rewrite-target: /$2` on regex paths like `/service(/|$)(.*)`. As mentioned earlier, all of our rewrites were used this way, which gives the same result with a `PathPrefix` match and `ReplacePrefixMatch: /`.
 
 ```yaml
 - matches:
@@ -213,7 +265,7 @@ In nginx, we were stripping prefixes with `rewrite-target: /$2` on regex paths l
           replacePrefixMatch: /
 ```
 
-However, a rule using this filter can only have one `PathPrefix` match, so I had to create a separate rule for each prefix. As a result, some routes went over the 16-rule limit per HTTPRoute, so I split them. Server-side dry-run caught this constraint right away.
+However, a rule using this filter can only have one `PathPrefix` match, so I had to create a separate rule for each prefix. As a result, some routes went over the 16-rule limit per HTTPRoute, so I split them. Server-side dry-run let me catch this before applying anything.
 
 ### Response Comparison Tests
 
@@ -223,7 +275,7 @@ The first comparison showed as many as 442 differences, but most were due to bad
 
 | Difference | nginx | Gateway |
 |---|---|---|
-| Hosts with at least one regex path | Treats every path on that host as a regex prefix, so `/ai` also matches `/aisx` | Matches as written |
+| Hosts with at least one regex path | Treats every path on that host as a regex prefix, so `/api` also matches `/apix` | Matches as written |
 | Case in regex paths | Ignored | Respected |
 
 In both cases the Gateway was stricter and closer to what was originally intended. This was the first time I learned that nginx's `use-regex` applies to the whole host, not just one path.
@@ -248,9 +300,9 @@ After moving every host, I confirmed there were 0 real requests reaching the old
 
 ## Argo CD and Node Termination Handler
 
-I upgraded Argo CD from 2.x to 3.6 in one go. The same Argo CD manages both development and production apps, so there was nothing separate to rehearse on. So of the defaults that changed in 3.0, I deliberately pinned the resource tracking method, the reconcile interval, and NetworkPolicy creation to their previous behavior, to reduce how much changed at once. Before the upgrade I saved the sync and health status of every app to a file, pulled it again after the upgrade, and compared them: 0 differences. Applying it took 56 seconds, and since Argo CD is on the deployment path, not the request path, there were no service request failures during that time either.
+After moving the ingress, I dealt with the other two components from the list above. I upgraded Argo CD from 2.x to 3.6 in one go. The same Argo CD manages both development and production apps, so an upgrade applies to both at once. So of the defaults that changed in 3.0, I deliberately pinned the resource tracking method, the reconcile interval, and NetworkPolicy creation to their previous behavior, to reduce how much changed at once. Before the upgrade I saved the sync and health status of every app to a file, pulled it again after the upgrade, and compared them: 0 differences. Applying it took 56 seconds, and since Argo CD is on the deployment path, not the request path, there were no service request failures during that time either.
 
-I removed the Node Termination Handler instead of upgrading it. It's a component that receives spot interruption notices and drains the node, but the project documentation says it isn't needed when you use managed node groups. With managed node groups, EKS does the same work itself. All of our node groups were managed, and I also confirmed that spot rebalancing was enabled. Checking things for the upgrade, I could see not only what needed upgrading but also what could be removed.
+I removed the Node Termination Handler instead of upgrading it. It's a component that receives spot interruption notices and drains the node, but [the README in NTH's official repository](https://github.com/aws/aws-node-termination-handler) says, "If you're using EKS managed node groups, you don't need the aws-node-termination-handler." With managed node groups, EKS [does the same work itself](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html). All of our node groups were managed, and I also confirmed that spot rebalancing was enabled. Checking things for the upgrade, I could see not only what needed upgrading but also what could be removed.
 
 ## Why 1.36 and 1.37 Were Done Back to Back
 
@@ -262,7 +314,7 @@ Instead, since I wasn't taking breaks between versions, I decided to verify at e
 
 ## The 1.36 Upgrade and Gateway Shutdown Handling
 
-Each control plane upgrade took about 8 minutes, with 0 request failures. The problems came from the nodes. Now, rolling the nodes would move Gateway pods instead of nginx, and I hadn't measured the Gateway's shutdown handling yet. So before moving to production, I measured it by restarting the development Gateway. To avoid missing even brief failures, from this point I sent about 4 requests per second instead of one per second.
+The 1.36 control plane upgrade took about 8 minutes, with 0 request failures. The problems came from the nodes. Now, rolling the nodes would move Gateway pods instead of nginx, and I hadn't measured the Gateway's shutdown handling yet. So before moving to production, I measured it by restarting the development Gateway. To avoid missing even brief failures, from this point I sent requests at shorter intervals.
 
 ### Development Gateway Rollout Strategy
 
@@ -306,7 +358,7 @@ I applied the same settings to the production Gateway and rolled the production 
 
 I assumed that since development had 0 failures, production would too, but draining production nodes had a condition development didn't: the controller that manages the NLB targets also moves along with the nodes.
 
-So I increased the Envoy drain to 90 seconds to cover both the NLB deregistration delay and the leader handover time, and added a `preStop` to the app pods that waits 15 seconds before shutting down, a setting I had meant to add since 1.35. While applying these settings to production, there were 0 failures out of 573.
+So I increased the Envoy drain to 90 seconds to cover both the NLB deregistration delay and the leader handover time, and added a `preStop` to the app pods that waits 15 seconds before shutting down. The 503s on the app path during 1.35 came from the same endpoint propagation delay, and this was the setting I had put off back then. While applying these settings to production, there were 0 failures out of 573.
 
 ## 1.37 Upgrade Results
 
@@ -322,7 +374,7 @@ Here are the 1.36 and 1.37 production node rollouts side by side, minute by minu
 
 ![Failed requests per minute during the 1.36 and 1.37 production node rollouts. 1.36 had 13 between minutes 5 and 9 from an app pod terminating, Gateway pods terminating, and the LBC leader moving; 1.37 had 6 at minute 8 from a cache server pod moving](https://www.dropbox.com/scl/fi/4snbnu2ucgqwq96nydzwo/eks-upgrade-node-rollout-failures.en.png?rlkey=ktna9e8m03jj0sqi78cdsgx5j&raw=1)
 
-For reference, even after the rollout was completely done and nothing was happening, the 4-requests-per-second measurement recorded 3 three-second timeouts out of 2,082 requests. That means the measurement path itself has about this much noise, so please read the numbers in the tables above with that margin in mind.
+For reference, even after the rollout was completely done and nothing was happening, the same measurement recorded 3 three-second timeouts out of 2,082 requests. That means the measurement path itself has about this much noise, so please read the numbers in the tables above with that margin in mind.
 
 With that, the control plane and all nodes were on 1.37. Standard support for 1.37 runs until December 1, 2027.
 
@@ -336,7 +388,7 @@ With that, the control plane and all nodes were on 1.37. Standard support for 1.
 
 ## Closing
 
-What I spent the most time on in this work was the difference in timing between when a pod becomes ready and when it's removed. The moment a container was ready, the moment it was removed from the endpoints, and the moment the NLB considered it healthy were all different, and a few requests dropped at each of those gaps. When I read the documentation, I thought I understood it, but until I measured at one-second intervals, I couldn't tell where requests were being dropped.
+What I spent the most time on in this work was the difference in timing between when a pod becomes ready and when it's removed. The moment a container was ready, the moment it was removed from the endpoints, and the moment the NLB considered it healthy were all different, and a few requests dropped at each of those gaps. When I read the documentation, I thought I understood it, but until I measured it myself by sending requests, I couldn't tell where requests were being dropped.
 
 This was also the first time I put together the supported ranges for the components we installed ourselves. Since those were what actually blocked the next upgrade, I plan to look at that list first before the next one.
 
