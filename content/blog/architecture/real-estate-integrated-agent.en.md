@@ -47,7 +47,7 @@ Looking at the questions, what users wanted didn't end at "finding complexes tha
 
 And following the questions, many of them ended up at "I'd like to talk to the agent in charge of this complex." From the user's point of view, this was all one continuous process, but our service was offering it as separate features. The existing AI recommendation also finished its role once the recommendation was done, and after that the user had to go to the complex details page and then to the brokerage request screen on their own.
 
-With the planning team, we set the goal as **"having the AI understand the user's problem, answer it, and lead them to the right feature in the service."** The idea was to take the growing range of user needs in a single conversation, reduce the steps to getting matched with an agent, and let users use service features directly in natural language. We decided to call this whole thing the "Integrated Real Estate AI Agent."
+With the planning team, we set the goal as **"having the AI understand the user's problem, answer it, and lead them to the right feature in the service."** The idea was to take the growing range of user needs in a single conversation and reduce the steps to getting matched with an agent. We also made letting users use service features directly in natural language part of the goal. We decided to call this whole thing the "Integrated Real Estate AI Agent."
 
 The direction was agreed on with the planning team, and I was responsible for deciding what structure to build the new service on. Since the goal was large, we decided to first build the most important flows in the existing service, from apartment recommendations to checking details and brokerage requests, and then add the rest on top one by one.
 
@@ -100,7 +100,7 @@ Our team is small, so we had to keep fixing things even after building them once
 
 I chose the framework by similar criteria. Using a Spring AI version that supports OpenAI's Responses API (a new API that combines tool calls with reasoning models) would have required a major Spring Boot version upgrade, and it was hard to bundle an upgrade that affects the whole service with the AI work. LangChain4j would have added another abstraction layer, and it seemed like whenever a problem came up, I'd have to look at my code and the framework code together.
 
-In the end, I built the loop myself on top of the Responses API in the official SDK. The loop itself was a few hundred lines and simpler than I expected, and most of the time went into the things covered in this post and Part 2.
+In the end, I built the loop myself on top of the Responses API in the official SDK. The loop itself was a few hundred lines, simpler than I expected.
 
 ## From AI Answers to Service Features
 
@@ -114,9 +114,7 @@ So how can we lead the AI's answers naturally into the service's real features? 
 
 The most direct result of leading into the service was a brokerage request, and I wanted the conversation to lead all the way to the request.
 
-The first thing I decided was that **the LLM does not execute the request itself**.
-
-The LLM sometimes calls the same tool twice or misreads intent, and once a request goes in, it's delivered to the agent as is, so it's hard to undo. So I gave the LLM only a tool for "proposing" the request, and not a tool that executes it. Who would execute the request after the user confirmed it had to be decided separately.
+The first thing I decided was that **the LLM does not execute the request itself**. The LLM sometimes calls the same tool twice or misreads intent, and once a request goes in, it's delivered to the agent as is, so it's hard to undo. So I gave the LLM only a tool for "proposing" the request, and not a tool that executes it. Who would execute the request after the user confirmed it had to be decided separately.
 
 In the first design, when the user pressed the confirm button, the request would come to the server without going through the LLM, and the server would submit the request using the proposal ID as an idempotency key. The design was meant to make sure the request went in only once, even if the network dropped and the request came in again. However, when I traced the existing brokerage request flow, it was structured to take values from the screen at each step to build the next request, so it didn't suit the server executing it in one go from the conversation.
 
@@ -166,7 +164,12 @@ So **I split whether to suggest by how clearly the user showed an intent to tran
 
 The reason we could show the request confirmation card right away when the intent is clear is that, as mentioned earlier, we left the final confirmation to the user. Even after the card appears, the user has to press once more for the request to go in, so I thought showing it right away wouldn't put much burden on them.
 
-Other services are connected based on the conversation topic. When someone is considering a jeonse (lump-sum lease) contract or talking about rights issues such as a mortgage lien, the AI suggests AI property registry analysis. When budget and loans come up, it leads to the loan calculator, and talk of selling a home leads to listing a home for sale. Talk of looking for or listing an office or retail space leads to the office-specific custom brokerage request and listing.
+Other services are connected based on the conversation topic.
+
+- Jeonse (lump-sum lease) contracts or rights issues such as a mortgage lien: AI property registry analysis
+- Budget, loans: loan calculator
+- Talk of selling a home: listing a home for sale
+- Talk of looking for or listing an office or retail space: office-specific custom brokerage request and listing
 
 I also changed the wording. Internally we call it "matching," but "Shall I match you?" doesn't really land with users. Instead, I changed it to speak in terms of what the user gets, like "Would you like to ask the agent in charge of Helio City about listings in this price range?"
 
@@ -174,7 +177,7 @@ I also changed the wording. Internally we call it "matching," but "Shall I match
 
 Besides when to suggest, there were a few more rules to follow. If the same suggestion repeats in the same conversation, it feels like the ad I was worried about earlier, and if brokerage is suggested for a complex without an agent in charge, there's nowhere to connect to even if the user presses it.
 
-What kind of interest the user showed can only be known by looking at the conversation, so the LLM judges it and passes it to the suggestion tool. The rules that must be followed are checked on the server.
+What kind of interest the user showed can only be known by looking at the conversation, so the LLM judges it and passes it to the suggestion tool, and whether it's okay to suggest is checked by the server inside that tool.
 
 For example, the tool that suggests a custom brokerage request checks on the server whether it has already been suggested for this complex in the same conversation, whether there is an agent in charge, and whether there is a request in progress, and returns "do not suggest" if the conditions aren't met. Whether to suggest alerts first or the custom brokerage request right away is also decided by the server, based on the type of interest the LLM passed and the suggestion history, and only one of the two is kept in a single response. Just writing these rules in the instructions didn't make them followed reliably, and I'll continue that story in Part 2.
 
@@ -192,8 +195,6 @@ The AI shows only the results within the conversation, and if the user wants to 
 
 The calculation results shown in the conversation also had to match the existing screens. I ported the brokerage fee logic from the web calculator code as is, down to the order of operations, and added tests that pin values obtained by actually running the web calculator as the expected answers. It's true that we now have one more copy of the calculation logic, but since even a single difference in rounding would make the brokerage fee differ between the AI and the calculator, I tied them together so that the tests break immediately if the AI-side calculation diverges from the web.
 
-Payment, requests, and authentication happen on the existing screens, and the AI only goes as far as guiding the user to those screens. Looking back after building it, I think a large part of this work was making existing features reachable directly from the conversation.
-
 ## A Screen Layout That Shows Results First
 
 To lead into the service, the screen had to be different too. From the start, I didn't want this feature to look like a chatbot that shows long text. Listing the prices and unit sizes of ten complexes in sentences makes them hard to read and compare, and it's hard to see what to do next.
@@ -208,7 +209,7 @@ So after talking with the planning team, we switched to **making assumptions and
 
 *"Apartments in Mapo-gu, under 1.5 billion won, 30-pyeong range" has no transaction type. It assumes a sale, finds 33 complexes, and states this in the answer (left), and below it shows buttons for narrowing down the results along with the number of complexes (right).*
 
-Later, I tried again an approach that asks only about the transaction type first. But when I compared conversation logs, asking back from the very first question increased significantly, and the flow that had naturally continued with sale as the default disappeared as well. Once results came out, an actual transaction price chart and alert suggestions would follow, but while the transaction type wasn't decided, those tools weren't called at all. So I reverted to results first. Even if the transaction type was assumed wrong, the user can change it right away in the next question.
+Later, I tried again an approach that asks only about the transaction type first. But when I compared conversation logs, asking back from the very first question increased significantly, and the flow that had naturally continued with sale as the default disappeared as well. Once results came out, an actual transaction price chart and alert suggestions would follow, but while the transaction type wasn't decided, those tools weren't called at all. So I went back to the approach of showing results first. Even if the transaction type was assumed wrong, the user can change it right away in the next question.
 
 ### Choosing Cards
 
@@ -218,9 +219,7 @@ Numbers such as prices and areas are shown in cards built by code, and the LLM o
 
 *The screen for "Show me the listings for sale right now too." The card on the right shows the number of listings cheaper than the recent transaction average and each listing's % compared to recent transactions, and the map shows the lowest asking price per building.*
 
-The early version attached cards after the answer was complete. To show results first, I changed it to draw a card immediately each time a tool ran a lookup, but then when the LLM looked up three complexes to form an answer, three cards piled up. The user asked about one thing, but the screen showed everything the LLM had checked. I tried blocking this by adding exception rules one at a time, but that caused cards to go missing elsewhere.
-
-In the end, I decided to separate lookup and display entirely.
+The early version attached cards after the answer was complete. To show results first, I changed it to draw a card immediately each time a tool ran a lookup, but then when the LLM looked up three complexes to form an answer, three cards piled up. The user asked about one thing, but the screen showed everything the LLM had checked. I tried blocking this by adding exception rules one at a time. However, that caused cards to go missing elsewhere, so I decided to separate lookup and display.
 
 ```mermaid
 flowchart TB
@@ -255,11 +254,11 @@ After adding cards, there were multiple places on the screen showing information
 
 I think both problems happened because the answer, cards, and buttons were looking at different data. So I aligned things so that **every element on the screen looks at the same data**.
 
-I matched the order of results that tools pass to the LLM with the order on screen. When sorting was needed, I put sorting such as by distance or price into the search tool, so the LLM doesn't have to come up with its own order. For buttons, only the last set the server remembers is sent when execution finishes, and buttons only send questions. Moving to another screen is done only from cards.
+Tools also pass results to the LLM in the same order as the screen. When sorting was needed, I put sorting such as by distance or price into the search tool, so the LLM doesn't have to come up with its own order. For buttons, the server sends the one last set it remembers when execution finishes. Tapping a button sends a question, and moving to another screen is done from cards.
 
-The same went for the data itself. Since the agent uses search results, detailed information, and actual transaction prices together in one answer, I aligned the tools to use the same data as the complex details screen.
+The same went for the data itself. Since the agent uses search results, detailed information, and actual transaction prices together in one answer, the tools use the same data as the complex details screen.
 
-The names of progress steps were the same kind of problem. When showing the progress of a brokerage request, the AI once said "assigning an agent," but our service has no step called assigning. Because we hadn't specified the step names, the LLM looked at the status value and made up a plausible-sounding name. Now code decides the progress step names according to the actual business steps, and the LLM only uses those names.
+The names of progress steps were the same kind of problem. When showing the progress of a brokerage request, the AI once said "assigning an agent," but our service has no step called assigning. Because we hadn't specified the step names, the LLM looked at the status value and made up a plausible-sounding name. Now code passes names that match the actual business steps, so the LLM doesn't make up new names.
 
 {{% todo %}}
 ## What We Confirmed in Production (to be written once data builds up; this section will be the conclusion of Part 1)

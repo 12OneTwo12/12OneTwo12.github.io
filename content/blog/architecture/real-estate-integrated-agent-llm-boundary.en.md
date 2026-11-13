@@ -49,7 +49,7 @@ So what do we leave to the LLM, and what do we keep in code? For each decision, 
 | Cards to show on screen | LLM only when there are multiple targets | Code builds the numbers in the card, and the LLM only chooses what to show |
 | How to say it | LLM | But code decides what information the LLM can see |
 
-I set this principle at the start, but each row in the table was filled in one by one as I built things. Drawn as the flow of one turn, it looks like this.
+I set this principle at the start and filled in each row of the table one by one as I built things. Drawn as the flow of one turn, it looks like this.
 
 ```mermaid
 flowchart LR
@@ -130,7 +130,7 @@ val condition = chosen?.savedCondition ?: input.toCondition()
 
 *Searching around Jamsil-dong (a radius search, so complexes in Gwangjin-gu are included too) added a question narrowing by completion year (left), and choosing "Built within 10 years · 2 places" narrows it down to 2 places (right).*
 
-Of course, this approach can't be used when the user slightly changes an option, like "within 10 years, but only those with 500+ units." So we put "You can also type the conditions you want" under the buttons. Conditions typed this way have no stored conditions, so the LLM interprets them and searches.
+Of course, this approach can't be used when the user slightly changes an option, like "within 10 years, but only those with 500+ units." Under the buttons, we put "You can also type the conditions you want." Conditions typed this way have no stored conditions, so the LLM interprets them and searches.
 
 We applied the same approach to the relaxation options shown when there are 0 results. At first, a relaxation button sent a sentence like "Raise the price limit and search again" as the next question, and there were cases where the LLM interpreted this sentence and searched with a different price range from the one used when the button was created.
 
@@ -170,7 +170,7 @@ I couldn't brush this off because those answers also end up being answers from o
 
 In the end, we added a short LLM call, separate from the main loop, that only checks whether the question is related to real estate. If the question is unrelated, it stops the main loop and replies with a fixed guidance message.
 
-What I struggled with were questions that overlap with real estate, like "tips for packing on moving day." I thought wrongly blocking a real estate question was the bigger problem. If we say we can't answer a perfectly fine real estate question, it's hard for users to tell that apart from an error. So we decided not to block ambiguous questions, and we also included questions about the user's own service usage information in the allowed scope.
+What I struggled with were questions that overlap with real estate, like "tips for packing on moving day." I thought wrongly blocking a real estate question was the bigger problem. If we say we can't answer a perfectly fine real estate question, it's hard for users to tell that apart from an error. We decided not to block ambiguous questions, and we also included questions about the user's own service usage information in the allowed scope.
 
 ![Questions unrelated to real estate get a fixed guidance message](https://www.dropbox.com/scl/fi/amt1d4da23j1i6t4fh275/agentic-offtopic.png?rlkey=er830cr0xeuq3eb2dftowiscy&raw=1)
 
@@ -210,7 +210,7 @@ OpenAI's Responses API provides a feature that stores conversations on the provi
 
 In the end, we turned off provider storage and kept conversation history and session state in our DB. Instead, we had to do the work the provider had been doing. When provider storage is off, the reasoning model can't carry over the reasoning from the previous turn, so we store the reasoning items received along with tool calls in encrypted form and send them again with the next request.
 
-We also had to decide what to send to the LLM on each turn. To pick the right tool for questions like "How are the actual transaction prices for the second complex?" or "Are there subway stations around there?", the LLM needs to know the earlier conversation. But if we send the whole conversation as is every time, tokens keep growing, and there are also cases where old tool results lead the LLM to make wrong decisions. So we assembled the context sent on each turn in parts, as shown below.
+We also had to decide what to send to the LLM on each turn. To pick the right tool for questions like "How are the actual transaction prices for the second complex?" or "Are there subway stations around there?", the LLM needs to know the earlier conversation. But if we send the whole conversation as is every time, tokens keep growing, and there are also cases where old tool results lead the LLM to make wrong decisions. The context sent on each turn is assembled in parts, as shown below.
 
 ```mermaid
 flowchart LR
@@ -238,7 +238,7 @@ For example, when asked "30-pyeong range for sale near Gangnam Station," the AI 
 
 Even though permissions were decided in code, how the LLM speaks and which tools it picks still had to be conveyed through the instructions and tool descriptions. But there were several cases where the instructions didn't work as I expected, and along the way I started to see a few tendencies.
 
-For example, when asked whether the user could talk to the agent in charge of the complex, the AI once replied, "Please request matching in the app." This was even though the instructions said to connect them directly from the conversation. When I looked for the cause, the result message of the tool that finds the agent in charge of the complex was "You can request matching from the complex screen in the app." It followed the tool result over the instructions.
+For example, when asked whether the user could talk to the agent in charge of the complex, the AI once replied, "Please request matching in the app." This was even though the instructions said to connect them directly from the conversation. When I looked for the cause, the result message of the tool that finds the agent in charge of the complex was "You can request matching from the complex screen in the app." The LLM answered following this tool result message.
 
 The brokerage fee discount criteria were similar. The discount has a transaction amount threshold, and there were cases where the LLM left this threshold out or stated it differently. I tried writing the threshold in the instructions, but nothing changed, and it was only resolved after we always included the threshold amount in the brokerage fee calculation tool's result.
 
@@ -248,7 +248,7 @@ After learning this, I changed a few things. First, I started writing tool resul
 
 In tool descriptions, I wrote not only what the tool does but also when not to use it. We started with about 5 tools, such as place search, complex search, complex details, actual transaction prices, and nearby facilities, but since we were aiming for an integrated AI agent, it has now grown to 30.
 
-As tools increased, there were cases where the LLM picked the wrong one among similar tools, and OpenAI's agent guide also says that problems with many tools come from the similarity between tools rather than their number. So we wrote the criteria between similar tools in the descriptions, for example, the brokerage request proposal is used when the user expresses an intention to make a deal, like "I want to buy here," and not when the user only shows interest, like "I like it."
+As tools increased, there were cases where the LLM picked the wrong one among similar tools, and OpenAI's agent guide also says that problems with many tools come from the similarity between tools rather than their number. We wrote the criteria between similar tools in the descriptions, for example, the brokerage request proposal is used when the user expresses an intention to make a deal, like "I want to buy here," and not when the user only shows interest, like "I like it."
 
 ```text
 Brokerage request proposal tool description (simplified example)
@@ -256,13 +256,13 @@ Brokerage request proposal tool description (simplified example)
 - Do not use when: the user only shows interest, like "I like it" (in this case, use the suggestion tool, and the server decides whether to suggest alerts first)
 ```
 
-In the previous AI recommendation post, I wrote "can the LLM explain this tool's role in a single sentence?" as the criterion for splitting tool boundaries. This time, I think "can you explain in a single sentence when this tool should not be used?" has been added.
+In the previous AI recommendation post, I wrote "can the LLM explain this tool's role in a single sentence?" as the criterion for splitting tool boundaries. This time, I also started checking "can you explain in a single sentence when this tool should not be used?"
 
 Information that must not be shown to the user wasn't handled by writing "don't say this." Instead, we removed it entirely from where the LLM can see it. When a prohibition sentence wasn't followed, it was also hard to find the cause.
 
-And rules that weren't followed through the instructions were moved into code. For example, the instructions said not to add other choice buttons in a response that already includes a narrowing question, but when I tested it, it created more buttons quite often. If two sets of buttons appear in the same response, the user can't tell which one to tap. So if the LLM creates choice buttons again in a response where a narrowing question has already gone out, the server discards those buttons and keeps the narrowing question.
+And rules that weren't followed through the instructions were moved into code. For example, the instructions said not to add other choice buttons in a response that already includes a narrowing question, but when I tested it, it created more buttons quite often. If two sets of buttons appear in the same response, the user can't tell which one to tap. If the LLM creates choice buttons again in a response where a narrowing question has already gone out, the server discards those buttons and keeps the narrowing question.
 
-The suggestion rules mentioned in part 1 were the same. Rules such as not suggesting brokerage twice for the same complex, or not suggesting it for complexes without an agent in charge, weren't followed well just by writing them in the instructions, so the server checks them inside the suggestion tool. Since then, if a rule must always be followed, I put it in code first before writing it in the instructions.
+The suggestion rules mentioned in part 1 were the same. Rules such as not suggesting brokerage twice for the same complex, or not suggesting it for complexes without an agent in charge, weren't followed well just by writing them in the instructions, so the server checks them inside the suggestion tool.
 
 ## Did It Get Worse?
 
@@ -295,7 +295,7 @@ In the 16-question comparison above, the median response time was 4.9 seconds fo
 
 This was somewhat expected. Since we left choosing the next tool to the LLM, multiple LLM calls are unavoidable, and this was one of the reasons I didn't choose an Agent Loop in the previous AI recommendation post. Handling even structured questions with a single loop without a router also had an effect.
 
-Still, I think what mattered more this time was being able to do what users expect. The existing structure couldn't understand follow-up questions, and it couldn't look at results and ask back or change conditions.
+Still, this time we decided to accept the slowdown. The existing structure couldn't understand follow-up questions, and it couldn't look at results and ask back or change conditions.
 
 To reduce the slowdown, I first measured where the time was being spent. Splitting the 1,458 turns accumulated over 2 weeks on the development server by the number of LLM calls looked like this.
 
@@ -311,9 +311,9 @@ Each additional call increased response time by 1.7 to 2.8 seconds, and in turns
 
 First, I reduced the time until results become visible. The initial version attached cards after the answer was completely finished, and changing it to draw cards before the answer finished made results visible about 3 seconds sooner. Running the topic check at the same time as the main loop had the same purpose. I thought the time until something first appears matters for how users perceive speed, so we also record the time until the first character appears separately in our logs.
 
-Next, I fixed the order of context assembly so the prompt cache wouldn't break. An Agent Loop calls the LLM multiple times in one turn and sends the instructions and tool definitions again each time. By putting the parts that don't change at the front, as in the earlier diagram, and attaching the session state that changes every turn at the end, 95% of input tokens hit the cache over the same 2 weeks. Even a change in the order of tool definitions breaks the cache, so the order of tool definitions is also fixed in code.
+I also fixed the order of context assembly so the prompt cache wouldn't break. An Agent Loop calls the LLM multiple times in one turn and sends the instructions and tool definitions again each time. By putting the parts that don't change at the front, as in the earlier diagram, and attaching the session state that changes every turn at the end, 95% of input tokens hit the cache over the same 2 weeks. Even a change in the order of tool definitions breaks the cache, so the order of tool definitions is also fixed in code.
 
-And I fixed tools that weren't respecting their time limits. Each tool had an execution time limit, but a single search wasn't cut off even when it took several times that long. Coroutine `withTimeout` only checks for cancellation at points where the coroutine suspends, and most tools were blocking code calling ES or HTTP, so there were no suspension points. So I separated it so that tools run in a separate scope, and the loop applies the time limit only on the side waiting for the result.
+I fixed tools that weren't respecting their time limits. Each tool had an execution time limit, but a single search wasn't cut off even when it took several times that long. Coroutine `withTimeout` only checks for cancellation at points where the coroutine suspends, and most tools were blocking code calling ES or HTTP, so there were no suspension points. So I separated it so that tools run in a separate scope, and the loop applies the time limit only on the side waiting for the result.
 
 ```kotlin
 /**
@@ -333,7 +333,7 @@ private suspend fun withWallClockTimeout(block: suspend () -> ToolResult): ToolR
 
 Thanks to this, even if one tool is slow, the loop moves on to the next decision once the time limit passes.
 
-Lastly, along with the time for a single response, I also tried to look at the total time it takes to get the desired result. If one ask-back happens, the user spends one more conversation turn, several more seconds. So I treated reducing unnecessary questions as part of reducing response time as well. Changing it to show results first, and having the server search relaxation options in advance for 0 results and show only those with results as buttons, were for the same reason.
+Along with the time for a single response, I also tried to look at the total time it takes to get the desired result. If one ask-back happens, the user spends one more conversation turn, several more seconds. So I included reducing unnecessary ask-backs in the response time work. Changing it to show results first, and having the server search relaxation options in advance for 0 results and show only those with results as buttons, were for the same reason.
 
 On the development server over 2 weeks, the median response time was 5.3 seconds, and the top 10% was 9.5 seconds. The sample is different from the 16-question comparison above, so it can't be compared directly, and I plan to measure again with the same questions.
 
@@ -344,15 +344,13 @@ To fill in after the production release (released 2026-11-12, once data accumula
 - Turn budget exceeded rate, average LLM calls and cost per turn
 {{% /todo %}}
 
-## Looking Back
-
-In trying to keep the goal of part 1, it took quite a bit of time to decide who to leave each decision to: the LLM, code, or the user. For the parts not left to the LLM, we took on that much more work ourselves, such as the user tapping a confirmation button one more time, the rebuilt search index, and the conversation history we have to manage ourselves. Still, most of these costs could be anticipated in advance, and at our team's size, I think they were manageable compared to cleaning up after the LLM is wrong.
-
-There is still a lot left. Evaluation still involves a lot of manual review, so I keep thinking about how much of the judging can be automated. For response speed, even though I did several things, it was slower than before when compared with the same questions, so it needs to be reduced further. As features that execute after user confirmation increase, I think the criteria set this time will also need to be reviewed again each time.
-
 ## Closing
 
-At the end of the previous AI recommendation post, I wrote, "next time I build something similar, I'd start by clearly defining 'what the LLM should do' and 'what code should do' upfront." This time, I think I set the principles early: whether being wrong causes a loss, whether it can be undone, whether it must give the same result, and whether it must match existing screens. Whenever a decision was unclear, I decided it in light of those principles.
+At the end of the previous AI recommendation post, I wrote, "next time I build something similar, I'd start by clearly defining 'what the LLM should do' and 'what code should do' upfront," and this time I actually set that boundary first before starting. Whenever a decision was unclear, I think I went back to the criteria I had set at the start to decide it.
+
+In trying to keep the goal of part 1, it took quite a bit of time to decide who to leave each decision to: the LLM, code, or the user, and for the parts not left to the LLM, the work we had to do ourselves increased. Examples were having to tap a confirmation button one more time, the rebuilt search index, and the conversation history we manage ourselves. Still, most of these costs could be anticipated in advance, and I think they were at a level our team's size could handle.
+
+There is still a lot left. Evaluation still involves a lot of manual review, so I keep thinking about how much of the judging can be automated. For response speed, even though I did several things, it was slower than before when compared with the same questions, so it needs to be reduced further. As features that execute after user confirmation increase, I think the criteria set this time will also need to be reviewed again each time.
 
 For reference, during this work, we separated the AI module into its own service. A single AI request takes several seconds to tens of seconds, so its load characteristics are quite different from other features. The decision was to keep problems on the AI side from spreading to other features. I plan to write about this process separately, following up on [the modular monolith transition post]({{< relref "/blog/architecture/msa-to-modular-monolith" >}}).
 
