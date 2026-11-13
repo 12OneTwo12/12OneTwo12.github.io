@@ -103,7 +103,7 @@ Moving where the check happens could change existing recommendation results, so 
 
 I did wonder whether rebuilding the search index for a single narrowing question was too much, but I thought we couldn't leave the numbers on screen being wrong.
 
-Code also decides which condition to narrow by. For each candidate condition, it counts each option in parallel, then picks the condition where the largest option takes up the smallest share of the total, in other words, the condition that splits the results most evenly. The LLM is only given the job of polishing the question into a sentence. However, if we assumed a sale as the transaction type, it asks about the transaction type first.
+Code also decides which condition to narrow by. For each candidate condition, it counts each option in parallel, then picks the condition where the largest option takes up the smallest share of the total, in other words, the condition that splits the results most evenly. The LLM is only given the job of polishing the question into a sentence.
 
 ```kotlin
 // Among conditions with two or more options that reduce the results (0 < n < total), the smaller the largest option, the better the split. (simplified code)
@@ -128,7 +128,7 @@ val condition = chosen?.savedCondition ?: input.toCondition()
 
 ![Condition narrowing. Code decides which condition to narrow by and how many complexes remain, and tapping a button shows as many complexes as it says](https://www.dropbox.com/scl/fi/y05vs2fkg6n13exhc7648/agentic-narrow.png?rlkey=d3rb2oq4ufox6ifxuuj6ezrbq&raw=1)
 
-*When 21 places came up, a question narrowing by completion year was added (left), and choosing "Built within 10 years · 2 places" narrows it down to 2 places (right).*
+*Searching around Jamsil-dong (a radius search, so complexes in Gwangjin-gu are included too) added a question narrowing by completion year (left), and choosing "Built within 10 years · 2 places" narrows it down to 2 places (right).*
 
 Of course, this approach can't be used when the user slightly changes an option, like "within 10 years, but only those with 500+ units." So we put "You can also type the conditions you want" under the buttons. Conditions typed this way have no stored conditions, so the LLM interprets them and searches.
 

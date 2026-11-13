@@ -140,7 +140,7 @@ Because the server keeps only one proposal per response, even if the LLM calls t
 
 ![Service connection. If there is a request in progress, it shows the progress instead of suggesting a new one; if the intent to transact is clear, it shows a request confirmation card filled in from the conversation](https://www.dropbox.com/scl/fi/7au4wols8uxmn6l7saa3c/agentic-service-link.png?rlkey=xc5qv81lprgwo4bbvolulljzk&raw=1)
 
-*Production screens taken with my test account. On the left is the case of asking about the brokerage fee; since there is already a request in progress for this complex, it doesn't suggest a new one and instead leads to the progress status and a conversation with the agent in charge. On the right is the confirmation card after saying "I want to buy"; the unit size and desired price are filled in from the conversation, and the request only proceeds when the user presses "Request."*
+*Production screens taken with my test account. On the left is the case of asking about the brokerage fee for a 1.8 billion won sale at Helio City. Since there is already a request in progress for this complex, it shows that request and a button to chat with the agent in charge instead of a new request card. On the right is the confirmation card after saying "I want to buy"; the unit size and desired price are filled in from the conversation, and the request only proceeds when the user presses "Request."*
 
 Property registry analysis was added on the same principle. The conversation explains the results and goes only as far as preparing the request, and payment and the request itself happen on the existing property registry analysis screen.
 
@@ -202,7 +202,7 @@ To lead into the service, the screen had to be different too. From the start, I 
 
 The first version asked first when conditions were missing. It would confirm the transaction type, budget, and unit size one by one before searching. It was accurate, but users often got follow-up questions before results.
 
-So after talking with the planning team, we switched to **making assumptions and showing results first**. If the transaction type isn't given, it assumes a sale and searches right away, and the answer points out that it assumed a sale. When there are many results, it shows the top few first and asks about missing conditions with buttons below the results; when the transaction type was assumed, it confirms the transaction type first and then moves on to questions that narrow down the results.
+So after talking with the planning team, we switched to **making assumptions and showing results first**. If the transaction type isn't given, it assumes a sale and searches right away, and the answer points out that it assumed a sale. When there are many results, it shows the top few first and asks about missing conditions with buttons below the results.
 
 ![Even when conditions aren't fully set, results are shown first, and missing conditions are asked with buttons below the results](https://www.dropbox.com/scl/fi/fw6nlbhfnylacqc0syk5c/agentic-results-first.png?rlkey=ptf6tbxzfaca5rrn6b244jv0x&raw=1)
 
@@ -277,6 +277,8 @@ Here's a summary of what Part 1 covered.
 2. Suggestions were matched to how strongly the user showed an intent to transact.
 3. Instead of long sentences, results and cards are shown first, and missing conditions are asked below the results.
 4. Results within the conversation are shown with the same data and the same numbers as the existing screens.
+
+Since this went into production only recently, I'll add the metric the product plan set, the rate at which answers lead into service features, once enough data has accumulated.
 
 But when the AI leads into service features like this, the user can actually lose out when the AI is wrong. For example, they press a button trusting the number written on it and get a different result, or they see someone else's information. As I connected the AI to service features, I also had to decide how to divide the roles between the LLM and code.
 
