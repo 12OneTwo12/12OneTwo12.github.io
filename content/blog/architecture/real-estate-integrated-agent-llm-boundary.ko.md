@@ -6,10 +6,10 @@ tags:
   - agent
   - architecture
   - elasticsearch
-date: '2026-11-13'
-description: "AI의 답을 서비스로 이어지게 만들면서, LLM에게 맡길 일과 서비스가 책임질 일을 어떻게 나누고 코드로 지켰는지, 그리고 느려진 응답을 어떻게 다뤘는지 정리했습니다."
+date: 2026-11-15
+description: AI의 답을 서비스로 이어지게 만들면서, LLM에게 맡길 일과 서비스가 책임질 일을 어떻게 나누고 코드로 지켰는지, 그리고 느려진 응답을 어떻게 다뤘는지 정리했습니다.
 images:
-  - "https://www.dropbox.com/scl/fi/y05vs2fkg6n13exhc7648/agentic-narrow.png?rlkey=d3rb2oq4ufox6ifxuuj6ezrbq&raw=1"
+  - https://www.dropbox.com/scl/fi/y05vs2fkg6n13exhc7648/agentic-narrow.png?rlkey=d3rb2oq4ufox6ifxuuj6ezrbq&raw=1
 ---
 
 전편: [[부동산 통합 AI 에이전트 1/2편] AI의 답을 서비스로 이어지게 만들기까지]({{< relref "/blog/architecture/real-estate-integrated-agent" >}})

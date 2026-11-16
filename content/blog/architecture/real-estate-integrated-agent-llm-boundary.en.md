@@ -6,10 +6,10 @@ tags:
   - agent
   - architecture
   - elasticsearch
-date: '2026-11-13'
-description: "While connecting the AI's answers to our service, I summarize how we divided what to leave to the LLM and what the service should be responsible for, how we enforced that in code, and how we dealt with the slower responses."
+date: 2026-11-15
+description: While connecting the AI's answers to our service, I summarize how we divided what to leave to the LLM and what the service should be responsible for, how we enforced that in code, and how we dealt with the slower responses.
 images:
-  - "https://www.dropbox.com/scl/fi/y05vs2fkg6n13exhc7648/agentic-narrow.png?rlkey=d3rb2oq4ufox6ifxuuj6ezrbq&raw=1"
+  - https://www.dropbox.com/scl/fi/y05vs2fkg6n13exhc7648/agentic-narrow.png?rlkey=d3rb2oq4ufox6ifxuuj6ezrbq&raw=1
 ---
 
 Previous: [[Integrated Real Estate AI Agent 1/2] Making AI Answers Lead to Real Service Actions]({{< relref "/blog/architecture/real-estate-integrated-agent" >}})
