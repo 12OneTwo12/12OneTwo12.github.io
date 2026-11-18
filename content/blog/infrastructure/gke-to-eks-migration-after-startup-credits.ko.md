@@ -9,7 +9,6 @@ tags:
   - "migration"
   - "cost"
 date: '2026-11-18'
-draft: true
 images:
   - "/images/gke-to-eks/gke-to-eks-cover.png"
 description: "GCP 크레딧 종료를 앞두고 GKE에서 EKS로 옮긴 과정. 콘솔로만 관리하던 AWS 리소스를 먼저 Terraform으로 가져오고, 도메인별로 DNS를 돌려 전환한 순서"

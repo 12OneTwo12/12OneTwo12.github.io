@@ -9,7 +9,6 @@ tags:
   - "migration"
   - "cost"
 date: '2026-11-18'
-draft: true
 images:
   - "/images/gke-to-eks/gke-to-eks-cover.png"
 description: "How we moved from GKE to EKS as our GCP credits were ending: first importing console-managed AWS resources into Terraform, then switching DNS domain by domain"
