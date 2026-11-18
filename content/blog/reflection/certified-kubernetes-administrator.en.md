@@ -37,7 +37,7 @@ So I approached the DevOps engineer and carefully asked:
 
 >"If you don't mind, could you teach me a bit about the company's infrastructure? If something happens to the servers while we don't have a DevOps engineer, someone will need to handle it... I know it's asking a lot, but if you could share some knowledge, I'll do my best to manage with what I learn."
 
-He was kind enough to mentor and train me for a month, and thanks to him, I learned about **Kubernetes, AWS EKS, Jenkins, ArgoCD, and ELK**. I ended up managing the infrastructure alone for about 7 months until the next DevOps engineer was hired.
+He was kind enough to mentor and train me for a month, and thanks to him, I learned about **Kubernetes (NHN Cloud NKS), Jenkins, ArgoCD, and ELK**. I ended up managing the infrastructure alone for about 7 months until the next DevOps engineer was hired.
 
 > Honestly, a month of mentoring wasn't enough to learn everything. I wrote down every infrastructure-related keyword he mentioned and studied each one on my own.
 
@@ -98,7 +98,7 @@ Honestly, I expected to score higher, but the score was lower than I anticipated
 
 **I only knew half of Kubernetes from my work experience.**
 
-At my previous company, I used AWS EKS, and at my current company, I use GKE. In these Managed Kubernetes environments, **you rarely touch the Control Plane directly.** Google or AWS manages it for you.
+At my previous company, I used NHN Cloud NKS, and at my current company, I use GKE. In these Managed Kubernetes environments, **you rarely touch the Control Plane directly.** The cloud provider manages it for you.
 
 So what I mainly dealt with in production:
 - **Application Level**: Deployment, Pod, Service, Ingress, ConfigMap, Secret, etc.

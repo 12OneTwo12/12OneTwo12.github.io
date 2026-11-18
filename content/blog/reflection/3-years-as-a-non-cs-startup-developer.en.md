@@ -88,7 +88,7 @@ So, at the risk of overstepping, I went to him separately and said:
 
 That's what I said to him.
 
-Perhaps he thought well of me for that, because he gave me a month of mentoring and handover. Thanks to him, I got to encounter the concepts behind Kubernetes, AWS EKS, Jenkins, ArgoCD, and ELK. It wasn't an amount I could absorb in a month, so I remember writing down every keyword he tossed my way in a notebook and studying them one by one. Being a fintech company, the internal and external networks were separated, which made it all the trickier.
+Perhaps he thought well of me for that, because he gave me a month of mentoring and handover. Thanks to him, I got to encounter the concepts behind Kubernetes (NHN Cloud NKS), Jenkins, ArgoCD, and ELK. It wasn't an amount I could absorb in a month, so I remember writing down every keyword he tossed my way in a notebook and studying them one by one. Being a fintech company, the internal and external networks were separated, which made it all the trickier.
 
 In the end, I came to run the infrastructure alone for about seven months until the next DevOps engineer was hired. Looking back, it was a fairly bold thing to take on.
 

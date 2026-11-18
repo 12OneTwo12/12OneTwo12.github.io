@@ -75,7 +75,7 @@ At my previous company, the only infrastructure manager was leaving, and a repla
 
 > "If something happens to the server while you're gone, someone has to fix it... If you don't mind, could you teach me just a little? I'll try to hold the fort somehow with my limited knowledge."
 
-Perhaps he appreciated my sincerity, as he gave me intensive mentoring for a month. Thanks to him, I was able to quickly learn **AWS EKS, Jenkins, ArgoCD, ELK**, and more. After that, I managed the infrastructure alone for about 7 months.
+Perhaps he appreciated my sincerity, as he gave me intensive mentoring for a month. Thanks to him, I was able to quickly learn **Kubernetes (NHN Cloud NKS), Jenkins, ArgoCD, ELK**, and more. After that, I managed the infrastructure alone for about 7 months.
 
 > Actually, since it wasn't an amount I could master in just one month of mentoring, I remember writing down every infrastructure keyword he threw at me in a notebook and looking them up one by one to study... haha..
 
