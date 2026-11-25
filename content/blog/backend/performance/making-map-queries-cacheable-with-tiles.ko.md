@@ -10,13 +10,11 @@ tags:
 date: '2026-11-25'
 draft: true
 images:
-  - "https://www.dropbox.com/scl/fi/n8ou7mhpqj38i1j2rpt9m/map-tile-cache-cover.jpg?rlkey=8xb06znlkpxvazf7wm1e45b9n&raw=1"
+  - "https://www.dropbox.com/scl/fi/nwr3o7zp5nm9ypiyyw0n1/map-tile-cache-cover-tiles.png?rlkey=7ehlnjbajzt54uvzk9bpg97xz&raw=1"
 description: "화면 좌표로 조회하던 지도 API는 요청마다 값이 달라 캐시를 쓰기 어려웠습니다. 요청 단위를 타일로 바꿔 캐시와 프리페치를 붙인 과정과, 운영에서 확인한 캐시 적중률, TTL에 대한 고민을 정리했습니다."
 ---
 
-![여러 색의 핀이 꽂혀 있는 지도](https://www.dropbox.com/scl/fi/n8ou7mhpqj38i1j2rpt9m/map-tile-cache-cover.jpg?rlkey=8xb06znlkpxvazf7wm1e45b9n&raw=1)
-
-*사진: Unsplash의 delfi de la Rua*
+![한국 지도를 줌 5, 6, 7의 타일로 나눈 그림. 줌이 한 단계 올라갈 때마다 타일 1장이 4장으로 나뉨](https://www.dropbox.com/scl/fi/nwr3o7zp5nm9ypiyyw0n1/map-tile-cache-cover-tiles.png?rlkey=7ehlnjbajzt54uvzk9bpg97xz&raw=1)
 
 안녕하세요. 프롭테크 플랫폼에서 백엔드 개발자로 근무 중인 정정일입니다.
 

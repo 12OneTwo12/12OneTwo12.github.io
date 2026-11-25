@@ -10,13 +10,11 @@ tags:
 date: '2026-11-25'
 draft: true
 images:
-  - "https://www.dropbox.com/scl/fi/n8ou7mhpqj38i1j2rpt9m/map-tile-cache-cover.jpg?rlkey=8xb06znlkpxvazf7wm1e45b9n&raw=1"
+  - "https://www.dropbox.com/scl/fi/nwr3o7zp5nm9ypiyyw0n1/map-tile-cache-cover-tiles.png?rlkey=7ehlnjbajzt54uvzk9bpg97xz&raw=1"
 description: "Our map API queried by viewport coordinates, so every request was different and caching was hard. This post covers how we switched the request unit to tiles to enable caching and prefetching, the cache hit rates we saw in production, and our thinking on TTL."
 ---
 
-![A map with colorful pins stuck in it](https://www.dropbox.com/scl/fi/n8ou7mhpqj38i1j2rpt9m/map-tile-cache-cover.jpg?rlkey=8xb06znlkpxvazf7wm1e45b9n&raw=1)
-
-*Photo: delfi de la Rua on Unsplash*
+![A map of Korea divided into tiles at zoom 5, 6, and 7. Each zoom level splits one tile into four](https://www.dropbox.com/scl/fi/nwr3o7zp5nm9ypiyyw0n1/map-tile-cache-cover-tiles.png?rlkey=7ehlnjbajzt54uvzk9bpg97xz&raw=1)
 
 Hello, I'm Jeong Jeong-il, a backend developer working at a PropTech platform.
 
