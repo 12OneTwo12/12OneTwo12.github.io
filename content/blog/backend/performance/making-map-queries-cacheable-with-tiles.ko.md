@@ -8,7 +8,7 @@ tags:
   - "api"
   - "performance optimization"
 date: '2026-11-25'
-draft: true
+draft: false
 images:
   - "https://www.dropbox.com/scl/fi/nwr3o7zp5nm9ypiyyw0n1/map-tile-cache-cover-tiles.png?rlkey=7ehlnjbajzt54uvzk9bpg97xz&raw=1"
 description: "화면 좌표로 조회하던 지도 API는 요청마다 값이 달라 캐시를 쓰기 어려웠습니다. 요청 단위를 타일로 바꿔 캐시와 프리페치를 붙인 과정과, 운영에서 확인한 캐시 적중률, TTL에 대한 고민을 정리했습니다."

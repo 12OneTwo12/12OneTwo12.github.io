@@ -8,7 +8,7 @@ tags:
   - "api"
   - "performance optimization"
 date: '2026-11-25'
-draft: true
+draft: false
 images:
   - "https://www.dropbox.com/scl/fi/nwr3o7zp5nm9ypiyyw0n1/map-tile-cache-cover-tiles.png?rlkey=7ehlnjbajzt54uvzk9bpg97xz&raw=1"
 description: "Our map API queried by viewport coordinates, so every request was different and caching was hard. This post covers how we switched the request unit to tiles to enable caching and prefetching, the cache hit rates we saw in production, and our thinking on TTL."
