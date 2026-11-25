@@ -42,7 +42,7 @@ I think this is the first design that comes to mind when building a map query AP
 
 The problem was that **every request is different.**
 
-Even when two users look at the same neighborhood, their screen sizes differ, and moving the map by a single pixel changes the decimals of the coordinates. A cache only helps when the "same request" comes again, and with viewport coordinates the same request almost never came up twice. So even the common case of moving the map a little and coming back went all the way down to the DB every time.
+Even when users look at the same neighborhood, their screen sizes differ, and moving the map by a single pixel changes the decimals of the coordinates. A cache only helps when the "same request" comes again, and with viewport coordinates the same request almost never came up twice. So even the common case of moving the map a little and coming back went all the way down to the DB every time.
 
 I had been aware that markers on our map were appearing with a delay, and after wrapping up a large project, the [integrated real estate AI agent]({{< relref "/blog/architecture/real-estate-integrated-agent" >}}), I came to look into it.
 
@@ -62,13 +62,13 @@ But tiles are not the only way to define cells. These are the options I looked a
 | Geohash | A cell is a single string, and stores like Redis support it natively | Each character splits a cell into 32, so the gap between levels is large, and the cell's aspect ratio changes with the string length |
 | Tiles (z/x/y) | Each zoom level splits a cell into exactly 4, and it is already widely used for maps | You have to compute which tiles the viewport covers, and one request becomes several |
 
-Geohash is convenient for storing a location as a string or finding nearby places. But in a case like ours, where the query unit has to change with the map's zoom, I thought a cell size that changes 32-fold per level would be hard to work with.
+Geohash is convenient for storing a location as a string or finding nearby places. But in a case like ours, where the query unit has to change with the map's zoom, I thought a cell size that changes 32-fold per character would be hard to work with.
 
 I chose tiles for three reasons.
 
 First, the tile number is the request address, so the browser, the CDN, and Redis can all cache under the same key.
 
-Second, one larger tile contains exactly four tiles of the next, more detailed zoom level. When we already have the larger tile, a zoomed-in viewport can be drawn from it, and our in-memory cache on the page actually uses it this way.
+Second, one larger tile contains exactly four tiles of the next, more detailed zoom level. When we already have the larger tile, a zoomed-in viewport can be drawn from it, and our in-memory cache on the page uses it this way.
 
 Third, map image servers and vector tile servers already use the same scheme, so there was plenty of material to refer to.
 
@@ -78,7 +78,7 @@ We decided to use this grid as it is for the complex query.
 GET /map/complexes/tiles/13/6988/3173
 ```
 
-The frontend computes which tiles the viewport covers, requests only those, and merges the returned tiles to draw the markers. The server computes the actual range each tile number covers.
+The frontend computes which tiles the viewport covers, requests only those, and merges the returned tiles and draws them on the map. The server computes the actual range each tile number covers.
 
 ![Comparison of viewport-coordinate requests and tile requests. By coordinates the two users' requests differ, but by tile the overlapping tiles become the same request](https://www.dropbox.com/scl/fi/ku3ik8nv68hxxgzl76hza/map-tile-cache-bounds-vs-tiles.en.png?rlkey=qbpx4ul40v884wvwblbpo893r&raw=1)
 
@@ -86,36 +86,36 @@ The frontend computes which tiles the viewport covers, requests only those, and 
 
 With this change, people looking at the same neighborhood send **the same address for every tile their viewports share.** Even with a different screen size, or after moving the map a little, the requested tiles stay the same as long as you don't cross a tile boundary.
 
-Of course there are downsides. Since we fetch whole tiles that the viewport touches, we also receive complexes outside the viewport, and one request becomes several. So I spent quite some time on how big the tiles should be.
+Of course there are downsides. Since we fetch whole tiles that the viewport touches, we also receive complexes outside the viewport, and one request becomes several. So I thought quite a bit about how big the tiles should be.
 
 ### Deciding the Tile Size
 
 Smaller tiles mean less off-screen data, but more requests per viewport. Larger tiles mean fewer requests but a lot of data nobody looks at. Looking at the cache alone, larger tiles reduce the number of distinct tiles and raise the chance of a cache hit, but that didn't mean we could just make them as large as possible.
 
-Each time the zoom drops by one level, a tile covers four times the area. Using tiles at the same zoom as the map would need four times as many tiles as going one level lower, and going two levels lower would make a single tile as wide as the whole viewport.
+Each time the zoom drops by one level, a tile covers four times the area. Dividing the same viewport by tiles at three zoom levels looks like this.
 
 ![The same viewport overlaid with tile grids at different zooms: 16 tiles at the map's zoom, 4 tiles one level lower, 1 tile two levels lower](https://www.dropbox.com/scl/fi/w33zv84ris34tz3krff2l/map-tile-cache-tile-zoom-compare.en.png?rlkey=qsk4oa6qaojdpgqjwfzz3vlvt&raw=1)
 
 *The same viewport divided by three tile sizes.*
 
-What I spent the most time on was which to reduce: the number of requests, or the weight of each request. Several tiles are fetched at the same time, so the time until the viewport is fully filled is set by the one tile that arrives last. The more tiles there are, the more likely it is that one of them is late. Larger tiles, on the other hand, hold more complexes each, which makes every request heavier. When I measured in our development environment, tiles covering a wider area were in fact noticeably slower to respond.
+Here I had to decide which to reduce: the number of requests, or the weight of each request. Several tiles are fetched at the same time, so the time until the viewport is fully filled is set by the one tile that arrives last. The more tiles there are, the more likely it is that one of them is late. But larger tiles hold more complexes each, which makes every request heavier. When I measured in our development environment, a request for a tile about the size of the viewport took 0.1–0.2 seconds, while a tile covering a much wider area took 0.6–1 second.
 
-So at the zoom levels where complex markers are shown, we use **tiles one zoom level lower than the map.** At the same zoom as the map we would have to fetch four times as many tiles, and two levels lower we would receive several times the viewport every time it straddles a tile boundary. One level lower fills one viewport with about 2–6 tiles in most cases. And when a large viewport would need too many tiles, we don't split into tiles and query by viewport range in one request as before.
+So at the zoom levels where complex markers are shown, we use **tiles one zoom level lower than the map.** The same zoom means too many tiles, and two levels lower we would fetch several times the viewport's area every time it straddles a tile boundary. One level lower fills one viewport with about 2–6 tiles in most cases. And when a large viewport would need too many tiles, we skip the tiles and query the whole viewport range in one request, as before.
 
 ```ts
 // map zoom 14.3 → tile zoom 13
 const tileZoom = clamp(Math.floor(mapZoom) - 1, MIN_TILE_ZOOM, MAX_TILE_ZOOM);
 ```
 
-The map zoom moves in fractions like 14.3, so we floor it to an integer for the tile zoom.
+The map zoom moves in fractions like 14.3, so we floor it to an integer for the tile zoom. As a result, map zoom 14.0 and 14.9 use tiles of the same zoom, which is also why the number of tiles per viewport varies between 2 and 6.
 
 ### Filters and the Cache Key
 
-Our map has filters such as size, price, and move-in year. Where to apply the filters was another thing to decide. I also considered fetching only unfiltered tiles and filtering them on the page, which would let everyone share the same cache regardless of filters. But that would leave that much processing to the performance of the user's device, and that bothered me. So we apply filters on the server, attach them as query parameters, and include them in the cache key as they are.
+Our map has filters such as size, price, and move-in year. Where to apply the filters was another thing to decide. I also considered fetching only unfiltered tiles and filtering them on the page, which would let everyone share the same cache regardless of filters. But that would push the filtering work onto the user's device, where it depends on how fast the device is, and I wasn't comfortable with that. So we apply filters on the server, attach them as query parameters, and include them in the cache key as they are.
 
-The cache key is built by joining the deal type (sale, lease, and so on), the tile number, and the filter values in a fixed order, because the same filters have to give the same key even when the query parameters arrive in a different order. For the browser and the CDN the address itself is the key, so the frontend also always attaches the parameters in the same order. We also put a version at the front of the key, so that if the response format changes later, bumping the version keeps old cache entries from mixing in.
+The cache key is built by joining the deal type (sale, jeonse lease, and so on), the tile number, and the filter values in a fixed order, because the same filters have to give the same key even when the query parameters arrive in a different order. For the browser and the CDN the address itself is the key, so the frontend also always attaches the parameters in the same order. We also put a version at the front of the key, so that if the response format changes later, bumping the version keeps old cache entries from mixing in.
 
-What I paid attention to here was that the number of cache keys grows with the number of filter combinations. Keys could multiply to the number of tiles times the number of filter combinations, so I wondered whether the cache would be split so finely that hits would almost never happen.
+What worried me here was that the number of cache keys grows with the number of filter combinations. Keys could multiply to the number of tiles times the number of filter combinations, so I wondered whether the cache would be split so finely that hits would almost never happen.
 
 We could only confirm this after rolling out to production, and when we looked at the real requests, **90% of them had no filter at all.** There were 151 filter combinations over two days, but most requests were concentrated on the default query without filters. At least in our service, filters didn't seem to fragment the cache much.
 
@@ -134,7 +134,7 @@ flowchart LR
 *The setup when we first rolled it out.*
 
 - **In-memory cache on the map page**: the page holds the tiles it received for up to 5 minutes. Moving the map a little and coming back is served from here, so no request is sent at all.
-- **Browser cache**: used when the page is refreshed or reopened. A browser cache can't be purged from the server once it has been delivered, so we keep it for only 60 seconds.
+- **Browser cache**: used when the page is reloaded or reopened. A browser cache can't be purged from the server once it has been delivered, so we keep it for only 60 seconds.
 - **CDN cache**: if someone else recently viewed the tile, the CDN answers without reaching our server.
 - **Redis**: even when the CDN doesn't have it, the server answers without querying the DB.
 
@@ -146,7 +146,7 @@ The TTLs for the browser and the CDN are set by the server through a response he
 Cache-Control: public, max-age=60, s-maxage=300
 ```
 
-For Redis, we added 0–30 seconds of jitter (a random amount of extra time) to the TTL. If caches created at the same moment expire together, queries can pile onto the DB at that instant, which is a cache stampede, so this keeps the expiry times from lining up. And since I thought the map should still work even if Redis has a problem, a failed Redis read or write falls back to reading from the DB.
+For Redis, we added 0–30 seconds of jitter (a random amount of extra time) to the TTL. The several tiles of one viewport are stored at almost the same moment, so the jitter shifts their expiry times slightly, to keep them from expiring together and sending queries to the DB all at that instant. And since I thought the map should still work even if Redis has a problem, a failed Redis read or write falls back to reading from the DB.
 
 ### How Stale Can the Data Get Across Several Layers?
 
@@ -158,7 +158,7 @@ Here is the worst case. Redis may hold data that is just about to expire, which 
 
 *The worst case, where each layer picks up data that is just about to expire.*
 
-I didn't think the prices shown on map markers need to be accurate to the minute, so I decided to accept this. The detail screen you reach by clicking a complex is queried separately and is not affected by this cache.
+I didn't think the prices shown on map markers need to be accurate to the minute, so I decided to accept this. The detail screen you open by selecting a complex is queried separately and isn't affected by this cache.
 
 ## When Should the Query Start?
 
@@ -178,7 +178,7 @@ The moments when a query can start on a map are summarized in the table below.
 
 *The three moments are marked with the moment of letting go at 0. The position of the idle signal is what we measured on the map SDK we use.*
 
-We originally used the first approach. So I measured separately, for drags only, when the idle signal arrives, and on the map SDK we use it **only arrived 0.36–0.46 seconds after letting go.** A large part of the time until the markers appeared was this wait.
+We originally used the first approach. The 0.2–0.7 seconds above also included actions such as coming back and zooming in, so I measured separately, for drags only, when the idle signal arrives. On the map SDK we use, it **only arrived 0.36–0.46 seconds after letting go.** For a drag, most of the time until the markers appeared was this wait.
 
 Of course, if the map keeps gliding with inertia after you let go, waiting for the idle signal is the right thing to do. But when I checked, our map had no inertial movement. The viewport at the moment of letting go was already the final one. So I decided there was no need to wait for the idle signal and moved the query to the moment of letting go.
 
@@ -186,11 +186,11 @@ We also added the third approach, because switching the request unit to tiles ma
 
 The wider the prefetch range, the more likely the next move lands inside what we already have, but the more tiles we fetch that nobody looks at. So we set the range case by case.
 
-While dragging, we know the direction of movement, so every 0.1 seconds we fetch only the tiles for the current viewport and for one viewport ahead in that direction. After the map stops and the markers are drawn, we can't know where the user will go next, so we fetch only half a viewport around the viewport. Long moves are already covered by prefetching during the drag, so I thought it was enough to cover small moves after stopping.
+While dragging, we know the direction of movement, so every 0.1 seconds we fetch only the tiles for the current viewport and for one viewport ahead in that direction. After the map stops and the markers are drawn, we can't know where the user will go next, so we fetch only a margin of half a viewport around it. Long moves are already covered by prefetching during the drag, so I decided it was enough to fetch for small moves after stopping.
 
-For zoom, we fetch only the tiles for one zoom level out. As mentioned earlier, zooming in can be drawn from a larger tile we already have, but when zooming out changes the tile zoom, we have nothing at all. When I measured, this was also the slowest case.
+For zoom, we fetch only the tiles for one zoom level out. As mentioned earlier, zooming in can be drawn from a larger tile we already have, but when zooming out changes the tile zoom, nothing we have fetched can be used. It was the slowest case in my measurements, too.
 
-![Prefetch ranges: while dragging, one viewport ahead in the direction the view is moving; after stopping, half a viewport around the view](https://www.dropbox.com/scl/fi/583rmtsihf3mw00m1alhs/map-tile-cache-prefetch-areas.en.png?rlkey=chycx08sd6ju4v19ahf3ugitk&raw=1)
+![Prefetch ranges: while dragging, one viewport ahead in the direction the viewport is moving; after stopping, half a viewport around it](https://www.dropbox.com/scl/fi/583rmtsihf3mw00m1alhs/map-tile-cache-prefetch-areas.en.png?rlkey=chycx08sd6ju4v19ahf3ugitk&raw=1)
 
 *The blue outline is the current viewport, the dashed orange outline is the range we want to prefetch, and the shaded cells are the tiles actually requested. Tiles for one zoom level out are not drawn.*
 
@@ -207,13 +207,13 @@ That said, tiles fetched by prefetching may never be seen by the user. It uses m
 
 ## What We Saw in Production
 
-After the rollout I measured again the same way on the production site. The time from letting go of the map to the markers appearing went **from 0.7–1 second to 0.01–0.12 seconds.** It was 0.01–0.04 seconds for drags of 0.5 seconds or longer, and 0.06–0.12 seconds for very short drags.
+After the rollout I measured again the same way on the production site. The time from letting go of the map to the markers appearing went **from 0.7–1 second to 0.01–0.12 seconds.** It was 0.01–0.04 seconds for drags of 0.5 seconds or longer, and 0.06–0.12 seconds for very short drags. These are values for moving by dragging; when there are no fetched tiles, such as jumping to a distant place by search, we still have to wait for the server as before.
 
 ![Time from letting go to markers appearing, before and after the rollout: 0.7–1 s before; after, 0.06–0.12 s for very short drags and 0.01–0.04 s for drags of 0.5 s or longer](https://www.dropbox.com/scl/fi/tuo8dtre0vllw9nfvejmg/map-tile-cache-before-after.en.png?rlkey=0cb2k1xn4rrdkkry74pb6ssc3&raw=1)
 
 *Each range is the minimum and maximum over several measurements.*
 
-Before the rollout, what I paid the most attention to was the number of requests. One request was now split into several tiles, with prefetching on top. Since one viewport usually needs up to 6 tiles, I first assumed requests would grow sixfold with no cache hits at all and calculated whether the server and the DB could take it. Over a whole day there was headroom, but I thought moments when requests pile up at once could be a burden, and that is why we added the concurrency limit I mentioned above, so that prefetching doesn't pile on at the same moment.
+Before the rollout, what worried me most was the number of requests. One request was now split into several tiles, with prefetching on top. Since one viewport usually needs up to 6 tiles, I first assumed requests would grow sixfold with no cache hits at all and calculated whether the server and the DB could take it. Over a whole day there was headroom, but I thought moments when requests pile up at once could be a burden, and that is why we added the concurrency limit I mentioned above, so that prefetching doesn't pile on at the same moment.
 
 Comparing a single day, three days after the rollout, with a single day before it, map queries reaching the server grew by only 17%, and DB CPU usage did not go up. Requests must have grown far more than that from the tile split, so the rest seems to have been absorbed by the in-memory cache on the page.
 
@@ -251,7 +251,9 @@ The DB query itself is already fast, so answering from Redis only saved a little
 
 Then how much would the hit rate rise with a longer TTL?
 
-We could calculate this from the real request logs. We lined up two days of tile requests in time order and counted a hit whenever the same tile-and-filter combination came again within the TTL after being stored in the cache. The first day was used to warm the cache and only the second day was counted. With 5 minutes the result was 2.5%, almost the same as what we observed, so I ran the calculation for other TTLs. That said, 5 minutes is the only point I checked against the real value, and the calculation only covers requests that reached the server, so the longer the TTL, the more these numbers should be taken as a rough guide.
+We could calculate this from the real request logs. We lined up two days of tile requests in time order and counted a hit whenever the same tile-and-filter combination came again within the TTL after being stored in the cache. The first day was used to warm the cache and only the second day was counted. With 5 minutes the result was 2.5%, almost the same as what we observed in production, so I ran the calculation for other TTLs.
+
+Of course, 5 minutes is the only point I checked against the production value. The calculation also only covers requests that reached the server, so the longer the TTL, the more these numbers should be taken as a rough guide.
 
 ![Estimated hit rate by server-side cache TTL: 5 min 2.5%, 15 min 7.2%, 30 min 10.6%, 1 h 14.7%, 3 h 29.1%, 6 h 39.1%, 12 h 50.7%, 24 h 61.2%](https://www.dropbox.com/scl/fi/ophwyjy62oamkkebfxiu7/map-tile-cache-hit-rate-by-ttl.en.png?rlkey=57o9n1c7wbbm6bhpumvoq0eqz&raw=1)
 
@@ -263,36 +265,38 @@ So should we just make the TTL long? A longer TTL would reduce the requests reac
 
 I went back to what the TTL should be based on in the first place.
 
-We started with a TTL of 5 minutes. But after looking at the request logs, I came to think we should first look at **how often the data changes.** The price data used for map markers is refreshed once a day. While the data isn't changing, there was no reason to throw the cache away.
+We started with a TTL of 5 minutes. But after looking at the request logs, I came to think we should first look at **how often the data changes.** The price data used for map markers is refreshed once a day. As long as the data hadn't changed, there was no reason to throw the cache away.
 
 So instead of discarding entries after a fixed time, we changed direction so that **the cache is refreshed together with the price data.** But the layers differ in how easily they can be purged, so the same approach couldn't apply to all of them.
 
-| Cache | Shared with | Purge from the server | Approach |
+| Cache | Used by | Purge from the server | Approach |
 |---|---|---|---|
-| In-page memory | The same user | Not possible | Keep short (5 min) |
-| Browser | The same user | Not possible | Keep short (60 s) |
+| In-page memory | One user | Not possible | Keep short (5 min) |
+| Browser | One user | Not possible | Keep short (60 s) |
 | CDN | Many users | Needs a separate request | Long TTL, purged when prices are refreshed |
 | Redis | Many users | Immediate | Long TTL, purged when prices are refreshed |
 
 This way the shared caches build up over the day, while a price change takes at most the few minutes the client-side caches last to reach the map.
 
-With this, the role of Redis changes too. With a 5-minute TTL, Redis almost never answered, but once entries build up over a day, a good share of the requests reaching the server can be answered without a DB query. And since Redis is the only shared cache the server can purge right away, I thought it was right to keep this layer.
+Then the role of Redis changes too. With a 5-minute TTL, Redis almost never answered, but once entries build up over a day, more of the requests that miss the CDN and reach the server can be answered without a DB query. And since Redis is the only shared cache the server can purge right away, I thought it was right to keep this layer.
 
-To purge Redis, instead of deleting keys one by one, we chose to **put a data version in the cache key.** When the price data is refreshed the version changes, so later requests go to new keys and the old keys simply expire with their TTL. It is the same approach as the version we put in the key in case the response format changes. This doesn't work for the browser and the CDN, though, because for them the address itself is the key. So for the CDN we separately request a purge of the tile paths once the price data refresh has finished.
+To purge Redis, instead of deleting keys one by one, we chose to **put a data version in the cache key.** When the price data is refreshed the version changes, so later requests go to new keys and the old keys simply expire with their TTL. It is the same approach as the version we put in the key earlier, in case the response format changes. For the browser and the CDN, however, the address itself is the key, so changing a key inside the server can't purge them. Putting a version in the address as well is possible, but then the page first has to know what the current version is. So for the CDN we separately request a purge of the tile paths once the price data refresh has finished.
 
-But if the cache is purged all at once on refresh, won't queries pile onto the DB? That was the same reason we added jitter earlier. I didn't expect it to be a burden at our current request volume. Even now, most requests reaching the server are not in Redis and go on to query the DB, and DB CPU usage did not go up in that state. Right after a refresh we simply go back to that same state for a while. If requests grow well beyond today's level, though, I think this is something to look at again.
+But if the cache is purged all at once on refresh, won't queries pile onto the DB? I didn't expect it to be a burden at our current request volume. Even now, most requests reaching the server are not in Redis and go on to query the DB, and DB CPU usage did not go up in that state. Right after a price refresh, we simply go back to that same state for a while. Of course, if requests grow well beyond today's level, I think this is something to look at again.
 
 {{% todo %}}
-The price-refresh integration is not implemented yet (tracked in a backend issue). How and in what order the CDN is purged is undecided, so check the body sentences against the implementation. Before publishing, check whether it has been implemented, and add the hit rate and server request counts measured after the rollout.
+The price-refresh integration is not implemented yet (tracked in a backend issue). How and in what order the CDN is purged, and the choice not to put a version in the address, are undecided, so check the body sentences against the implementation. Before publishing, check whether it has been implemented, and add the hit rate and server request counts measured after the rollout.
 {{% /todo %}}
 
-In the earlier calculation, keeping entries for 24 hours gave 61%. Of course, since the cache is purged on every refresh, I think the real number will come out lower than that. I plan to adjust the exact TTL values after running this in production a while longer and looking at real user requests.
+In the earlier calculation, keeping entries for 24 hours gave 61%. Since the cache is purged on every refresh, I think the number will come out lower than that. I plan to adjust the exact TTL values after running this in production a while longer and looking at real user requests.
 
 ## Closing
 
 That was a look at what I had to think through while switching our map query to tiles.
 
 In this work, I think aligning requests to predefined tiles instead of viewport coordinates was the starting point that made caching possible. Even outside maps, an API that is hard to cache because each request has slightly different values might be able to use a similar approach.
+
+Looking back, the query timing, the client-side cache, and prefetching did more to make the markers appear quickly than the shared caches did. But the client-side cache and prefetching were only possible because the request unit was fixed to tiles.
 
 I also think it mattered that, after adding the cache, we checked in the request logs whether it was actually getting hits. I learned from the logs that the shared caches had a lower hit rate than expected and that a 5-minute TTL didn't fit our data.
 
