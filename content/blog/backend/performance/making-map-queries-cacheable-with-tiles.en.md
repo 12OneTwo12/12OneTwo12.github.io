@@ -385,17 +385,19 @@ When the TTL was 5 minutes, most requests reaching the server were not in Redis 
 
 In the earlier calculation by TTL, keeping entries for 24 hours gave 61%. This time I recalculated with the same request logs, also including the cache being purged every morning when the price refresh finishes. It came out to 55%.
 
-To see whether this calculation was right, I checked it first with only Redis changed to one day, before extending the CDN retention. I measured a full day, from one price refresh to the next day's refresh, and the Redis hit rate, which had been 2\~3%, **became 53%.** That is almost the same as the 55% I had calculated earlier.
+I was curious whether this calculation was right, so before extending the CDN retention I first measured a day with only Redis changed to one day. I measured from right after a price refresh to the next day's refresh, and the Redis hit rate, which had been 2\~3%, **became 53%.** It came out almost the same as the calculated value.
 
 ![Redis hit rate by hour over the day after a price refresh. 8% in the first hour after the refresh, in the 40% range after 4 hours, mostly in the 60~80% range from the evening on, with a daily average of 53.1%. It drops to 11% again right after the next day's refresh](https://www.dropbox.com/scl/fi/ujkiqyhh1byiv34ph9wom/map-tile-cache-hit-rate-by-hour.en.png?rlkey=929hgy0hkkz6n0yf9x0pyk1el&raw=1)
 
 *The values are split by hour, from one price refresh to 2 hours after the next day's refresh. The orange bars are the first hour after a refresh.*
 
-In the first hour after the refresh there was nothing under the new keys, so the hit rate dropped to 8%. From there the tiles that got requested were filled in first, and after about 4 hours it was in the 40% range, and from the evening on it was mostly in the 60\~80% range. Right after the next morning's refresh it dropped again, to 11%.
+Looking at the graph, the hit rate drops to 8% right after a refresh. There is nothing under the new keys yet. From there the tiles that get requested are filled in again, and after about 4 hours it was in the 40% range, and from the evening on it rose to the 60\~80% range. When the next morning's refresh came, it dropped again.
 
-Queries piling onto the DB right after a refresh was not a problem either. Even during the few morning hours when the hit rate was low, the DB's CPU usage was no different from other hours. The number of tile requests reaching the server was about the same as before, but of those, the queries that went all the way to the DB fell to less than half. Redis memory also stayed under a quarter of the limit, as calculated.
+Queries piling onto the DB right after a refresh was not a problem either, as I had expected. Even in the morning, when the hit rate was low, the DB's CPU usage was no different from other hours.
 
-There is also the option of pre-filling the few hours right after a refresh. But considering that even the 20 most requested combinations together made up 8% of all requests, I don't think it would help much, so we are leaving it as it is for now.
+The number of tile requests reaching the server was about the same as before, but of those, the queries that went all the way to the DB fell to less than half. Redis memory also stayed under a quarter of the limit.
+
+I did wonder about pre-filling the few hours right after a refresh, but considering that even the 20 most requested combinations together made up 8% of all requests, it didn't seem like it would help much. So we are leaving it as it is for now.
 
 ## Closing
 
