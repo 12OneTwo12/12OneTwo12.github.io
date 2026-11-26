@@ -315,7 +315,7 @@ DB 조회 자체가 이미 빠른 편이다 보니 Redis에서 응답하더라�
 
 먼저 5분으로 계산해보니 2.5%가 나왔고, 운영에서 확인한 값과 거의 같아서 TTL을 바꿔가며 계산해봤습니다. 물론 운영 값과 맞춰본 건 5분 한 가지뿐이라, TTL이 긴 쪽은 참고용으로만 봐야 할 것 같습니다.
 
-![서버 캐시 TTL별 예상 히트율. 5분 2.5%, 15분 7.2%, 30분 10.6%, 1시간 14.7%, 3시간 29.1%, 6시간 39.1%, 12시간 50.7%, 24시간 61.2%](https://www.dropbox.com/scl/fi/q89veyaqrt7e4e8ilasj8/map-tile-cache-hit-rate-by-ttl.png?rlkey=5mnea3q9aww4ckcnydw0vf7nr&raw=1)
+![서버 캐시 TTL별 예상 히트율. 5분 2.5%, 15분 7.2%, 30분 10.6%, 1시간 14.7%, 3시간 29.1%, 6시간 39.1%, 12시간 50.7%, 24시간 61.2%](https://www.dropbox.com/scl/fi/9lohvhwt8kp7e15e2tnrr/map-tile-cache-hit-ratio-by-ttl.png?rlkey=jtqa7aealdehmcvmkfxsjuacu&raw=1)
 
 *실제 요청 기록으로 계산한 TTL별 예상 히트율입니다(가로축 간격은 일정하지 않습니다). Redis처럼 한 곳에 모이는 캐시 기준이고, 지역별로 나뉘는 CDN은 이보다 낮을 것 같습니다.*
 
