@@ -383,15 +383,17 @@ But if the cache is purged all at once on refresh, won't queries pile onto the D
 
 When the TTL was 5 minutes, most requests reaching the server were not in Redis and queried the DB, and even in that state the DB's CPU usage did not go up. Right after a refresh, we just go back to that same state for a while. Of course, if requests grow well beyond the current level, I think this is something to work out again.
 
-{{% todo %}}
-To add to this section after measuring a full day:
-- Hit rate: value before the rollout → value for a full day after. Compare with the estimate of 55%.
-- How the hit rate drops right after a refresh and fills back up (graph by time of day).
-- Actual Redis memory usage (as a ratio), DB CPU, number of requests reaching the server.
-- Replace "I plan to check in production what it actually comes out to … and adjust" in the last paragraph below with the measured results.
-{{% /todo %}}
+In the calculation by TTL, keeping entries for 24 hours gave 61%. Recalculating with the same request logs, with the cache purged every morning when the price refresh finishes, gives 55%.
 
-In the calculation by TTL, keeping entries for 24 hours gave 61%. Recalculating with the same request logs, with the cache purged every morning when the price refresh finishes, gives 55%. Of course, this value treats the shared cache as a single place. In practice the CDN takes the repeated requests first, so I think the number measured at Redis will come out lower than this. I plan to check in production what it actually comes out to, and to adjust the specific TTL values after looking at real users' requests.
+So what did it actually come out to? After changing the Redis TTL to one day, I measured a full day, from one price refresh to the next morning's refresh. The Redis hit rate, which had been 2\~3%, **became 53%.** That is almost the same as the 55% I had calculated.
+
+![Redis hit rate by hour over the day after a price refresh. 8% in the first hour after the refresh, in the 40% range after 4 hours, around 70% from the evening on, with a daily average of 53.1%. It drops to 11% again right after the next day's refresh](https://www.dropbox.com/scl/fi/ujkiqyhh1byiv34ph9wom/map-tile-cache-hit-rate-by-hour.en.png?rlkey=929hgy0hkkz6n0yf9x0pyk1el&raw=1)
+
+*The values are split by hour, from one price refresh to 2 hours after the next day's refresh. The orange bars are the first hour after a refresh.*
+
+Right after a refresh there is nothing under the new keys, so the hit rate drops to 8%. From there the tiles that get requested are filled in first, and after about 4 hours it is in the 40% range, then around 70% from the evening on. I also confirmed that at the next morning's refresh it dropped again and filled back up in the same shape.
+
+The number of tile requests reaching the server was about the same as before, but the queries that went all the way to the DB fell to less than half. Redis memory also stayed under a quarter of the limit, as calculated. I plan to adjust the specific TTL values after watching the requests for longer.
 
 ## Closing
 
