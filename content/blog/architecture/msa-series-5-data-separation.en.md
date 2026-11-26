@@ -295,8 +295,8 @@ flowchart LR
 ```
 
 ```java
-// Receive user info change event and update replica table
-@EventListener
+// Receive the user info change event published by the user service and update the replica table
+@KafkaListener(topics = "user-events")
 public void onUserUpdated(UserUpdatedEvent event) {
     userReplicaRepository.save(UserReplica.from(event));
 }
@@ -318,7 +318,7 @@ Since you're querying from the same DB engine, you can use JOIN if you want, and
 
 Of course, this approach has drawbacks too.
 
-- **Possibility of data inconsistency**: If events are delayed, stale data may be visible temporarily. Data consistency issues can occur due to event loss. (This can be addressed with the Transactional Outbox pattern or reliable message brokers like Kafka—I'll cover this in detail in [Part 6]({{< relref "/blog/architecture/msa-series-6-event-consistency" >}}).)
+- **Possibility of data inconsistency**: If events are delayed, stale data may be visible temporarily. Data consistency issues can occur due to event loss. (A message broker alone does not tie the DB write and the event publish together, so this needs something like the Transactional Outbox pattern. I'll cover this in detail in [Part 6]({{< relref "/blog/architecture/msa-series-6-event-consistency" >}}).)
 - **Increased storage**: Same data is stored in multiple places, so more storage is needed.
 - **Synchronization logic management**: You need to create and maintain event processing logic.
 

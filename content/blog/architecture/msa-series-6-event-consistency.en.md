@@ -219,7 +219,7 @@ The key is **the same userId always goes to the same partition**. So order is gu
 Another method is using optimistic processing. It's similar to JPA's optimistic locking. Include a version or timestamp in the event and ignore old events.
 
 ```java
-@EventListener
+@KafkaListener(topics = "user-events")
 public void onUserUpdated(UserUpdatedEvent event) {
     UserReplica existing = userReplicaRepository.findById(event.getUserId());
 
@@ -277,7 +277,7 @@ Event size is small and flexible to schema changes. But a question arises here. 
 The answer is simpler than you think. **Call the API of the service that has the original data.** This approach of receiving Thin Events and querying data through APIs is called the **Zero Payload Pattern**.
 
 ```java
-@EventListener
+@KafkaListener(topics = "user-events")
 public void onUserUpdated(UserUpdatedEvent event) {
     // Event only has userId → query latest data via API
     UserDto latest = userServiceClient.getUser(event.getUserId());
@@ -376,26 +376,28 @@ I talked about idempotency when covering Retry in [Part 4]({{< relref "/blog/arc
 #### Method 1: Processing Completion Record
 
 ```java
-@EventListener
+@KafkaListener(topics = "user-events")
+@Transactional
 public void onUserUpdated(UserUpdatedEvent event) {
-    // Check if already processed
-    if (processedEventRepository.existsByEventId(event.getId())) {
+    // event_id has a unique constraint; try to insert the processing record first
+    // (INSERT IGNORE / ON CONFLICT DO NOTHING, returns 0 if it already exists)
+    int inserted = processedEventRepository.insertIfAbsent(event.getId());
+    if (inserted == 0) {
         log.info("Already processed event: {}", event.getId());
         return;
     }
 
-    // Actual processing
+    // Actual processing (same transaction as the processing record)
     userReplicaRepository.save(UserReplica.from(event));
-
-    // Record processing completion
-    processedEventRepository.save(new ProcessedEvent(event.getId()));
 }
 ```
+
+Checking first and recording afterwards lets both deliveries through when the same event arrives twice at the same time. So instead of separating the check from the record, we try to insert the record into a table with a unique constraint. The record and the actual processing share one transaction, so if processing fails the record is rolled back too.
 
 #### Method 2: Using Upsert
 
 ```java
-@EventListener
+@KafkaListener(topics = "user-events")
 public void onUserUpdated(UserUpdatedEvent event) {
     // INSERT or UPDATE - same result even if executed multiple times
     userReplicaRepository.upsert(UserReplica.from(event));
@@ -411,22 +413,21 @@ But what if **processing itself keeps failing** even with guaranteed idempotency
 For such cases, the **Dead Letter Queue (DLQ)** pattern is used. Messages that fail after a certain number of retries are sent to a separate DLQ for later manual processing or analysis.
 
 ```java
+@Bean
+public DefaultErrorHandler errorHandler(KafkaTemplate<Object, Object> template) {
+    // Retry 3 times at 1-second intervals; if it still fails, send it to the DLQ topic
+    var recoverer = new DeadLetterPublishingRecoverer(template);
+    return new DefaultErrorHandler(recoverer, new FixedBackOff(1000L, 3));
+}
+
 @KafkaListener(topics = "user-events")
 public void consume(UserUpdatedEvent event) {
-    try {
-        processEvent(event);
-    } catch (Exception e) {
-        if (event.getRetryCount() >= MAX_RETRY) {
-            // Move to DLQ
-            dlqProducer.send("user-events-dlq", event);
-            log.error("Moving to DLQ: {}", event.getId());
-        } else {
-            // To retry queue
-            throw e; // Kafka auto-retries
-        }
-    }
+    // On an exception, the handler above counts the retries and sends the message to the DLQ once they run out
+    processEvent(event);
 }
 ```
+
+The retry count is not something that arrives inside the event, so rather than counting it yourself it is more common to leave it to the framework's error handler like this (Spring Kafka here).
 
 Set up monitoring alerts for messages accumulated in DLQ, identify the cause, then manually reprocess or discard. This prevents situations where problematic messages keep retrying and block overall processing.
 
@@ -596,13 +597,13 @@ Each service publishes events, and other services individually react to those ev
 
 ```java
 // Seat Service
-@EventListener
+@KafkaListener(topics = "booking-events")
 public void onBookingRequested(BookingRequestedEvent event) {
     seatRepository.reserve(event.getSeatId());
     eventPublisher.publish(new SeatReservedEvent(...));
 }
 
-@EventListener
+@KafkaListener(topics = "payment-events")
 public void onPaymentRefunded(PaymentRefundedEvent event) {
     // Compensating transaction: cancel seat reservation
     seatRepository.release(event.getSeatId());

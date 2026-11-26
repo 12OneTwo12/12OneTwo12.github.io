@@ -195,7 +195,7 @@ There are situations that Timeout and Retry can't solve. Like when the Payment S
 
 What happens if you keep sending requests in this situation? Waiting until Timeout and retrying for each request takes considerable time. You're just wasting resources sending requests to a dead service.
 
-**Circuit Breaker** prevents this situation. When consecutive failures are detected, it **immediately returns failure without even sending the request**.
+**Circuit Breaker** prevents this situation. When the share of failed requests among recent calls exceeds a threshold, it **immediately returns failure without even sending the request**.
 
 It's called a "Circuit Breaker" because it works similarly to an electrical circuit breaker in your home. When electricity is overloaded, the breaker trips to prevent fire, right? Similarly, when service calls keep failing, the circuit breaker opens and stops sending requests.
 
@@ -324,7 +324,7 @@ When calling an external service:
 1. **Bulkhead** isolates this call so it doesn't affect other calls
 2. **Timeout** sets the maximum wait time
 3. On failure, **Retry** (with Exponential Backoff) attempts again
-4. On consecutive failures, **Circuit Breaker** opens and returns immediate failure
+4. When the failure rate exceeds the threshold, **Circuit Breaker** opens and returns immediate failure
 5. Finally, **Fallback** executes alternative logic
 
 Of course, you don't need to apply all these patterns to every call. I think you should select appropriately based on the importance and characteristics of each call.
@@ -339,7 +339,7 @@ As I emphasized "when not to use" in [Part 2]({{< relref "/blog/architecture/msa
 - Retrying without Jitter on an already overloaded service
 
 #### When NOT to use Circuit Breaker
-- Low call frequency (tracking consecutive failures is meaningless)
+- Low call frequency (not enough requests to calculate a failure rate)
 - Calls where failure is acceptable (logging, statistics collection, etc.)
 - Already processing asynchronously
 
@@ -369,7 +369,8 @@ class PaymentService(private val paymentClient: PaymentClient) {
     @TimeLimiter(name = "payment")
     fun processPayment(orderId: String): CompletableFuture<PaymentResult> {
         return CompletableFuture.supplyAsync {
-            paymentClient.pay(orderId)
+            // Send the order ID as an idempotency key so a retried request is still charged only once
+            paymentClient.pay(orderId, idempotencyKey = orderId)
         }
     }
 

@@ -295,8 +295,8 @@ flowchart LR
 ```
 
 ```java
-// 회원 정보 변경 이벤트를 받아서 복제 테이블 업데이트
-@EventListener
+// 회원 서비스가 발행한 회원 정보 변경 이벤트를 받아서 복제 테이블 업데이트
+@KafkaListener(topics = "user-events")
 public void onUserUpdated(UserUpdatedEvent event) {
     userReplicaRepository.save(UserReplica.from(event));
 }
@@ -318,7 +318,7 @@ public OrderDetailResponse getOrderDetail(Long orderId) {
 
 물론 이 방식도 단점이 있습니다.
 
-- **데이터 불일치 가능성**: 이벤트가 지연되면 잠시 동안 오래된 데이터가 보일 수 있습니다. 이벤트 유실로 인해 데이터 정합성 문제가 발생할 수도 있고요. (이 문제는 Transactional Outbox 패턴이나 Kafka 같은 신뢰성 있는 메시지 브로커를 사용해서 해결할 수 있는데, 자세한 내용은 [6편]({{< relref "/blog/architecture/msa-series-6-event-consistency" >}})에서 다루겠습니다.)
+- **데이터 불일치 가능성**: 이벤트가 지연되면 잠시 동안 오래된 데이터가 보일 수 있습니다. 이벤트 유실로 인해 데이터 정합성 문제가 발생할 수도 있고요. (메시지 브로커를 쓰더라도 DB 저장과 이벤트 발행이 함께 묶이지는 않기 때문에, 이 문제는 Transactional Outbox 패턴 같은 방법으로 풀어야 합니다. 자세한 내용은 [6편]({{< relref "/blog/architecture/msa-series-6-event-consistency" >}})에서 다루겠습니다.)
 - **저장 공간 증가**: 같은 데이터를 여러 곳에 저장하기 때문에 저장 공간이 더 필요합니다.
 - **동기화 로직 관리**: 이벤트 처리 로직을 만들고 유지보수해야 합니다.
 

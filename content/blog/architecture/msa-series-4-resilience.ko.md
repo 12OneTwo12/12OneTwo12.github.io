@@ -195,7 +195,7 @@ Timeout과 Retry로도 해결되지 않는 상황이 있습니다. 결제 서비
 
 이 상황에서 계속 요청을 보내면 어떻게 될까요? 매번 Timeout까지 기다리고, Retry까지 하면 하나의 요청을 처리하는 데 상당한 시간이 걸립니다. 죽은 서비스에 계속 요청을 보내면서 자원만 낭비하는 거죠.
 
-**Circuit Breaker**는 이런 상황을 방지합니다. 연속된 실패가 감지되면 **아예 요청을 보내지 않고 즉시 실패**를 반환하는 방식입니다.
+**Circuit Breaker**는 이런 상황을 방지합니다. 최근 요청 중 실패한 비율이 임계치를 넘으면 **아예 요청을 보내지 않고 즉시 실패**를 반환하는 방식입니다.
 
 이름이 "회로 차단기"인 이유는 집의 전기 차단기와 동작 방식이 비슷하기 때문입니다. 전기가 과부하되면 차단기가 내려가서 화재를 방지하죠? 마찬가지로 서비스 호출이 계속 실패하면 회로 차단기가 열려서 더 이상 요청을 보내지 않습니다.
 
@@ -324,7 +324,7 @@ flowchart LR
 1. **Bulkhead**로 이 호출이 다른 호출에 영향을 주지 않도록 격리하고
 2. **Timeout**으로 최대 대기 시간을 설정하고
 3. 실패하면 **Retry**(Exponential Backoff)로 재시도하고
-4. 연속 실패하면 **Circuit Breaker**가 열려서 즉시 실패를 반환하고
+4. 실패율이 임계치를 넘으면 **Circuit Breaker**가 열려서 즉시 실패를 반환하고
 5. 최종적으로 **Fallback**으로 대체 로직을 실행합니다
 
 물론 모든 호출에 이 모든 패턴을 적용할 필요는 없습니다. 호출의 중요도와 특성에 따라 적절히 선택해야 한다고 생각합니다.
@@ -339,7 +339,7 @@ flowchart LR
 - 이미 과부하인 서비스에 Jitter 없이 재시도
 
 #### Circuit Breaker를 쓰면 안 될 때
-- 호출 빈도가 낮은 경우 (연속 실패 추적이 무의미)
+- 호출 빈도가 낮은 경우 (실패율을 계산할 만큼 요청이 쌓이지 않음)
 - 실패해도 괜찮은 호출 (로깅, 통계 수집 등)
 - 이미 비동기로 처리하는 경우
 
@@ -369,7 +369,8 @@ class PaymentService(private val paymentClient: PaymentClient) {
     @TimeLimiter(name = "payment")
     fun processPayment(orderId: String): CompletableFuture<PaymentResult> {
         return CompletableFuture.supplyAsync {
-            paymentClient.pay(orderId)
+            // 주문 ID를 멱등성 키로 함께 보내서, 재시도되더라도 결제는 한 번만 처리되게 합니다
+            paymentClient.pay(orderId, idempotencyKey = orderId)
         }
     }
 

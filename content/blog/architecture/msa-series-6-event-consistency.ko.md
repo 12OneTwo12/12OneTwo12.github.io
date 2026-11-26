@@ -219,7 +219,7 @@ userId=999 → hash(999) % 10 = 3번 파티션
 또 다른 방법으로는 낙관적 처리 방식을 사용하는 것입니다. JPA의 낙관적 락과 비슷한 개념인데요. 이벤트에 버전이나 타임스탬프를 포함시키고, 오래된 이벤트는 무시하는 방식이 있습니다.
 
 ```java
-@EventListener
+@KafkaListener(topics = "user-events")
 public void onUserUpdated(UserUpdatedEvent event) {
     UserReplica existing = userReplicaRepository.findById(event.getUserId());
 
@@ -277,7 +277,7 @@ Consumer가 API 호출 없이 바로 처리할 수 있다는 장점이 있습니
 답은 생각보다 간단합니다. 해당 원본 데이터를 가지고있는 서비스의 **API를 호출해서 가져오면 됩니다.** 이렇게 Thin Event를 받고 API를 통해 데이터를 조회하는 방식을 **Zero Payload 패턴**이라고 합니다.
 
 ```java
-@EventListener
+@KafkaListener(topics = "user-events")
 public void onUserUpdated(UserUpdatedEvent event) {
     // 이벤트에는 userId만 있음 → API로 최신 데이터 조회
     UserDto latest = userServiceClient.getUser(event.getUserId());
@@ -376,26 +376,28 @@ At-least-once면 중복이 발생할 수 있습니다. 그래서 Consumer 측에
 #### 방법 1: 처리 완료 기록
 
 ```java
-@EventListener
+@KafkaListener(topics = "user-events")
+@Transactional
 public void onUserUpdated(UserUpdatedEvent event) {
-    // 이미 처리한 이벤트인지 확인
-    if (processedEventRepository.existsByEventId(event.getId())) {
+    // event_id에 유니크 제약을 걸어두고, 처리 기록을 먼저 넣어봄
+    // (INSERT IGNORE / ON CONFLICT DO NOTHING, 이미 있으면 0을 반환)
+    int inserted = processedEventRepository.insertIfAbsent(event.getId());
+    if (inserted == 0) {
         log.info("이미 처리된 이벤트: {}", event.getId());
         return;
     }
 
-    // 실제 처리
+    // 실제 처리 (처리 기록과 같은 트랜잭션)
     userReplicaRepository.save(UserReplica.from(event));
-
-    // 처리 완료 기록
-    processedEventRepository.save(new ProcessedEvent(event.getId()));
 }
 ```
+
+처리했는지를 먼저 조회하고 나중에 기록하는 방식은 같은 이벤트가 동시에 두 번 전달되면 둘 다 통과할 수 있습니다. 그래서 조회와 기록을 나누지 않고, 유니크 제약이 걸린 테이블에 기록을 먼저 넣어보는 방식으로 확인합니다. 처리 기록과 실제 처리는 같은 트랜잭션으로 묶어서, 처리가 실패하면 기록도 함께 롤백되도록 합니다.
 
 #### 방법 2: Upsert 활용
 
 ```java
-@EventListener
+@KafkaListener(topics = "user-events")
 public void onUserUpdated(UserUpdatedEvent event) {
     // INSERT or UPDATE - 여러 번 실행해도 결과가 같음
     userReplicaRepository.upsert(UserReplica.from(event));
@@ -411,22 +413,21 @@ Upsert가 가능한 상황이라면 이 방식이 더 간단합니다. 별도의
 이런 경우를 위해 **Dead Letter Queue (DLQ)** 패턴을 사용합니다. 일정 횟수 이상 재시도해도 실패하는 메시지는 별도의 DLQ로 보내서 나중에 수동으로 처리하거나 분석하는 거죠.
 
 ```java
+@Bean
+public DefaultErrorHandler errorHandler(KafkaTemplate<Object, Object> template) {
+    // 1초 간격으로 3번 재시도하고, 그래도 실패하면 DLQ 토픽으로 보냄
+    var recoverer = new DeadLetterPublishingRecoverer(template);
+    return new DefaultErrorHandler(recoverer, new FixedBackOff(1000L, 3));
+}
+
 @KafkaListener(topics = "user-events")
 public void consume(UserUpdatedEvent event) {
-    try {
-        processEvent(event);
-    } catch (Exception e) {
-        if (event.getRetryCount() >= MAX_RETRY) {
-            // DLQ로 이동
-            dlqProducer.send("user-events-dlq", event);
-            log.error("DLQ로 이동: {}", event.getId());
-        } else {
-            // 재시도 큐로
-            throw e; // Kafka가 자동 재시도
-        }
-    }
+    // 예외가 나면 위 핸들러가 재시도 횟수를 세고, 초과하면 DLQ로 보냄
+    processEvent(event);
 }
 ```
+
+재시도 횟수는 이벤트에 담겨 오는 값이 아니라서, 직접 세기보다는 이렇게 프레임워크의 에러 핸들러에 맡기는 편이 일반적입니다(Spring Kafka 기준).
 
 DLQ에 쌓인 메시지는 모니터링 알림을 설정해두고, 원인을 파악한 후 수동으로 재처리하거나 폐기합니다. 이렇게 하면 문제 있는 메시지가 계속 재시도되면서 전체 처리를 막는 상황을 방지할 수 있습니다.
 
@@ -596,13 +597,13 @@ flowchart LR
 
 ```java
 // 좌석 서비스
-@EventListener
+@KafkaListener(topics = "booking-events")
 public void onBookingRequested(BookingRequestedEvent event) {
     seatRepository.reserve(event.getSeatId());
     eventPublisher.publish(new SeatReservedEvent(...));
 }
 
-@EventListener
+@KafkaListener(topics = "payment-events")
 public void onPaymentRefunded(PaymentRefundedEvent event) {
     // 보상 트랜잭션: 좌석 예약 취소
     seatRepository.release(event.getSeatId());
