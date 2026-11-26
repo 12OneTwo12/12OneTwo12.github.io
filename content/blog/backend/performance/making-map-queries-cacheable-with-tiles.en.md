@@ -52,7 +52,7 @@ Even when users look at the same neighborhood, their screen sizes differ, and mo
 
 I had been aware that markers on our map were appearing with a delay, and after wrapping up a large project, the [integrated real estate AI agent]({{< relref "/blog/architecture/real-estate-integrated-agent" >}}), I came to look into this part.
 
-So how long was it actually taking? On our production web, I measured the time from letting go of the map to the new markers being drawn, 5 times each (I recorded the time of letting go in the browser, then read the start and end of the request sent after it and the time the screen last changed), and ours took about 0.7\~1 second. I measured other real estate map services the same way and they were under 0.2 seconds. Honestly, I didn't expect the gap to be this large.
+So how long was it actually taking? On our production web, I measured the time from letting go of the map to the new markers being drawn, 5 times each, and ours took about 0.7\~1 second (I recorded the time of letting go in the browser, then read the start and end of the request sent after it and the time the screen last changed). I measured other real estate map services the same way and they were under 0.2 seconds. Honestly, I didn't expect the gap to be this large.
 
 ## Changing the Request Unit to Tiles
 
@@ -313,7 +313,7 @@ Then how much would the hit rate go up with a longer TTL?
 
 This could be calculated from the real request logs. I put two days of requests in time order and counted a hit when the same tile and filter combination came again within the TTL. The first day was used only to fill the cache.
 
-Calculating with 5 minutes first gave 2.5%, which was almost the same as the value we saw in production, so I ran the calculation for other TTLs. Of course, 5 minutes is the only point I compared against the production value, so I think the longer TTLs should be taken only as a reference.
+Calculating with 5 minutes first gave 2.5%, which was almost the same as the value we saw in production, so I ran the calculation for other TTLs. Of course, 5 minutes was the only point I had compared against the production value at that time, so I took the longer TTLs only as a reference.
 
 ![Estimated hit rate by server cache TTL. 5 min 2.5%, 15 min 7.2%, 30 min 10.6%, 1 hour 14.7%, 3 hours 29.1%, 6 hours 39.1%, 12 hours 50.7%, 24 hours 61.2%](https://www.dropbox.com/scl/fi/ophwyjy62oamkkebfxiu7/map-tile-cache-hit-rate-by-ttl.en.png?rlkey=57o9n1c7wbbm6bhpumvoq0eqz&raw=1)
 
@@ -340,9 +340,9 @@ So instead of discarding entries after time passes, we changed direction so that
 | CDN | Many people | Needs a separate request | Keep long and purge on refresh |
 | Redis | Many people | Possible right away | Keep long and purge on refresh |
 
-This way the shared cache builds up over the day, while a price change takes a few minutes at most to be reflected on the map.
+This way the shared cache builds up over the day. And even when a price changes, it takes a few minutes at most to be reflected on the map.
 
-Then the role Redis plays changes too. With a 5-minute TTL, Redis almost never answered, but once entries build up over a day, more of the requests that miss the CDN and reach the server can be answered without a DB query. Redis is also the only shared cache that can be purged right away from the server. And as I mentioned earlier, the gap from the DB query is large in the slowest 5%, so I thought it was right to keep this layer.
+Then the role Redis plays changes too. With a 5-minute TTL, Redis almost never answered. But once entries build up over a day, more of the requests that miss the CDN and reach the server can be answered without querying the DB. Redis is also the only shared cache that can be purged right away from the server. And as I mentioned earlier, the gap from the DB query is large in the slowest 5%, so I thought it was right to keep this layer.
 
 To purge Redis, instead of deleting keys one by one, we chose to **put a data version in the cache key.** Deleting keys means finding all the keys scattered across tile and filter combinations, and a response built from old data could be stored again while the deletion is in progress. With the version in the key, there is no need to find and delete keys.
 
@@ -365,7 +365,7 @@ flowchart LR
 
 At the first refresh on the morning after the production rollout, I confirmed that lookups moved to keys of the new version right after the refresh job finished.
 
-We extended the Redis TTL to one day. The TTL is now used only to remove old keys.
+We extended the Redis TTL to one day, and it is now used only to remove old keys.
 
 Going from a 5-minute TTL to a day also means more data builds up in Redis, so I first calculated whether there was enough memory. Measuring response sizes in the production request logs, the median was about 5KB, but tiles in areas with many complexes exceed tens of KB, so the average was 21KB.
 
@@ -377,23 +377,25 @@ There was one ordering issue here. The server takes up to 1 minute to see the ne
 
 Whether the version has changed is checked by a job that runs every minute, so the purge happens within 3 minutes at the longest (if it fails, it is retried on the next cycle). Adding the 5 minutes the page holds its tiles, the change is reflected on the map within 8 minutes of the refresh job finishing.
 
-With longer CDN retention the browser cache's share shrinks, but it is a layer that can't be purged from the server, so we left it at 60 seconds.
+With longer CDN retention the browser cache has less to do. Still, it is a layer that can't be purged from the server, so we left it at 60 seconds.
 
 But if the cache is purged all at once on refresh, won't queries pile onto the DB? This isn't something jitter can spread out either, so I worked it out from the request volume, and I concluded it would not be a burden at the current volume.
 
-When the TTL was 5 minutes, most requests reaching the server were not in Redis and queried the DB, and even in that state the DB's CPU usage did not go up. Right after a refresh, we just go back to that same state for a while. Of course, if requests grow well beyond the current level, I think this is something to work out again.
+When the TTL was 5 minutes, most requests reaching the server were not in Redis and queried the DB, and even in that state the DB's CPU usage did not go up. For a few hours right after a refresh, we just go back to a state similar to that one. Of course, if requests grow well beyond the current level, I think this is something to work out again.
 
-In the calculation by TTL, keeping entries for 24 hours gave 61%. Recalculating with the same request logs, with the cache purged every morning when the price refresh finishes, gives 55%.
+In the earlier calculation by TTL, keeping entries for 24 hours gave 61%. This time I recalculated with the same request logs, also including the cache being purged every morning when the price refresh finishes. It came out to 55%.
 
-So what did it actually come out to? After changing the Redis TTL to one day, I measured a full day, from one price refresh to the next morning's refresh. The Redis hit rate, which had been 2\~3%, **became 53%.** That is almost the same as the 55% I had calculated.
+To see whether this calculation was right, I checked it first with only Redis changed to one day, before extending the CDN retention. I measured a full day, from one price refresh to the next day's refresh, and the Redis hit rate, which had been 2\~3%, **became 53%.** That is almost the same as the 55% I had calculated earlier.
 
-![Redis hit rate by hour over the day after a price refresh. 8% in the first hour after the refresh, in the 40% range after 4 hours, around 70% from the evening on, with a daily average of 53.1%. It drops to 11% again right after the next day's refresh](https://www.dropbox.com/scl/fi/ujkiqyhh1byiv34ph9wom/map-tile-cache-hit-rate-by-hour.en.png?rlkey=929hgy0hkkz6n0yf9x0pyk1el&raw=1)
+![Redis hit rate by hour over the day after a price refresh. 8% in the first hour after the refresh, in the 40% range after 4 hours, mostly in the 60~80% range from the evening on, with a daily average of 53.1%. It drops to 11% again right after the next day's refresh](https://www.dropbox.com/scl/fi/ujkiqyhh1byiv34ph9wom/map-tile-cache-hit-rate-by-hour.en.png?rlkey=929hgy0hkkz6n0yf9x0pyk1el&raw=1)
 
 *The values are split by hour, from one price refresh to 2 hours after the next day's refresh. The orange bars are the first hour after a refresh.*
 
-Right after a refresh there is nothing under the new keys, so the hit rate drops to 8%. From there the tiles that get requested are filled in first, and after about 4 hours it is in the 40% range, then around 70% from the evening on. I also confirmed that at the next morning's refresh it dropped again and filled back up in the same shape.
+In the first hour after the refresh there was nothing under the new keys, so the hit rate dropped to 8%. From there the tiles that got requested were filled in first, and after about 4 hours it was in the 40% range, and from the evening on it was mostly in the 60\~80% range. Right after the next morning's refresh it dropped again, to 11%.
 
-The number of tile requests reaching the server was about the same as before, but the queries that went all the way to the DB fell to less than half. Redis memory also stayed under a quarter of the limit, as calculated. I plan to adjust the specific TTL values after watching the requests for longer.
+Queries piling onto the DB right after a refresh was not a problem either. Even during the few morning hours when the hit rate was low, the DB's CPU usage was no different from other hours. The number of tile requests reaching the server was about the same as before, but of those, the queries that went all the way to the DB fell to less than half. Redis memory also stayed under a quarter of the limit, as calculated.
+
+There is also the option of pre-filling the few hours right after a refresh. But considering that even the 20 most requested combinations together made up 8% of all requests, I don't think it would help much, so we are leaving it as it is for now.
 
 ## Closing
 
@@ -401,11 +403,11 @@ That was a summary of what I thought through while changing our map query to til
 
 In this work, I think the most important thing was changing the request unit from viewport coordinates to tiles. Both the page-side cache and prefetching were possible because the request unit was fixed to tiles. Even if it isn't a map, I think something similar could be tried for an API that is hard to cache because the values differ slightly on every request.
 
-Looking back, I think the markers came to appear quickly thanks to the query timing, the page-side cache, and prefetching, more than the shared cache.
+Looking back, I think the markers came to appear quickly thanks to the query timing, the page-side cache, and prefetching, more than the shared cache. The shared cache only came to take half of the requests reaching the server after we changed the TTL to one day.
 
 Honestly, I thought of the cache first this time too, but when I actually measured, the time spent waiting before the query started was longer. It made me think that next time I should split the elapsed time by segment first, before adding a cache.
 
-I'm also glad I checked in the request logs whether hits were actually happening. If I hadn't looked at the logs, I think I would have gone on without knowing that the shared cache was hardly being used, or that a 5-minute TTL didn't fit our data. If I did it again, I think I would look at the request logs first for the shared cache and decide the TTL from there.
+I'm also glad I checked in the request logs whether hits were actually happening. If I hadn't looked at the logs, I think I would have gone on without knowing that the shared cache was hardly being used. Or that a 5-minute TTL didn't fit our data. If I did it again, I think I would look at the request logs first for the shared cache and decide the TTL from there.
 
 I hope this post is of some help to those working through similar problems.
 
